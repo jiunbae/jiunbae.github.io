@@ -235,29 +235,12 @@
 		font-size: 1.4em;
 	}
 
-/*********************************************************************************/
-/* Welcome                                                                       */
-/*********************************************************************************/
-	
-	#welcome
-	{
-		padding: 4em 0em 3em 0em;
-	}
-	
-/*********************************************************************************/
-/* Tweet                                                                         */
-/*********************************************************************************/
-	
-	#tweet
-	{
-		padding: 3em 0em 1em 0em;
-		background-position: center center;
-		background-attachment: scroll;
-	}
-
-	#tweet blockquote
-	{
-		margin: 0;
-		padding: 1em 1em;
-		font-size: 1.2em;
-	}		
+#profile-pic 
+{
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    border: solid 1px #eee;
+    background: url(https://avatars0.githubusercontent.com/u/7712538?v=3&s=460) no-repeat center center;
+    background-size: 80px;
+}

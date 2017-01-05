@@ -28,6 +28,9 @@ skel.init({
 		'1000px': {
 			range: '481-1200',
 			containers: 960
+		},
+		'custom': {
+			range: '481-'
 		}
 	}
 }, {
@@ -37,7 +40,7 @@ skel.init({
 				breakpoints: 'mobile',
 				position: 'left',
 				style: 'reveal',
-				size: '80%',
+				size: '30%',
 				html: '<div data-action="navList" data-args="nav"></div>'
 			}
 		},
