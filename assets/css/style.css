@@ -509,6 +509,7 @@
 		position: relative;
 		text-align: center;
 		color: #774535;
+		background-color: #444;
 	}
 	
 	#copyright .container
@@ -516,13 +517,13 @@
 		padding: 3em 0em;
 		border-top: 1px solid;
 		border-color: rgba(255,255,255,.05);
-		color:  rgba(255,255,255,.1);
+		color:  rgba(255,255,255,.7);
 	}
 	
 	#copyright a
 	{
 		text-decoration: none;
-		color:  rgba(255,255,255,.2);
+		color:  rgba(255,255,255,.9);
 	}
 	
 /*********************************************************************************/
@@ -549,5 +550,6 @@
 	
 	#featured .button
 	{
-		margin-top: 1.5em;
+		margin-top: .5em;
+		margin-bottom: 1.5em;
 	}

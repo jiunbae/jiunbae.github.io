@@ -1,5 +1,5 @@
 ---
-title: Blog
+title: About
 layout: default
 ---
 <!-- Main -->
@@ -14,7 +14,7 @@ layout: default
 
 							<div class="col-sm-offset-2 col-sm-4">
 								<h1>About</h1>
-								<p><strong>Ji Un, Bae </strong>(maybe)</p>
+								<p><strong>{{ site.author.name }} </strong>({{ site.author.nick }})</p>
 							</div>
 							<div class="col-sm-4">
 								<p id="profile-pic"></p>
@@ -67,9 +67,10 @@ layout: default
 								<div class="col-sm-6 row">
 									<div id="contact" class="container">
 										<ul>
-											<li><a href="https://github.com/MaybeS" class="fa fa-github"><span>Github</span></a></li>
-											<li><a href="https://twitter.com/MayTryArk" class="fa fa-twitter"><span>Twitter</span></a></li>
-											<li><a href="https://www.facebook.com/MayTryArk" class="fa fa-facebook"><span>Facebook</span></a></li>
+											<li><a href="https://github.com/{{ site.author.github }}" class="fa fa-github"><span>Github</span></a></li>
+											<li><a href="https://twitter.com/{{ site.author.twitter }}" class="fa fa-twitter"><span>Twitter</span></a></li>
+											<li><a href="https://www.facebook.com/{{ site.author.facebook }}" class="fa fa-facebook"><span>Facebook</span></a></li>
+											<li><a href="mailto:{{ site.author.email }}" class="fa fa-envelope"><span>Email</span></a></li>
 										</ul>
 									</div>
 								</div>

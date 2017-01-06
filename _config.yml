@@ -1,3 +1,12 @@
-name: Linear
-description: Linear template for Jekyll
+name: Maydev
+description: personal bran website
+url-link: maydev.org
 paginate: 10
+
+author:
+  name: Ji Un, Bae
+  nick: maybe
+  email: maytryark@gmail.com
+  twitter: maytryark
+  facebook: maytryark
+  github: maybes
