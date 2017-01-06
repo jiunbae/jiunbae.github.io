@@ -17,3 +17,51 @@
     background: url(https://avatars0.githubusercontent.com/u/7712538?v=3&s=460) no-repeat center center;
     background-size: 80px;
 }
+
+#category.container
+{
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    padding: 3px;
+    line-height: 1em;
+}
+#category.container > .category 
+{
+    padding-left: 5px;
+}
+#category.container > p
+{
+    padding-left: 5px;
+}
+#category.container > i
+{
+    padding-left: 3px;
+}
+
+#tag.container 
+{
+    width: 100%;
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    margin-left: 0px;
+    padding: 3px;
+}
+
+#tag.container > i 
+{
+    margin-top: 10px;
+}
+#tag.container > .tag 
+{
+    padding-left: 7px;
+}
+#tag.container > p
+{
+    padding-left: 3px;
+}
+#tag.container > i
+{
+    padding-left: 3px;
+}
