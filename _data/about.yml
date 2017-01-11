@@ -1,0 +1,43 @@
+academies:
+    - name: Yonsei University
+      desc: Computer Engineering
+      range: (2014 - 2015)
+
+    - name: Hanyang University
+      desc: Department of Computer Science
+      range: (2015 - )
+
+organizations:
+    - name: ALOHA
+      desc: Algorithm club @ Hanyang Univ.
+
+    - name: ICEWALL
+      desc: Student-CERT @ Hanyang Univ.
+
+    - name: OOParts
+      desc: Game development club @ Hanyang Univ.
+
+    - name: SW Maestro
+      desc: 7th mentee
+
+projects:
+    - name: Face detection
+      desc: face detection, using yolo
+      url: https://github.com/maybes/face-detection
+
+contacts:
+    - name: Github
+      url: https://github.com/MaybeS
+      icon: github
+
+    - name: Twitter
+      url: https://twitter.com/maytryark
+      icon: twitter
+
+    - name: Facebook
+      url: https://www.facebook.com/maytryark
+      icon: facebook
+
+    - name: Email
+      url: mailto:alice.maydev@gmail.com
+      icon: envelope

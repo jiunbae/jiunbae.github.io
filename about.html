@@ -6,12 +6,10 @@ layout: default
 	<div id="main">
 		<div class="container">
 			<div class="row">
-
 				<!-- Content -->
 				<div id="content" class="container">
 					<div class="col-sm-offset-2 form-horizontal">
 						<div class="form-group">
-
 							<div class="col-sm-offset-2 col-sm-4">
 								<h1>About</h1>
 								<p><strong>{{ site.author.name }} </strong>({{ site.author.nick }})</p>
@@ -28,14 +26,12 @@ layout: default
 								</div>
 								<div class="col-sm-6">
 									<ul>
-										<li>
-											<h2>Yonsei University</h2>
-											<p>Computer Engineering (2014 - 2015)</p>
-										</li>
-										<li>
-											<h2>Hanyang University. </h2>
-											<p>Department of Computer Science (2015 -)</p>
-										</li>
+										{% for academy in site.data.about.academies %}
+											<li>
+												<h2>{{ academy.name }}</h2>
+												<p>{{ academy.desc }}<small>{{ academy.range }}</small></p>
+											</li>
+										{% endfor %}
 									</ul>
 								</div>
 								<div class="col-sm-4 control-label">
@@ -43,34 +39,36 @@ layout: default
 								</div>
 								<div class="col-sm-6">
 									<ul>
-										<li>
-											<h2>ALOHA</h2>
-											<p>Algorithm club @ Hanyang Univ</p>
-										</li>
-										<li>
-											<h2>ICEWALL</h2>
-											<p>Student-CERT @ Hanyang Univ.</p>
-										</li>
-										<li>
-											<h2>OOParts</h2>
-											<p>Game development club @ Hanyang Univ.</p>
-										</li>
-										<li>
-											<h2>SW Maestro</h2>
-											<p>7th mentee</p>
-										</li>
+										{% for organization in site.data.about.organizations %}
+											<li>
+												<h2>{{ organization.name }}</h2>
+												<p>{{ organization.desc }}</p>
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+								<div class="col-sm-4 control-label">
+									<h3><strong>Projects</strong></h3>
+								</div>
+								<div class="col-sm-6">
+									<ul>
+										{% for project in site.data.about.projects %}
+											<li>
+												<h2><a href="{{ project.url }}">{{ project.name }}</a></h2>
+												<p>{{ project.desc }}</p>
+											</li>
+										{% endfor %}
 									</ul>
 								</div>
 								<div class="col-sm-4 control-label">
 									<h3><strong>Contacts</strong></h3>
 								</div>
-								<div class="col-sm-6 row">
-									<div id="contact" class="container">
+								<div class="col-sm-6">
+									<div id="contact">
 										<ul>
-											<li><a href="https://github.com/{{ site.author.github }}" class="fa fa-github"><span>Github</span></a></li>
-											<li><a href="https://twitter.com/{{ site.author.twitter }}" class="fa fa-twitter"><span>Twitter</span></a></li>
-											<li><a href="https://www.facebook.com/{{ site.author.facebook }}" class="fa fa-facebook"><span>Facebook</span></a></li>
-											<li><a href="mailto:{{ site.author.email }}" class="fa fa-envelope"><span>Email</span></a></li>
+											{% for contact in site.data.about.contacts %}
+												<li><a href="{{ contact.url }}" class="fa fa-{{ contact.icon }}"><span>{{ contact.name }}</span></a></li>
+											{% endfor %}
 										</ul>
 									</div>
 								</div>
