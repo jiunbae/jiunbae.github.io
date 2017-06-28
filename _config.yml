@@ -1,12 +1,36 @@
 name: Maydev
-description: personal brand website
-url-link: maydev.org
-paginate: 10
+description: Maydev Studio
 
-author:
-  name: Ji Un, Bae
-  nick: maybe
-  email: maytryark@gmail.com
-  twitter: maytryark
-  facebook: maytryark
-  github: maybes
+markdown: kramdown
+highlighter: rouge
+
+paginate: 50
+baseurl: /
+domain_name: 'https://MaybeS.github.io'
+google_analytics: ''
+disqus_shortname: 'maydev'
+
+avatar: 'https://avatars0.githubusercontent.com/u/7712538?v=3&s=460'
+resume: 'https://goo.gl/tZ5mKv'
+
+url:            'https://MaybeS.github.io'
+author:         'Maydev'
+permalink:       /:year/:title/
+gems: [jekyll-paginate]
+future: true
+
+github: 'https://github.com/MaybeS'
+
+defaults:
+    -
+        scope:
+            path: "" # empty string for all files
+            type: pages
+        values:
+            layout: default
+    -
+        scope:
+            path: "" # empty string for all files
+            type: posts
+        values:
+            layout: post

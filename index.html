@@ -1,42 +1,6 @@
 ---
-title: Home
-layout: default
+profile: true
 ---
-<div id="featured">
-	<div id="contant" class="container">
-		<div class="row">
-			{% for post in site.posts offset: 0 limit: 4 %}
-				<section class="col-sm-6">
-					<a href="{{ site.prefix }}{{ post.url }}" class="image full"><img src="/assets/{{ post.featured }}" alt=""></a>
-					<header>
-						<h2>{{ post.title }}</h2>
-					</header>
-					{{ post.excerpt }}
-					<a href="{{ site.prefix }}{{ post.url }}" class="button button-style1">Read More</a>
-				</section>
-			{% endfor %}
-		</div>
-	</div>
-</div>
 
-<div id="main">
-	<div id="content" class="container">
-		<div class="row">
-			<section class="6u">
-				<a href="#" class="image full"><img src="/assets/images/pic03.jpg" alt=""></a>
-				<header>
-					<h2>Mauris vulputate dolor</h2>
-				</header>
-				<p>In posuere eleifend odio. Quisque semper augue mattis wisi. Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat. Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</p>
-			</section>
-			<section class="6u">
-				<a href="#" class="image full"><img src="/assets/images/pic04.jpg" alt=""></a>
-				<header>
-					<h2>Mauris vulputate dolor</h2>
-				</header>
-				<p>In posuere eleifend odio. Quisque semper augue mattis wisi. Maecenas ligula. Pellentesque viverra vulputate enim. Aliquam erat volutpat. Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue rutrum.</p>
-			</section>
-		</div>
-
-	</div>
-</div>
+{% include post-list.html %}
+{% include footer.html %}

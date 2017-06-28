@@ -1,43 +1,85 @@
-academies:
-    - name: Yonsei University
-      desc: Computer Engineering
-      range: (2014 - 2015)
+- name: edu
+  label: Education
+  data:
+    - bold: Yonsei University
+      italic: Computer Engineering
+      normal: (2014 - 2015)
 
-    - name: Hanyang University
-      desc: Department of Computer Science
-      range: (2015 - )
+    - bold: Hanyang University
+      italic: Department of Computer Science
+      normal: (2015 - )
 
-organizations:
-    - name: ALOHA
-      desc: Algorithm club @ Hanyang Univ.
+- name: org
+  label: Organization
+  data:
+    - bold: ALOHA
+      italic: Algorithm club @ Hanyang Univ.
 
-    - name: ICEWALL
-      desc: Student-CERT @ Hanyang Univ.
+    - bold: ICEWALL
+      italic: Student-CERT @ Hanyang Univ.
 
-    - name: OOParts
-      desc: Game development club @ Hanyang Univ.
+    - bold: OOParts
+      italic: Game development club @ Hanyang Univ.
 
-    - name: SW Maestro
-      desc: 7th mentee
+    - bold: SW Maestro
+      italic: 7th mentee
 
-projects:
-    - name: Face detection
-      desc: face detection, using yolo
-      url: https://github.com/maybes/face-detection
+- name: exp
+  label: Experience
+  data:
+    - bold: Hold Hanyang Algorithm Competition
+      italic: (HCPC)
 
-contacts:
-    - name: Github
-      url: https://github.com/MaybeS
-      icon: github
+    - bold: Participate in Algorithm Competitions
+      italic: (SCPC, HCPC, LG Code Challenge, Facebook Hacker Cup, Google Codejam)
 
-    - name: Twitter
-      url: https://twitter.com/maytryark
-      icon: twitter
+    - bold: Participate in Kaggle Competitions
+      italic: (MNIST, titanic, right whale recognition, sf crime)
 
-    - name: Facebook
-      url: https://www.facebook.com/maytryark
-      icon: facebook
+    - bold: Led study and mentoring in Univ.
 
-    - name: Email
-      url: mailto:alice.maydev@gmail.com
-      icon: envelope
+    - bold: Contribute open source project CS231n Translation
+
+- name: ach
+  label: Achievements
+  data:
+    - bold: ACM ICPC Daejeon regional
+      italic: 16th
+
+- name: projects
+  label: Projects
+  data:
+    - bold: Object Tracking
+      italic: Object tracking using color histogram.
+      link: https://github.com/MaybeS/MAT4015
+
+    - bold: Sort
+      italic: A game of sorting numbers, using Unity.
+      link: https://github.com/maybes/sort
+
+    - bold: Deep check
+      italic: Auto attendance check using face detection and recognition.
+      link: https://github.com/sw7thml
+
+    - bold: memento
+      italic: Publish a magazine about a personal history using NLP and Machine Learning.
+      link: https://github.com/memento7
+
+- name: contacts
+  label: Contacts
+  data:
+    - bold: Github
+      link: https://github.com/MaybeS
+      normal: MaybeS
+
+    - bold: Twitter
+      link: https://twitter.com/maytryark
+      normal: "@maytryark"
+
+    - bold: Facebook
+      link: https://www.facebook.com/maytryark
+      normal: maytryark
+
+    - bold: Email
+      link: mailto:alice.maydev@gmail.com
+      normal: alice.maydev@gmail.com
