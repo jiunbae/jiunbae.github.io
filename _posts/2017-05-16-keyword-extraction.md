@@ -31,7 +31,7 @@ memento 서비스에서 기술적으로 중요한 부분은 뉴스 기사의 키
 공개된 오픈소스를 활용하여 이에 필요한 비용을 크게 줄였습니다.
 
 memento 서비스는 konlpy를 기본으로 한국어 형태소 분석을 진행하고 있습니다.
-[![konlpy](https://raw.githubusercontent.com/memento7/memento7.github.io/master/assets/images/attach/konlpy.png)](http://konlpy-ko.readthedocs.io/ko/v0.4.3)
+[![konlpy]({{ site.attach }}konlpy.png)](http://konlpy-ko.readthedocs.io/ko/v0.4.3)
 또한 여러 기법을 추가하여 형태소를 재 구성하여 의미적으로 더 정확한 분석이 되도록 향상시켰습니다.
 
 ---
@@ -50,7 +50,7 @@ memento 서비스는 konlpy를 기본으로 한국어 형태소 분석을 진행
 이것은 **DF**(document frequency)라고 하는데, *tf-idf*란
 이 값의 역수 **IDF**(inverse document frequency)를 **TF**에 곱한 것을 나타냅니다.
 
-![tf-idf](https://raw.githubusercontent.com/memento7/memento7.github.io/master/assets/images/attach/tf-idf.png)
+![tf-idf]({{ site.attach }}tf-idf.png)
 
 그러면 이 값이 어떤 의미가 있을까요?
 IDF값은 보통 문서군 성격에 의해 결정됩니다. 예를들어 '**탄핵**'이라는 단어는 일반적인 문서에서는

@@ -10,16 +10,16 @@ domain_name: 'https://MaybeS.github.io'
 google_analytics: ''
 disqus_shortname: 'maydev'
 
-avatar: 'https://avatars0.githubusercontent.com/u/7712538?v=3&s=460'
 resume: 'https://goo.gl/tZ5mKv'
+avatar: 'https://avatars0.githubusercontent.com/u/7712538?v=3&s=460'
+attach: 'https://raw.githubusercontent.com/MaybeS/MaybeS.github.io/master/assets/images/attach/'
+github: 'https://github.com/MaybeS'
 
 url:            'https://MaybeS.github.io'
 author:         'Maydev'
 permalink:       /:year/:title/
 gems: [jekyll-paginate]
 future: true
-
-github: 'https://github.com/MaybeS'
 
 defaults:
     -
