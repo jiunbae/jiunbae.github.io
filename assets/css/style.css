@@ -70,7 +70,7 @@ h1 {
 }
 
 h2 {
-	font: italic 19px/1.3em Georgia,serif;
+	font: italic 22px/1.3em Georgia,serif;
 	color: #bbb;
 }
 
@@ -94,6 +94,7 @@ h2 {
 	height: 80px;
 	border-radius: 50%;
 	margin-bottom: 20px;
+	border: 1px solid #aaa;
 }
 
 .profile h1 {
@@ -222,8 +223,9 @@ em, i { font-style: italic; }
 }
 
 .home h2 {
-	font: italic 19px/1.3em Georgia,serif;
-	color: #bbb;
+	margin-top: 25px;
+	font: italic 24px/1.3em Georgia,serif;
+	color: #888;
 }
 
 .post header {
@@ -299,7 +301,8 @@ hr {
 	display: block;
 	border: none;
 	height: 1px;
-	margin: 40px auto;
+	margin: 20px auto;
+	margin-top: 5px;
 	background: #eee;
 }
 
@@ -377,6 +380,59 @@ img {
 	right: 8px;
 	height: 48px;
 	width: 48px;
+}
+
+/*=========================================
+About List
+=========================================== */
+li.about {
+	margin-bottom: 20px;
+}
+
+.about.items {
+}
+
+.about.item {
+	display: inline-block;
+	margin: 5px auto;
+	margin-left: 15px;
+	width: 100%;
+	list-style-type: bengali;
+}
+
+.about.item.about-Github:before {
+	content: url(../svg/github.svg);
+}
+.about.item.about-Twitter:before {
+	content: url(../svg/twitter.svg);
+}
+.about.item.about-Facebook:before {
+	content: url(../svg/facebook.svg);
+}
+.about.item.about-Email:before {
+	content: url(../svg/gmail.svg);
+}
+
+.about.item:before {
+	content: '\2022';
+	font-size: 24px;
+}
+
+.about.major {
+	font-size: 20px;
+	font-weight: 400;
+	color: #111;
+}
+
+.about.minor {
+	font-size: 16px;
+	font-weight: 200;
+	margin-left: 13px;
+	color: #999;
+}
+
+.about.minor i {
+	font-size: 12px;
 }
 
 /*=========================================

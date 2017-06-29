@@ -1,85 +1,130 @@
-- name: edu
-  label: Education
-  data:
-    - bold: Yonsei University
-      italic: Computer Engineering
-      normal: (2014 - 2015)
+skills:
+  - name: Python
+    description: <3 Python
+    experience: My major, using ML(Tensorflow, Keras, gensim, caffe, torch, nltk) libraries
+    performance: 9
+    color: lavender
+  
+  - name: C++
+    description: use C++ when need performance
+    experience: Major language until Python
+    performance: 8
+    color: bluejeans
 
-    - bold: Hanyang University
-      italic: Department of Computer Science
-      normal: (2015 - )
+  - name: C#
+    description: great language!
+    experience: Unity and WPF ...
+    performance: 7
+    color: mint
 
-- name: org
-  label: Organization
-  data:
-    - bold: ALOHA
-      italic: Algorithm club @ Hanyang Univ.
+  - name: Javascript
+    description: too many to do 
+    experience: jQuery, Angular, Electron, React [Native]
+    performance: 7
+    color: sunflower
 
-    - bold: ICEWALL
-      italic: Student-CERT @ Hanyang Univ.
+  - name: Java
+    description: too strict.
+    experience: Spring and Android projects
+    performance: 5
+    color: grass
 
-    - bold: OOParts
-      italic: Game development club @ Hanyang Univ.
+  - name: Ruby
+    description: gem like a magic!
+    experience: Make some Rails projects
+    performance: 4
+    color: red
 
-    - bold: SW Maestro
-      italic: 7th mentee
+  - name: Haskell
+    description: <3 but, have not tried much
+    experience: Love functional, but not familiar
+    performance: 2
+    color: darkgray
 
-- name: exp
-  label: Experience
-  data:
-    - bold: Hold Hanyang Algorithm Competition
-      italic: (HCPC)
+info:
+  - name: edu
+    label: Education
+    data:
+      - major: Yonsei University
+        minor: Computer Engineering
+        sub: (2014 - 2015)
 
-    - bold: Participate in Algorithm Competitions
-      italic: (SCPC, HCPC, LG Code Challenge, Facebook Hacker Cup, Google Codejam)
+      - major: Hanyang University
+        minor: Department of Computer Science
+        sub: (2015 - )
 
-    - bold: Participate in Kaggle Competitions
-      italic: (MNIST, titanic, right whale recognition, sf crime)
+  - name: org
+    label: Organization
+    data:
+      - major: ALOHA
+        minor: Algorithm club @ Hanyang Univ.
 
-    - bold: Led study and mentoring in Univ.
+      - major: ICEWALL
+        minor: Student-CERT @ Hanyang Univ.
 
-    - bold: Contribute open source project CS231n Translation
+      - major: OOParts
+        minor: Game development club @ Hanyang Univ.
 
-- name: ach
-  label: Achievements
-  data:
-    - bold: ACM ICPC Daejeon regional
-      italic: 16th
+      - major: SW Maestro
+        minor: 7th mentee
 
-- name: projects
-  label: Projects
-  data:
-    - bold: Object Tracking
-      italic: Object tracking using color histogram.
-      link: https://github.com/MaybeS/MAT4015
+  - name: exp
+    label: Experience
+    data:
+      - major: Hold Hanyang Algorithm Competition
+        minor: HCPC
 
-    - bold: Sort
-      italic: A game of sorting numbers, using Unity.
-      link: https://github.com/maybes/sort
+      - major: Participate in Algorithm Competitions
+        minor: SCPC, HCPC, Facebook Hacker Cup, Google Codejam
 
-    - bold: Deep check
-      italic: Auto attendance check using face detection and recognition.
-      link: https://github.com/sw7thml
+      - major: Participate in Kaggle Competitions
+        minor: MNIST, titanic, right whale recognition, sf crime
 
-    - bold: memento
-      italic: Publish a magazine about a personal history using NLP and Machine Learning.
-      link: https://github.com/memento7
+      - major: Led study and mentoring in Univ.
 
-- name: contacts
-  label: Contacts
-  data:
-    - bold: Github
-      link: https://github.com/MaybeS
-      normal: MaybeS
+      - major: Contribute CS231n translation project (kr)
+        link: http://aikorea.org/cs231n/
 
-    - bold: Twitter
-      link: https://twitter.com/maytryark
-      normal: "@maytryark"
+  - name: ach
+    label: Achievements
+    data:
+      - major: ACM ICPC Daejeon regional
+        minor: 16th
 
-    - bold: Facebook
-      link: https://www.facebook.com/maytryark
-      normal: maytryark
+  - name: projects
+    label: Projects
+    data:
+      - major: Object Tracking
+        minor: Object tracking using color histogram.
+        link: https://github.com/MaybeS/MAT4015
 
-    - bold: Email
-      link: mailto:alice.maydev@gmail.com
-      normal: alice.maydev@gmail.com
+      - major: Sort
+        minor: A game of sorting numbers, using Unity.
+        link: https://github.com/maybes/sort
+
+      - major: Deep check
+        minor: Auto attendance check using face detection and recognition.
+        link: https://github.com/sw7thml
+
+      - major: memento
+        minor: Publish a magazine about a personal history using NLP and Machine Learning.
+        link: https://github.com/memento7
+
+  - name: contacts
+    label: Contacts
+    data:
+      - major: Github
+        link: https://github.com/MaybeS
+        sub: MaybeS
+
+      - major: Twitter
+        link: https://twitter.com/maytryark
+        sub: "@maytryark"
+
+      - major: Facebook
+        link: https://www.facebook.com/maytryark
+        sub: maytryark
+
+      - major: Email
+        link: mailto:alice.maydev@gmail.com
+        sub: alice.maydev@gmail.com
