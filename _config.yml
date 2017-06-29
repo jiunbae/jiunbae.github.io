@@ -1,23 +1,26 @@
 name: Maydev
-description: Maydev Studio
-
-markdown: kramdown
-highlighter: rouge
-
-paginate: 50
-baseurl: /
-domain_name: 'https://MaybeS.github.io'
-google_analytics: ''
-disqus_shortname: 'maydev'
+description: Maydev personal blog
+title: blog.Maydev
+ori_url: 'https://MaybeS.github.io'
+url: 'blog.maydev.org'
+author: 'Maydev'
+permalink: /:year/:title/
+type: 'blog'
 
 resume: 'https://goo.gl/tZ5mKv'
 avatar: 'https://avatars0.githubusercontent.com/u/7712538?v=3&s=460'
 attach: 'https://raw.githubusercontent.com/MaybeS/MaybeS.github.io/master/assets/images/attach/'
 github: 'https://github.com/MaybeS'
 
-url:            'https://MaybeS.github.io'
-author:         'Maydev'
-permalink:       /:year/:title/
+paginate: 50
+baseurl: /
+domain_name: 'https://MaybeS.github.io'
+google_analytics: 'UA-72426393-2'
+disqus_shortname: 'maydev'
+
+markdown: kramdown
+highlighter: rouge
+
 gems: [jekyll-paginate]
 future: true
 
