@@ -19,13 +19,19 @@ skills:
 
   - name: Javascript
     description: too many to do 
-    experience: jQuery, Angular, Electron, React [Native]
+    experience: jQuery, Angular, Electron, React [Native], ES6
     performance: 7
     color: sunflower
 
+  - name: Android
+    description: kotlin better!
+    experience: build some projects
+    performance: 5
+    color: emerald
+
   - name: Java
     description: too strict.
-    experience: Spring and Android projects
+    experience: Spring and some small projects
     performance: 5
     color: grass
 
@@ -40,6 +46,18 @@ skills:
     experience: Love functional, but not familiar
     performance: 2
     color: darkgray
+
+  - name: MySQL
+    description: 
+    experience: It's default, isn't it?
+    performance: 6
+    color: violet
+
+  - name: Elasticsearch
+    description: query is too long ...
+    experience: handle over 3,000,000 doc, 100GB
+    performance: 6
+    color: yellow
 
 info:
   - name: edu

@@ -43,7 +43,7 @@
   background: rgba(0, 0, 0, 0.1);
   padding: 0 20px;
   height: 35px;
-  width: 90px;
+  width: 105px;
   line-height: 35px;
   -webkit-border-top-left-radius: 3px;
   -webkit-border-bottom-left-radius: 3px;
@@ -64,7 +64,7 @@
 
 .skill-bar-description {
   position: absolute;
-  left: 95px;
+  left: 110px;
   top: 0;
   font-size: 11px;
   height: 35px;
