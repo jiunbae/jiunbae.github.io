@@ -48,10 +48,12 @@ info:
       - major: Yonsei University
         minor: Computer Engineering
         sub: (2014 - 2015)
+        url: https://www.hanyang.ac.kr
 
       - major: Hanyang University
         minor: Department of Computer Science
         sub: (2015 - )
+        url: https://www.yonsei.ac.kr
 
   - name: org
     label: Organization
@@ -61,12 +63,14 @@ info:
 
       - major: ICEWALL
         minor: Student-CERT @ Hanyang Univ.
+        url: http://icewall.hanyang.ac.kr
 
       - major: OOParts
         minor: Game development club @ Hanyang Univ.
 
       - major: SW Maestro
         minor: 7th mentee
+        url: http://www.swmaestro.kr
 
   - name: exp
     label: Experience
@@ -75,7 +79,7 @@ info:
         minor: HCPC
 
       - major: Participate in Algorithm Competitions
-        minor: SCPC, HCPC, Facebook Hacker Cup, Google Codejam
+        minor: SCPC, Facebook Hacker Cup, Google Codejam
 
       - major: Participate in Kaggle Competitions
         minor: MNIST, titanic, right whale recognition, sf crime
