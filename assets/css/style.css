@@ -427,12 +427,29 @@ li.about {
 .about.minor {
 	font-size: 16px;
 	font-weight: 200;
+	margin-top: 5px;
 	margin-left: 13px;
 	color: #777;
 }
 
 .about.minor i {
 	font-size: 12px;
+}
+
+.comment {
+	font-size: 24px;
+	font-weight: 200;
+	text-align: center;
+}
+
+.comment.small {
+	font-size: 18px;
+	font-weight: 200;
+	color: #999;
+}
+
+.inner {
+	margin-left: 15px;
 }
 
 /*=========================================

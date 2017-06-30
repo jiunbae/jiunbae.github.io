@@ -137,16 +137,16 @@ info:
     data:
       - major: Github
         link: https://github.com/MaybeS
-        sub: MaybeS
+        minor: MaybeS
 
       - major: Twitter
         link: https://twitter.com/maytryark
-        sub: "@maytryark"
+        minor: "@maytryark"
 
       - major: Facebook
         link: https://www.facebook.com/maytryark
-        sub: maytryark
+        minor: maytryark
 
       - major: Email
         link: mailto:alice.maydev@gmail.com
-        sub: alice.maydev@gmail.com
+        minor: alice.maydev@gmail.com
