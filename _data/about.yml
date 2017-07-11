@@ -113,6 +113,9 @@ info:
       - major: ACM ICPC Daejeon regional
         minor: 16th
 
+      - major: SW Maestro Certification
+        minor: 
+
   - name: projects
     label: Projects
     data:
