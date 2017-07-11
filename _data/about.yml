@@ -66,12 +66,12 @@ info:
       - major: Yonsei University
         minor: Computer Engineering
         sub: (2014 - 2015)
-        link: https://www.hanyang.ac.kr
+        link: https://www.yonsei.ac.kr
 
       - major: Hanyang University
         minor: Department of Computer Science
         sub: (2015 - )
-        link: https://www.yonsei.ac.kr
+        link: https://www.hanyang.ac.kr
 
   - name: org
     label: Organization
