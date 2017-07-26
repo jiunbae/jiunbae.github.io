@@ -4,29 +4,17 @@ permalink: about/
 profile: true
 ---
 
-<p class="comment">
-Computer Scientist.
-</p>
-<p class="comment small">
-Interested in artificial intelligence, machine learning, data mining.
-</p>
-
-<h2>Skills</h2>
-<hr>
-
-{% for skill in site.data.about.skills %}
-    <div class="skillbar clearfix " data-percent="{{ skill.performance }}0%">
-        <div class="skillbar-title" style="background: {{ site.data.colors[skill.color] }}"><span>{{ skill.name }}</span></div>
-        <div class="skillbar-bar" style="background: {{ site.data.colors[skill.color] }}"></div>
-        <div class="skill-bar-description">{{ skill.description }}</div>
-        <div class="skill-bar-percent">{{ skill.performance }}</div>
-    </div>
-    <div class="skill-description">
-        {{ skill.experience }}
-    </div>
-{% endfor %}
+<div class="introduce">
+    <p class="comment">
+        {{ site.data.about.introduce.comment }}
+    </p>
+    <p class="comment small">
+        {{ site.data.about.introduce.description }}
+    </p>
+</div>
 
 {% for about_item in site.data.about.info %}
+<div class="{{ about_item.name }}">
     <h2>{{ about_item.label }}</h2>
     <hr>
 
@@ -50,8 +38,25 @@ Interested in artificial intelligence, machine learning, data mining.
             </div>
         {% endfor %}
     </div>
+</div>
 {% endfor %}
 
+<div class="skill">
+    <h2>Skills</h2>
+    <hr>
+
+    {% for skill in site.data.about.skills %}
+        <div class="skillbar clearfix " data-percent="{{ skill.performance }}0%">
+            <div class="skillbar-title" style="background: {{ site.data.colors[skill.color] }}"><span>{{ skill.name }}</span></div>
+            <div class="skillbar-bar" style="background: {{ site.data.colors[skill.color] }}"></div>
+            <div class="skill-bar-description">{{ skill.description }}</div>
+            <div class="skill-bar-percent">{{ skill.performance }}</div>
+        </div>
+        <div class="skill-description">
+            {{ skill.experience }}
+        </div>
+    {% endfor %}
+</div>
 
 <h2><a href="{{ site.resume }}">Resume</a></h2>
 <hr>

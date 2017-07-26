@@ -6,16 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>{{ site.name }}{% if page.title %} - {{ page.title }}{% endif %}</title>
-  <link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="stylesheet" href="/assets/css/progressbar.css">
-  <link rel="alternate" type="application/rss+xml" title="My Blog" href="/feed.xml">
+  <link rel="shortcut icon" href="{{ site.baseurl }}assets/images/favicon.ico">
+  <link rel="stylesheet" href="{{ site.baseurl }}assets/css/style.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}assets/css/progressbar.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ page.path | prepend:site.baseurl }}feed.xml">
 
   <meta property="og:title" content="{{ site.title }}"/>
   <meta property="og:description" content="{{ site.description }}"/>
   <meta property="og:type" content="{{ site.type }}"/>
   <meta property="og:url" content="{{ site.url }}"/>
-  <meta property="og:image" content="/assets/images/cover_image_square.png">
+  <meta property="og:image" content="{{ site.baseurl }}assets/images/cover_image_square.png">
   <meta property="og:image:width" content="615" />
   <meta property="og:image:height" content="300" />
 </head>
@@ -32,8 +33,8 @@
   </section>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="/assets/js/main.js"></script>
-  <script src="/assets/js/highlight.js"></script>
+  <script src="{{ site.baseurl }}assets/js/main.js"></script>
+  <script src="{{ site.baseurl }}assets/js/highlight.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
 
   <script>
