@@ -133,7 +133,7 @@ contacts:
     id: MaybeS
 
   - host: linkedin
-    linke: https://www.linkedin.com/in/bae-jiun-79b102134/
+    link: https://www.linkedin.com/in/bae-jiun-79b102134/
     id: bae jiun
 
   - host: envelope
