@@ -1,4 +1,6 @@
 baseurl: /
+base: /
+basequote: "/"
 name: Maydev
 description: Maydev personal blog
 title: blog.Maydev
