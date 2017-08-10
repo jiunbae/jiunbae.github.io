@@ -207,14 +207,6 @@ em, i { font-style: italic; }
 	padding-bottom: 20px;
 }
 
-.description {
-	float: right;
-	font: italic 14px/1.4em Georgia,serif;
-	color: #aaa;
-}
-
-
-
 .home h1 {
 	font-size: 30px;
 	letter-spacing: -1px;
@@ -519,7 +511,18 @@ Post List
 	margin-top: 100px;
 	text-align: center;
 }
-
+#footer h4 {
+	color: #aaa;
+	font-size: 16px;
+}
+#footer .description {
+	color: #bbb;
+	font-size: 14px;
+	line-height: 1.5;
+}
+#footer .description a{
+	text-decoration: none;
+}
 /* Post Page */
 #header {
 	border-bottom: 1px solid #eee;
