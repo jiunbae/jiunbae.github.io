@@ -1,8 +1,9 @@
 <div class="profile">
     <section id="wrapper">
         <header id="header">
-        {% if site.aboutPage %}
-            <a href="/about">
+
+        {% if page.title != "About" %}
+            <a href="{{ site.base }}about">
                 <img id="avatar" class="2x" src="{{ site.avatar }}"/>
             </a>
         {% else %}
@@ -10,6 +11,16 @@
         {% endif %}
             <h1>{{ site.author }}</h1>
             <h2>{{ site.description }}</h2>
+
+        {% if page.title == "About" %}
+            <div class="contact">
+                {% for contact in site.data.about.contacts %}
+                    <a href="{{ contact.link }}">
+                        <i class="fa fa-{{ contact.host }} fa-lg" aria-hidden="true"></i>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
         </header>
     </section>
 </div>

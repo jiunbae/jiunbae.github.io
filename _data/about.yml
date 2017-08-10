@@ -1,3 +1,7 @@
+introduce:
+  comment: Computer Scientist.
+  description: Interested in artificial intelligence, machine learning, data mining.
+
 skills:
   - name: Python
     description: <3 Python
@@ -5,8 +9,8 @@ skills:
     performance: 9
     color: lavender
   
-  - name: C++
-    description: use C++ when need performance
+  - name: C/C++
+    description: use when need performance
     experience: Major language until Python
     performance: 8
     color: bluejeans
@@ -23,41 +27,17 @@ skills:
     performance: 7
     color: sunflower
 
-  - name: Android
+  - name: Android/JAVA
     description: kotlin better!
     experience: build some projects
     performance: 5
     color: emerald
 
-  - name: Java
-    description: too strict.
-    experience: Spring and some small projects
-    performance: 5
-    color: grass
-
-  - name: Ruby
-    description: gem like a magic!
-    experience: Make some Rails projects
-    performance: 4
-    color: red
-
-  - name: Haskell
-    description: <3 but, have not tried much
-    experience: Love functional, but not familiar
-    performance: 2
-    color: darkgray
-
-  - name: MySQL
-    description: 
-    experience: It's default, isn't it?
-    performance: 6
-    color: violet
-
   - name: Elasticsearch
     description: query is too long ...
     experience: handle over 3,000,000 doc, 100GB
     performance: 6
-    color: yellow
+    color: pinkrose
 
 info:
   - name: edu
@@ -107,6 +87,10 @@ info:
       - major: Contribute CS231n translation project (kr)
         link: http://aikorea.org/cs231n/
 
+      - major: Internship at MAPIA
+        minor: develop video encode/decode module for android
+        link: https://www.mapianist.com/main
+
   - name: ach
     label: Achievements
     data:
@@ -114,7 +98,7 @@ info:
         minor: 16th
 
       - major: SW Maestro Certification
-        minor: 
+        minor: Start-up support
 
   - name: projects
     label: Projects
@@ -135,21 +119,23 @@ info:
         minor: Publish a magazine about a personal history using NLP and Machine Learning.
         link: https://github.com/memento7
 
-  - name: contacts
-    label: Contacts
-    data:
-      - major: Github
-        link: https://github.com/MaybeS
-        minor: MaybeS
+contacts:
+  - host: facebook
+    link: https://www.facebook.com/maytryark
+    id: maytryark
 
-      - major: Twitter
-        link: https://twitter.com/maytryark
-        minor: "@maytryark"
+  - host: twitter
+    link: https://twitter.com/maytryark
+    id: "@maytryark"
 
-      - major: Facebook
-        link: https://www.facebook.com/maytryark
-        minor: maytryark
+  - host: github
+    link: https://github.com/MaybeS
+    id: MaybeS
 
-      - major: Email
-        link: mailto:alice.maydev@gmail.com
-        minor: alice.maydev@gmail.com
+  - host: linkedin
+    link: https://www.linkedin.com/in/bae-jiun-79b102134/
+    id: bae jiun
+
+  - host: envelope
+    link: mailto:alice.maydev@gmail.com
+    id: alice.maydev@gmail.com

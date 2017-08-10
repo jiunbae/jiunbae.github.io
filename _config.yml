@@ -13,7 +13,7 @@ attach: 'https://raw.githubusercontent.com/MaybeS/MaybeS.github.io/master/assets
 github: 'https://github.com/MaybeS'
 
 paginate: 50
-baseurl: /
+base: /
 domain_name: 'https://blog.maydev.org'
 google_analytics: 'UA-72426393-2'
 disqus_shortname: 'maydev'
@@ -21,7 +21,7 @@ disqus_shortname: 'maydev'
 markdown: kramdown
 highlighter: rouge
 
-plugins: [jekyll-paginate]
+gems: [jekyll-paginate]
 future: true
 
 defaults:
