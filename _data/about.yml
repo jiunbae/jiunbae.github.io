@@ -100,6 +100,10 @@ info:
       - major: SW Maestro Certification
         minor: Start-up support
 
+      - major: Machine Learning Challenge Korea 2017
+        minor: 5th
+        link: http://challonge.com/ohwnzusj
+
   - name: projects
     label: Projects
     data:
