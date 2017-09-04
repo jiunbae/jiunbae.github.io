@@ -1,3 +1,9 @@
+---
+title:  SW Maestro 해외 연수
+date:   2017-09-01 14:23:00
+description: SW Maestro Overseas Training Program
+tag: SW Maestro, 해외 연수, Draper
+---
 # SW Maestro Overseas Training Program
 
 SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2차 프로젝트 발표후 기술/창업 인증자를 선발한다 기술 인증은 3팀, 창업 인증은 5팀이 선발되며 기술 인증은 개인당 2천만원의 지원금이, 창업 인증은 팀당 3천만원과 사무실 및 기자재 대여를 지원해 준다. 또한 기술/창업 인증자들은 2주간의 해외 연수를 다녀올 수 있는 기회를 얻는다. 작년까지는 *Purdue University*로 연수를 갔었으나 올해 부터는 *Draper University*로 장소가 바뀌었다.
