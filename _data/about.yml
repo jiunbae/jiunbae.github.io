@@ -10,32 +10,32 @@ skills:
     color: lavender
   
   - name: C/C++
-    description: use when need performance
+    description: Use when need performance
     experience: Major language until Python
     performance: 8
     color: bluejeans
 
   - name: C#
-    description: great language!
+    description: Great language!
     experience: Unity and WPF ...
     performance: 7
     color: mint
 
   - name: Javascript
-    description: too many to do 
+    description: Too many to do 
     experience: jQuery, Angular, Electron, React [Native], ES6
     performance: 7
     color: sunflower
 
   - name: Android/JAVA
-    description: kotlin better!
-    experience: build some projects
+    description: Kotlin better!
+    experience: Build some projects
     performance: 5
     color: emerald
 
   - name: Elasticsearch
-    description: query is too long ...
-    experience: handle over 3,000,000 doc, 100GB
+    description: Query is too long ...
+    experience: Handle over 3,000,000 doc, 100GB
     performance: 6
     color: pinkrose
 
