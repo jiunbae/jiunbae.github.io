@@ -106,7 +106,7 @@ info:
         minor: Start-up support
 
       - major: Machine Learning Challenge Korea 2017
-        minor: 5th
+        minor: 5th tier
         link: http://challonge.com/ohwnzusj
 
   - name: projects
@@ -124,7 +124,7 @@ info:
         minor: Auto attendance check using face detection and recognition.
         link: https://github.com/sw7thml
 
-      - major: memento
+      - major: Memento
         minor: Publish a magazine about a personal history using NLP and Machine Learning.
         link: https://github.com/memento7
 
