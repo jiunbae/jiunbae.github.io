@@ -225,5 +225,3 @@ Golden Gate Bridge[^7]를 건너 Sausalito[^8]를 구경하고, Union Square에�
 
 [^9]: [구글 머신러닝 챌린지 코리아 2017](https://korea.googleblog.com/2017/07/machine-learning-challenge.html)
 
-
-

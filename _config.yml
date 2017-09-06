@@ -23,7 +23,6 @@ highlighter: rouge
 
 gems: [jekyll-paginate]
 future: true
-
 fbcomments: true
 
 defaults:
