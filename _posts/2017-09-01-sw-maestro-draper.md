@@ -188,7 +188,7 @@ Golden Gate Bridge[^7]를 건너 Sausalito[^8]를 구경하고, Union Square에�
 
 ---
 
-## And the rest,
+## The rest,
 
 #### Prediction is, ...
 
@@ -216,7 +216,7 @@ Golden Gate Bridge[^7]를 건너 Sausalito[^8]를 구경하고, Union Square에�
 
 ------
 
-### And one more thing
+## And one more thing
 
 **Machine Learning Challenge Korea 2017**[^9]에 참가했는데, 온라인 경선과 오프라인 본선이 미국 여행 중에 있었다.
 오프라인 대회에서는 *quickdraw*, *cats vs dogs*, *cartpole*과 같은 유명한 문제들이 출제되었다. 운이 좋게 본선에 진출하게 되어 오프라인 대회에 참가해야 했지만 4인 1팀에 2명만 오프라인으로 참가하고 미국에서 참가하게 되었다. **GAN**문제가 나와서 짧은 시간안에 풀기 힘들었다. 다행히 5등으로 마감할 수 있었다.
