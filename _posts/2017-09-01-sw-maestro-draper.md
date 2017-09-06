@@ -39,7 +39,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![Hero City]({{ site.attach }}SW Maestro OTP/herocity.png)
 
-*Hero City 전경 / Goo*
+*Hero City 전경 / sftechbeat.com*
 
 더 자세한 설명은 [드레이퍼 대학교 홈페이지](http://www.draperuniversity.com/)를 참조하도록 하자.
 
