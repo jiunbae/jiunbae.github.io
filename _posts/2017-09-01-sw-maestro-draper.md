@@ -8,13 +8,13 @@ tag: SW Maestro, 해외 연수, Draper
 
 SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2차 프로젝트 발표후 기술/창업 인증자를 선발한다 기술 인증은 3팀, 창업 인증은 5팀이 선발되며 기술 인증은 개인당 2천만원의 지원금이, 창업 인증은 팀당 3천만원과 사무실 및 기자재 대여를 지원해 준다. 또한 기술/창업 인증자들은 **2주간의 해외 연수**를 다녀올 수 있는 기회를 얻는다. 작년까지는 *Purdue University*로 연수를 갔었으나 올해 부터는 *Draper University*로 장소가 바뀌었다.
 
-![SW Maestro]({{ site.attach }}draper/swmaestro.png)
+![SW Maestro]({{ site.attach }}SW Maestro OTP/swmaestro.png)
 
 *SW Maestro 홈페이지 메인에 걸려있는 사진 / SW Maestro*
 
 2차 프로젝트에서 6개월간 진행한 [Memento](https://memento.live)프로젝트로 좋은 성적을 얻게 되어 **창업 인증**을 받게 되었고, 해외 연수에 갈 수 있게 되었다. 소마 과정을 진행하면서 겪은 경험과 이야기들은 추후에 작성할 예정이다. 소마후기는 [이 글](https://blog.maydev.org/2017/sw-maestro-after/)을 참조하도록 하자.
 
-![Memento Service Demo]({{ site.attach }}draper/memento.png)
+![Memento Service Demo]({{ site.attach }}SW Maestro OTP/memento.png)
 
 *소마 2차 프로젝트로 개발한 Memento / memento.live*
 
@@ -29,7 +29,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 창업을 꿈꾸는 젊은이들(~~이라고는 하지만 실제로는 매우 다양한 연령대가 모여 있다.~~)을 모아 학기제로 강의하며, 모든 강의는 성공한 창업가, 벤처 투자가, 마케팅이나 법률 등 회사 창업과 운영에 필요한 지식을 가르쳐주고 네트워킹하는 과정이다.
 
 
-![Draper University에서의 수업시간]({{ site.attach }}draper/draper.jpg)
+![Draper University에서의 수업시간]({{ site.attach }}SW Maestro OTP/draper.jpg)
 
 *누워서 듣는 수업은 잠이 잘 온다. / KIC Silicon Valley*
 
@@ -37,7 +37,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 이 학교는 *San Mateo*라는 *San Francisco* 아래에 있는 작은 도시에 위치해 있다. 학교 맞은 편에는 [*Hero City*](http://www.herocity.com)라는 *Draper*소속의  **Coworking Space**도 있다.
 
-![Hero City]({{ site.attach }}draper/herocity.png)
+![Hero City]({{ site.attach }}SW Maestro OTP/herocity.png)
 
 *Hero City 전경 / Goo*
 
@@ -45,9 +45,9 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 
 
-![시간표 첫 주]({{ site.attach }}draper/timetable1.png)
+![시간표 첫 주]({{ site.attach }}SW Maestro OTP/timetable1.png)
 
-![시간표 둘째 주]({{ site.attach }}draper/timetable2.png)
+![시간표 둘째 주]({{ site.attach }}SW Maestro OTP/timetable2.png)
 
 *강의로 가득찬 일정*
 
@@ -59,7 +59,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 나는 한국 밖으로 나가본 적이 딱 한 번 밖에 없었기에 비행기를 타는 것 조차 신기한 경험이었다. 중학교 시절 인도에 갔다온 적이 있었는데 여러 군대를 거쳐서 10시간 이상 연속으로 비행하는 경험도 새로웠다.
 
-![인천 국제 공항에서 단체샷]({{ site.attach }}draper/ICN.jpg)
+![인천 국제 공항에서 단체샷]({{ site.attach }}SW Maestro OTP/ICN.jpg)
 
 *대게 정부 주도 사업의 연수가 그렇듯 단체티를 입고 현수막을 들고 사진을 찍는다.*
 
@@ -67,17 +67,17 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 인천 국제 공항(ICN)에서 출발해 샌프란시스코 국제 공항(SFO)까지의 10시간 비행 후 첫날은 Pier 39를 방문하고 유람선을 타고 Alcatraz와 Golden Gate Bridge를 구경하였다.
 
-![첫 번째 날]({{ site.attach }}draper/day1.png)
+![첫 번째 날]({{ site.attach }}SW Maestro OTP/day1.png)
 
 그리고 드레이퍼 대학교 기숙사에서 짐을 풀었다.
 
-![기숙사]({{ site.attach }}draper/draper_dom.jpg)
+![기숙사]({{ site.attach }}SW Maestro OTP/draper_dom.jpg)
 
 *환영선물로 다이어리 한개와 물병 하나 그리고 펜이 있었다. / by iPhone 5s*
 
 ### Class in Draper Univ.
 
-![월요일 아침]({{ site.attach }}draper/day1-bf.png)
+![월요일 아침]({{ site.attach }}SW Maestro OTP/day1-bf.png)
 
 *처음 먹어본 미국식 아침? / by iPhone 5s*
 
@@ -91,13 +91,13 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ***화요일***아침에는 각자 프로젝트 혹은 서비스에 대해 발표를 했다. (사실 이날 이후로 매일 아침마다 몇명씩 짧은 발표를 진행했다.) ~~그리고 ***I recommand YoungSoo Lee***가 meme이 되었다.~~
 
-![발표중인 이영수 팀장님]({{ site.attach }}draper/day2-pr.jpg)
+![발표중인 이영수 팀장님]({{ site.attach }}SW Maestro OTP/day2-pr.jpg)
 
 *Memento서비스를 설명중이신 YoungSoo Lee 팀장님 / KIC Silicon Valley*
 
 소마 연수생 말고도 다양한 곳에서 연수로 오신 분들이 있어서 그분들의 서비스나 경험을 듣는 것도 새로웠다. 일본, 스위스, 브라질 등등 다양한 국적이 모여 경험을 공유했다.
 
-![한 아저씨의 제품 설명을 듣는중]({{ site.attach }}draper/day3-ot.jpg)
+![한 아저씨의 제품 설명을 듣는중]({{ site.attach }}SW Maestro OTP/day3-ot.jpg)
 
 *한 아저씨의 제품 설명을 듣는중 / KIC Silicon Valley*
 
@@ -105,13 +105,13 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 하지만 외국인과 영어로 대화하는건 언제나 새롭고 신기한 경험이었으며, 자신의 생각을 쉽게 표현하기 어려운 **제약** 사이에서 오히려 설명하고자 하는것을 **더 자세히 이해**할 수 있었다.
 
-![대화중인 연수생과 강사]({{ site.attach }}draper/day3-talk.jpg)
+![대화중인 연수생과 강사]({{ site.attach }}SW Maestro OTP/day3-talk.jpg)
 
 *대화중인 소마 연수생과 강사 / KIC Silicon Valley*
 
 또한 강사나 다른 청중들과 **자유롭게 이야기** 하는 경험도 새로웠다. 분명히 한국에서는 경험할 수 없던 어떤 것 이었다. 물론 한국에서 이런경험을 **절대로 할 수 없다**는 것은 아니다. 하지만 이곳 사람들은 습관적으로 더 자주 질문하고 더 많이 대화하는것 같았다.
 
-![드레이퍼 대학 내의 수영장]({{ site.attach }}draper/day2-pool.jpg)
+![드레이퍼 대학 내의 수영장]({{ site.attach }}SW Maestro OTP/day2-pool.jpg)
 
 *드레이퍼 대학 내의 수영장 / by iPhone 5s*
 
@@ -122,7 +122,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 [^2]: 유쾌하시고 활기넘치신 분이다. 물론 이분도 VC로 오래 일하셨다. [Wikipedia: William Henry Draper III](https://en.wikipedia.org/wiki/William_Henry_Draper_III)
 [^3]: 실제 테슬라 계약도 이곳에서 이루어졌다고 하시면서 지배인이 옆에있는 테이블을 가리켜주셨다. [Wikipedia: Buck's of Woodside](https://en.wikipedia.org/wiki/Buck%27s_of_Woodside)
 
-![Bill Draper와 찍은 사진]({{ site.attach }}draper/billdraper.jpg)
+![Bill Draper와 찍은 사진]({{ site.attach }}SW Maestro OTP/billdraper.jpg)
 
 *식사 후에 부탁을 드려서 사진을 같이 찍었다. / by iPhone 5s*
 
@@ -130,13 +130,13 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 식사후에 Tesla Factory로 견학을 갔다. 공장 내부에서는 촬영이 금지되어 있어 미래 지향적인 멋진 공장 사진을 찍어오진 못했다. 공장 내부는 대부분의 기계로 운영되며 __매우 선진화된 제조 공장의 표본__이라 불릴만 했다.
 
-![멋진 테슬라 자동차]({{ site.attach }}draper/tesla.jpg)
+![멋진 테슬라 자동차]({{ site.attach }}SW Maestro OTP/tesla.jpg)
 
 *Tesla 자동차는 정말 멋있고 굉장했었다. / by iPhone 5s*
 
 저녁에는 샌프란 시내로 나가 *Sharks Tank Pitch & Networking*에 참가하게 되었다. 나이트 클럽에서 진행되어 입구에서 개인의 여권을 모두 검사해서 놀랐다. 여러 팀이 참여해 각각 만든 서비스와 제품을 소개시켜줬는데 생각보다 간단하고 쉽게 만들 수 있는것들이라서 놀랐다. 소마 연수생들의 서비스가 더 대단했던 것 같다. ~~하지만 상금은 5만불...~~
 
-![Sharks Tank Pitch]({{ site.attach }}draper/speech.jpg)
+![Sharks Tank Pitch]({{ site.attach }}SW Maestro OTP/speech.jpg)
 
 *Sharks Tank Pitch가 진행된 템플 나이트클럽[^4] / by iPhone 5s*
 
@@ -146,7 +146,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 인텔에서는 인텔 로고가 새겨진 USB를 애플에서는 애플 로고가 새겨진 볼펜을 샀다.
 
-![구글 캠퍼스]({{ site.attach }}draper/google.jpg)
+![구글 캠퍼스]({{ site.attach }}SW Maestro OTP/google.jpg)
 
 *구글 캠퍼스는 무척 넓고 아름다웠다. / by iPhone 5s*
 
@@ -157,7 +157,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 [^5]: 젠슨 황은 현 엔비디아 사장 겸 CEO 이다. [engineering.stanford.edu](https://engineering.stanford.edu/location)
 [^6]: 빌 게이츠의 이름을 따서 지어졌고, 빌 게이츠는 건물에 6백만 달러를 기부했다. [cs.stanford.edu](https://www-cs.stanford.edu/about/gates-computer-science-building)
 
-![Computer science building 입구에 붙어있는 패]({{ site.attach }}draper/csbuilding.jpg)
+![Computer science building 입구에 붙어있는 패]({{ site.attach }}SW Maestro OTP/csbuilding.jpg)
 
 *Computer science building 입구에 붙어있는 패, 매우 유명한 회사 혹은 이름들을 볼 수 있다. / by iPhone 5s*
 
@@ -167,7 +167,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 또 다른 분은 스탠퍼드 디스쿨 출신으로 스탠퍼드 석사중에 계신다고 하셨는데, 삶에서 여러 선택으로 진로를 계속 바꿔오셔서 다양한 경험에 대해 들을 수 있었다.
 
-![멘토링]({{ site.attach }}draper/korean.jpg)
+![멘토링]({{ site.attach }}SW Maestro OTP/korean.jpg)
 
 *멘토링 듣는 중에 뭔가 재밌었나 보다. / KIC Silicon Valley*
 
@@ -178,11 +178,11 @@ Golden Gate Bridge[^7]를 건너 Sausalito[^8]를 구경하고, Union Square에�
 [^7]: 금문교로 잘 알려져 있다. [Wikipedia: Golden Gate Bridge](https://en.wikipedia.org/wiki/Golden_Gate_Bridge)
 [^8]: 매우 여유롭고 날씨가 좋은 부자동네이다. [Wikipedia: Sausalito](https://en.wikipedia.org/wiki/Sausalito,_California)
 
-![Golden Gate Bridge]({{ site.attach }}draper/goldengatebridge2.jpg)
+![Golden Gate Bridge]({{ site.attach }}SW Maestro OTP/goldengatebridge2.jpg)
 
 *멋있는 금문교 사진을 찍을 수 있었다. / by iPhone 5s*
 
-![Last dinner in Draper]({{ site.attach }}draper/lastdinner.jpg)
+![Last dinner in Draper]({{ site.attach }}SW Maestro OTP/lastdinner.jpg)
 
 *드레이퍼에서의 마지막 날 먹은 스테이크 / by iPhone 5s*
 
@@ -204,7 +204,7 @@ Golden Gate Bridge[^7]를 건너 Sausalito[^8]를 구경하고, Union Square에�
 
 물론 실리콘 밸리에 가면 **누구나 성공한다는 뜻은 아니다**, 다만 다른 곳보다 **더 좋은 환경** 아래에서 **더 좋은 지원**과 **기회**를 얻어 성공할 가능성을 높일 수 있다는 점은 부정할 수 없다고 생각한다.
 
-![start up]({{ site.attach }}draper/startup.jpg)
+![start up]({{ site.attach }}SW Maestro OTP/startup.jpg)
 
 *이 기업들도 처음에는...*
 
@@ -221,7 +221,7 @@ Golden Gate Bridge[^7]를 건너 Sausalito[^8]를 구경하고, Union Square에�
 **Machine Learning Challenge Korea 2017**[^9]에 참가했는데, 온라인 경선과 오프라인 본선이 미국 여행 중에 있었다.
 오프라인 대회에서는 *quickdraw*, *cats vs dogs*, *cartpole*과 같은 유명한 문제들이 출제되었다. 운이 좋게 본선에 진출하게 되어 오프라인 대회에 참가해야 했지만 4인 1팀에 2명만 오프라인으로 참가하고 미국에서 참가하게 되었다. **GAN**문제가 나와서 짧은 시간안에 풀기 힘들었다. 다행히 5등으로 마감할 수 있었다.
 
-![본선 결과]({{ site.attach }}draper/mlc.png)
+![본선 결과]({{ site.attach }}SW Maestro OTP/mlc.png)
 
 [^9]: [구글 머신러닝 챌린지 코리아 2017](https://korea.googleblog.com/2017/07/machine-learning-challenge.html)
 
