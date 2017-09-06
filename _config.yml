@@ -4,7 +4,7 @@ title: blog.Maydev
 ori_url: 'https://MaybeS.github.io'
 url: 'blog.maydev.org'
 author: 'Maydev'
-permalink: /:year/:title/
+permalink: /posts/:title/
 type: 'blog'
 
 resume: 'https://github.com/MaybeS/MaybeS.github.io/blob/master/assets/data/resume.pdf?raw=true'
