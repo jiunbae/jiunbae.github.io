@@ -12,7 +12,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 *SW Maestro 홈페이지 메인에 걸려있는 사진 / SW Maestro*
 
-2차 프로젝트에서 6개월간 진행한 [Memento](https://memento.live)프로젝트로 좋은 성적을 얻게 되어 **창업 인증**을 받게 되었고, 해외 연수에 갈 수 있게 되었다. 소마 과정을 진행하면서 겪은 경험과 이야기들은 추후에 작성할 예정이다. 소마후기는 [이 글](https://blog.maydev.org/2017/sw-maestro-after/)을 참조하도록 하자.
+2차 프로젝트에서 6개월간 진행한 [Memento](https://memento.live)프로젝트로 좋은 성적을 얻게 되어 **창업 인증**을 받게 되었고, 해외 연수에 갈 수 있게 되었다. 소마 과정을 진행하면서 겪은 경험과 이야기들은 추후에 작성할 예정이다. 소마후기는 [이 글](https://blog.maydev.org/posts/sw-maestro-after/)을 참조하도록 하자.
 
 ![Memento Service Demo]({{ site.attach }}SW Maestro OTP/memento.png)
 
