@@ -10,13 +10,13 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![SW Maestro]({{ site.attach }}draper/swmaestro.png)
 
-*SW Maestro 홈페이지 메인에 걸려있는 사진 | SW Maestro*
+*SW Maestro 홈페이지 메인에 걸려있는 사진 / SW Maestro*
 
 2차 프로젝트에서 6개월간 진행한 [Memento](https://memento.live)프로젝트로 좋은 성적을 얻게 되어 **창업 인증**을 받게 되었고, 해외 연수에 갈 수 있게 되었다. 소마 과정을 진행하면서 겪은 경험과 이야기들은 추후에 작성할 예정이다. 소마후기는 [이 글](https://blog.maydev.org/2017/sw-maestro-after/)을 참조하도록 하자.
 
 ![Memento Service Demo]({{ site.attach }}draper/memento.png)
 
-*소마 2차 프로젝트로 개발한 Memento | memento.live*
+*소마 2차 프로젝트로 개발한 Memento / memento.live*
 
 ### *Draper University*
 
@@ -31,7 +31,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![Draper University에서의 수업시간]({{ site.attach }}draper/draper.jpg)
 
-*누워서 듣는 수업은 잠이 잘 온다. | KIC Silicon Valley*
+*누워서 듣는 수업은 잠이 잘 온다. / KIC Silicon Valley*
 
 수업은 매우 자유로운 분위기에서 진행된다. 대부분 편안한 자세로 수업을 듣고 많은 문답이 오고 간다. 대부분의 학생들은 자발적으로 발표하며 자신이 만든/만들 서비스에 대해 열정으로 가득차 있다.
 
@@ -39,7 +39,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![Hero City]({{ site.attach }}draper/herocity.png)
 
-*Hero City 전경 | Goo*
+*Hero City 전경 / Goo*
 
 더 자세한 설명은 [드레이퍼 대학교 홈페이지](http://www.draperuniversity.com/)를 참조하도록 하자.
 
@@ -73,13 +73,13 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![기숙사]({{ site.attach }}draper/draper_dom.jpg)
 
-*환영선물로 다이어리 한개와 물병 하나 그리고 펜이 있었다. | by iPhone 5s*
+*환영선물로 다이어리 한개와 물병 하나 그리고 펜이 있었다. / by iPhone 5s*
 
 ### Class in Draper Univ.
 
 ![월요일 아침]({{ site.attach }}draper/day1-bf.png)
 
-*처음 먹어본 미국식 아침? | by iPhone 5s*
+*처음 먹어본 미국식 아침? / by iPhone 5s*
 
 ***월요일*** 아침 점심은 기숙사 식당에서 먹게되는데, 과일과 계란을 매일 먹게될지는 아직까진 모르고 있었다. (~~한국은 살충제 문제로 계란을 못 먹게 되었다는것은 좀 더 추후에 알았다.~~)
 
@@ -93,13 +93,13 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![발표중인 이영수 팀장님]({{ site.attach }}draper/day2-pr.jpg)
 
-*Memento서비스를 설명중이신 YoungSoo Lee 팀장님 | KIC Silicon Valley*
+*Memento서비스를 설명중이신 YoungSoo Lee 팀장님 / KIC Silicon Valley*
 
 소마 연수생 말고도 다양한 곳에서 연수로 오신 분들이 있어서 그분들의 서비스나 경험을 듣는 것도 새로웠다. 일본, 스위스, 브라질 등등 다양한 국적이 모여 경험을 공유했다.
 
 ![한 아저씨의 제품 설명을 듣는중]({{ site.attach }}draper/day3-ot.jpg)
 
-*한 아저씨의 제품 설명을 듣는중 | KIC Silicon Valley*
+*한 아저씨의 제품 설명을 듣는중 / KIC Silicon Valley*
 
 ***수요일***부터는 사실 수업듣고 쉬고 수업듣고 쉬는 패턴의 반복이었다. 각각의 강의는 괜찮았었지만 기억에 임팩트있게 남았던 강의는 없는것 같다. 내가 **서비스 개발**이나 **사업 운영**보다는 **기술**에만 관심이 있어서 일수도 있다.
 
@@ -107,13 +107,13 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![대화중인 연수생과 강사]({{ site.attach }}draper/day3-talk.jpg)
 
-*대화중인 소마 연수생과 강사 | KIC Silicon Valley*
+*대화중인 소마 연수생과 강사 / KIC Silicon Valley*
 
 또한 강사나 다른 청중들과 **자유롭게 이야기** 하는 경험도 새로웠다. 분명히 한국에서는 경험할 수 없던 어떤 것 이었다. 물론 한국에서 이런경험을 **절대로 할 수 없다**는 것은 아니다. 하지만 이곳 사람들은 습관적으로 더 자주 질문하고 더 많이 대화하는것 같았다.
 
 ![드레이퍼 대학 내의 수영장]({{ site.attach }}draper/day2-pool.jpg)
 
-*드레이퍼 대학 내의 수영장 | by iPhone 5s*
+*드레이퍼 대학 내의 수영장 / by iPhone 5s*
 
 점심시간이나 수업이 끝난 후에는 *San Mateo*의 시내를 돌아다녔다. 돌아다니면서 크게 느낀 점은 건물이 낮고 아름다우며 화창한 날씨가 계속된다는 것이다. 특히 날씨는 더할나위없이 좋았다.
 
@@ -124,7 +124,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![Bill Draper와 찍은 사진]({{ site.attach }}draper/billdraper.jpg)
 
-*식사 후에 부탁을 드려서 사진을 같이 찍었다. | by iPhone 5s*
+*식사 후에 부탁을 드려서 사진을 같이 찍었다. / by iPhone 5s*
 
 ### Excursions
 
@@ -132,13 +132,13 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![멋진 테슬라 자동차]({{ site.attach }}draper/tesla.jpg)
 
-*Tesla 자동차는 정말 멋있고 굉장했었다. | by iPhone 5s*
+*Tesla 자동차는 정말 멋있고 굉장했었다. / by iPhone 5s*
 
 저녁에는 샌프란 시내로 나가 *Sharks Tank Pitch & Networking*에 참가하게 되었다. 나이트 클럽에서 진행되어 입구에서 개인의 여권을 모두 검사해서 놀랐다. 여러 팀이 참여해 각각 만든 서비스와 제품을 소개시켜줬는데 생각보다 간단하고 쉽게 만들 수 있는것들이라서 놀랐다. 소마 연수생들의 서비스가 더 대단했던 것 같다. ~~하지만 상금은 5만불...~~
 
 ![Sharks Tank Pitch]({{ site.attach }}draper/speech.jpg)
 
-*Sharks Tank Pitch가 진행된 템플 나이트클럽[^4] | by iPhone 5s*
+*Sharks Tank Pitch가 진행된 템플 나이트클럽[^4] / by iPhone 5s*
 
 [^4]: [Temple Nightclub](http://templesf.com/)
 
@@ -148,7 +148,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![구글 캠퍼스]({{ site.attach }}draper/google.jpg)
 
-*구글 캠퍼스는 무척 넓고 아름다웠다. | by iPhone 5s*
+*구글 캠퍼스는 무척 넓고 아름다웠다. / by iPhone 5s*
 
 ***일요일***에는 *Berkeley*와 *Stanford*를 방문했다. 두 학교 모두 멋있는 대학교지만 내게는 꿈의 대학교인 Stanford가 훨씬 멋있었다. 드넓은 학교에 비해 자유시간은 매우 조금 주어져 다 돌아볼 수 없었던 것이 매우 아쉽다. (그리고 Stanford에서 대학원에 재학중인 Sanha씨가 바람맞혔다.) 
 
@@ -159,7 +159,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![Computer science building 입구에 붙어있는 패]({{ site.attach }}draper/csbuilding.jpg)
 
-*Computer science building 입구에 붙어있는 패, 매우 유명한 회사 혹은 이름들을 볼 수 있다. | by iPhone 5s*
+*Computer science building 입구에 붙어있는 패, 매우 유명한 회사 혹은 이름들을 볼 수 있다. / by iPhone 5s*
 
 또 한 주의 수업을 과 멘토링이 진행되었다. 미국에서 스타트업을 하시거나 연관된 일에 근무하시는 현지인 / 한국인 멘토들에게 멘토링을 들을 수 있었는데, 우리 서비스에 대해 설명하고 피드백을 얻고, **어떻게 미국에 정착**하게 되었는지, **이 곳의 생태계**는 어떤지를 들을 수 있었다.
 
@@ -169,7 +169,7 @@ SW Maestro(*소프트웨어 마에스트로, 이하 소마*) 프로그램은 2�
 
 ![멘토링]({{ site.attach }}draper/korean.jpg)
 
-*멘토링 듣는 중에 뭔가 재밌었나 보다. | KIC Silicon Valley*
+*멘토링 듣는 중에 뭔가 재밌었나 보다. / KIC Silicon Valley*
 
 **마지막 날의 관광**은 매우 즐거웠다. 새로운 도시 새로운 사람들, 새로운 경관은 언제나 **활기찬** 느낌이었고, **삶에 여유**가 넘치는 모습을 볼 수 있었다. Union Square의 스타벅스에서 어떤 할아버지는 정말 좋은 날씨 아니냐고 말을 걸어주셨다. 한국의 날씨가 얼마나 끔찍한지 설명하기에는 내 영어실력이 너무 부족했지만, 플로리다의 날씨에 대해 들어볼 수 있었다.
 
@@ -180,11 +180,11 @@ Golden Gate Bridge[^7]를 건너 Sausalito[^8]를 구경하고, Union Square에�
 
 ![Golden Gate Bridge]({{ site.attach }}draper/goldengatebridge2.jpg)
 
-*멋있는 금문교 사진을 찍을 수 있었다. | by iPhone 5s*
+*멋있는 금문교 사진을 찍을 수 있었다. / by iPhone 5s*
 
 ![Last dinner in Draper]({{ site.attach }}draper/lastdinner.jpg)
 
-*드레이퍼에서의 마지막 날 먹은 스테이크 | by iPhone 5s*
+*드레이퍼에서의 마지막 날 먹은 스테이크 / by iPhone 5s*
 
 ---
 
