@@ -64,7 +64,7 @@ body {
 
 h1 {
 	font-size: 30px;
-	letter-spacing: -1px;
+	letter-spacing: .1em;
 	color: #222;
 	font-weight: bold;
 }
@@ -148,6 +148,7 @@ nav.main-nav a.cta {
   max-width: 800px;
   margin: 0 auto;
   padding: 60px 40px 100px 40px;
+  letter-spacing: .05em;
 }
 
 #wrapper.home {
