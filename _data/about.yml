@@ -43,7 +43,7 @@ info:
   - name: edu
     label: Education
     data:
-      - major: Yonsei University
+      - major: Yonsei University (wonju)
         minor: Computer Engineering
         sub: (2014 - 2015)
         link: https://www.yonsei.ac.kr
