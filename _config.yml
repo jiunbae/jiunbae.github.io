@@ -21,7 +21,7 @@ disqus_shortname: 'maydev'
 markdown: kramdown
 highlighter: rouge
 
-gems:
+plugins:
   - jekyll-paginate
   - jekyll-sitemap
   
