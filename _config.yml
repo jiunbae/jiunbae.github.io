@@ -23,7 +23,7 @@ highlighter: rouge
 
 plugins:
   - jekyll-paginate
-  - jekyll-sitemap
+#  - jekyll-sitemap
   
 future: true
 fbcomments: true
