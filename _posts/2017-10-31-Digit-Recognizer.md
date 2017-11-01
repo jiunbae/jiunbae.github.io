@@ -1,8 +1,9 @@
 ---
-title:  Kaggle로 시작하는 데이터 사이언스: Digit Recognizer
-date:   2017-11-01 16:05:00
+title: Kaggle: Digit Recognizer
+date: 2017-10-31 16:05:00
 description: Data Science starting with Kaggle: Digit Recognizer
 tag: DataScience, Kaggle
+author: MaybeS
 ---
 
 # Kaggle로 시작하는 데이터 사이언스: Digit Recognizer
