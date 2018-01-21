@@ -129,22 +129,11 @@ info:
         link: https://github.com/memento7
 
 contacts:
-  - host: facebook
-    link: https://www.facebook.com/maytryark
-    id: maytryark
-
-  - host: twitter
-    link: https://twitter.com/maytryark
-    id: "@maytryark"
-
-  - host: github
-    link: https://github.com/MaybeS
-    id: MaybeS
-
-  - host: linkedin
-    link: https://www.linkedin.com/in/maydev/
-    id: bae jiun
-
-  - host: envelope
-    link: mailto:alice.maydev@gmail.com
-    id: alice.maydev@gmail.com
+  facebook:
+    link: fb.com/maytryark
+  github:
+    link: github.com/MaybeS
+  linkedin:
+    link: linkedin.com/in/maydev
+  gmail:
+    link: maytryark@gmail.com

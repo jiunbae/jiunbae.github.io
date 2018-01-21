@@ -1,16 +1,40 @@
 ---
-title: About
+title: About Bae Jiun
 permalink: about/
 profile: true
 ---
 
-<div class="introduce">
-    <p class="comment">
-        {{ site.data.about.introduce.comment }}
-    </p>
-    <p class="comment small">
-        {{ site.data.about.introduce.description }}
-    </p>
+<div class="about">
+    <div class="profile">
+        <div class="avatar-wrapper">
+            <img id="avatar" class="2x" src="{{ site.avatar }}"/>
+        </div>
+        <div class="description">
+            <h3>{{ site.name-eng }}</h3>
+            <p>{{ site.data.about.introduce.comment }}</p>
+            <p><i class="fa fa-mars"></i> <i class="fa fa-birthday-cake"></i> 1995 <i class="fa fa-map-marker"></i> KR</p>
+        </div>
+        <div class="contacts">
+            <table>
+                <tr>
+                    <td><i class="fa fa-github"></i></td>
+                    <td>{{ site.data.about.contacts.github.link }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-facebook"></i></td>
+                    <td>{{ site.data.about.contacts.facebook.link }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-linkedin"></i></td>
+                    <td>{{ site.data.about.contacts.linkedin.link }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="description">
+        <p>{{ site.data.about.introduce.description }}</p>
+    </div>
 </div>
 
 {% for about_item in site.data.about.info %}
