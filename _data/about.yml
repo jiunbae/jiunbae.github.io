@@ -1,6 +1,138 @@
 introduce:
-  comment: Computer Scientist.
-  description: Interested in artificial intelligence, machine learning, data mining.
+  - Computer Scientist.
+  - <i class="fa fa-graduation-cap"></i> Hanyang Univ.
+  - <i class="fa fa-birthday-cake"></i> 1995 <i class="fa fa-map-marker"></i> KR
+quote: Interested in artificial intelligence, machine learning, data mining.
+contacts:
+  - label: facebook
+    link: fb.com/maytryark
+  - label: github
+    link: github.com/MaybeS
+  - label: linkedin
+    link: linkedin.com/in/maydev
+  - label: envelope
+    link: maytryark@gmail.com
+
+data:
+  - label: Education
+    icon: graduation-cap
+    data:
+      - major: Yonsei University
+        minor: Computer Engineering @ wonju campus
+        date: 2014-2015
+        link: https://www.yonsei.ac.kr
+
+      - major: Hanyang University
+        minor: Department of Computer Science
+        date: 2015-2019 
+        link: https://www.hanyang.ac.kr
+        data:
+          - major: MAT4015
+            minor: Fundamentals of applied probability and random processes
+            link: https://github.com/MaybeS/MAT4015
+            icon: eye
+            desc: 
+              - Object tracking based on color histogram using OpenCV
+              - Real-time back projection
+
+          - major: ITE3068
+            minor: Software Studio; Naver open source project
+            link: https://github.com/MaybeS/ITE3068
+            icon: code
+            desc: 
+              - "Dockerize project"
+              - "Performance comparison using <a href='http://naver.github.io/arcus/'>arcus</a>"
+              - "Distributed storage using <a href='https://github.com/naver/nbase-arc'>nBase-ARC</a>"
+              - "System monitoring using <a href='https://github.com/naver/hubblemon'>hubblemon</a>"
+              - "Stress test using <a href='http://naver.github.io/ngrinder/'>nGrinder</a>"
+              - "Naver open source contribution"
+
+          - major: ITE4065
+            minor: Parallel programming @ cs.hanyang
+            link: https://github.com/MaybeS/ITE4065/wiki
+            icon: server
+            desc: 
+              - "Parallel string matching"
+              - "Two-phase locking with Readers-writer Lock"
+              - "Wait-Free Sanpshot"
+              - "Scalable Lock Manager; Improve latch-free <a href='https://github.com/MariaDB/server'>maria DB</a>"
+  - label: Experience
+    icon: flask
+    data:
+      - major: ALOHA
+        minor: Hanyang Univ. Algorithm research club
+        data:
+          - major: Host Hanyang Univ. Programming Contest
+            minor: Issue a problem and inspect
+            link: https://hcpc.hanyang.ac.kr/
+            icon: trophy
+      - major: ICEWALL
+        minor: Hanyang Univ. Student security team
+        link: https://github.com/hyu-icewall
+        data:
+          - major: Hanyang Univ. Penetration test
+            minor: 
+            link:
+            icon: shield
+          - major: inc0gnito conference
+            minor: 
+            link: https://inc0gnito.com/
+            icon: university
+      - major: OOParts
+        minor: Hanyang Univ. Game development club
+        link: https://github.com/oopartians
+        data:
+          - major: Game Developing
+            minor: 
+            link: 
+            icon: gamepad
+
+      - major: Software Maestro 7th mentee
+        minor: Start-up Certified
+        link: http://swmaestro.kr/
+        data:
+          - major: Sort
+            minor: Sorting game powered by unity
+            link: https://play.google.com/store/apps/details?id=com.MaybeStudio.Sort&hl=en
+            icon: gamepad
+
+          - major: Deep check
+            minor: Deep Learning based face recognition attendance check service
+            link: https://www.slideshare.net/baejiun/deep-check
+            desc:
+              - Face detection engine based on <a href='https://pjreddie.com/darknet/yolo/'>yolo</a>
+              - Publish application powered by <a href='https://facebook.github.io/react-native/'>React Native</a>
+              - API server using <a href='http://flask.pocoo.org/'>Flask</a> and <a href='http://rubyonrails.org/'>Rails</a>
+            icon: cubes
+
+          - major: Memento
+            minor: Automatic person magazine publishing using machine learning
+            link: https://www.slideshare.net/baejiun/memento-78483474
+            desc:
+              - Distributed web crawling system
+              - Word embedding and clustering with <a href='https://www.docker.com/'>docker</a>
+              - Entity recognition module
+              - Emotion extraction module
+            icon: cubes
+
+      - major: Overseas training @ Draper Univ.
+        minor: 
+        link: https://www.draperuniversity.com
+      - major: Internship @ mapianist
+        minor: Video encode/decode module and optical music recognition
+        link: https://www.mapianist.com/
+      - major: Internship @ Computer Vision Lab
+        minor: Hanyang Univ. Computer Vision Lab
+        link: http://cvlab.hanyang.ac.kr
+  - label: Achievements
+    icon: trophy
+    data:
+      - major: ACM ICPC Daejeon regional
+        minor: 16th
+
+      - major: Machine Learning Challenge Korea 2017
+        minor: 5th tier
+        link: http://challonge.com/ohwnzusj
 
 skills:
   - name: Python
@@ -39,101 +171,3 @@ skills:
     performance: 6
     color: pinkrose
 
-info:
-  - name: edu
-    label: Education
-    data:
-      - major: Yonsei University (wonju)
-        minor: Computer Engineering
-        sub: (2014 - 2015)
-        link: https://www.yonsei.ac.kr
-
-      - major: Hanyang University
-        minor: Department of Computer Science
-        sub: (2015 - )
-        link: https://www.hanyang.ac.kr
-
-      - major: Draper University
-        minor: Start-up
-        sub: (2017)
-        link: http://www.draperuniversity.com/
-
-  - name: org
-    label: Organization
-    data:
-      - major: ALOHA
-        minor: Algorithm club @ Hanyang Univ.
-
-      - major: ICEWALL
-        minor: Student-CERT @ Hanyang Univ.
-        link: http://icewall.hanyang.ac.kr
-
-      - major: OOParts
-        minor: Game development club @ Hanyang Univ.
-
-      - major: SW Maestro
-        minor: 7th mentee
-        link: http://www.swmaestro.kr
-
-  - name: exp
-    label: Experience
-    data:
-      - major: Hold Hanyang Algorithm Competition
-        minor: HCPC
-
-      - major: Participate in Algorithm Competitions
-        minor: SCPC, Facebook Hacker Cup, Google Codejam
-
-      - major: Participate in Kaggle Competitions
-        minor: MNIST, titanic, right whale recognition, sf crime
-
-      - major: Led study and mentoring in Univ.
-
-      - major: Contribute CS231n translation project (kr)
-        link: http://aikorea.org/cs231n/
-
-      - major: Internship at MAPIA
-        minor: develop video encode/decode module for android
-        link: https://www.mapianist.com/main
-
-  - name: ach
-    label: Achievements
-    data:
-      - major: ACM ICPC Daejeon regional
-        minor: 16th
-
-      - major: SW Maestro Certification
-        minor: Start-up support
-
-      - major: Machine Learning Challenge Korea 2017
-        minor: 5th tier
-        link: http://challonge.com/ohwnzusj
-
-  - name: projects
-    label: Projects
-    data:
-      - major: Object Tracking
-        minor: Object tracking using color histogram.
-        link: https://github.com/MaybeS/MAT4015
-
-      - major: Sort
-        minor: A game of sorting numbers, using Unity.
-        link: https://github.com/maybes/sort
-
-      - major: Deep check
-        minor: Auto attendance check using face detection and recognition.
-        link: https://github.com/sw7thml
-
-      - major: Memento
-        minor: Publish a magazine about a personal history using NLP and Machine Learning.
-        link: https://github.com/memento7
-
-contacts:
-  facebook:
-    link: fb.com/maytryark
-  github:
-    link: github.com/MaybeS
-  linkedin:
-    link: linkedin.com/in/maydev
-  gmail:
-    link: maytryark@gmail.com

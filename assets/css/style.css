@@ -88,129 +88,6 @@ nav li {
 	list-style-type:none;
 }
 
-#front-cover {
-	min-height: 100%;
-	background-repeat: no-repeat;
-	background-size: cover;
-	color: white;
-
-    background-attachment: fixed;
-    background-position: center;
-}
-
-.cover-center {
-	position: absolute;
-	text-align: center;
-	top: 50%;
-
-	font-size: 48px;
-	width: 100%;
-}
-
-.cover-center span.wrap {
-	margin: 0 auto;
-	border-right: 2px solid #eee;
-	animation: textCursor 750ms steps(44) infinite normal;
-}
-@keyframes textCursor {
-  from { border-right-color: rgba(255,255,255,.75); }
-  to { border-right-color: transparent; }
-}
-
-.cover-text {
-	position: absolute;
-	margin: 0 auto;
-	bottom: 32px;
-	left: 32px;
-	font-size: 32px;
-}
-.cover-text p {
-	color: #eee;
-	font-size: 24px;
-}
-
-.cover-bar {
-	width: 64px;
-	border-top: 5px solid rgba(255, 255, 255, 0.7);
-	margin-bottom: 12px;
-}
-
-.profile {
-	maring: 60px 0 48px 0;
-}
-
-.profile > div {
-	float: left;
-}
-
-.profile #avatar {
-	display: inline-block;
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
-	margin-bottom: 20px;
-}
-
-.profile .avatar-wrapper {
-	margin: 0 20px 0 120px;
-}
-
-.profile .description h3 {
-	margin: 10px 0 5px;
-	text-align: left;
-}
-
-.profile .description p {
-	font-size: 12px;
-	margin-bottom: 0px;
-	text-align: left;
-}
-
-.profile .contacts {
-	margin: 4px 0 0 32px;
-    padding-left: 24px;
-    border-left: 1px solid #ccc;
-}
-.profile .contacts table {
-	margin: 0 auto;
-}
-
-.profile .contacts table tr:nth-child(odd)>td {
-
-	background-color: #fff
-}
-.profile .contacts table tr {
-	background-color: #fff
-}
-
-.profile .contacts table tr > td {
-	border: 0;
-	padding: 3px 3px;
-}
-
-.profile .contacts ul li {
-	float: right;
-	list-style: none;
-	margin: 5px 0;
-	font-size: 12px;
-}
-
-.profile .contacts ul li i {
-	font-size: 18px;
-	float: left;
-}
-
-.profile::after {
-	display: block;
-	clear: both;
-	content: "";
-}
-
-.about .description {
-	text-align: center;
-    margin: 0 15px 50px 15px;
-}
-
 #wrapper {
 	max-width: 800px;
 	margin: 0 auto;
@@ -284,7 +161,6 @@ em, i { font-style: italic; }
 
 .post header {
 	text-align:center;
-
 }
 
 .post h1 {
@@ -298,7 +174,6 @@ em, i { font-style: italic; }
 	  font: 300 24px/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif;
 	  color: #111;
 }
-
 
 .post h2.headline {
 	/*font: italic 22px/1.3em Georgia,serif;*/
@@ -437,73 +312,206 @@ img {
 }
 
 /*=========================================
+Front cover
+=========================================== */
+#front-cover {
+	min-height: 100%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	color: white;
+
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.cover-center {
+	position: absolute;
+	text-align: center;
+	top: 50%;
+
+	font-size: 48px;
+	width: 100%;
+}
+
+.cover-center span.wrap {
+	margin: 0 auto;
+	border-right: 2px solid #eee;
+	animation: textCursor 750ms steps(44) infinite normal;
+}
+@keyframes textCursor {
+  from { border-right-color: rgba(255,255,255,.75); }
+  to { border-right-color: transparent; }
+}
+
+.cover-text {
+	position: absolute;
+	margin: 0 auto;
+	bottom: 32px;
+	left: 32px;
+	font-size: 32px;
+}
+.cover-text p {
+	color: #eee;
+	font-size: 24px;
+}
+
+.cover-bar {
+	width: 64px;
+	border-top: 5px solid rgba(255, 255, 255, 0.7);
+	margin-bottom: 12px;
+}
+
+/*=========================================
 About List
 =========================================== */
-li.about {
-	margin-bottom: 20px;
+.about .profile {
+	maring: 60px 0 48px 0;
 }
 
-.about.items {
+.about .profile > div {
+	float: left;
 }
 
-.about.item {
+.about .profile #avatar {
 	display: inline-block;
-	margin: 5px auto;
-	margin-left: 15px;
-	width: 100%;
-	list-style-type: bengali;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	margin: 13px 0;
 }
 
-.about.item:before {
-	content: '\2022';
-	font-size: 24px;
+.about .profile .avatar-wrapper {
+	margin: 0 20px 0 120px;
 }
 
-.about.major {
-	font-size: 20px;
-	font-weight: 400;
-	color: #111;
+.about .profile .description h3 {
+	margin: 10px 0 5px;
+	text-align: left;
 }
 
-.about.minor {
-	font-size: 16px;
-	font-weight: 200;
-	margin-top: 5px;
-	margin-left: 13px;
-	color: #777;
-}
-
-.about.minor i {
+.about .profile .description p {
 	font-size: 12px;
+	margin-bottom: 0px;
+	text-align: left;
 }
 
-.contact {
-	float: right;
-}
-.contact a {
-	color: rgb(169, 169, 169);
-	width: 28px;
-	height: 28px;
-	display: inline-block;
-}
-.contact a:hover { 
-	color: rgb(128, 128, 128);  
+.about .profile .contacts {
+	margin: 4px 0 0 32px;
+    padding-left: 24px;
+    border-left: 1px solid #ccc;
 }
 
-.comment {
-	font-size: 24px;
-	font-weight: 200;
+.about .profile .contacts table {
+	margin: 0 auto;
+}
+.about .profile .contacts table tr:nth-child(odd)>td {
+	background-color: #fff;
+}
+.about .profile .contacts table tr {
+	background-color: #fff !important;
+}
+.about .profile .contacts table tr > td {
+	border: 0;
+	padding: 3px 3px;
+}
+.about .profile .contacts table tr td.icon {
 	text-align: center;
 }
-
-.comment.small {
+.about .profile .contacts table tr td i {
 	font-size: 18px;
-	font-weight: 200;
-	color: #999;
+}
+.about .profile .contacts table tr td a {
+	color: #666;
 }
 
-.inner {
-	margin-left: 15px;
+.about .profile::after {
+	display: block;
+	clear: both;
+	content: "";
+}
+
+.about div.description {
+	text-align: center;
+	margin: 0 15px 50px 15px;
+}
+
+.about dl {
+	margin: 12px 0;
+	padding: 0;
+}
+.about dl dt {
+	width: 200px;
+	text-align: right;
+	padding-right: 30px;
+	display: block;
+	font-weight: 800;
+}
+.about dl dt, .about dl dd {
+	float: left;
+	margin: 0;
+	padding: 0;
+}
+
+.about dl dd {
+	margin-left: 32px;
+	max-width: 484px;
+}
+
+.about dl::after {
+	display: block;
+	clear: both;
+	content: "";
+}
+.about dl dd ul li {
+	list-style: none;
+}
+.about dl dd ul.item>li {
+	width: 424px;
+	padding-bottom: 6px;
+	margin-bottom: 12px;
+	border-bottom: 2px solid #eee;
+}
+.about dl dd ul li .item-link {
+	opacity: 0;
+	transition: opacity .3s linear;
+}
+.about dl dd ul li:hover .item-link {
+	opacity: 1;
+}
+.about dl dd ul li span {
+	font-size: 18px;
+}
+.about dl dd ul li small {
+	margin-left: 12px;
+	padding-left: 12px;
+	border-left: 1px solid #ccc;
+	font-size: 12px;
+}
+.about dl dd ul li .info {
+	margin-top: 6px;
+	font-size: 14px;
+}
+.about dl dd ul li:last-child {
+	border-bottom: none;
+}
+.about dl dd ul li ul.detail {
+	padding: 12px 0 0 0;
+}
+.about dl dd ul li ul.detail>li {
+	padding-bottom: 9px;
+}
+.about dl dd ul li ul.detail>li .info {
+	font-size: 12px;
+}
+.about dl dd ul li ul.description {
+	text-align: left;
+	padding: 6px 0 0 0;
+	margin-left: 16px;
+	font-size: 14px;
+	line-height: 1.4em;
+}
+.about dl dd ul li ul.description>li {
+	list-style-type: circle;
 }
 
 /*=========================================

@@ -11,76 +11,74 @@ profile: true
         </div>
         <div class="description">
             <h3>{{ site.name-eng }}</h3>
-            <p>{{ site.data.about.introduce.comment }}</p>
-            <p><i class="fa fa-mars"></i> <i class="fa fa-birthday-cake"></i> 1995 <i class="fa fa-map-marker"></i> KR</p>
+            {% for text in site.data.about.introduce %}
+                <p>{{ text }}</p>
+            {% endfor %}
         </div>
         <div class="contacts">
             <table>
+                {% for contact in site.data.about.contacts %}
                 <tr>
-                    <td><i class="fa fa-github"></i></td>
-                    <td>{{ site.data.about.contacts.github.link }}</td>
+                    <td class="icon"><i class="fa fa-{{ contact.label }}"></i></td>
+                    <td><a href="http://{{ contact.link }}">{{ contact.link }}</a></td>
                 </tr>
-                <tr>
-                    <td><i class="fa fa-facebook"></i></td>
-                    <td>{{ site.data.about.contacts.facebook.link }}</td>
-                </tr>
-                <tr>
-                    <td><i class="fa fa-linkedin"></i></td>
-                    <td>{{ site.data.about.contacts.linkedin.link }}</td>
-                </tr>
+                {% endfor %}
             </table>
         </div>
     </div>
 
     <div class="description">
-        <p>{{ site.data.about.introduce.description }}</p>
+        <p>{{ site.data.about.quote }}</p>
     </div>
-</div>
 
-{% for about_item in site.data.about.info %}
-<div class="{{ about_item.name }}">
-    <h2>{{ about_item.label }}</h2>
-    <hr>
-
-    <div class="about items">
-        {% for item in about_item.data %}
-            <div class="about item about-{{ item.major }}">
-                {% if item.major %}
-                    {% if item.link %}
-                        <a href="{{ item.link }}">
+    {% for item in site.data.about.data %}
+    <dl>
+        <dt>{{ item.label }} <i class="fa fa-{{ item.icon }}"></i></dt>
+        <dd> 
+            <ul class="item">
+                {% for element in item.data %}
+                <li>
+                    <span>{{ element.major }}</span>
+                    {% if element.date %}
+                        <small>{{ element.date }}</small>
                     {% endif %}
-
-                    <span class="about major">{{ item.major }}</span>
-
-                    {% if item.link %}
-                        </a>
+                    {% if element.link %}
+                        <a class="item-link" href='{{ element.link }}'><i class="fa fa-link"></i></a>
                     {% endif %}
-                {% endif %}
-                    <div class="about minor">
-                        <span>{{ item.minor }}</span> <i>{{ item.sub }}</i>
+                    <div class="info">
+                        {{ element.minor }}
                     </div>
-            </div>
-        {% endfor %}
-    </div>
-</div>
-{% endfor %}
+                    {% if element.data %}
+                        <ul class="detail">
+                            {% for data in element.data %}
+                            <li>
+                                <span><i class="fa fa-{{ data.icon }}"></i> {{ data.major }}</span>
+                                {% if data.link %}
+                                    <a class="item-link" href='{{ data.link }}'><i class="fa fa-link"></i></a>
+                                {% endif %}
+                                <div class="info">
+                                    {{ data.minor }}
+                                </div>
+                                {% if data.desc %}
+                                    <ul class="description">
+                                        {% for desc in data.desc %}
+                                        <li>{{ desc }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
 
-<div class="skill">
-    <h2>Skills</h2>
-    <hr>
-
-    {% for skill in site.data.about.skills %}
-        <div class="skillbar clearfix " data-percent="{{ skill.performance }}0%">
-            <div class="skillbar-title" style="background: {{ site.data.colors[skill.color] }}"><span>{{ skill.name }}</span></div>
-            <div class="skillbar-bar" style="background: {{ site.data.colors[skill.color] }}"></div>
-            <div class="skill-bar-description">{{ skill.description }}</div>
-            <div class="skill-bar-percent">{{ skill.performance }}</div>
-        </div>
-        <div class="skill-description">
-            {{ skill.experience }}
-        </div>
+        </dd>
+    </dl>
     {% endfor %}
 </div>
+
 
 <h2><a href="{{ site.resume }}">Resume</a></h2>
 
