@@ -89,17 +89,17 @@ nav li {
 }
 
 #wrapper {
-	max-width: 800px;
-	margin: 0 auto;
-	padding: 60px 40px 100px 40px;
+	width: 768px;
 	letter-spacing: .05em;
+}
+@media (max-width: 800px){
+	#wrapper {
+	    width: auto;
+	}
 }
 
 #wrapper.home {
-	max-width: 800px;
 	margin: 0 auto;
-	padding: 0px 40px 20px 40px;
-  	margin-top: 64px;
 }
 
 /* Typography */
@@ -324,6 +324,12 @@ Front cover
     background-position: center;
 }
 
+#front-cover::after {
+	display: block;
+	clear: both;
+	content: "";
+}
+
 .cover-center {
 	position: absolute;
 	text-align: center;
@@ -365,42 +371,39 @@ Front cover
 About List
 =========================================== */
 .about .profile {
-	maring: 60px 0 48px 0;
+	margin-top: 32px;
 }
-
 .about .profile > div {
 	float: left;
 }
-
+.about .profile .avatar-wrapper {
+	margin: 0 0 0 144px;
+}
 .about .profile #avatar {
-	display: inline-block;
 	width: 80px;
 	height: 80px;
 	border-radius: 50%;
 	margin: 13px 0;
+	float: left;
 }
-
-.about .profile .avatar-wrapper {
-	margin: 0 20px 0 120px;
+.about .profile .description {
+	float: left;
+	margin: 5px 0px 5px 32px;
 }
-
 .about .profile .description h3 {
 	margin: 10px 0 5px;
 	text-align: left;
 }
-
 .about .profile .description p {
 	font-size: 12px;
 	margin-bottom: 0px;
 	text-align: left;
 }
-
 .about .profile .contacts {
 	margin: 4px 0 0 32px;
     padding-left: 24px;
     border-left: 1px solid #ccc;
 }
-
 .about .profile .contacts table {
 	margin: 0 auto;
 }
@@ -423,40 +426,31 @@ About List
 .about .profile .contacts table tr td a {
 	color: #666;
 }
-
 .about .profile::after {
 	display: block;
 	clear: both;
 	content: "";
 }
-
-.about div.description {
+.about .quote {	
 	text-align: center;
-	margin: 0 15px 50px 15px;
+	margin: 40px;
 }
-
 .about dl {
 	margin: 12px 0;
 	padding: 0;
-}
-.about dl dt {
-	width: 200px;
-	text-align: right;
-	padding-right: 30px;
-	display: block;
-	font-weight: 800;
 }
 .about dl dt, .about dl dd {
 	float: left;
 	margin: 0;
 	padding: 0;
 }
-
-.about dl dd {
-	margin-left: 32px;
-	max-width: 484px;
+.about dl dt {
+	text-align: right;
+	display: block;
+	font-weight: 800;
+	margin-left: 118px;
+	margin-right: 30px;
 }
-
 .about dl::after {
 	display: block;
 	clear: both;
@@ -466,10 +460,10 @@ About List
 	list-style: none;
 }
 .about dl dd ul.item>li {
-	width: 424px;
-	padding-bottom: 6px;
+	padding-bottom: 12px;
 	margin-bottom: 12px;
 	border-bottom: 2px solid #eee;
+	width: 450px;
 }
 .about dl dd ul li .item-link {
 	opacity: 0;
@@ -512,8 +506,41 @@ About List
 }
 .about dl dd ul li ul.description>li {
 	list-style-type: circle;
+	padding-bottom: 6px;
 }
-
+@media (max-width: 800px) {
+	.about .profile .avatar-wrapper {
+		margin: 0 auto;
+		float: none;
+		width: 250px;
+		height: 100px;
+		margin-bottom: 16px;
+	}
+	.about .profile .contacts {
+		border-left: none;
+		border-top: 1px solid #eee;
+		padding-top: 16px;
+		float: none;
+		width: 250px;
+		margin: 0 auto;
+	}
+	.about .profile .contacts table {
+		width: auto;
+	}
+	.about dl dt, .about dl dd {
+	    float: none;
+	    padding: 0 20px;
+	}
+	.about dl dt {
+	    width: 150px;
+	    padding: 10px 0 0 0;
+	    margin: 0 auto 15px auto;
+	    text-align: center;
+	}
+	.about dl dd ul.item>li {
+		width: auto;
+	}
+}
 /*=========================================
 Post List
 =========================================== */

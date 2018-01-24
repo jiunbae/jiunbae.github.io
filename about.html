@@ -8,12 +8,12 @@ profile: true
     <div class="profile">
         <div class="avatar-wrapper">
             <img id="avatar" class="2x" src="{{ site.avatar }}"/>
-        </div>
-        <div class="description">
-            <h3>{{ site.name-eng }}</h3>
-            {% for text in site.data.about.introduce %}
-                <p>{{ text }}</p>
-            {% endfor %}
+            <div class="description">
+                <h3>{{ site.name-eng }}</h3>
+                {% for text in site.data.about.introduce %}
+                    <p>{{ text }}</p>
+                {% endfor %}
+            </div>
         </div>
         <div class="contacts">
             <table>
@@ -27,7 +27,7 @@ profile: true
         </div>
     </div>
 
-    <div class="description">
+    <div class="quote">
         <p>{{ site.data.about.quote }}</p>
     </div>
 
