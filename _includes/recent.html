@@ -1,0 +1,17 @@
+
+<div class="recent-post">
+    <small>
+        <a class="link-trans" href="/{{ site.baseurl }}{{ include.more }}">more</a>
+    </small>
+    <h1>
+        <span>{{ include.header }}</span>
+    </h1>
+    <ul class="post-list">
+        {% for post in include.posts limit: include.lim %}
+            <li>
+                <a href="/{{ site.baseurl }}{{ post.url | remove_first: '/' }}"><aside class="dates">{{ post.date | date:"%b %d" }}</aside></a>
+                <a href="/{{ site.baseurl }}{{ post.url | remove_first: '/' }}"><h2 class="link-trans">{{ post.title }}</h2><span>{{ post.description }}</span></a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

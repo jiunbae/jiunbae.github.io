@@ -5,7 +5,7 @@ profile: true
 ---
 
 <div class="about">
-    <div class="profile">
+    <div class="profile clear">
         <div class="avatar-wrapper">
             <img id="avatar" class="2x" src="{{ site.avatar }}"/>
             <div class="description">
@@ -32,7 +32,7 @@ profile: true
     </div>
 
     {% for item in site.data.about.data %}
-    <dl>
+    <dl class="clear">
         <dt>{{ item.label }} <i class="fa fa-{{ item.icon }}"></i></dt>
         <dd> 
             <ul class="item">

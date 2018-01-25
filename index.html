@@ -2,5 +2,10 @@
 profile: true
 ---
 
-{% include post-list.html %}
+{% include recent.html header="Recent Posts" more="posts" posts=paginator.posts lim=3 %}
+
+{% include recent.html header="Recent Tech Posts" more="techs" posts=paginator.posts lim=3 %}
+
+{% include recent.html header="Recent Projects" more="projects" posts=paginator.posts lim=3 %}
+
 {% include footer.html %}
