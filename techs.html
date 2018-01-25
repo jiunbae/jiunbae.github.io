@@ -1,3 +1,17 @@
 ---
+category: tech
+cate_desc: "thanks for always having something to learn"
 permalink: techs/
 ---
+
+<section id="post">
+    <ul class="post-list">
+        {% for post in site.posts %}
+            {% if post.category == page.category %}
+                <li>
+                    {% include preview.html post=post %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>

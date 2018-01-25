@@ -2,10 +2,11 @@
 profile: true
 ---
 
-{% include recent.html header="Recent Posts" more="posts" posts=paginator.posts lim=3 %}
+{% assign recent_posts = paginator.posts | where: "category", "post" %}
+{% include recent.html header="Recent Posts" more="posts" posts=recent_posts lim=5 %}
 
-{% include recent.html header="Recent Tech Posts" more="techs" posts=paginator.posts lim=3 %}
+{% assign recent_posts = paginator.posts | where: "category", "tech" %}
+{% include recent.html header="Recent Tech Posts" more="techs" posts=recent_posts lim=5 %}
 
-{% include recent.html header="Recent Projects" more="projects" posts=paginator.posts lim=3 %}
-
-{% include footer.html %}
+{% assign recent_posts = paginator.posts | where: "category", "project" %}
+{% include recent.html header="Recent Projects" more="projects" posts=recent_posts lim=5 %}

@@ -3,6 +3,7 @@ title:  SW Maestro 해외 연수
 date:   2017-09-01 14:23:00
 description: SW Maestro Overseas Training Program
 tag: SW Maestro, 해외 연수, Draper
+category: post
 ---
 # SW Maestro Overseas Training Program
 

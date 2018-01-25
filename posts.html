@@ -1,3 +1,17 @@
 ---
+category: post
+cate_desc: "write a story about life"
 permalink: posts/
 ---
+
+<section id="post">
+    <ul class="post-list">
+        {% for post in site.posts %}
+            {% if post.category == page.category %}
+                <li>
+                    {% include preview.html post=post %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>

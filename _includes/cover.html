@@ -7,7 +7,9 @@
 
     <div class="cover-text">
         <div class="cover-bar"></div>
-        <span>{{ page.description | default: site.name }}</span>
-        <p>{{ page.date | date:"%B %-d, %Y" | default: site.description }}</p>
+        {% assign cate = page.category | default: site.name %}
+        <span>{{ page.description | default: cate | capitalize }}</span>
+        {% assign date = page.cate_desc | default: site.description %}
+        <p>{{ page.date | date:"%B %-d, %Y" | default: date }}</p>
     </div>
 </div>

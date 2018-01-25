@@ -1,3 +1,17 @@
 ---
+category: project
+cate_desc: "always fun to do a project."
 permalink: projects/
 ---
+
+<section id="post">
+    <ul class="post-list">
+        {% for post in site.posts %}
+            {% if post.category == page.category %}
+                <li>
+                    {% include preview.html post=post %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>

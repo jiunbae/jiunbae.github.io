@@ -3,6 +3,7 @@ title:  Keyword Extraction
 date:   2017-05-16 16:08:00
 description: keyword extraction; named entity extraction
 tag: python, paper, keyword, extraction, clustering
+category: tech
 ---
 
 # 문서에서 키워드 추출하기

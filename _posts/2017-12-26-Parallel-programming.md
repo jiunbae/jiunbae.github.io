@@ -4,6 +4,7 @@ date: 2017-12-26 18:40:00
 description: "ITE4065: Parallel Programming @ Hanyang Univ."
 tag: Hanyang, Parallel, Concurrency, Multicore
 author: MaybeS
+category: tech
 ---
 
 # 멀티코어 프로그래밍
