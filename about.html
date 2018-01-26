@@ -73,13 +73,16 @@ profile: true
                 </li>
                 {% endfor %}
             </ul>
-
         </dd>
     </dl>
     {% endfor %}
+    <dl class="clear">
+        <dt>Resume <i class="fa fa-file-pdf-o"></i></dt>
+        <dd>
+            <span>
+                Last update: {{ site.resume_update | date:"%B %-d, %Y" }}
+                <a href='{{ site.resume }}'><i class='fa fa-link'></i></a>
+            </span>
+        </dd>
+    </dl>
 </div>
-
-
-<h2><a href="{{ site.resume }}">Resume</a></h2>
-
-{% include footer.html %}
