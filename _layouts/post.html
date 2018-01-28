@@ -41,8 +41,8 @@ readmore: true
 
 <!-- Archive -->
 {% if layout.readmore %}
-    <ul id="post-list" class="archive readmore">
-        <h3>Read more</h3>
+    <ul class="post-list readmore">
+        <h2>Read more</h2>
         {% for post in site.posts %}
             <li>
                 <a href="{{ post.url }}">{{ post.title }}<aside class="dates">{{ post.date | date:"%b %d" }}</aside></a>

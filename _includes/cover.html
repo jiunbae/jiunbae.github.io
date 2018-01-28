@@ -1,5 +1,5 @@
 
-<div id="front-cover" class="clear" style="background-image: url('{{ include.image | default: '/assets/images/front.jpg' }}")>
+<div id="front-cover" class="clear" style="background-image: url('{{ page.cover_image | default: '/assets/images/front.jpg' }}")>
     {% assign default_text = site.data.cover.text | join: ',' %}
     {% assign cover_text = page.title | default: default_text %}
     <div class="cover-center typewrite" data-period="2000" data-type="{{ cover_text }}">
