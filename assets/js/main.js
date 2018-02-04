@@ -67,7 +67,6 @@ TxtType.prototype.tick = function() {
     if (!this.isDeleting && this.txt === fullTxt) {
         delta = this.period;
         if (this.toRotate.length > 1) {
-            console.log('xx');
             this.isDeleting = true;
         }
     } else if (this.isDeleting && this.txt === '') {
