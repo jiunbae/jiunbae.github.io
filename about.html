@@ -34,7 +34,7 @@ cover_image: /assets/images/front_about.jpg
 
     {% for item in site.data.about.data %}
     <dl class="clear">
-        <dt>{{ item.label }} <i class="fa fa-{{ item.icon }}"></i></dt>
+        <dt>{{ item.label }} <i class="fas fa-{{ item.icon }}"></i></dt>
         <dd> 
             <ul class="item">
                 {% for element in item.data %}
@@ -53,7 +53,7 @@ cover_image: /assets/images/front_about.jpg
                         <ul class="detail">
                             {% for data in element.data %}
                             <li>
-                                <span><i class="fa fa-{{ data.icon }}"></i> {{ data.major }}</span>
+                                <span><i class="fas fa-{{ data.icon }}"></i> {{ data.major }}</span>
                                 {% if data.link %}
                                     <a class="item-link" href='{{ data.link }}'><i class="fa fa-link"></i></a>
                                 {% endif %}

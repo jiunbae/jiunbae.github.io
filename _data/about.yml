@@ -73,7 +73,7 @@ data:
           - major: Hanyang Univ. Penetration test
             minor: 
             link:
-            icon: shield
+            icon: shield-alt
           - major: inc0gnito conference
             minor: 
             link: https://inc0gnito.com/
