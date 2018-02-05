@@ -4,13 +4,13 @@ introduce:
   - <i class="fa fa-birthday-cake"></i> 1995 <i class="fa fa-map-marker"></i> KR
 quote: Interested in artificial intelligence, machine learning, data mining.
 contacts:
-  - label: facebook
+  - label: facebook fab
     link: fb.com/maytryark
-  - label: github
+  - label: github fab
     link: github.com/MaybeS
-  - label: linkedin
+  - label: linkedin fab
     link: linkedin.com/in/maydev
-  - label: envelope
+  - label: envelope fas
     link: maytryark@gmail.com
 
 data:

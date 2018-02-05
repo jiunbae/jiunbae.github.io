@@ -20,7 +20,7 @@ cover_image: /assets/images/front_about.jpg
             <table>
                 {% for contact in site.data.about.contacts %}
                 <tr>
-                    <td class="icon"><i class="fa fa-{{ contact.label }}"></i></td>
+                    <td class="icon"><i class="fa-{{ contact.label }}"></i></td>
                     <td><a href="http://{{ contact.link }}">{{ contact.link }}</a></td>
                 </tr>
                 {% endfor %}
@@ -78,7 +78,7 @@ cover_image: /assets/images/front_about.jpg
     </dl>
     {% endfor %}
     <dl class="clear">
-        <dt>Resume <i class="fa fa-file-pdf-o"></i></dt>
+        <dt>Resume <i class="fa fa-file-pdf"></i></dt>
         <dd>
             <span>
                 Last update: {{ site.resume_update | date:"%B %-d, %Y" }}
@@ -87,3 +87,5 @@ cover_image: /assets/images/front_about.jpg
         </dd>
     </dl>
 </div>
+
+{% include donate.html %}
