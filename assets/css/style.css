@@ -33,6 +33,12 @@ nav.navbar-main.shrink {
 	border-bottom: 2px solid #eee;
 }
 
+nav .navbar-wrapper {
+	margin: 0 auto;
+	width: 768px;
+	display: flex;
+}
+
 nav li {
 	list-style-type:none;
 }
