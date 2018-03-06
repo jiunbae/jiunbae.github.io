@@ -37,6 +37,7 @@ nav .navbar-wrapper {
 	margin: 0 auto;
 	width: 768px;
 	display: flex;
+	justify-content: space-between;
 }
 
 nav li {
@@ -305,6 +306,7 @@ About List
 .about .profile {
 	margin-top: 32px;
 }
+
 .about .profile > div {
 	float: left;
 }
@@ -332,7 +334,7 @@ About List
 	text-align: left;
 }
 .about .profile .contacts {
-	margin: 4px 0 0 32px;
+	margin: 12px 0 0 32px;
     padding-left: 24px;
     border-left: 1px solid #ccc;
 }
@@ -351,12 +353,10 @@ About List
 }
 .about .profile .contacts table tr td.icon {
 	text-align: center;
+	font-size: 16px;
 }
 .about .profile .contacts table tr td i {
 	font-size: 18px;
-}
-.about .profile .contacts table tr td a {
-	color: #666;
 }
 .about .quote {	
 	text-align: center;

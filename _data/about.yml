@@ -2,7 +2,7 @@ introduce:
   - Computer Scientist.
   - <i class="fa fa-graduation-cap"></i> Hanyang Univ.
   - <i class="fa fa-birthday-cake"></i> 1995 <i class="fa fa-map-marker"></i> KR
-quote: Interested in artificial intelligence, machine learning, data mining.
+quote: Student. Interested in artificial intelligence and data science. <br>Studying machine learning and publish services using computer vision and NLP.
 contacts:
   - label: facebook fab
     link: fb.com/maytryark
@@ -128,7 +128,7 @@ data:
     icon: trophy
     data:
       - major: ACM ICPC Daejeon regional
-        minor: 16th
+        minor: 16th prize
 
       - major: Machine Learning Challenge Korea 2017
         minor: 5th tier

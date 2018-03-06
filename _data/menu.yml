@@ -1,0 +1,20 @@
+left:
+  -
+    url: posts
+    label: Posts
+  -
+    url: techs
+    label: Techs
+  -
+    url: projects
+    label: Projects
+right:
+  -
+    url: story
+    label: Story
+  -
+    url: about
+    label: About
+  -
+    url: feed.xml
+    label: <i class="fa fa-rss"></i>
