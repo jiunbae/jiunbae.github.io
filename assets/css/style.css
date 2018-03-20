@@ -44,6 +44,16 @@ nav .navbar-wrapper {
     padding: .5rem 1rem;
 }
 
+@media (max-width: 800px) {
+	nav #navbarSupportedContent::before {
+		height: 2px;
+		width: 68px;
+		display: block;
+		background: #eee;
+		content: '';
+	}
+}
+
 nav li {
 	list-style-type:none;
 }
@@ -52,6 +62,7 @@ nav li {
 	width: 768px;
 	letter-spacing: .05em;
 }
+
 @media (max-width: 800px) {
 	#wrapper {
 	    width: auto;
