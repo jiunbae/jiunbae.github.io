@@ -71,11 +71,15 @@ data:
         link: https://github.com/hyu-icewall
         data:
           - major: Hanyang Univ. Penetration test
-            minor: 
+            minor:
             link:
             icon: shield-alt
-          - major: inc0gnito conference
-            minor: 
+          - major: inc0gnito
+            minor: conference
+            link: https://www.facebook.com/groups/190003711036007/about/
+            icon: university
+          - major: KUSIC
+            minor: seminar
             link: https://inc0gnito.com/
             icon: university
       - major: OOParts
