@@ -261,7 +261,7 @@ Front cover
 }
 
 #front-cover.none {
-	margin-top: 48px;
+	margin-top: 64px;
 	min-height: 12px;
 	box-shadow: inset 0 1px 0 #eee;
 }
@@ -305,9 +305,9 @@ Front cover
 }
 
 .cover-bar {
-	width: 64px;
+	width: 103px;
 	border-top: 5px solid rgba(255, 255, 255, 0.7);
-	margin-bottom: 12px;
+	margin-top: 8px;
 }
 
 /*=========================================
