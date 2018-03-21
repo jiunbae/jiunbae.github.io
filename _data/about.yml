@@ -71,15 +71,15 @@ data:
         link: https://github.com/hyu-icewall
         data:
           - major: Hanyang Univ. Penetration test
-            minor:
+            minor: Checking web pages belonging to Hanyang Univ. 
             link:
             icon: shield-alt
-          - major: inc0gnito
-            minor: conference
+          - major: inc0gnito conference
+            minor: 
             link: https://www.facebook.com/groups/190003711036007/about/
             icon: university
-          - major: KUSIC
-            minor: seminar
+          - major: KUSIC seminar
+            minor: 
             link: https://inc0gnito.com/
             icon: university
       - major: OOParts
@@ -131,7 +131,7 @@ data:
   - label: Achievements
     icon: trophy
     data:
-      - major: ACM ICPC Daejeon regional
+      - major: ACM ICPC Korea<small>Daejeon</small> regional
         minor: 16th prize
 
       - major: Machine Learning Challenge Korea 2017
