@@ -30,6 +30,10 @@ plugins:
 future: true
 fbcomments: true
 
+webrick:
+  headers:
+    Access-Control-Allow-Origin: "*"
+
 defaults:
     -
         scope:
