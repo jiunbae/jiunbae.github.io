@@ -327,6 +327,17 @@ section ul.post-list li:last-child {
 	border-bottom: none;
 }
 
+#timeline .activity {
+}
+
+#timeline svg.calendar-graph-svg text {
+	font-size: 10px;
+}
+
+#timeline .twitter-timeline {
+	wdith: 768px !important;
+	height: 500px !important;
+}
 /*=========================================
 About List
 =========================================== */

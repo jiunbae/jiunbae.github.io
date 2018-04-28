@@ -10,8 +10,8 @@ left:
     label: Projects
 right:
   -
-    url: story
-    label: Story
+    url: timeline
+    label: Timeline
   -
     url: about
     label: About
