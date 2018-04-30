@@ -131,7 +131,7 @@ data:
   - label: Achievements
     icon: trophy
     data:
-      - major: ACM ICPC Korea<small>Daejeon</small> regional
+      - major: ACM ICPC Korea<small>Daejeon regional</small>
         minor: 16th prize
 
       - major: Machine Learning Challenge Korea 2017
