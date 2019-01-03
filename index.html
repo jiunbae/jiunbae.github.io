@@ -3,10 +3,10 @@ profile: true
 ---
 
 {% assign recent_posts = paginator.posts | where: "category", "post" %}
-{% include recent.html header="Recent Posts" more="posts" posts=recent_posts lim=5 %}
+{% include recent.html header="Posts" more="posts" posts=recent_posts lim=5 %}
 
 {% assign recent_posts = paginator.posts | where: "category", "tech" %}
-{% include recent.html header="Recent Tech Posts" more="techs" posts=recent_posts lim=5 %}
+{% include recent.html header="Tech Posts" more="techs" posts=recent_posts lim=5 %}
 
 {% assign recent_posts = paginator.posts | where: "category", "project" %}
-{% include recent.html header="Recent Projects" more="projects" posts=recent_posts lim=5 %}
+{% include recent.html header="Projects" more="projects" posts=recent_posts lim=5 %}

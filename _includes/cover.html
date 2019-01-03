@@ -1,20 +1,3 @@
 
-{% if page.cover_image != "None" %}
-    <div id="front-cover" class="clear" style="background-image: url('{{ page.cover_image | default: '/assets/images/front.jpg' }}")>
-        {% assign default_text = site.data.cover.text | join: ',' %}
-        {% assign cover_text = page.title | default: default_text %}
-        <div class="cover-center typewrite" data-period="2000" data-type="{{ cover_text }}">
-        </div>
-
-        <div class="cover-text">
-            {% assign cate = page.category | default: site.name %}
-            <span>{{ page.description | default: cate | capitalize }}</span>
-            <div class="cover-bar"></div>
-            {% assign date = page.cate_desc | default: site.description %}
-            <p>{{ page.date | date:"%B %-d, %Y" | default: date }}</p>
-        </div>
-    </div>
-{% else %}
-    <div id="front-cover" class="clear none">
-    </div>
-{% endif %}
+  <div id="front-cover" class="clear none">
+  </div>
