@@ -451,7 +451,7 @@ About List
 	border-bottom: none;
 }
 .about dl dd ul li ul.detail {
-	padding: 14px 0 0 0;
+	padding: 14px 0 0 16px;
 }
 .about dl dd ul li ul.detail>li {
 	padding-bottom: 9px;

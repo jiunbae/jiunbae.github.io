@@ -24,7 +24,7 @@ data:
 
       - major: Hanyang University
         minor: Department of Computer Science
-        date: 2015-2019 
+        date: 2015-2018
         link: https://www.hanyang.ac.kr
         data:
           - major: MAT4015
@@ -56,6 +56,12 @@ data:
               - "Two-phase locking with Readers-writer Lock"
               - "Wait-Free Sanpshot"
               - "Scalable Lock Manager; Improve latch-free <a href='https://github.com/MariaDB/server'>maria DB</a>"
+
+      - major: Hanyang University
+        minor: Computer Vision Lab.
+        date: 2019-
+        link: http://cvlab.hanyang.ac.kr
+
   - label: Experience
     icon: flask
     data:
@@ -125,8 +131,8 @@ data:
       - major: Internship @ mapianist
         minor: Video encode/decode module and optical music recognition
         link: https://www.mapianist.com/
-      - major: Internship @ Computer Vision Lab
-        minor: Hanyang Univ. Computer Vision Lab
+      - major: Internship @ Computer Vision Lab.
+        minor: Hanyang Univ. Computer Vision Lab.
         link: http://cvlab.hanyang.ac.kr
       - major: Internship @ Naver Webtoon
         minor: Naver Webtoon Research
