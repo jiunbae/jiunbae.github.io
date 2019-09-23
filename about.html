@@ -1,0 +1,92 @@
+---
+title: About Bae Jiun
+menu: About
+permalink: about/
+profile: true
+cover_image: /assets/images/front_about.jpg
+---
+
+<div class="about">
+    <div class="profile clear">
+        <div class="avatar-wrapper">
+            <img id="avatar" class="2x" src="{{ site.avatar }}"/>
+            <div class="description">
+                <h3>{{ site.name-eng }}</h3>
+                {% for text in site.data.about.introduce %}
+                    <p>{{ text }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="contacts">
+            <table>
+                {% for contact in site.data.about.contacts %}
+                <tr>
+                    <td class="icon"><i class="fa-{{ contact.label }}"></i></td>
+                    <td><a href="http://{{ contact.link }}">{{ contact.link }}</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <div class="quote">
+        <p>{{ site.data.about.quote }}</p>
+    </div>
+
+    {% for item in site.data.about.data %}
+    <dl class="clear">
+        <dt>{{ item.label }} <i class="fas fa-{{ item.icon }}"></i></dt>
+        <dd> 
+            <ul class="item">
+                {% for element in item.data %}
+                <li>
+                    <span>{{ element.major }}</span>
+                    {% if element.date %}
+                        <small>{{ element.date }}</small>
+                    {% endif %}
+                    {% if element.link %}
+                        <a class="item-link" href='{{ element.link }}'><i class="fa fa-link"></i></a>
+                    {% endif %}
+                    <div class="info">
+                        {{ element.minor }}
+                    </div>
+                    {% if element.data %}
+                        <ul class="detail">
+                            {% for data in element.data %}
+                            <li>
+                                <span><i class="fas fa-{{ data.icon }}"></i> {{ data.major }}</span>
+                                {% if data.link %}
+                                    <a class="item-link" href='{{ data.link }}'><i class="fa fa-link"></i></a>
+                                {% endif %}
+                                <div class="info">
+                                    {{ data.minor }}
+                                </div>
+                                {% if data.desc %}
+                                    <ul class="description">
+                                        {% for desc in data.desc %}
+                                        <li>{{ desc }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+    {% endfor %}
+    <dl class="clear">
+        <dt>Resume <i class="fa fa-file-pdf"></i></dt>
+        <dd>
+            <span>
+                Last update: {{ site.resume_update | date:"%B %-d, %Y" }}
+                <a href='{{ site.resume }}'><i class='fa fa-link'></i></a>
+            </span>
+        </dd>
+    </dl>
+</div>
+
+{% include donate.html %}
