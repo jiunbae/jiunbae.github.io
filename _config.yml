@@ -1,10 +1,10 @@
-name: Maydev
+name: Jiun.dev
 name-eng: Jiun, Bae
 description: Do not lose the humility of new learning
-title: blog.Maydev
+title: blog.jiun.dev
 ori_url: 'https://MaybeS.github.io'
-url: 'https://blog.maydev.org'
-author: 'Maydev'
+url: 'https://blog.jiun.dev'
+author: 'Jiun'
 permalink: /posts/:title/
 type: 'blog'
 
