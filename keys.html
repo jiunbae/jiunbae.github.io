@@ -1,0 +1,12 @@
+---
+profile: true
+permalink: keys
+scripts: "keys.js"
+---
+
+{% for file in site.static_files %}
+    {% if file.path contains 'data/keys' %}
+        <h3>{{ file.name }}</h3>
+        <pre data-name="{{ file.name }}"></pre>
+    {% endif %}
+{% endfor %}
