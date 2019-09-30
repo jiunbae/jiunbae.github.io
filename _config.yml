@@ -28,7 +28,7 @@ plugins:
     - jekyll-sitemap
   
 future: true
-fbcomments: true
+comments: true
 
 webrick:
   headers:
