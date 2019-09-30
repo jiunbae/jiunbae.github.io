@@ -2,6 +2,7 @@
 layout: default
 archive: true
 readmore: true
+readlimit: 5
 category: post
 ---
 
@@ -11,6 +12,7 @@ category: post
     </section>
 </article>
 
+<!-- Footer -->
 <footer id="post-meta" class="clearfix">
     
     <img class="avatar" src="{{ site.avatar }}">
@@ -25,15 +27,16 @@ category: post
     </section>
 </footer>
 
+<!-- Comments -->
 {% if site.comments %}
     {% include comments.html %}
 {% endif %}
 
-<!-- Archive -->
+<!-- Readmore -->
 {% if layout.readmore %}
     <ul class="post-list readmore">
         <h2>Read more</h2>
-        {% for post in site.posts %}
+        {% for post in site.posts limit: layout.readlimit %}
             <li>
                 <a href="{{ post.url }}">{{ post.title }}<aside class="dates">{{ post.date | date:"%b %d" }}</aside></a>
             </li>
