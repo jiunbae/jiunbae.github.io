@@ -54,13 +54,15 @@ cover_image: /assets/images/front_about.jpg
                         <ul class="detail">
                             {% for data in element.data %}
                             <li>
-                                <span><i class="fas fa-{{ data.icon }}"></i> {{ data.major }}</span>
-                                {% if data.link %}
-                                    <a class="item-link" href='{{ data.link }}'><i class="fa fa-link"></i></a>
+                                {% if data.major %}
+                                    <span><i class="fas fa-{{ data.icon }}"></i> {{ data.major }}</span>
+                                    {% if data.link %}
+                                        <a class="item-link" href='{{ data.link }}'><i class="fa fa-link"></i></a>
+                                    {% endif %}
+                                    <div class="info">
+                                        {{ data.minor }}
+                                    </div>
                                 {% endif %}
-                                <div class="info">
-                                    {{ data.minor }}
-                                </div>
                                 {% if data.desc %}
                                     <ul class="description">
                                         {% for desc in data.desc %}

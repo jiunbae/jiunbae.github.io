@@ -9,10 +9,9 @@ contacts:
   - label: github fab
     link: github.com/MaybeS
   - label: linkedin fab
-    link: linkedin.com/in/maydev
+    link: linkedin.com/in/jiunbae
   - label: envelope fas
     link: bae@jiun.dev
-
 data:
   - label: Education
     icon: graduation-cap
@@ -21,7 +20,26 @@ data:
         minor: Computer Engineering @ wonju campus
         date: 2014-2015
         link: https://www.yonsei.ac.kr
-
+      - major: Hanyang University
+        minor: Department of Computer Science
+        date: 2015-2018
+        link: https://www.hanyang.ac.kr
+      - major: Hanyang University
+        minor: M.S. Student, Computer Vision Lab.
+        date: 2019-2021
+        link: http://cvlab.hanyang.ac.kr
+        data:
+          - major: CoView 2019 Workshop on ICCV2019
+            minor: 2nd Workshop and Challenge on Comprehensive Video Understanding in the Wild
+            link: http://cvlab.hanyang.ac.kr/coview2019/
+            icon: university
+          - major: IPIU 2020
+            minor: 32nd Workshop on Image Processing and Image Understanding
+            link: http://ipiu.or.kr/2020/
+            icon: university
+  - label: Experience
+    icon: flask
+    data:
       - major: Hanyang University
         minor: Department of Computer Science
         date: 2015-2018
@@ -34,7 +52,6 @@ data:
             desc: 
               - Object tracking based on color histogram using OpenCV
               - Real-time back projection
-
           - major: ITE3068
             minor: Software Studio; Naver open source project
             link: https://github.com/MaybeS/ITE3068
@@ -46,7 +63,6 @@ data:
               - "System monitoring using <a href='https://github.com/naver/hubblemon'>hubblemon</a>"
               - "Stress test using <a href='http://naver.github.io/ngrinder/'>nGrinder</a>"
               - "Naver open source contribution"
-
           - major: ITE4065
             minor: Parallel programming @ cs.hanyang
             link: https://github.com/MaybeS/ITE4065/wiki
@@ -56,47 +72,23 @@ data:
               - "Two-phase locking with Readers-writer Lock"
               - "Wait-Free Sanpshot"
               - "Scalable Lock Manager; Improve latch-free <a href='https://github.com/MariaDB/server'>maria DB</a>"
-
-      - major: Hanyang University
-        minor: Computer Vision Lab.
-        date: 2019-2021
-        link: http://cvlab.hanyang.ac.kr
-
-  - label: Experience
-    icon: flask
-    data:
-      - major: ALOHA
-        minor: Hanyang Univ. Algorithm research club
-        data:
-          - major: Host Hanyang Univ. Programming Contest
-            minor: Issue a problem and inspect
-            link: https://hcpc.hanyang.ac.kr/
-            icon: trophy
-      - major: ICEWALL
-        minor: Hanyang Univ. Student security team
-        link: https://github.com/hyu-icewall
-        data:
-          - major: Hanyang Univ. Penetration test
-            minor: Checking web pages belonging to Hanyang Univ. 
-            link:
+          - major: ALOHA
+            icon: code-branch
+            minor: Hanyang Univ. Algorithm research club
+            desc:
+              - "Host <a href='http://www.hanyang.ac.kr/surl/1XNC'>HCPC: Hanyang Univ. Programming Contest</a>"
+          - major: ICEWALL
             icon: shield-alt
-          - major: inc0gnito conference
-            minor: 
-            link: https://www.facebook.com/groups/190003711036007/about/
-            icon: university
-          - major: KUSIC seminar
-            minor: 
-            link: https://inc0gnito.com/
-            icon: university
-      - major: OOParts
-        minor: Hanyang Univ. Game development club
-        link: https://github.com/oopartians
-        data:
-          - major: Game Developing
-            minor: 
-            link: 
+            minor: Hanyang Univ. Student security team
+            link: https://github.com/hyu-icewall
+            desc:
+              - "Hanyang Univ. Penetration test"
+              - "inc0gnito conference"
+              - "KUSIC seminar"
+          - major: OOParts
             icon: gamepad
-
+            minor: Hanyang Univ. Game development club
+            link: https://github.com/oopartians
       - major: Software Maestro 7th mentee
         minor: Start-up Certified
         link: http://swmaestro.kr/
@@ -105,7 +97,6 @@ data:
             minor: Sorting game powered by unity
             link: https://play.google.com/store/apps/details?id=com.MaybeStudio.Sort&hl=en
             icon: gamepad
-
           - major: Deep check
             minor: Deep Learning based face recognition attendance check service
             link: https://www.slideshare.net/baejiun/deep-check
@@ -114,7 +105,6 @@ data:
               - Publish application powered by <a href='https://facebook.github.io/react-native/'>React Native</a>
               - API server using <a href='http://flask.pocoo.org/'>Flask</a> and <a href='http://rubyonrails.org/'>Rails</a>
             icon: cubes
-
           - major: Memento
             minor: Automatic person magazine publishing using machine learning
             link: https://www.slideshare.net/baejiun/memento-78483474
@@ -124,25 +114,48 @@ data:
               - Entity recognition module
               - Emotion extraction module
             icon: cubes
-
       - major: Overseas training @ Draper Univ.
         minor: 
         link: https://www.draperuniversity.com
-      - major: Internship @ mapianist
+      - major: Internship at mapianist
         minor: Video encode/decode module and optical music recognition
         link: https://www.mapianist.com/
-      - major: Internship @ Computer Vision Lab.
+      - major: Internship at Computer Vision Lab.
         minor: Hanyang Univ. Computer Vision Lab.
         link: http://cvlab.hanyang.ac.kr
-      - major: Internship @ Naver Webtoon
-        minor: Naver Webtoon Research
+      - major: Internship at Naver Webtoon
+        minor: NAVER Webtoon Research, 2019
         link: https://webtoonscorp.com/
+        data:
+          - major: Webtoon Annotation Tool
+            desc:
+              - Webpage based 2D bounding box and tag annotation
+              - Manage dataset model with various custom query types
+            icon: cubes
+      - major: Advanced Computer Vision Staff Assistant
+        minor:
+        link: 
+        data:
+          - major: Deep Learning and Computer Vision
+            icon: university
+            desc:
+            - Samsung Advanced Technology Training Institute
+            - Samsung Advanced Institute of Technology
+            - Samsung System LSI
   - label: Achievements
     icon: trophy
     data:
       - major: ACM ICPC Korea<small>Daejeon regional</small>
         minor: 16th prize
-
+      - major: Top Start-up Team SW Maestro 7th Program
+        minor: 25,000$
       - major: Machine Learning Challenge Korea 2017
         minor: 5th tier
         link: http://challonge.com/ohwnzusj
+  - label: Publications
+    icon: file-pdf
+    data:
+      - major: 어안렌즈 환경에서의 객체 검출
+        minor: 32nd Workshop on Image Processing and Image Understanding
+      - major: 비디오 영상에서 객체 검출과 객체 재식별을 이용한 객체 계수
+        minor: 32nd Workshop on Image Processing and Image Understanding

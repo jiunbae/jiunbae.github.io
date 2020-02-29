@@ -35,7 +35,7 @@ nav.navbar-main.shrink {
 
 nav .navbar-wrapper {
 	margin: 0 auto;
-	width: 768px;
+	width: 800px;
 	display: flex;
 	justify-content: space-between;
     flex-wrap: wrap;
@@ -59,7 +59,7 @@ nav li {
 }
 
 #wrapper {
-	width: 768px;
+	width: 800px;
 	letter-spacing: .05em;
 }
 
@@ -415,8 +415,8 @@ About List
 	font-weight: 800;
 	font-size: 20px;
 	width: 175px;
-	margin-left: 30px;
-	margin-right: 30px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 .about dl dd ul li {
 	list-style: none;
@@ -425,7 +425,7 @@ About List
 	padding-bottom: 12px;
 	margin-bottom: 12px;
 	border-bottom: 2px solid #eee;
-	width: 520px;
+	width: 592px;
 }
 .about dl dd ul li .item-link {
 	opacity: 0;
