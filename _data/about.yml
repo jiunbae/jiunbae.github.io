@@ -132,9 +132,13 @@ data:
               - Webpage based 2D bounding box and tag annotation
               - Manage dataset model with various custom query types
             icon: cubes
+      - major: Internship at Naver Clova
+        minor: NAVER Clova Video, 2020
+        link: https://clova.ai/
+        data:
       - major: Advanced Computer Vision Staff Assistant
         minor:
-        link: 
+        link: https://github.com/MaybeS/deeplearning-practice
         data:
           - major: Deep Learning and Computer Vision
             icon: university
