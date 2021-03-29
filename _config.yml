@@ -8,15 +8,15 @@ author: 'Jiun'
 permalink: /posts/:title/
 type: 'blog'
 
-resume: 'https://drive.google.com/file/d/0BwQhFb-IfuTFcW03ZFlicTRuWVE/view?usp=sharing'
-resume_update: '2020-07-13'
+resume: 'https://drive.google.com/file/d/1Ce3XE-yL79yxczm6KWcGFHTbOH0OxTW0/view?usp=sharing'
+resume_update: '2021-03-29'
 avatar: 'https://avatars0.githubusercontent.com/u/7712538?v=3&s=460'
 attach: 'https://raw.githubusercontent.com/MaybeS/MaybeS.github.io/master/assets/images/attach/'
 github: 'https://github.com/MaybeS'
 
 paginate: 50
 baseurl: ""
-domain_name: 'https://blog.maydev.org'
+domain_name: 'https://blog.jiun.dev'
 google_analytics: 'UA-72426393-2'
 disqus_shortname: 'maydev'
 
