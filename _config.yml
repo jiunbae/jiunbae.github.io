@@ -2,7 +2,7 @@ name: Jiun.dev
 name-eng: Jiun, Bae
 description: 그럴듯한 헛소리를 합니다.
 title: blog.jiun.dev
-ori_url: 'https://MaybeS.github.io'
+ori_url: 'https://jiunbae.github.io'
 url: 'https://blog.jiun.dev'
 author: 'Jiun'
 permalink: /posts/:title/
@@ -11,8 +11,8 @@ type: 'blog'
 resume: 'https://drive.google.com/file/d/1Ce3XE-yL79yxczm6KWcGFHTbOH0OxTW0/view?usp=sharing'
 resume_update: '2021-03-29'
 avatar: 'https://avatars0.githubusercontent.com/u/7712538?v=3&s=460'
-attach: 'https://raw.githubusercontent.com/MaybeS/MaybeS.github.io/master/assets/images/attach/'
-github: 'https://github.com/MaybeS'
+attach: 'https://raw.githubusercontent.com/jiunbae/jiunbae.github.io/master/assets/images/attach/'
+github: 'https://github.com/jiunbae'
 
 paginate: 50
 baseurl: ""

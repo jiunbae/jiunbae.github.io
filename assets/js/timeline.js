@@ -1,3 +1,3 @@
 $(document).ready(() => {
-  GitHubCalendar(".calendar", "MaybeS", { responsive: true });
+  GitHubCalendar(".calendar", "jiunbae", { responsive: true });
 });

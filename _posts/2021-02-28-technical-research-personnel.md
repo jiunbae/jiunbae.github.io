@@ -3,7 +3,7 @@ title: 전문연구요원으로 편입하기
 date: 2021-02-28 24:00:00
 description: Review job experience as a Technical Research Personnel
 tag:  Technical Research Personnel, 전문연구요원, 전문연, 취직, Employment
-author: MaybeS
+author: jiunbae
 category: post
 ---
 

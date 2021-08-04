@@ -7,7 +7,7 @@ contacts:
   - label: facebook fab
     link: fb.com/maytryark
   - label: github fab
-    link: github.com/MaybeS
+    link: github.com/jiunbae
   - label: linkedin fab
     link: linkedin.com/in/jiunbae
   - label: envelope fas
@@ -47,14 +47,14 @@ data:
         data:
           - major: MAT4015
             minor: Fundamentals of applied probability and random processes
-            link: https://github.com/MaybeS/MAT4015
+            link: https://github.com/jiunbae/MAT4015
             icon: eye
             desc: 
               - Object tracking based on color histogram using OpenCV
               - Real-time back projection
           - major: ITE3068
             minor: Software Studio; Naver open source project
-            link: https://github.com/MaybeS/ITE3068
+            link: https://github.com/jiunbae/ITE3068
             icon: code
             desc: 
               - "Dockerize project"
@@ -65,7 +65,7 @@ data:
               - "Naver open source contribution"
           - major: ITE4065
             minor: Parallel programming @ cs.hanyang
-            link: https://github.com/MaybeS/ITE4065/wiki
+            link: https://github.com/jiunbae/ITE4065/wiki
             icon: server
             desc: 
               - "Parallel string matching"
@@ -138,7 +138,7 @@ data:
         data:
       - major: Advanced Computer Vision Staff Assistant
         minor:
-        link: https://github.com/MaybeS/deeplearning-practice
+        link: https://github.com/jiunbae/deeplearning-practice
         data:
           - major: Deep Learning and Computer Vision
             icon: university

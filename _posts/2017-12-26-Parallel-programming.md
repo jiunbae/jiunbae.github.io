@@ -3,7 +3,7 @@ title: 멀티코어 프로그래밍
 date: 2017-12-26 18:40:00
 description: "ITE4065: Parallel Programming @ Hanyang Univ."
 tag: Hanyang, Parallel, Concurrency, Multicore
-author: MaybeS
+author: jiunbae
 category: tech
 ---
 
@@ -21,14 +21,14 @@ category: tech
 
 ## Assignments
 
-몇 가지 과제와 4개의 프로젝트를 진행 했다. 목록은 아래와 같다. 각 프로젝트는 영문으로 위키가 작성되어 있어 [GitHub](https://github.com/MaybeS/ITE4065)에서 확인 할 수 있다.
+몇 가지 과제와 4개의 프로젝트를 진행 했다. 목록은 아래와 같다. 각 프로젝트는 영문으로 위키가 작성되어 있어 [GitHub](https://github.com/jiunbae/ITE4065)에서 확인 할 수 있다.
 
 ### Project
 
-- [x] Project1: [Signal: Concurrent String Search](https://github.com/MaybeS/ITE4065/wiki/project1-multi)
-- [x] Project2: [Simple Two-phase locking with Read-Write Lock](https://github.com/MaybeS/ITE4065/wiki/Project2)
-- [x] Project3: [Wait-Free Snapshot](https://github.com/MaybeS/ITE4065/wiki/Project3)
-- [x] Project4: [Scalable Lock Manager](https://github.com/MaybeS/ITE4065/wiki/Project4) (with mariaDB)
+- [x] Project1: [Signal: Concurrent String Search](https://github.com/jiunbae/ITE4065/wiki/project1-multi)
+- [x] Project2: [Simple Two-phase locking with Read-Write Lock](https://github.com/jiunbae/ITE4065/wiki/Project2)
+- [x] Project3: [Wait-Free Snapshot](https://github.com/jiunbae/ITE4065/wiki/Project3)
+- [x] Project4: [Scalable Lock Manager](https://github.com/jiunbae/ITE4065/wiki/Project4) (with mariaDB)
 
 ### Lab
 
