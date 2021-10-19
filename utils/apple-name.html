@@ -5,22 +5,38 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{{ site.name }}{% if page.title %} - {{ page.title }}{% endif %}</title>
+  <title>Apple-like name</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" >
-
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ page.path | prepend:site.baseurl }}feed.xml">
-
-  <meta property="og:title" content="{{ site.title }}"/>
-  <meta property="og:description" content="{{ site.description }}"/>
-  <meta property="og:type" content="{{ site.type }}"/>
-  <meta property="og:url" content="{{ site.url }}"/>
-  <meta property="og:image" content="/{{ site.baseurl }}assets/images/cover_image_square.png">
-  <meta property="og:image:width" content="615" />
-  <meta property="og:image:height" content="300" />
 </head>
 <body>
+  <div>
+    <label>Names: </label>
+    <input type="text" id="elements" value="Mac,Book,M1,Pro,Max,i,Pad,pod,Phone,Air,Retina,">
+  </div>
+  <div>
+    <button type="button" onclick="generate()">Generate</button>
+  </div>
+  <div>
+    <label type="text" id="name"></label>
+  </div>
+
   <script>
-      
+    function generate() {
+      const items = document.getElementById("elements").value.split(',')
+                            .map(x => x.trim())
+                            .filter(x => x.length);
+      let size = Math.floor(Math.random() * items.length - 2) + 2;
+      const candidates = new Array(size);
+      const taken = new Array(items.length);
+
+      while (size--) {
+        const item = Math.floor(Math.random() * items.length);
+        candidates[size] = items[item in taken ? taken[item] : item];
+        taken[item] = --items.length in taken ? taken[item.length] : item.length;
+      }
+
+      document.getElementById("name").innerHTML = candidates.join(' ');
+    }
   </script>
 
   <!-- Google analytics -->
