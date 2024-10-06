@@ -1,7 +1,7 @@
 ---
 title: Review NCSOFT
 date: 2024-06-30 12:00:00
-description: 3년간의 NCSOFT에서의 경험을 정리
+description: 3년간의 NCSOFT에서의 경험
 tag: review, NCSOFT, Graphics AI Lab, Game AI, Motion AI, Facial Motion Generation, Digital Human, Text-to-Texture Generation, NC Research
 author: jiunbae
 category: post
