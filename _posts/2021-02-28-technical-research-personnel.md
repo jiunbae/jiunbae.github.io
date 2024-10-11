@@ -51,12 +51,12 @@ category: post
 
 ## 실제 경험은 이랬어요.
 
-![calendar](https://drive.google.com/uc?id=1GAY8SofGOdvROiN9ofVMuJBPolcFaUPn)
+![calendar]({{ site.attach }}technical-research-personnel/calendar.png)
 *매주 코딩테스트와 미팅을 보았던 2020년 10월*
 
 저는 10여개 회사에 입사 지원서를 제출했고 대부분 최종 면접단계에서 탈락했습니다. 운이 좋아 최종 합격한 곳이 두 곳이었고 좋은 경험을 쌓을 수 있을 것이라 판단해 **NCSOFT Game AI Lab**으로 커리어를 확정했습니다.
 
-저는 기본적으로 baseline이 될 수 있는 [**RESUME**](https://drive.google.com/file/d/1Ce3XE-yL79yxczm6KWcGFHTbOH0OxTW0/view?usp=sharing)를 하나 작성해두고 입사 지원서를 조금씩 수정하면서 지원했습니다. 대부분 회사의 자기소개서는 아래와 같은 비슷한 항목을 요구하는 것 같습니다. 저는 비슷한 포지션과 업무내용을 기준으로 선택했기 때문에 대부분의 서류에는 비슷한 내용을 작성했습니다.
+저는 기본적으로 baseline이 될 수 있는 [**RESUME**](https://raw.githubusercontent.com/jiunbae/curriculum-vitae/refs/heads/main/cv.pdf)를 하나 작성해두고 입사 지원서를 조금씩 수정하면서 지원했습니다. 대부분 회사의 자기소개서는 아래와 같은 비슷한 항목을 요구하는 것 같습니다. 저는 비슷한 포지션과 업무내용을 기준으로 선택했기 때문에 대부분의 서류에는 비슷한 내용을 작성했습니다.
 
 - 자신에 대한 간략한 소개
 - 자신의 경쟁력
@@ -93,7 +93,7 @@ COVID-19 감염증으로 인해 대부분의 면접 프로세스는 화상으로
 
 보통은 회사에 서류를 제출한 후 처리기간에 따라 2주 내로 병무청에 신청서를 접수하게 되고 편입이 완료되었다고 연락이 오게 됩니다.
 
-![](https://drive.google.com/uc?id=1UmdJhaxqKmJVpAP8EhofczfgVhlqauBx)
+![]({{ site.attach }}technical-research-personnel/kakaotalk.jpeg)
 *국방부의 시계가 시작하는 메세지*
 
 전문연 근무 중에는 출퇴근 시간이 정해져 있고, Day-off 와 같은 사내 유연 출퇴근 제도를 활용할 수 없을 가능성도 있습니다. 휴가는 사규에 따라 사용가능 하지만 재택근무시에 일일 출퇴근 보고와 재택근무 계획을 미리 전달해야 할 수도 있습니다.
