@@ -1,0 +1,88 @@
+@use '@/styles/abstracts' as *;
+
+.header {
+  min-width: 300px;
+
+  &.fixed {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    background-color: rgba(225, 225, 225, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+    @include mobileAndUp {
+      padding: 20px 60px;
+    }
+
+    .headingLink {
+      text-decoration: none;
+
+      .headingWrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .heading {
+          display: inline-block;
+          font-weight: 800;
+          font-size: 1.5rem;
+          line-height: 1.125rem;
+          margin-top: 2px;
+          color: var(--primary-c1);
+        }
+      }
+    }
+
+    .headerButtons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      @include mobileAndUp {
+        gap: 16px;
+      }
+
+      .icon path {
+        fill: var(--icon-color);
+        stroke: var(--icon-color);
+      }
+
+      .link {
+        text-decoration: none;
+        color: var(--icon-color);
+        font-weight: 600;
+        font-size: 1rem;
+        line-height: 1.5rem;
+      }
+
+      .iconButton {
+        all: unset;
+        cursor: pointer;
+
+        &:focus {
+          outline: 2px solid -webkit-focus-ring-color;
+          outline-offset: 1px;
+          border-radius: 2px;
+
+          &:not(:focus-visible) {
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+
+  .progressBar {
+    width: var(--progress-width);
+    height: 2px;
+    background-color: var(--primary-c1);
+  }
+}
