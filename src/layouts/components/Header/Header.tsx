@@ -31,7 +31,7 @@ export const Header = ({ pathname }: HeaderProps) => {
   const { theme, toggleTheme } = useTheme()
   const { isPost, progressWidth } = useScrollIndicator(pathname)
   const headerRef = useRef<HTMLElement>(null)
-  
+
   useEffect(() => {
     if (!headerRef.current) return
 
@@ -71,12 +71,12 @@ export const Header = ({ pathname }: HeaderProps) => {
             </h1>
           </Link>
           <div className={styles.headerButtons}>
-            <a href="/about/" rel="noopener noreferrer">
-                <ProfileIcon className={styles.icon} />
-            </a>
-            <a href="/rss.xml" rel="noopener noreferrer">
+            <Link to="/about/">
+              <ProfileIcon className={styles.icon} />
+            </Link>
+            <Link to="/rss.xml">
               <RSSIcon className={styles.icon} />
-            </a>
+            </Link>
             <button
               className={styles.iconButton}
               onClick={toggleTheme}

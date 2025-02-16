@@ -1,4 +1,5 @@
-import { ProfileCard, FloatingButton } from '@/components'
+import type { HeadProps } from 'gatsby'
+import { ProfileCard, FloatingButton, Seo } from '@/components'
 
 import { EducationSection, ExperienceSection, ProjectsSection, AwardsSection, SkillsSection, PublicationSection } from './components'
 import * as styles from './About.module.scss'
@@ -20,6 +21,15 @@ const AboutPage = () => {
   )
 }
 
-export default AboutPage
 
-export const Head = () => <title>About</title>
+export const Head = ({ location: { pathname }, data: { site } }: HeadProps<Queries.HomeQuery>) => {
+  const seo = {
+    title: site?.siteMetadata.title,
+    description: site?.siteMetadata.description,
+    heroImage: ''
+  }
+
+  return <Seo title={seo.title} description={seo.description} heroImage={seo.heroImage} pathname={pathname}></Seo>
+}
+
+export default AboutPage

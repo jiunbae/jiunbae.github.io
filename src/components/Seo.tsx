@@ -56,7 +56,7 @@ export const Seo = ({ title, description, heroImage, pathname, children }: Props
       <link rel="canonical" href={seo.url} />
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
-      <meta name="theme-color" content={theme == 'dark' ? '#242424fa' : '#f4f4f4fa'}/>
+      <meta name="theme-color" content={theme == 'dark' ? '#242424' : '#f4f4f4fa'}/>
       {/* Open Graph / Facebook */}
       <meta property="og:title" content={seo.title} />
       <meta property="og:description" content={seo.description} />
