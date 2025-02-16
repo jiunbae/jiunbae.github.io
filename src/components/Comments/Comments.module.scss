@@ -1,0 +1,11 @@
+@use '@/styles/abstracts' as *;
+
+.comments {
+  .title {
+      color: var(--gray-1);
+  }
+
+  .horizontalLine {
+    margin: 15px 0;
+  }
+}

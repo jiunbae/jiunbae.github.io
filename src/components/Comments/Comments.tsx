@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 
+import { useTheme } from '@/contexts'
+
+import * as styles from './Comments.module.scss'
+
 export const Comments = () => {
   const { site: { siteMetadata : { repo } } } = useStaticQuery(graphql`
       query {
@@ -11,6 +15,7 @@ export const Comments = () => {
         }
       }
     `)
+  const { theme } = useTheme()
   const commentsInjectionRoot: React.RefObject<HTMLDivElement | null> = React.createRef()
 
   useEffect(() => {
@@ -22,17 +27,29 @@ export const Comments = () => {
       scriptEl.setAttribute('async', 'true')
       scriptEl.setAttribute('repo', repo)
       scriptEl.setAttribute('issue-term', 'pathname')
-      scriptEl.setAttribute('theme', 'github-light')
+      scriptEl.setAttribute('theme', `github-${theme}`)
       commentsInjectionRoot.current.appendChild(scriptEl)
     }
   }, [])
 
+  useEffect(() => {
+    if (document.querySelector('.utterances-frame')) {
+      const iframe = document.querySelector<HTMLIFrameElement>('.utterances-frame')
+
+      if (!iframe) {
+        return
+      }
+
+      iframe?.contentWindow?.postMessage({ type: 'set-theme', theme: `github-${theme}` }, 'https://utteranc.es')
+    }
+  }, [theme])
+
   return (
-    <div className='container pt-8'>
-      <h1 className='mt-0 mb-0 text-3xl font-normal leading-normal'>
+    <div className={styles.comments}>
+      <h1 className={styles.title}>
         Comments
       </h1>
-      <hr className='my-0' />
+      <hr className={styles.horizontalLine} />
       <div ref={commentsInjectionRoot} />
     </div>
   )
