@@ -10,7 +10,7 @@
 
   @include typo-d1;
 
-  @include mobileAndUp {
+  @include tabletAndUp {
     padding: 20px 60px;
     padding-top: 50px;
   }

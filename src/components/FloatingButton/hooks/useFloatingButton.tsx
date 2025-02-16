@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-const SCROLL_THRESHOLD = 200;
+const SCROLL_THRESHOLD = 200
 
 export const useFloatingButton = () => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false)
 
   const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-    setIsVisible(currentScrollY > SCROLL_THRESHOLD);
-  };
+    const currentScrollY = window.scrollY
+    setIsVisible(currentScrollY > SCROLL_THRESHOLD)
+  }
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll)
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
-  return { isVisible, scrollToTop };
-};
+  return { isVisible, scrollToTop }
+}

@@ -1,0 +1,59 @@
+@use '@/styles/abstracts' as *;
+
+.experience[class] {
+  p {
+    margin: 0;
+    color: var(--gray-3);
+    line-height: 1.6;
+
+    strong {
+      color: var(--gray-5);
+    }
+  }
+
+  .job {
+    margin-bottom: .5rem;
+    padding: .25rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+
+      .team {
+        font-size: 1.1rem;
+        font-weight: normal;
+        color: var(--gray-2);
+
+        a {
+          &::before {
+            content: '·';
+            padding: 0 .4rem;
+            color: var(--gray-4);
+          }
+        }
+      }
+    }
+
+    .position {
+      font-size: 1.1rem;
+      margin-bottom: .5rem;
+    }
+
+    .period {
+      color: var(--gray-4);
+      font-size: .9rem;
+      font-weight: normal;
+      min-width: 5rem;
+      max-width: 5rem;
+
+      @include tabletAndUp {
+        font-size: 1.1rem;
+        max-width: unset;
+      }
+    }
+  }
+} 

@@ -1,93 +1,113 @@
-import type { GatsbyConfig } from "gatsby";
-const path = require("path");
+import type { GatsbyConfig } from 'gatsby'
+import path from 'path'
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: `Jiunbae's Blog`,
-    description: `Jiunbae's Blog`,
-    siteUrl: `https://blog.jiun.dev`,
-    keywords: ["jiunbae", "blog", "dev"],
-    heroImage: path.resolve(__dirname, "src/images/cover.png"),
+    title: 'Jiunbae\'s Blog',
+    heading: 'Jiunbae\'s',
+    description: 'Jiunbae\'s Blog',
+    name: {
+      kr: '배지운',
+      en: 'Jiun Bae'
+    },
+    siteUrl: 'https://blog.jiun.dev',
+    keywords: ['jiunbae', 'blog', 'dev'],
+    heroImage: path.resolve(__dirname, 'src/images/cover.png'),
+    social: {
+      email: 'mailto:jiunbae.623@gmail.com',
+      facebook: 'https://www.facebook.com/MayTryArk',
+      linkedin: 'https://linkedin.com/in/jiunbae',
+      github: 'https://github.com/jiunbae',
+      twitter: 'https://twitter.com/baejiun',
+      instagram: 'https://instagram.com/bae.jiun'
+    }
   },
   graphqlTypegen: true,
-  jsxRuntime: "automatic",
+  jsxRuntime: 'automatic',
   plugins: [
     {
-      resolve: `gatsby-plugin-google-gtag`,
+      resolve: 'gatsby-plugin-google-gtag',
       options: {
-        trackingIds: ["G-8JQSR962RQ"],
+        trackingIds: ['G-8JQSR962RQ'],
         pluginConfig: {
-          head: true,
-        },
-      },
+          head: true
+        }
+      }
     },
-    "gatsby-plugin-sass",
-    `gatsby-plugin-advanced-sitemap-v5`,
-    `gatsby-plugin-image`,
-    `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`,
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: 'gatsby-plugin-sass',
+      options: {
+        sassOptions: {
+          api: 'modern-compiler'
+        }
+      }
+    },
+    'gatsby-plugin-advanced-sitemap-v5',
+    'gatsby-plugin-image',
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
+    {
+      resolve: 'gatsby-transformer-remark',
       options: {
         plugins: [
           {
-            resolve: `gatsby-remark-images`,
+            resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 780,
               linkImagesToOriginal: false,
-              wrapperStyle: "border-radius: 5px; overflow: hidden;",
-            },
+              wrapperStyle: 'border-radius: 5px; overflow: hidden;'
+            }
           },
           {
-            resolve: `gatsby-remark-autolink-headers`,
+            resolve: 'gatsby-remark-autolink-headers',
             options: {
-              icon: false,
-            },
+              icon: false
+            }
           },
           {
-            resolve: `gatsby-remark-prismjs`,
+            resolve: 'gatsby-remark-prismjs',
             options: {
-              inlineCodeMarker: `>`,
-            },
-          },
-        ],
-      },
+              inlineCodeMarker: '>'
+            }
+          }
+        ]
+      }
     },
     {
-      resolve: "gatsby-plugin-react-svg",
+      resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
           include: /src\/images/,
           options: {
             props: {
-              className: "my-class",
-            },
-          },
-        },
-      },
+              className: 'my-class'
+            }
+          }
+        }
+      }
     },
     {
-      resolve: `gatsby-plugin-manifest`,
+      resolve: 'gatsby-plugin-manifest',
       options: {
-        icon: path.resolve(__dirname, "static/favicon.ico"),
-      },
+        icon: path.resolve(__dirname, 'static/profile.png')
+      }
     },
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: "contents",
-        path: path.resolve(__dirname, "contents"),
-      },
+        name: 'contents',
+        path: path.resolve(__dirname, 'contents')
+      }
     },
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: "images",
-        path: path.resolve(__dirname, "src/images"),
-      },
+        name: 'images',
+        path: path.resolve(__dirname, 'src/images')
+      }
     },
     {
-      resolve: `gatsby-plugin-feed`,
+      resolve: 'gatsby-plugin-feed',
       options: {
         query: `
           {
@@ -110,9 +130,9 @@ const config: GatsbyConfig = {
                   date: new Date(node.frontmatter.date),
                   url: `${site.siteMetadata.siteUrl}/posts${node.frontmatter.slug}`,
                   guid: `${site.siteMetadata.siteUrl}/posts${node.frontmatter.slug}`,
-                  custom_elements: [{ "content:encoded": node.html }],
-                });
-              });
+                  custom_elements: [{ 'content:encoded': node.html }]
+                })
+              })
             },
             query: `
               {
@@ -129,13 +149,19 @@ const config: GatsbyConfig = {
                 }
               }
             `,
-            output: "/rss.xml",
-            title: "jiunbae blog RSS feed",
-          },
-        ],
-      },
+            output: '/rss.xml',
+            title: 'jiunbae blog RSS feed'
+          }
+        ]
+      }
     },
-  ],
-};
+    {
+      resolve: 'gatsby-transformer-json',
+      options: {
+        typeName: 'Json'
+      }
+    }
+  ]
+}
 
-export default config;
+export default config

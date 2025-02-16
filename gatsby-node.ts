@@ -1,16 +1,9 @@
-import type {
-  CreateSchemaCustomizationArgs,
-  CreateWebpackConfigArgs,
-  GatsbyNode,
-} from "gatsby";
-import path from "path";
+import type { CreateSchemaCustomizationArgs, CreateWebpackConfigArgs, GatsbyNode } from 'gatsby'
+import path from 'path'
 
-export const createPages: GatsbyNode["createPages"] = async ({
-  graphql,
-  actions,
-}) => {
-  const { createPage } = actions;
-  const blogPostTemplate = path.resolve(`src/templates/Post.tsx`);
+export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions }) => {
+  const { createPage } = actions
+  const blogPostTemplate = path.resolve('src/templates/Post.tsx')
 
   const result = await graphql<Queries.PagesQuery>(`
     query Pages {
@@ -37,13 +30,13 @@ export const createPages: GatsbyNode["createPages"] = async ({
         }
       }
     }
-  `);
+  `)
 
   if (result.errors) {
-    throw result.errors;
+    throw result.errors
   }
 
-  const posts = result.data?.allMarkdownRemark.edges;
+  const posts = result.data?.allMarkdownRemark.edges
 
   posts?.forEach(({ node, previous, next }) => {
     createPage({
@@ -55,34 +48,33 @@ export const createPages: GatsbyNode["createPages"] = async ({
         previous: previous === null ? null : previous.frontmatter.slug,
         previousTitle: previous === null ? null : previous.frontmatter.title,
         next: next === null ? null : next.frontmatter.slug,
-        nextTitle: next === null ? null : next.frontmatter.title,
-      },
-    });
-  });
-};
+        nextTitle: next === null ? null : next.frontmatter.title
+      }
+    })
+  })
+}
 
-export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
-  actions,
-}: CreateWebpackConfigArgs) => {
+export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ actions }: CreateWebpackConfigArgs) => {
   actions.setWebpackConfig({
     resolve: {
       alias: {
-        "@/components": path.resolve(__dirname, "src/components"),
-        "@/images": path.resolve(__dirname, "src/images"),
-        "@/styles": path.resolve(__dirname, "src/styles"),
-        "@/utils": path.resolve(__dirname, "src/utils"),
-        "@/contexts": path.resolve(__dirname, "src/contexts"),
-        "@/layouts": path.resolve(__dirname, "src/layouts"),
-      },
-    },
-  });
-};
+        '@/components': path.resolve(__dirname, 'src/components'),
+        '@/images': path.resolve(__dirname, 'src/images'),
+        '@/styles': path.resolve(__dirname, 'src/styles'),
+        '@/utils': path.resolve(__dirname, 'src/utils'),
+        '@/contexts': path.resolve(__dirname, 'src/contexts'),
+        '@/layouts': path.resolve(__dirname, 'src/layouts')
+      }
+    }
+  })
+}
 
-export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] =
-  ({ actions }: CreateSchemaCustomizationArgs) => {
-    const { createTypes } = actions;
+export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
+  actions
+}: CreateSchemaCustomizationArgs) => {
+  const { createTypes } = actions
 
-    createTypes(`
+  createTypes(`
     type SiteSiteMetadata {
       title: String!
       siteUrl: String!
@@ -110,5 +102,5 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
       id: String!
       html: String!
     }
-  `);
-  };
+  `)
+}

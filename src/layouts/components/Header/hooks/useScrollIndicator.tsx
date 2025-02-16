@@ -1,26 +1,33 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react'
 
-import { optimizedScroll } from "@/utils";
+import { optimizedScroll } from '@/utils'
 
 export const useScrollIndicator = (pathname: string) => {
-  const isPost = pathname.includes("/posts/");
-  const [progressWidth, setProgressWidth] = useState<number>(0);
+  const isPost = pathname.includes('/posts/')
+  const [progressWidth, setProgressWidth] = useState<number>(0)
 
   const updateProgress = useCallback(() => {
-    const $html = document.documentElement;
-    const scrollHeight = $html.scrollHeight - $html.clientHeight;
-    const scrollPosition = window.scrollY;
-    const scrollProgress = (scrollPosition / scrollHeight) * 100;
-    setProgressWidth(scrollProgress);
-  }, []);
+    const { scrollY, innerHeight } = window
+    const { scrollHeight } = document.documentElement
+    const maxScroll = scrollHeight - innerHeight
+    const progress = maxScroll > 0 ? Math.min((scrollY / maxScroll) * 100, 100) : 100
+    setProgressWidth(progress)
+  }, [])
 
   useEffect(() => {
-    if (isPost) return;
+    if (!isPost) return
 
-    window.addEventListener("scroll", optimizedScroll(updateProgress));
-    return () =>
-      window.removeEventListener("scroll", optimizedScroll(updateProgress));
-  }, [isPost, updateProgress]);
+    const handleScroll = optimizedScroll(updateProgress)
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleScroll)
+    
+    updateProgress()
 
-  return { isPost, progressWidth };
-};
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+    }
+  }, [isPost, updateProgress])
+
+  return { isPost, progressWidth }
+}

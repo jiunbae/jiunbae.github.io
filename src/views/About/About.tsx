@@ -1,18 +1,25 @@
-import * as styles from "./About.module.scss";
-import { ProfileCard } from "@/components";
+import { ProfileCard, FloatingButton } from '@/components'
+
+import { EducationSection, ExperienceSection, ProjectsSection, AwardsSection, SkillsSection, PublicationSection } from './components'
+import * as styles from './About.module.scss'
 
 const AboutPage = () => {
   return (
     <main className={styles.page}>
-      <aside className={styles.aside}>
-        <ProfileCard />
-      </aside>
-      <h1 className={styles.heading}>About page</h1>
-      <p className={styles.paragraph}>About page</p>
+      <ProfileCard />
+      <div className={styles.content}>
+        <ExperienceSection />
+        <ProjectsSection />
+        <EducationSection />
+        <AwardsSection />
+        <PublicationSection />
+        <SkillsSection />
+      </div>
+      <FloatingButton />
     </main>
-  );
-};
+  )
+}
 
-export default AboutPage;
+export default AboutPage
 
-export const Head = () => <title>About</title>;
+export const Head = () => <title>About</title>

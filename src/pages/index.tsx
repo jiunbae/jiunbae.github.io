@@ -1,4 +1,4 @@
-import { graphql } from "gatsby";
+import { graphql } from 'gatsby'
 
 export const query = graphql`
   query Home {
@@ -37,7 +37,7 @@ export const query = graphql`
       publicURL
     }
   }
-`;
+`
 
-export { Head } from "../views/Home";
-export { default } from "../views/Home";
+export { Head } from '../views/Home'
+export { default } from '../views/Home'

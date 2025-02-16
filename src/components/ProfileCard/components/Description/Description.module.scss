@@ -1,8 +1,7 @@
 @use '@/styles/abstracts' as *;
 
 .description {
-  margin-top: 20px;
-  color: var(--gray-3);
+  color: var(--gray-2);
 
   @include typo-b3;
 }

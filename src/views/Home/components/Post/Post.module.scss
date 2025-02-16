@@ -123,6 +123,10 @@
         flex-shrink: 100000;
         order: -1;
 
+        @include tabletAndUp {
+          max-width: calc(100% - 190px);
+        }
+
         .itemTitle {
           margin-left: 4px;
           width: 80%;

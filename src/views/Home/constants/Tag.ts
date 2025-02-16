@@ -1,3 +1,3 @@
 export const TAGS = {
-  ALL: "All",
-} as const;
+  ALL: 'All'
+} as const

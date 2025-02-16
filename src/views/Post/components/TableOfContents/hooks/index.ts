@@ -1,1 +1,1 @@
-export * from "./useTocStyleObserver";
+export * from './useTocStyleObserver'

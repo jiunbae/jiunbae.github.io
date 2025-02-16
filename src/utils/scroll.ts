@@ -1,13 +1,15 @@
-export const optimizedScroll = (callback: () => void) => {
-  let tick = false;
+export const optimizedScroll = <T extends (...args: any[]) => void>(callback: T): T => {
+  let ticking = false
 
-  return () => {
-    if (tick) return;
+  const throttled = ((...args: Parameters<T>) => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        callback(...args)
+        ticking = false
+      })
+      ticking = true
+    }
+  }) as T
 
-    tick = true;
-    window.requestAnimationFrame(() => {
-      callback();
-      tick = false;
-    });
-  };
-};
+  return throttled
+}

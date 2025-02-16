@@ -1,23 +1,19 @@
-import Pen from "@/images/pen.svg";
+import TableOfContentsIcon from '@/images/icons/table-of-contents.svg'
 
-import { useTocStyleObserver } from "./hooks";
-import * as styles from "./TableOfContents.module.scss";
+import { useTocStyleObserver } from './hooks'
+import * as styles from './TableOfContents.module.scss'
 
 type TableOfContentsProps = {
   html: string;
 };
 
 export const TableOfContents = ({ html }: TableOfContentsProps) => {
-  const { ref } = useTocStyleObserver();
+  const { ref } = useTocStyleObserver()
 
   return (
     <div className={styles.wrapper}>
-      <Pen className={styles.pen} />
-      <div
-        ref={ref}
-        className={styles.tableOfContents}
-        dangerouslySetInnerHTML={{ __html: html }}
-      ></div>
+      <TableOfContentsIcon className={styles.TableOfContentsIcon} />
+      <div ref={ref} className={styles.tableOfContents} dangerouslySetInnerHTML={{ __html: html }}></div>
     </div>
-  );
-};
+  )
+}

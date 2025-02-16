@@ -1,4 +1,4 @@
-import { graphql } from "gatsby";
+import { graphql } from 'gatsby'
 
 export const query = graphql`
   query Post($id: String) {
@@ -19,7 +19,7 @@ export const query = graphql`
       tableOfContents
     }
   }
-`;
+`
 
-export { Head } from "../views/Post";
-export { default } from "../views/Post";
+export { Head } from '../views/Post'
+export { default } from '../views/Post'

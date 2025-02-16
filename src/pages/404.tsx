@@ -1,1 +1,1 @@
-export { default } from "../views/NotFound";
+export { default } from '../views/NotFound'

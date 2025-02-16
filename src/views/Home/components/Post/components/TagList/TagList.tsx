@@ -1,8 +1,8 @@
-import clsx from "clsx";
+import clsx from 'clsx'
 
-import { Tag } from "@/components";
+import { Tag } from '@/components'
 
-import * as styles from "./TagList.module.scss";
+import * as styles from './TagList.module.scss'
 
 type TagListProps = {
   tags: readonly string[];
@@ -11,8 +11,8 @@ type TagListProps = {
 
 export const TagList = ({ tags, className }: TagListProps) => (
   <ul className={clsx(styles.tagList, className)}>
-    {tags.map((tag) => (
+    {tags.map(tag => (
       <Tag key={tag} name={tag} />
     ))}
   </ul>
-);
+)

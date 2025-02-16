@@ -1,69 +1,39 @@
-import type { HeadProps, PageProps } from "gatsby";
+import type { HeadProps, PageProps } from 'gatsby'
+import { FloatingButton, Seo } from '@/components'
+import { getRefinedStringValue } from '@/utils'
 
-import { FloatingButton, Seo } from "@/components";
-import { getRefinedStringValue } from "@/utils";
-
-import { PostList, TagList } from "./components";
-import { usePostInfiniteScroll, useTag } from "./hooks";
-import * as styles from "./Home.module.scss";
+import { PostList, TagList } from './components'
+import { usePostInfiniteScroll, useTag } from './hooks'
+import * as styles from './Home.module.scss'
 
 interface LocationState {
   tag?: string;
 }
 
-type HomeProps = PageProps<Queries.HomeQuery> & {
-  location: {
-    state: LocationState;
-  };
-};
-
-const Home = ({ data, location }: HomeProps) => {
-  const { nodes: allPosts, totalCount, group } = data.allMarkdownRemark;
-  const { tags, selectedTag, clickTag } = useTag(
-    totalCount,
-    group,
-    location.state?.tag,
-  );
-  const { visiblePosts } = usePostInfiniteScroll(
-    allPosts,
-    selectedTag,
-    totalCount,
-  );
+const Home = ({ data, location }: PageProps<Queries.HomeQuery, object, LocationState>) => {
+  const { nodes: allPosts, totalCount, group } = data.allMarkdownRemark
+  const { tags, selectedTag, clickTag } = useTag(totalCount, group, location.state?.tag)
+  const { visiblePosts } = usePostInfiniteScroll(allPosts, selectedTag, totalCount)
 
   return (
     <main className={styles.main}>
       <section className={styles.wrapper}>
-        <TagList
-          tags={tags}
-          selectedTag={selectedTag}
-          clickTag={clickTag}
-          className={styles.tagList}
-        />
+        <TagList tags={tags} selectedTag={selectedTag} clickTag={clickTag} className={styles.tagList} />
         <PostList posts={visiblePosts} className={styles.postList} />
       </section>
       <FloatingButton />
     </main>
-  );
-};
+  )
+}
 
-export const Head = ({
-  location: { pathname },
-  data: { site, file },
-}: HeadProps<Queries.HomeQuery>) => {
+export const Head = ({ location: { pathname }, data: { site, file } }: HeadProps<Queries.HomeQuery>) => {
   const seo = {
     title: site?.siteMetadata.title,
     description: site?.siteMetadata.description,
-    heroImage: getRefinedStringValue(file?.publicURL),
-  };
+    heroImage: getRefinedStringValue(file?.publicURL)
+  }
 
-  return (
-    <Seo
-      title={seo.title}
-      description={seo.description}
-      heroImage={seo.heroImage}
-      pathname={pathname}
-    ></Seo>
-  );
-};
+  return <Seo title={seo.title} description={seo.description} heroImage={seo.heroImage} pathname={pathname}></Seo>
+}
 
-export default Home;
+export default Home

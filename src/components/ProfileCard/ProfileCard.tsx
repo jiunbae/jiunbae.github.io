@@ -1,14 +1,49 @@
-import { Description, Heading, IconList } from "./components";
-import * as styles from "./ProfileCard.module.scss";
+import { Description, Heading } from './components'
+import * as styles from './ProfileCard.module.scss'
+import { useStaticQuery, graphql } from 'gatsby'
+
+import { SocialIconList } from './components/SocialIconList/SocialIconList'
 
 export const ProfileCard = () => {
+  const { site: { siteMetadata : { name, social } } } = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          name {
+            kr
+            en
+          }
+          social {
+            email
+            facebook
+            linkedin
+            github
+            twitter
+            instagram
+          }
+        }
+      }
+    }
+  `)
+
   return (
     <div className={styles.card}>
-      <Heading text="Jiunbae" />
-      <Description />
-      <div className={styles.info}>
-        <IconList />
+      <div className={styles.mainContent}>
+        <img
+          className={styles.profileImage}
+          src="/profile.png"
+          alt="Profile"
+        />
+        <div className={styles.content}>
+          <Heading text={name.en} subText={name.kr} />
+          <div className={styles.info}>
+            <SocialIconList social={social} />
+          </div>
+        </div>
+      </div>
+      <div className={styles.description}>
+        <Description />
       </div>
     </div>
-  );
-};
+  )
+}

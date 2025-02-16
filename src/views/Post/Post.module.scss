@@ -7,17 +7,14 @@
   margin-top: 30px;
   padding: 0px 20px;
 
-  @include mobileAndUp {
-    padding: 0px 60px;
-  }
-
   @include tabletAndUp {
+    padding: 0px 60px;
   }
 
   .title {
     @include typo-d2;
 
-    color: var(--gray-5);
+    color: var(--gray-1);
     font-size: calc(30 / 16 * 1rem);
   }
 
@@ -58,7 +55,7 @@
       margin-top: 8px;
       max-width: 780px;
       min-width: 300px;
-      color: var(--gray-5);
+      color: var(--gray-1);
       word-break: break-all;
       font-size: calc(18 / 16 * 1rem);
       line-height: 1.5;
@@ -81,6 +78,11 @@
         display: block;
         margin: 0 auto;
         border-radius: 5px;
+      }
+
+      iframe {
+        width: 100%;
+        max-width: 560px;
       }
 
       blockquote {

@@ -1,57 +1,101 @@
-import clsx from "clsx";
-import { Link } from "gatsby";
-import { match } from "ts-pattern";
+import clsx from 'clsx'
+import { useState, useEffect, useRef } from 'react'
+import { Link, useStaticQuery, graphql } from 'gatsby'
 
-import { useTheme } from "@/contexts";
-import DarkMode from "@/images/darkmode.svg";
-import Rss from "@/images/rss.svg";
-import { reactCss } from "@/utils";
+import { useTheme } from '@/contexts'
+import ThemeIcon from '@/images/icons/theme.svg'
+import RSSIcon from '@/images/icons/rss.svg'
+import ProfileIcon from '@/images/icons/profile.svg'
+import { reactCss } from '@/utils'
 
-import * as styles from "./Header.module.scss";
-import { useScrollIndicator } from "./hooks";
+import * as styles from './Header.module.scss'
+import { useScrollIndicator } from './hooks'
 
-type HeaderProps = {
+interface HeaderProps {
   pathname: string;
 };
 
 export const Header = ({ pathname }: HeaderProps) => {
-  const { toggleDarkMode } = useTheme();
-  const { isPost, progressWidth } = useScrollIndicator(pathname);
+  const { site: { siteMetadata: { heading } } } = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          heading
+        }
+      }
+    }
+  `)
+
+  const [ isShrink, setIsShrink ] = useState(false)
+  const [ isHeaderVisible, setIsHeaderVisible ] = useState(true)
+  const { theme, toggleTheme } = useTheme()
+  const { isPost, progressWidth } = useScrollIndicator(pathname)
+  const headerRef = useRef<HTMLElement>(null)
+  
+  useEffect(() => {
+    if (!headerRef.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeaderVisible(entry.isIntersecting)
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(headerRef.current)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsShrink(window.scrollY > 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   return (
-    <header className={clsx(styles.header, styles.fixed)}>
-      <div className={styles.wrapper}>
-        <Link to="/" state={{ tag: undefined }} className={styles.headingLink}>
-          <h1 className={styles.headingWrapper}>
-            <span className={styles.heading}>Jiunbae's Blog</span>
-          </h1>
-        </Link>
-        <div className={styles.headerButtons}>
-          <Link to="/about/" className={styles.link}>
-            <button className={styles.iconButton} tabIndex={0}>
-              About
-            </button>
+    <>
+      <header ref={headerRef} className={clsx(styles.header, styles.fixed, { [styles.shrink]: isShrink })}>
+        <div className={styles.wrapper}>
+          <Link to="/" state={{ tag: undefined }} className={styles.headingLink}>
+            <h1 className={styles.headingWrapper}>
+              <span className={styles.heading}>{heading}</span>
+            </h1>
           </Link>
-          <a href="/rss.xml" rel="noopener noreferrer">
-            <Rss className={styles.icon} />
-          </a>
-          <button
-            className={styles.iconButton}
-            onClick={toggleDarkMode}
-            tabIndex={0}
-          >
-            <DarkMode className={styles.icon} />
-          </button>
+          <div className={styles.headerButtons}>
+            <a href="/about/" rel="noopener noreferrer">
+                <ProfileIcon className={styles.icon} />
+            </a>
+            <a href="/rss.xml" rel="noopener noreferrer">
+              <RSSIcon className={styles.icon} />
+            </a>
+            <button
+              className={styles.iconButton}
+              onClick={toggleTheme}
+              tabIndex={0}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              <ThemeIcon className={clsx(styles.icon, styles.iconFill)} />
+            </button>
+          </div>
         </div>
-      </div>
-      {match(isPost)
-        .with(true, () => (
+        {isPost && (
           <div
-            style={reactCss({ "--progress-width": `${progressWidth}%` })}
-            className={styles.progressBar}
+            style={reactCss({ '--progress-width': `${progressWidth}%` })}
+            className={clsx(styles.progressBar, {
+              [styles.fixedIndicator]: !isHeaderVisible
+            })}
           />
-        ))
-        .otherwise(() => null)}
-    </header>
-  );
-};
+        )}
+      </header>
+    </>
+  )
+}

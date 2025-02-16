@@ -3,10 +3,9 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-width: 260px;
   gap: 20px;
 
-  @include mobileAndUp {
+  @include tabletAndUp {
     flex-direction: row;
   }
 
@@ -14,7 +13,6 @@
     display: block;
     flex-shrink: 0;
     margin: 0;
-    margin-right: 10px;
     width: 100px;
     height: 100px;
 
@@ -36,19 +34,79 @@
 
 .card {
   min-width: 260px;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: .5rem;
 
-  @include desktopAndUp {
-    max-width: 260px;
+  @include tabletAndUp {
+    padding: 2rem;
   }
 
-  .info {
+  .mainContent {
     display: flex;
-    align-items: baseline;
-    gap: 5px;
-    margin-top: 25px;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
 
-    .profileImage img {
-      border-radius: 50%;
+    @include tabletAndUp {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .profileImage {
+      width: 110px;
+      height: 110px;
+      border-radius: 25%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      width: 100%;
+      
+      @include tabletAndUp {
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      
+      .info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.2rem;
+        width: 100%;
+
+        @include tabletAndUp {
+          justify-content: flex-start;
+        }
+
+        svg {
+          stroke: var(--icon-color);
+        }
+      }
+    }
+  }
+
+  .description {
+    line-height: 1.6;
+    margin-top: 0.5rem;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    
+    p {
+      text-align: center;
     }
   }
 }

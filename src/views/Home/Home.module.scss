@@ -29,7 +29,7 @@
   .wrapper {
     flex: 1;
 
-    @include mobileAndUp {
+    @include tabletAndUp {
       padding: 0px 40px;
     }
 

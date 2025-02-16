@@ -1,1 +1,1 @@
-export * from "./useScrollIndicator";
+export * from './useScrollIndicator'

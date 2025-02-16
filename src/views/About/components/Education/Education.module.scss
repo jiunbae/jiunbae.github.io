@@ -1,0 +1,113 @@
+@use '@/styles/abstracts' as *;
+
+.education[class] {
+  .school {
+    margin-bottom: .5rem;
+    padding: .25rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h3 {
+      display: block;
+
+      @include tabletAndUp {
+        display: flex;
+      }
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+      max-width: 450px;
+
+      a {
+        font-size: 1.3rem;
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover {
+          color: var(--primary-c1);
+        }
+      }
+
+    }
+    
+    .meta {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .location {
+        color: var(--gray-4);
+        font-size: 0.9rem;
+        font-weight: normal;
+
+        @include tabletAndUp {
+          display: inline;
+        }
+
+        &::before {
+          content: '';
+          padding: 0;
+          color: var(--gray-4);
+
+          @include tabletAndUp {   
+            content: '·';
+            padding: 0 .4rem;
+          }
+        }
+      }
+
+      .period {
+        color: var(--gray-4);
+        font-size: .9rem;
+        font-weight: normal;
+
+        @include tabletAndUp {
+          font-size: 1.1rem;
+        }
+      }
+    }
+
+    .degree {
+      font-size: 1rem;
+      margin: 0.5rem 0;
+      color: var(--gray-4);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+
+      strong {
+        color: var(--gray-5);
+      }
+
+      .advisor {
+        color: var(--gray-4);
+        font-size: 0.85rem;
+
+        a {
+          color: var(--primary-c1);
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+
+          &::before {
+            content: 'Prof. ';
+            color: var(--gray-4);
+          }
+        }
+      }
+
+      .status {
+        color: var(--gray-4);
+        font-size: 0.85rem;
+        font-style: italic;
+      }
+    }
+  }
+} 

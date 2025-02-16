@@ -1,0 +1,212 @@
+{
+    "education": {
+      "schools": [
+        {
+          "name": "Hanyang University",
+          "location": "Seoul, Korea",
+          "degree": "M.S. in Computer Science",
+          "period": "Mar. 2019 - Feb. 2021",
+          "url": "http://www.grad.hanyang.ac.kr/",
+          "advisor": {
+            "name": "Jongwoo Lim",
+            "url": "https://scholar.google.com/citations?user=5_uwsGAAAAAJ"
+          }
+        },
+        {
+          "name": "Hanyang University",
+          "location": "Seoul, Korea",
+          "degree": "B.S. in Computer Science",
+          "period": "Mar. 2015 - Feb. 2019",
+          "url": "https://www.hanyang.ac.kr/"
+        },
+        {
+          "name": "Yonsei University - Mirae Campus",
+          "location": "Wonju, Korea",
+          "degree": "B.S. in Computer Engineering",
+          "period": "Mar. 2014 - Aug. 2014",
+          "status": "Withdrawal",
+          "url": "https://www.yonsei.ac.kr/wj/"
+        }
+      ]
+    },
+    "experience": {
+      "jobs": [
+        {
+          "company": "Return Zero",
+          "companyUrl": "https://rtzr.ai",
+          "position": "Research Engineer",
+          "period": "Jul. 2024 - Present",
+          "description": [
+            "Pioneered research and development of SOTA ASR models by leveraging extensive user data. Designed and implemented a robust, scalable production pipeline."
+          ]
+        },
+        {
+          "company": "NCSOFT",
+          "companyUrl": "https://ncsoft.com/",
+          "team": "Graphics AI Lab.",
+          "teamUrl": "https://nc-moai.github.io",
+          "position": "Machine Learning Researcher",
+          "period": "Feb. 2021 - Jun. 2024",
+          "description": [
+            "Spearheaded the implementation of preprocessing and alignment pipelines for high-fidelity motion and facial capture data, significantly enhancing data quality.",
+            "Pioneered the development of a PyTorch-based framework for deep learning model training and experiment management, substantially boosting team productivity and streamlining research processes.",
+            "Led the research on a deep learning model for generating speech-based 3D facial animation, contributing to advancements in digital human technology."
+          ]
+        },
+        {
+          "company": "Naver",
+          "companyUrl": "https://navercorp.com/",
+          "team": "Clova",
+          "teamUrl": "https://clova.ai",
+          "position": "Machine Learning Engineer, Intern",
+          "period": "Jul. 2020 - Aug. 2020",
+          "description": [
+            "Contributed to the development of a sophisticated depth estimation network for 3D map reconstruction."
+          ]
+        },
+        {
+          "company": "Webtoon",
+          "companyUrl": "https://webtoonscorp.com",
+          "team": "Research",
+          "position": "Machine Learning Researcher, Intern",
+          "period": "Sep. 2018 - Feb. 2019",
+          "description": [
+            "Developed an advanced annotation tool for 2D bounding box support, integrating features such as live data model inference, dataset management with custom query types, and various tagging options.",
+            "Designed the Visual QA task for Workshop, developing a multi-modal network and dataset for its validation."
+          ]
+        },
+        {
+          "company": "SW Maestro",
+          "companyUrl": "https://swmaestro.org",
+          "team": "7th",
+          "period": "Jul. 2016 - Aug. 2018",
+          "description": [
+            "Garnered acclaim as a top team, showcased at the \"100+ Conference\" by the Ministry of Science and ICT, highlighting exceptional project development and execution."
+          ]
+        }
+      ]
+    },
+    "skills": {
+      "languages": ["Python", "C++","JavaScript", "Kotlin"],
+      "frameworks": ["PyTorch", "TensorFlow", "OpenCV", "NumPy", "FastAPI", "Spring", "React"],
+      "tools": ["Git", "Docker", "Linux"]
+    },
+    "projects": {
+      "projects": [
+        {
+          "title": "Text-to-Texture Project",
+          "url": "https://www.youtube.com/watch?v=6qGsSw7CffQ",
+          "organization": "NCSOFT",
+          "period": "Dec. 2023 - Jun. 2024",
+          "description": [
+            "Developed a scalable infrastructure, including model serving capabilities.",
+            "Spearheaded the development of a Proof-of-Concept (PoC) web application using React.js and three.js, along with a FastAPI server.",
+            "Conducted extensive research and experimentation on models for generating natural textures on 3D objects."
+          ]
+        },
+        {
+          "title": "Digital Human Project",
+          "url": "https://about.ncsoft.com/news/article/techstandard-3-230404",
+          "organization": "NCSOFT",
+          "period": "Feb. 2022 - Nov. 2023",
+          "description": [
+            "Led the development of a real-time and responsive facial expression generation model and system for digital humans.",
+            "Pioneered the generation of dynamic facial expressions and persona integration in conversational scenarios, enhancing digital human interactivity.",
+            "Orchestrated the creation of highly detailed facial animations, capturing nuanced expressions tailored to unique character traits.",
+            "Architected a high-performance API server, optimizing it for diverse inputs in facial animation generation, ensuring scalability and robustness."
+          ]
+        },
+        {
+          "title": "3D Facial Animation Generation Model Research",
+          "url": "https://www.youtube.com/watch?v=4mfESaPbLI4",
+          "organization": "NCSOFT",
+          "period": "Feb. 2021 - Jan. 2022",
+          "description": [
+            "Implemented advanced preprocessing and alignment pipelines for superior motion and facial capture data quality.",
+            "Devised and deployed a PyTorch-based framework for deep learning model training, elevating team productivity and streamlining research management.",
+            "Conducted innovative research on deep learning models for speech-driven 3D facial animation generation."
+          ]
+        },
+        {
+          "title": "Webtoon Annotation Tool",
+          "organization": "Naver Webtoon",
+          "period": "Sep. 2018 - Feb. 2019",
+          "description": [
+            "Engineered advanced annotation tools for efficient collection of domain-specific raw data.",
+            "Developed a sophisticated analysis tool for cross-validating annotations, enabling comprehensive tracking of productivity, task difficulty assessment, and model inference comparison."
+          ]
+        },
+        {
+          "title": "MariaDB Scalable Lock Manager",
+          "url": "https://github.com/jiunbae/ITE4065/wiki/Project4",
+          "organization": "ITE4065",
+          "period": "Dec. 2017",
+          "description": [
+            "Enhanced the InnoDB storage engine's performance by replacing a lock-free design and reusable object pool for the global lock mechanism in the transaction record manager."
+          ]
+        },
+        {
+          "title": "Memento: All Information About That Person",
+          "url": "https://www.slideshare.net/baejiun/memento-78483474",
+          "organization": "SW Maestro",
+          "period": "Apr. 2017 - Oct. 2017",
+          "description": [
+            "Created a robust, scalable crawling system to aggregate a wide array of articles and information.",
+            "Designed a sophisticated system for vector embedding and clustering, linking information to entities and events, while allowing for continuous vector expansion."
+          ]
+        },
+        {
+          "title": "DeepCheck: Deep Learning-Based Auto Face Recognition Attendance Check",
+          "url": "https://www.slideshare.net/baejiun/deep-check",
+          "organization": "SW Maestro",
+          "period": "Sep. 2016 - Dec. 2016",
+          "description": [
+            "Enhanced a face recognition model specifically for low-resolution, crowded environments.",
+            "Developed a cross-platform application and API server using React Native, enabling efficient, lightweight model inference."
+          ]
+        }
+      ]
+    },
+    "awards": {
+      "awards": [
+        {
+          "title": "Google Machine Learning Challenge Korea 5th place",
+          "year": "2017"
+        },
+        {
+          "title": "Top start-up certification SW Maestro 7th",
+          "year": "2017"
+        },
+        {
+          "title": "ACM-ICPC Asia Daejeon Regional Contest 16th place",
+          "year": "2016"
+        }
+      ]
+    },
+    "publications": {
+      "papers": [
+        {
+          "title": "Object detection in fisheye lens environment",
+          "authors": ["Jiun Bae", "Jongwoo Lim"],
+          "journal": "Image Processing and Image Understanding",
+          "volume": "32nd Workshop",
+          "year": 2020
+        },
+        {
+          "title": "Object counting using object detection and re-identification in video sequence",
+          "authors": ["Gitaek Kwon", "Jiun Bae", "Jongwoo Lim"],
+          "journal": "Image Processing and Image Understanding",
+          "volume": "32nd Workshop",
+          "year": 2020
+        },
+        {
+          "title": "Collaborative Training of Balanced Random Forests for Open Set Domain Adaptation",
+          "authors": ["Jongbin Ryu", "Jiun Bae", "Jongwoo Lim"],
+          "journal": "arXiv",
+          "volume": "abs/2002.03642",
+          "year": 2020,
+          "url": "https://arxiv.org/abs/2002.03642"
+        }
+      ]
+    }
+}

@@ -1,65 +1,70 @@
-import type { ReactNode } from "react";
-import { createContext, useCallback, useContext, useState } from "react";
+import type { ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
-import { isBrowser } from "@/utils";
-
-export enum Theme {
-  LIGHT = "light",
-  DARK = "dark",
-}
+export type Theme = 'light' | 'dark'
 
 type ThemeContextType = {
   theme: Theme;
-  toggleDarkMode: () => void;
+  toggleTheme: () => void;
 };
 
-const defaultThemeContextValue = {
-  theme: Theme.LIGHT,
-  toggleDarkMode: () => {},
-};
+const ThemeContext = createContext<ThemeContextType>({
+  theme: 'light',
+  toggleTheme: () => {}
+})
 
-const ThemeContext = createContext<ThemeContextType>(defaultThemeContextValue);
+const getSystemTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'light'
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
 
-const isDarkMode = (theme: Theme) => theme === Theme.DARK;
-
-const getInitialTheme = () => {
-  const localTheme = window.localStorage.getItem("theme") as Theme | null;
-  const prefersColorScheme = window.matchMedia("(prefers-color-scheme: dark)")
-    .matches
-    ? Theme.DARK
-    : Theme.LIGHT;
-  return localTheme || prefersColorScheme;
-};
-
-const setThemeAttribute = (theme: Theme) => {
-  if (!isBrowser) return;
-
-  document.documentElement.toggleAttribute("dark-mode", isDarkMode(theme));
-  localStorage.setItem("theme", theme);
-};
+const getInitialTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'light'
+  
+  const savedTheme = window.localStorage.getItem('theme') as Theme | null
+  if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
+    return savedTheme
+  }
+  
+  return getSystemTheme()
+}
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>(
-    isBrowser ? getInitialTheme() : Theme.LIGHT,
-  );
-  setThemeAttribute(theme);
+  const [theme, setTheme] = useState<Theme>(getInitialTheme)
 
-  const toggleDarkMode = useCallback(() => {
-    const newTheme = isDarkMode(theme) ? Theme.LIGHT : Theme.DARK;
-    setTheme(newTheme);
-  }, [theme]);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'dark' : 'light')
+      }
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  const toggleTheme = useCallback(() => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark')
+  }, [])
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleDarkMode }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
-  );
-};
+  )
+}
 
 export const useTheme = () => {
-  const value = useContext(ThemeContext);
-  if (value === undefined) {
-    throw new Error("useTheme must be used within a ThemeContextProvider");
+  const context = useContext(ThemeContext)
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider')
   }
-  return value;
-};
+  return context
+}

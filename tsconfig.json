@@ -12,10 +12,7 @@
 
     /* Language and Environment */
     "target": "esnext" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    "lib": [
-      "dom",
-      "esnext"
-    ] /* Specify a set of bundled library declaration files that describe the target runtime environment. */,
+    "lib": ["dom", "esnext"] /* Specify a set of bundled library declaration files that describe the target runtime environment. */,
     "jsx": "react-jsx" /* Specify what JSX code is generated. */,
     // "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
     // "emitDecoratorMetadata": true,                    /* Emit design-type metadata for decorated declarations in source files. */
@@ -37,7 +34,7 @@
       "@/styles": ["styles"],
       "@/utils": ["utils"],
       "@/contexts": ["contexts"],
-      "@/layouts": ["layouts"]
+      "@/layouts": ["layouts"],
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
@@ -113,7 +110,10 @@
     "./gatsby-node.ts",
     "./gatsby-config.ts",
     "./gatsby-browser.tsx",
-    "./scripts/issue-to-md.js",
-    "./plugins/**/*"
+    "./scripts/*.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "public",
   ]
 }

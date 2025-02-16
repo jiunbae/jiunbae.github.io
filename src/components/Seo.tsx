@@ -1,14 +1,16 @@
-import { graphql, useStaticQuery } from "gatsby";
-import { PropsWithChildren } from "react";
+import { graphql, useStaticQuery } from 'gatsby'
+import { PropsWithChildren } from 'react'
 
-type SeoProps = {
+import { useTheme } from '@/contexts'
+
+interface SeoProps {
   title?: string;
   description?: string;
   heroImage?: string;
   pathname: string;
 };
 
-type SeoQuery = {
+interface SeoQuery {
   file: {
     publicURL: string;
   };
@@ -21,13 +23,8 @@ type SeoQuery = {
   };
 };
 
-export const Seo = ({
-  title,
-  description,
-  heroImage,
-  pathname,
-  children,
-}: PropsWithChildren<SeoProps>) => {
+export const Seo = ({ title, description, heroImage, pathname, children }: PropsWithChildren<SeoProps>) => {
+  const { theme } = useTheme()
   const data = useStaticQuery<SeoQuery>(graphql`
     query SeoQuery {
       site {
@@ -41,21 +38,17 @@ export const Seo = ({
         publicURL
       }
     }
-  `);
+  `)
 
-  const {
-    title: defaultTitle,
-    description: defaultDescription,
-    siteUrl,
-  } = data.site.siteMetadata;
-  const { publicURL: defaultImage } = data.file;
+  const { title: defaultTitle, description: defaultDescription, siteUrl } = data.site.siteMetadata
+  const { publicURL: defaultImage } = data.file
 
   const seo = {
     title: title || defaultTitle,
     description: description || defaultDescription,
-    url: `${siteUrl}${pathname || ``}`,
-    image: `${siteUrl}${heroImage || defaultImage}`,
-  };
+    url: `${siteUrl}${pathname || ''}`,
+    image: `${siteUrl}${heroImage || defaultImage}`
+  }
 
   return (
     <>
@@ -63,6 +56,7 @@ export const Seo = ({
       <link rel="canonical" href={seo.url} />
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
+      <meta name="theme-color" content={theme == 'dark' ? '#242424fa' : '#f4f4f4fa'}/>
       {/* Open Graph / Facebook */}
       <meta property="og:title" content={seo.title} />
       <meta property="og:description" content={seo.description} />
@@ -76,5 +70,5 @@ export const Seo = ({
       <meta property="twitter:image" content={seo.image}></meta>
       {children}
     </>
-  );
-};
+  )
+}

@@ -3,5 +3,5 @@
 .description {
   @include multiEllipsis(2);
   word-wrap: break-word;
-  color: var(--gray-3);
+  color: var(--gray-2);
 }

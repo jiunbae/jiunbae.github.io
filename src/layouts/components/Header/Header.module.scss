@@ -2,15 +2,63 @@
 
 .header {
   min-width: 300px;
+  height: 64px;
+  
+  &.shrink {
+    height: 40px;
+    transition: height 0.3s;
+
+    .wrapper {
+      padding: 10px 20px;
+      transition: padding 0.3s;
+
+      @include tabletAndUp {
+        padding: 10px 30px;
+      }
+
+      .headingLink {
+        .headingWrapper {
+          .heading {
+            font-size: 1.25rem;
+            transition: font-size 0.3s;
+          }
+        }
+      }
+
+      .headerButtons {
+        .icon {
+          width: 20px;
+          height: 20px;
+          transition: width 0.3s, height 0.3s;
+
+          @include tabletAndUp {
+            width: 24px;
+            height: 24px;
+          }
+        }
+
+        .link {
+          font-size: 0.875rem;
+          transition: font-size 0.3s;
+        }
+      }
+    }
+  }
 
   &.fixed {
+    --header-shadow: 0 2px 4px #00000033;
+
     position: sticky;
     top: 0;
     z-index: 1;
     width: 100%;
-    background-color: rgba(225, 225, 225, 0.5);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+
+    background-color: var(--header-bg);
+    box-shadow: var(--header-shadow);
+
+    [data-theme='dark'] & {
+      --header-shadow: 0 2px 4px #00000066;
+    }
   }
 
   .wrapper {
@@ -18,7 +66,7 @@
     justify-content: space-between;
     padding: 20px;
 
-    @include mobileAndUp {
+    @include tabletAndUp {
       padding: 20px 60px;
     }
 
@@ -36,7 +84,7 @@
           font-size: 1.5rem;
           line-height: 1.125rem;
           margin-top: 2px;
-          color: var(--primary-c1);
+          color: var(--icon-color);
         }
       }
     }
@@ -44,15 +92,17 @@
     .headerButtons {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: .5rem;
 
-      @include mobileAndUp {
-        gap: 16px;
+      @include tabletAndUp {
+        gap: 1rem;
       }
 
-      .icon path {
-        fill: var(--icon-color);
+      .icon {
+        width: 26px;
+        height: 26px;
         stroke: var(--icon-color);
+        transition: width 0.3s, height 0.3s;
       }
 
       .link {
@@ -61,6 +111,7 @@
         font-weight: 600;
         font-size: 1rem;
         line-height: 1.5rem;
+        transition: width 0.3s, height 0.3s;
       }
 
       .iconButton {
@@ -76,6 +127,11 @@
             outline: none;
           }
         }
+
+        .icon path {
+          fill: var(--icon-color);
+          stroke: var(--icon-color);
+        }
       }
     }
   }
@@ -84,5 +140,13 @@
     width: var(--progress-width);
     height: 2px;
     background-color: var(--primary-c1);
+    transition: width 0.3s ease-out;
+
+    &.fixedIndicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
   }
 }

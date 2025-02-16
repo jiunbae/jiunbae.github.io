@@ -1,6 +1,6 @@
-import clsx from "clsx";
+import clsx from 'clsx'
 
-import * as styles from "./TagButtonWithCount.module.scss";
+import * as styles from './TagButtonWithCount.module.scss'
 
 type TagButtonWithCountProps = {
   name: string;
@@ -9,18 +9,10 @@ type TagButtonWithCountProps = {
   isSelected: boolean;
 };
 
-export const TagButtonWithCount = ({
-  name,
-  count,
-  isSelected,
-  onClick,
-}: TagButtonWithCountProps) => (
-  <button
-    onClick={onClick}
-    className={clsx(styles.tagButton, { [styles.active]: isSelected })}
-  >
+export const TagButtonWithCount = ({ name, count, isSelected, onClick }: TagButtonWithCountProps) => (
+  <button onClick={onClick} className={clsx(styles.tagButton, { [styles.active]: isSelected })}>
     <span>
       {name} ({count})
     </span>
   </button>
-);
+)

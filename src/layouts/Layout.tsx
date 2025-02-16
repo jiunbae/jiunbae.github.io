@@ -1,6 +1,6 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren } from 'react'
 
-import { Footer, Header } from "./components";
+import { Footer, Header } from './components'
 
 type LayoutProps = PropsWithChildren<{ pathname: string }>;
 
@@ -11,7 +11,7 @@ const Layout = ({ pathname, children }: LayoutProps) => {
       {children}
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

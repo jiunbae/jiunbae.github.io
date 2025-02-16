@@ -1,2 +1,2 @@
-export { default } from "./About";
-export { Head } from "./About";
+export { default } from './About'
+export { Head } from './About'
