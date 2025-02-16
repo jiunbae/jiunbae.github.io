@@ -1,7 +1,7 @@
 import type { HeadProps, PageProps } from 'gatsby'
 import { GatsbyImage, getSrc } from 'gatsby-plugin-image'
 
-import { FloatingButton, Seo } from '@/components'
+import { Comments, FloatingButton, Seo } from '@/components'
 import { getRefinedImage, getRefinedStringValue } from '@/utils'
 
 import { TableOfContents, TagList } from './components'
@@ -26,6 +26,7 @@ const Post = ({ data }: PageProps<Queries.PostQuery>) => {
         <section className={styles.content} dangerouslySetInnerHTML={{ __html: getRefinedStringValue(html) }} />
         <TableOfContents html={getRefinedStringValue(tableOfContents)} />
       </div>
+      <Comments />
       <FloatingButton />
     </main>
   )

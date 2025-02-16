@@ -2,15 +2,12 @@
 
 .header {
   min-width: 300px;
-  height: 64px;
   
   &.shrink {
-    height: 40px;
-    transition: height 0.3s;
-
     .wrapper {
+      height: 40px;
       padding: 10px 20px;
-      transition: padding 0.3s;
+      transition: height 0.3s;
 
       @include tabletAndUp {
         padding: 10px 30px;
@@ -140,7 +137,7 @@
     width: var(--progress-width);
     height: 2px;
     background-color: var(--primary-c1);
-    transition: width 0.3s ease-out;
+    transition: width 0.1s ease-out;
 
     &.fixedIndicator {
       position: fixed;

@@ -13,6 +13,7 @@ const config: GatsbyConfig = {
     siteUrl: 'https://blog.jiun.dev',
     keywords: ['jiunbae', 'blog', 'dev'],
     heroImage: path.resolve(__dirname, 'src/images/cover.png'),
+    repo: 'jiunbae/jiunbae.github.io',
     social: {
       email: 'mailto:jiunbae.623@gmail.com',
       facebook: 'https://www.facebook.com/MayTryArk',
