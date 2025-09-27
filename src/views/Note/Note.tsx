@@ -6,7 +6,7 @@ import { Seo } from '@/components'
 import { getRefinedStringValue } from '@/utils'
 
 import ShareIcon from '@/images/icons/share.svg'
-import { buildNoteOgImageUrl, buildNoteShareUrl, sanitizeNoteSlug } from '../Notes/utils'
+import { buildNoteShareUrl, sanitizeNoteSlug } from '../Notes/utils'
 import * as styles from './Note.module.scss'
 
 type LocationState = {
@@ -102,7 +102,8 @@ export const Head = ({ data, location }: HeadProps<Queries.NoteTemplateQuery>) =
 
   const { frontmatter, html, excerpt } = note
   const summary = getSummary(frontmatter.description, getRefinedStringValue(html ?? ''), 160) || excerpt || frontmatter.title
-  const heroImage = buildNoteOgImageUrl(frontmatter.title, summary)
+  const normalizedSlug = sanitizeNoteSlug(frontmatter.slug)
+  const heroImage = `/og/notes/${normalizedSlug}.png`
 
   return (
     <Seo

@@ -19,6 +19,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@fontsource/noto-sans-kr": "^5.1.0",
+    "@resvg/resvg-js": "^2.4.0",
     "axios": "^1.7.0",
     "clsx": "^2.0.0",
     "gatsby": "^5.14.1",

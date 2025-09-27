@@ -16,7 +16,6 @@ export const buildNoteShareUrl = (slug: string) => {
     return url.toString()
   }
 
-  // Fallback during SSR - return absolute path string only
   return getNotePagePath(slug)
 }
 
@@ -32,11 +31,4 @@ export const extractSlugFromLocation = (search: string, hash: string) => {
   }
 
   return null
-}
-
-export const buildNoteOgImageUrl = (title: string, summary: string) => {
-  const baseUrl = 'https://og-image.vercel.app/'
-  const encodedTitle = encodeURIComponent(title)
-  const encodedDescription = encodeURIComponent(summary)
-  return `${baseUrl}${encodedTitle}.png?theme=light&md=1&fontSize=75px&images=https%3A%2F%2Fraw.githubusercontent.com%2Fjiunbae%2Fjiunbae.github.io%2Fmain%2Fstatic%2Fprofile.png&description=${encodedDescription}`
 }
