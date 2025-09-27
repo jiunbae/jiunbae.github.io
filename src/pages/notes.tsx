@@ -1,28 +1,21 @@
 import { graphql } from 'gatsby'
 
 export const query = graphql`
-  query Home {
+  query Notes {
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
-      filter: { fields: { collection: { eq: "post" } } }
+      filter: { fields: { collection: { eq: "note" } } }
     ) {
       totalCount
       nodes {
+        id
+        html
         frontmatter {
+          title
+          date(formatString: "YY.MM.DD")
           tags
           slug
-          description
-          date(formatString: "YY.MM.DD")
-          title
-          heroImage {
-            childImageSharp {
-              gatsbyImageData(placeholder: BLURRED)
-            }
-          }
-          heroImageAlt
         }
-        excerpt(pruneLength: 160)
-        id
       }
       group(field: { frontmatter: { tags: SELECT } }) {
         fieldValue
@@ -43,5 +36,5 @@ export const query = graphql`
   }
 `
 
-export { Head } from '../views/Home'
-export { default } from '../views/Home'
+export { Head } from '../views/Notes'
+export { default } from '../views/Notes'

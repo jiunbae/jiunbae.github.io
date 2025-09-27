@@ -12,7 +12,7 @@ interface LocationState {
 
 const Home = ({ data, location }: PageProps<Queries.HomeQuery, object, LocationState>) => {
   const { nodes: allPosts, totalCount, group } = data.allMarkdownRemark
-  const { tags, selectedTag, clickTag } = useTag(totalCount, group, location.state?.tag)
+  const { tags, selectedTag, clickTag } = useTag(totalCount, group, location.state?.tag, { pathname: '/' })
   const { visiblePosts } = usePostInfiniteScroll(allPosts, selectedTag, totalCount)
 
   return (
@@ -26,14 +26,16 @@ const Home = ({ data, location }: PageProps<Queries.HomeQuery, object, LocationS
   )
 }
 
-export const Head = ({ location: { pathname }, data: { site, file } }: HeadProps<Queries.HomeQuery>) => {
+export const Head = ({ location, data: { site, file } }: HeadProps<Queries.HomeQuery>) => {
+  const { href } = location as typeof location & { href?: string }
+  const pageUrl = href ?? location.pathname
   const seo = {
     title: site?.siteMetadata.title,
     description: site?.siteMetadata.description,
     heroImage: getRefinedStringValue(file?.publicURL)
   }
 
-  return <Seo title={seo.title} description={seo.description} heroImage={seo.heroImage} pathname={pathname}></Seo>
+  return <Seo title={seo.title} description={seo.description} heroImage={seo.heroImage} pathname={pageUrl}></Seo>
 }
 
 export default Home

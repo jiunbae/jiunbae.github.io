@@ -32,16 +32,18 @@ const Post = ({ data }: PageProps<Queries.PostQuery>) => {
   )
 }
 
-export const Head = ({ data: { markdownRemark }, location: { pathname } }: HeadProps<Queries.PostQuery>) => {
+export const Head = ({ data: { markdownRemark }, location }: HeadProps<Queries.PostQuery>) => {
+  const { href } = location as typeof location & { href?: string }
+  const pageUrl = href ?? location.pathname
   const seo = {
     title: markdownRemark?.frontmatter.title,
-    description: markdownRemark?.frontmatter.description,
+    description: markdownRemark?.frontmatter.description ?? markdownRemark?.excerpt ?? undefined,
     heroImage: markdownRemark?.frontmatter.heroImage
   }
 
   const image = seo.heroImage && getSrc(getRefinedImage(seo.heroImage?.childImageSharp?.gatsbyImageData))
 
-  return <Seo title={seo.title} description={seo.description} heroImage={image || ''} pathname={pathname} />
+  return <Seo title={seo.title} description={seo.description} heroImage={image || ''} pathname={pageUrl} />
 }
 
 export default Post

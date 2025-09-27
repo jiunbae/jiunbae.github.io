@@ -11,19 +11,23 @@ type PostListProps = {
 export const PostList = ({ posts, className }: PostListProps) => {
   return (
     <ul className={clsx(styles.postList, className)}>
-      {posts.map(({ frontmatter: { title, description, date, tags, slug, heroImage, heroImageAlt }, id }) => (
+      {posts.map(({ frontmatter: { title, description, date, tags, slug, heroImage, heroImageAlt }, excerpt, id }) => {
+        const summary = description ?? excerpt ?? ''
+
+        return (
         <Post
           key={id}
           variants="item"
           title={title}
-          description={description}
+          description={summary}
           date={date}
           tags={tags}
           slug={slug}
           heroImage={heroImage?.childImageSharp?.gatsbyImageData}
           heroImageAlt={heroImageAlt}
         />
-      ))}
+        )
+      })}
     </ul>
   )
 }
