@@ -86,34 +86,48 @@
       }
     }
 
-    .headerButtons {
+      .headerButtons {
       display: flex;
       align-items: center;
-      gap: .5rem;
+      gap: .75rem;
 
       @include tabletAndUp {
-        gap: 1rem;
+        gap: 1.25rem;
       }
 
-      .icon {
-        width: 26px;
-        height: 26px;
-        stroke: var(--icon-color);
-        transition: width 0.3s, height 0.3s;
-      }
+        .navigation {
+          display: flex;
+          align-items: center;
+          gap: .75rem;
 
-      .link {
-        text-decoration: none;
-        color: var(--icon-color);
-        font-weight: 600;
-        font-size: 1rem;
-        line-height: 1.5rem;
-        transition: width 0.3s, height 0.3s;
-      }
+          @include tabletAndUp {
+            gap: 1rem;
+          }
+        }
 
-      .iconButton {
-        all: unset;
-        cursor: pointer;
+        .icon {
+          width: 26px;
+          height: 26px;
+          stroke: var(--icon-color);
+          transition: width 0.3s, height 0.3s;
+        }
+
+        .link {
+          text-decoration: none;
+          color: var(--icon-color);
+          font-weight: 600;
+          font-size: 1rem;
+          line-height: 1.5rem;
+          transition: width 0.3s, height 0.3s;
+        }
+
+        .activeLink {
+          color: var(--primary-c1);
+        }
+
+        .iconButton {
+          all: unset;
+          cursor: pointer;
 
         &:focus {
           outline: 2px solid -webkit-focus-ring-color;

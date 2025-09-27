@@ -32,6 +32,21 @@ export const Header = ({ pathname }: HeaderProps) => {
   const { isPost, progressWidth } = useScrollIndicator(pathname)
   const headerRef = useRef<HTMLElement>(null)
 
+  const navLinks = [
+    { to: '/', label: 'Posts', state: { tag: undefined } },
+    { to: '/notes/', label: 'Notes', state: { tag: undefined } }
+  ] as const
+
+  const normalizePathname = (path: string) => (path.endsWith('/') ? path : `${path}/`)
+  const activePathname = normalizePathname(pathname)
+  const isActivePath = (target: string) => {
+    if (target === '/') {
+      return pathname === '/' || pathname.startsWith('/posts/')
+    }
+
+    return activePathname === normalizePathname(target)
+  }
+
   useEffect(() => {
     if (!headerRef.current) return
 
@@ -71,6 +86,18 @@ export const Header = ({ pathname }: HeaderProps) => {
             </h1>
           </Link>
           <div className={styles.headerButtons}>
+            <nav className={styles.navigation}>
+              {navLinks.map(link => (
+                <Link
+                  key={link.label}
+                  to={link.to}
+                  state={link.state}
+                  className={clsx(styles.link, { [styles.activeLink]: isActivePath(link.to) })}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
             <Link to="/about/">
               <ProfileIcon className={styles.icon} />
             </Link>

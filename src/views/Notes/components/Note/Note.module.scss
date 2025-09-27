@@ -1,0 +1,150 @@
+@use '@/styles/abstracts' as *;
+
+.note {
+  background-color: var(--article-background);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+
+  @include tabletAndUp {
+    padding: 28px 32px;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    @include tabletAndUp {
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .title {
+      margin: 0;
+      color: var(--gray-1);
+      @include typo-h1;
+    }
+
+    .date {
+      color: var(--gray-6);
+      @include typo-b6;
+    }
+  }
+
+  .content {
+    margin-top: 18px;
+    line-height: 1.6;
+    color: var(--gray-3);
+    position: relative;
+    transition: max-height 0.2s ease;
+
+    &.collapsible {
+      overflow: hidden;
+    }
+
+    &.collapsed::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 48px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), var(--article-background));
+      pointer-events: none;
+    }
+
+    [data-theme='dark'] &.collapsed::after {
+      background: linear-gradient(to bottom, rgba(35, 35, 35, 0), var(--article-background));
+    }
+
+    p {
+      margin: 0 0 12px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    a {
+      color: var(--primary-c1);
+      text-decoration: underline;
+    }
+  }
+
+  .toggleButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--gray-4);
+    background: transparent;
+    color: var(--gray-3);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--gray-4);
+      color: var(--background);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-c1);
+      outline-offset: 2px;
+    }
+
+    [data-theme='dark'] & {
+      border-color: rgba(255, 255, 255, 0.28);
+      color: var(--gray-6);
+
+      &:hover,
+      &:focus-visible {
+        background-color: rgba(255, 255, 255, 0.16);
+        color: #ffffff;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      flex: 1 1 auto;
+
+      .tag {
+        border-radius: 999px;
+        background-color: var(--gray-4);
+        color: var(--background);
+        padding: 6px 12px;
+        @include typo-b7;
+      }
+
+      [data-theme='dark'] & {
+        .tag {
+          background-color: rgba(255, 255, 255, 0.16);
+          color: #ffffff;
+        }
+      }
+    }
+
+    .toggleButton {
+      margin-left: auto;
+      flex: 0 0 auto;
+    }
+  }
+}

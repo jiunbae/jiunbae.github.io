@@ -12,7 +12,7 @@ interface LocationState {
 
 const Home = ({ data, location }: PageProps<Queries.HomeQuery, object, LocationState>) => {
   const { nodes: allPosts, totalCount, group } = data.allMarkdownRemark
-  const { tags, selectedTag, clickTag } = useTag(totalCount, group, location.state?.tag)
+  const { tags, selectedTag, clickTag } = useTag(totalCount, group, location.state?.tag, { pathname: '/' })
   const { visiblePosts } = usePostInfiniteScroll(allPosts, selectedTag, totalCount)
 
   return (

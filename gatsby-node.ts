@@ -7,7 +7,10 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
 
   const result = await graphql<Queries.PagesQuery>(`
     query Pages {
-      allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+      allMarkdownRemark(
+        sort: { frontmatter: { date: DESC } }
+        filter: { fields: { collection: { eq: "post" } } }
+      ) {
         edges {
           node {
             frontmatter {
@@ -69,6 +72,34 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ act
   })
 }
 
+export const onCreateNode: GatsbyNode['onCreateNode'] = ({ node, actions, getNode }) => {
+  if (node.internal.type !== 'MarkdownRemark') return
+
+  if (!node.parent) return
+
+  const parent = getNode(node.parent)
+
+  if (!parent || parent.internal.type !== 'File') return
+
+  const { sourceInstanceName, relativePath } = parent as typeof parent & {
+    sourceInstanceName?: string | null;
+    relativePath?: string | null;
+  }
+
+  if (sourceInstanceName === 'contents' && relativePath?.startsWith('notes/')) {
+    actions.deleteNode(node)
+    return
+  }
+
+  const collection = sourceInstanceName === 'notes' ? 'note' : 'post'
+
+  actions.createNodeField({
+    node,
+    name: 'collection',
+    value: collection
+  })
+}
+
 export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
   actions
 }: CreateSchemaCustomizationArgs) => {
@@ -97,10 +128,15 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       heroImageAlt: String
     }
 
+    type MarkdownRemarkFields {
+      collection: String!
+    }
+
     type MarkdownRemark implements Node {
       frontmatter: Frontmatter!
       id: String!
       html: String!
+      fields: MarkdownRemarkFields!
     }
   `)
 }

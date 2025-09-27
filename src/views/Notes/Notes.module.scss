@@ -1,0 +1,25 @@
+@use '@/styles/abstracts' as *;
+
+.main {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+  max-width: 820px;
+
+  @include tabletAndUp {
+    padding: 0 40px 80px;
+  }
+
+  @include desktopAndUp {
+    max-width: 900px;
+  }
+
+  .tagList {
+    margin-top: 24px;
+  }
+
+  .noteList {
+    margin-top: 32px;
+  }
+}
