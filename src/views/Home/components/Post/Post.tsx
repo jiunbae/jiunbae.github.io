@@ -90,34 +90,35 @@ export const Post = ({ variants, title, description, date, tags, slug, heroImage
   const image = getRefinedImage(heroImage === undefined ? getImage(defaultImage.cover) : heroImage)
   const imageAlt = heroImageAlt ?? 'Cover Image'
 
-  return (
-    <Link to={`/posts${slug}`} className={styles.articleLink}>
-      {
-        variants === 'card' ? (
-          <CardPost
-            title={title}
-            description={description}
-            date={date}
-            tags={tags}
-            slug={slug}
-            heroImage={image}
-            heroImageAlt={imageAlt}
-            className={styles.articleLink}
-          />
-        ) : (
-        variants === 'item' ? (
-          <ItemPost
-            title={title}
-            description={description}
-            date={date}
-            tags={tags}
-            slug={slug}
-            heroImage={image}
-            heroImageAlt={imageAlt}
-            className={styles.articleLink}
-          />
-        ) : null)
-      }
-    </Link>
-  )
+  if (variants === 'card') {
+    return (
+      <CardPost
+        title={title}
+        description={description}
+        date={date}
+        tags={tags}
+        slug={slug}
+        heroImage={image}
+        heroImageAlt={imageAlt}
+        className={styles.articleLink}
+      />
+    )
+  }
+
+  if (variants === 'item') {
+    return (
+      <ItemPost
+        title={title}
+        description={description}
+        date={date}
+        tags={tags}
+        slug={slug}
+        heroImage={image}
+        heroImageAlt={imageAlt}
+        className={styles.articleLink}
+      />
+    )
+  }
+
+  return null
 }

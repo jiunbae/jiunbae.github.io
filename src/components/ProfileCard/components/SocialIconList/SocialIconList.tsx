@@ -1,18 +1,21 @@
-import type { ComponentType, SVGProps } from 'react'
+import type { ComponentType } from 'react'
 
-import MailIcon from '@/images/icons/mail.svg'
-import FacebookIcon from '@/images/icons/facebook.svg'
-import LinkedinIcon from '@/images/icons/linkedin.svg'
-import GithubIcon from '@/images/icons/github.svg'
-import TwitterIcon from '@/images/icons/twitter.svg'
-import InstagramIcon from '@/images/icons/instagram.svg'
+import {
+  MailIcon,
+  FacebookIcon,
+  LinkedinIcon,
+  GithubIcon,
+  TwitterIcon,
+  InstagramIcon
+} from '@/components/icons'
+import type { IconProps } from '@/components/icons'
 
 import { IconWrapper } from '../IconWrapper'
 
 export const SOCIAL_TYPES = ['email', 'facebook', 'linkedin', 'github', 'twitter', 'instagram'] as const
 export type SocialType = typeof SOCIAL_TYPES[number]
 
-type IconType = ComponentType<SVGProps<SVGSVGElement>>
+type IconType = ComponentType<IconProps>
 
 const SOCIAL_ICONS: Record<SocialType, IconType> = {
   email: MailIcon,
@@ -34,7 +37,7 @@ interface SocialIconListProps {
 
 const SocialIcon = ({ IconComponent, href }: SocialIconItem) => (
   <IconWrapper href={href}>
-    <IconComponent />
+    <IconComponent size={20} />
   </IconWrapper>
 )
 

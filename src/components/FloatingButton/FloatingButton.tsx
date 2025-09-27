@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-import ArrowUpIcon from '@/images/icons/arrow-up.svg'
+import { ArrowUpIcon } from '@/components/icons'
 
 import * as styles from './FloatingButton.module.scss'
 import { useFloatingButton } from './hooks'

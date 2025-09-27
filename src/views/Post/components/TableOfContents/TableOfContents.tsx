@@ -1,4 +1,4 @@
-import TableOfContentsIcon from '@/images/icons/table-of-contents.svg'
+import { TableOfContentsIcon } from '@/components/icons'
 
 import { useTocStyleObserver } from './hooks'
 import * as styles from './TableOfContents.module.scss'

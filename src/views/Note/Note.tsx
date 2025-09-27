@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react'
 import { Seo } from '@/components'
 import { getRefinedStringValue } from '@/utils'
 
-import ShareIcon from '@/images/icons/share.svg'
+import { ShareIcon } from '@/components/icons'
 import { buildNoteShareUrl, sanitizeNoteSlug } from '../Notes/utils'
 import * as styles from './Note.module.scss'
 

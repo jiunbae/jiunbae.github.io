@@ -30,11 +30,12 @@ const Notes = ({ data, location }: PageProps<Queries.NotesQuery, object, Locatio
     [allNotes, selectedTag]
   )
 
+  const slugFromState = location.state?.note ? sanitizeNoteSlug(location.state.note) : null
+  const slugFromLocation = extractSlugFromLocation(location.search, location.hash)
+
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const slugFromState = location.state?.note ? sanitizeNoteSlug(location.state.note) : null
-    const slugFromLocation = extractSlugFromLocation(location.search, location.hash)
     const targetSlug = slugFromState || slugFromLocation
 
     if (!targetSlug) return
@@ -58,7 +59,7 @@ const Notes = ({ data, location }: PageProps<Queries.NotesQuery, object, Locatio
     return () => {
       window.clearTimeout(timer)
     }
-  }, [location.search, location.hash, location.state, visibleNotes])
+  }, [slugFromState, slugFromLocation, visibleNotes])
 
   return (
     <main className={styles.main}>

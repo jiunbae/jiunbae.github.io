@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getRefinedStringValue } from '@/utils'
 
 import * as styles from './Note.module.scss'
-import ShareIcon from '@/images/icons/share.svg'
+import { ShareIcon } from '@/components/icons'
 import { buildNoteShareUrl, getNoteAnchorId, sanitizeNoteSlug } from '../../utils'
 
 type NoteNode = {

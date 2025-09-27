@@ -8,6 +8,16 @@
   height: 30px;
   border-radius: 30%;
   transition: 0.1s;
+  color: inherit;
+
+  &:visited {
+    color: inherit;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 
   &:hover {
     background-color: rgba(21, 175, 115, 0.1);

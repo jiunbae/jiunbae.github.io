@@ -275,15 +275,11 @@ export const onCreateNode: GatsbyNode['onCreateNode'] = ({ node, actions, getNod
 
   if (!parent || parent.internal.type !== 'File') return
 
-  const { sourceInstanceName, relativePath } = parent as typeof parent & {
+  const { sourceInstanceName } = parent as typeof parent & {
     sourceInstanceName?: string | null;
-    relativePath?: string | null;
   }
 
-  if (sourceInstanceName === 'contents' && relativePath?.startsWith('notes/')) {
-    actions.deleteNode(node)
-    return
-  }
+  if (sourceInstanceName !== 'notes' && sourceInstanceName !== 'posts') return
 
   const collection = sourceInstanceName === 'notes' ? 'note' : 'post'
 

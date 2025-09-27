@@ -3,9 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useStaticQuery, graphql } from 'gatsby'
 
 import { useTheme } from '@/contexts'
-import ThemeIcon from '@/images/icons/theme.svg'
-import RSSIcon from '@/images/icons/rss.svg'
-import ProfileIcon from '@/images/icons/profile.svg'
+import { ThemeIcon, RssIcon, ProfileIcon } from '@/components/icons'
 import { reactCss } from '@/utils'
 
 import * as styles from './Header.module.scss'
@@ -102,7 +100,7 @@ export const Header = ({ pathname }: HeaderProps) => {
               <ProfileIcon className={styles.icon} />
             </Link>
             <Link to="/rss.xml">
-              <RSSIcon className={styles.icon} />
+              <RssIcon className={styles.icon} />
             </Link>
             <button
               className={styles.iconButton}

@@ -15,17 +15,18 @@ export const PostList = ({ posts, className }: PostListProps) => {
         const summary = description ?? excerpt ?? ''
 
         return (
-        <Post
-          key={id}
-          variants="item"
-          title={title}
-          description={summary}
-          date={date}
-          tags={tags}
-          slug={slug}
-          heroImage={heroImage?.childImageSharp?.gatsbyImageData}
-          heroImageAlt={heroImageAlt}
-        />
+          <li key={id} className={styles.postItem}>
+            <Post
+              variants="item"
+              title={title}
+              description={summary}
+              date={date}
+              tags={tags}
+              slug={slug}
+              heroImage={heroImage?.childImageSharp?.gatsbyImageData}
+              heroImageAlt={heroImageAlt}
+            />
+          </li>
         )
       })}
     </ul>

@@ -96,9 +96,15 @@ const config: GatsbyConfig = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'contents',
-        path: path.resolve(__dirname, 'contents'),
-        ignore: ['**/notes/**']
+        name: 'posts',
+        path: path.resolve(__dirname, 'contents', 'posts')
+      }
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'data',
+        path: path.resolve(__dirname, 'contents', 'data')
       }
     },
     {

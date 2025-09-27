@@ -15,6 +15,11 @@
 
       .headingLink {
         .headingWrapper {
+          .logoIcon {
+            width: 24px;
+            height: 24px;
+            transition: width 0.3s, height 0.3s;
+          }
           .heading {
             font-size: 1.25rem;
             transition: font-size 0.3s;
@@ -75,6 +80,12 @@
         align-items: center;
         gap: 8px;
 
+        .logoIcon {
+          width: 28px;
+          height: 28px;
+          color: var(--icon-color);
+        }
+
         .heading {
           display: inline-block;
           font-weight: 800;
@@ -108,6 +119,7 @@
         .icon {
           width: 26px;
           height: 26px;
+          color: var(--icon-color);
           stroke: var(--icon-color);
           transition: width 0.3s, height 0.3s;
         }
@@ -119,6 +131,10 @@
           font-size: 1rem;
           line-height: 1.5rem;
           transition: width 0.3s, height 0.3s;
+
+          &:visited {
+            color: var(--icon-color);
+          }
         }
 
         .activeLink {
