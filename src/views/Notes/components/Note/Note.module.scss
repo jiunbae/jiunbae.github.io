@@ -5,9 +5,14 @@
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-
+  
   @include tabletAndUp {
     padding: 28px 32px;
+  }
+
+  &[data-highlighted='true'] {
+    box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.4), 0 6px 18px rgba(0, 0, 0, 0.16);
+    transition: box-shadow 0.2s ease;
   }
 
   .header {
@@ -142,9 +147,55 @@
       }
     }
 
-    .toggleButton {
-      margin-left: auto;
+    .actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       flex: 0 0 auto;
+      margin-left: auto;
     }
+  }
+
+  .shareButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--gray-4);
+    background: transparent;
+    color: var(--gray-3);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible,
+    &.copied {
+      background-color: var(--gray-4);
+      color: var(--background);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--primary-c1);
+      outline-offset: 2px;
+    }
+
+    [data-theme='dark'] & {
+      border-color: rgba(255, 255, 255, 0.28);
+      color: var(--gray-6);
+
+      &:hover,
+      &:focus-visible,
+      &.copied {
+        background-color: rgba(255, 255, 255, 0.16);
+        color: #ffffff;
+      }
+    }
+  }
+
+  .shareIcon {
+    width: 18px;
+    height: 18px;
   }
 }

@@ -134,8 +134,9 @@ const config: GatsbyConfig = {
           {
             serialize: ({ query: { site, allMarkdownRemark } }: any) => {
               return allMarkdownRemark.nodes.map((node: any) => {
+                const description = node.frontmatter.description ?? node.excerpt ?? ''
                 return Object.assign({}, node.frontmatter, {
-                  description: node.frontmatter.description,
+                  description,
                   date: new Date(node.frontmatter.date),
                   url: `${site.siteMetadata.siteUrl}/posts${node.frontmatter.slug}`,
                   guid: `${site.siteMetadata.siteUrl}/posts${node.frontmatter.slug}`,
@@ -153,6 +154,7 @@ const config: GatsbyConfig = {
                       slug
                       title
                     }
+                    excerpt(pruneLength: 200)
                     html
                   }
                 }

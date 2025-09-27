@@ -4,6 +4,7 @@ export const query = graphql`
   query Post($id: String) {
     markdownRemark(id: { eq: $id }) {
       html
+      excerpt(pruneLength: 200, truncate: true)
       frontmatter {
         date(formatString: "YY.MM.DD")
         description

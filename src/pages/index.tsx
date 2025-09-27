@@ -21,6 +21,7 @@ export const query = graphql`
           }
           heroImageAlt
         }
+        excerpt(pruneLength: 160)
         id
       }
       group(field: { frontmatter: { tags: SELECT } }) {

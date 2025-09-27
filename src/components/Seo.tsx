@@ -43,11 +43,20 @@ export const Seo = ({ title, description, heroImage, pathname, children }: Props
   const { title: defaultTitle, description: defaultDescription, siteUrl } = data.site.siteMetadata
   const { publicURL: defaultImage } = data.file
 
+  const resolvedTitle = title || defaultTitle
+  const resolvedDescription = description || defaultDescription
+  const isAbsolutePath = /^https?:\/\//i.test(pathname)
+  const url = isAbsolutePath ? pathname : `${siteUrl}${pathname || ''}`
+  const isHeroAbsolute = heroImage ? /^https?:\/\//i.test(heroImage) : false
+  const image = heroImage
+    ? (isHeroAbsolute ? heroImage : `${siteUrl}${heroImage}`)
+    : `${siteUrl}${defaultImage}`
+
   const seo = {
-    title: title || defaultTitle,
-    description: description || defaultDescription,
-    url: `${siteUrl}${pathname || ''}`,
-    image: `${siteUrl}${heroImage || defaultImage}`
+    title: resolvedTitle,
+    description: resolvedDescription,
+    url,
+    image
   }
 
   return (
@@ -60,7 +69,7 @@ export const Seo = ({ title, description, heroImage, pathname, children }: Props
       {/* Open Graph / Facebook */}
       <meta property="og:title" content={seo.title} />
       <meta property="og:description" content={seo.description} />
-      <meta property="og:type" content="blog" />
+      <meta property="og:type" content="article" />
       <meta property="og:url" content={seo.url}></meta>
       <meta property="og:image" content={seo.image}></meta>
       {/* Twitter */}

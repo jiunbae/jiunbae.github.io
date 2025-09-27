@@ -14,6 +14,7 @@ export const query = graphql`
           title
           date(formatString: "YY.MM.DD")
           tags
+          slug
         }
       }
       group(field: { frontmatter: { tags: SELECT } }) {

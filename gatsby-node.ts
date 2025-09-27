@@ -1,9 +1,15 @@
 import type { CreateSchemaCustomizationArgs, CreateWebpackConfigArgs, GatsbyNode } from 'gatsby'
 import path from 'path'
 
+const sanitizeNoteSlug = (slug: string) => {
+  const trimmed = slug.replace(/^\/+/, '').replace(/\/+$/, '')
+  return trimmed.replace(/[^a-zA-Z0-9-_]/g, '-').replace(/-+/g, '-').toLowerCase() || 'note'
+}
+
 export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions }) => {
   const { createPage } = actions
   const blogPostTemplate = path.resolve('src/templates/Post.tsx')
+  const noteTemplate = path.resolve('src/templates/Note.tsx')
 
   const result = await graphql<Queries.PagesQuery>(`
     query Pages {
@@ -32,6 +38,18 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
           }
         }
       }
+      notes: allMarkdownRemark(
+        sort: { frontmatter: { date: DESC } }
+        filter: { fields: { collection: { eq: "note" } } }
+      ) {
+        nodes {
+          id
+          frontmatter {
+            slug
+            title
+          }
+        }
+      }
     }
   `)
 
@@ -40,6 +58,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
   }
 
   const posts = result.data?.allMarkdownRemark.edges
+  const notes = result.data?.notes?.nodes ?? []
 
   posts?.forEach(({ node, previous, next }) => {
     createPage({
@@ -52,6 +71,25 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
         previousTitle: previous === null ? null : previous.frontmatter.title,
         next: next === null ? null : next.frontmatter.slug,
         nextTitle: next === null ? null : next.frontmatter.title
+      }
+    })
+  })
+
+  notes.forEach(note => {
+    const slug = note.frontmatter.slug
+
+    if (!slug) {
+      throw new Error(`노트 슬러그가 존재하지 않습니다. (id: ${note.id})`)
+    }
+
+    const sanitizedSlug = sanitizeNoteSlug(slug)
+    const notePath = `/notes/${sanitizedSlug}/`
+
+    createPage({
+      path: notePath,
+      component: noteTemplate,
+      context: {
+        id: note.id
       }
     })
   })
@@ -120,7 +158,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
 
     type Frontmatter {
       title: String!
-      description: String!
+      description: String
       slug: String!
       date: Date! @dateformat
       tags: [String!]!
