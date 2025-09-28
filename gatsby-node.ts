@@ -26,11 +26,11 @@ const loadOgFonts = (() => {
     if (cache) return cache
 
     const [bold, regular] = await Promise.all([
-      fsPromises.readFile(requireFromNode.resolve('@fontsource/noto-sans-kr/files/noto-sans-kr-korean-600-normal.woff2')),
-      fsPromises.readFile(requireFromNode.resolve('@fontsource/noto-sans-kr/files/noto-sans-kr-korean-400-normal.woff2'))
+      fsPromises.readFile(requireFromNode.resolve('@fontsource/noto-sans-kr/files/noto-sans-kr-korean-600-normal.woff')),
+      fsPromises.readFile(requireFromNode.resolve('@fontsource/noto-sans-kr/files/noto-sans-kr-korean-400-normal.woff'))
     ])
 
-    const toDataUrl = (buffer: Buffer) => `data:font/woff2;base64,${buffer.toString('base64')}`
+    const toDataUrl = (buffer: Buffer) => `data:font/woff;base64,${buffer.toString('base64')}`
 
     cache = {
       bold: toDataUrl(bold),
@@ -109,13 +109,13 @@ const createNoteOgSvg = async (title: string, summary: string, date: string) => 
         font-family: 'NotesOG';
         font-style: normal;
         font-weight: 600;
-        src: url(${fonts.bold}) format('woff2');
+        src: url(${fonts.bold}) format('woff');
       }
       @font-face {
         font-family: 'NotesOG';
         font-style: normal;
         font-weight: 400;
-        src: url(${fonts.regular}) format('woff2');
+        src: url(${fonts.regular}) format('woff');
       }
     </style>
   </defs>

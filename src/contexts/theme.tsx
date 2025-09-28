@@ -20,12 +20,21 @@ const getSystemTheme = (): Theme => {
 
 const getInitialTheme = (): Theme => {
   if (typeof window === 'undefined') return 'light'
-  
-  const savedTheme = window.localStorage.getItem('theme') as Theme | null
-  if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
-    return savedTheme
+
+  const rootTheme = document.documentElement.getAttribute('data-theme') as Theme | null
+  if (rootTheme === 'dark' || rootTheme === 'light') {
+    return rootTheme
   }
-  
+
+  try {
+    const savedTheme = window.localStorage.getItem('theme') as Theme | null
+    if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
+      return savedTheme
+    }
+  } catch {
+    // ignore read errors and fall back to system preference
+  }
+
   return getSystemTheme()
 }
 
@@ -46,8 +55,15 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
+    const root = document.documentElement
+    root.setAttribute('data-theme', theme)
+    root.style.setProperty('color-scheme', theme)
+
+    try {
+      window.localStorage.setItem('theme', theme)
+    } catch {
+      // localStorage might be unavailable (e.g., in private mode)
+    }
   }, [theme])
 
   const toggleTheme = useCallback(() => {
