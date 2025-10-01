@@ -14,27 +14,26 @@ const sanitizeNoteSlug = (slug: string) => {
 const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
 
-type OgFonts = {
-  bold: string;
-  regular: string;
+type OgFontConfig = {
+  family: string;
+  files: string[];
 };
 
 const loadOgFonts = (() => {
-  let cache: OgFonts | null = null
+  let cache: OgFontConfig | null = null
 
   return async () => {
     if (cache) return cache
 
-    const [bold, regular] = await Promise.all([
-      fsPromises.readFile(requireFromNode.resolve('@fontsource/noto-sans-kr/files/noto-sans-kr-korean-600-normal.woff')),
-      fsPromises.readFile(requireFromNode.resolve('@fontsource/noto-sans-kr/files/noto-sans-kr-korean-400-normal.woff'))
-    ])
-
-    const toDataUrl = (buffer: Buffer) => `data:font/woff;base64,${buffer.toString('base64')}`
+    const resolveFont = (filename: string) =>
+      requireFromNode.resolve(`@fontsource/noto-sans-kr/files/${filename}`)
 
     cache = {
-      bold: toDataUrl(bold),
-      regular: toDataUrl(regular)
+      family: 'Noto Sans KR',
+      files: [
+        resolveFont('noto-sans-kr-korean-600-normal.woff'),
+        resolveFont('noto-sans-kr-korean-400-normal.woff')
+      ]
     }
 
     return cache
@@ -84,10 +83,12 @@ const escapeXml = (value: string) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;')
 
-const createNoteOgSvg = async (title: string, summary: string, date: string) => {
-  const fonts = await loadOgFonts()
+const createNoteOgSvg = (title: string, summary: string, date: string, fontFamily: string) => {
   const titleLines = wrapText(title, 16, 2)
   const summaryLines = truncateSummary(summary)
+
+  const sanitizedFontFamily = fontFamily.replace(/"/g, '\\"').replace(/'/g, "\\'")
+  const fontStack = `'${sanitizedFontFamily}', sans-serif`
 
   const titleSpans = titleLines
     .map((line, index) => `<tspan x="96" dy="${index === 0 ? 0 : 68}">${escapeXml(line)}</tspan>`)
@@ -104,29 +105,15 @@ const createNoteOgSvg = async (title: string, summary: string, date: string) => 
       <stop offset="0%" stop-color="#0f172a" />
       <stop offset="100%" stop-color="#1e293b" />
     </linearGradient>
-    <style>
-      @font-face {
-        font-family: 'NotesOG';
-        font-style: normal;
-        font-weight: 600;
-        src: url(${fonts.bold}) format('woff');
-      }
-      @font-face {
-        font-family: 'NotesOG';
-        font-style: normal;
-        font-weight: 400;
-        src: url(${fonts.regular}) format('woff');
-      }
-    </style>
   </defs>
   <rect fill="url(#og-bg)" width="${OG_IMAGE_WIDTH}" height="${OG_IMAGE_HEIGHT}" rx="32" />
-  <text x="96" y="168" fill="#f8fafc" font-family="NotesOG, 'Noto Sans KR', sans-serif" font-size="58" font-weight="600">
+  <text x="96" y="168" fill="#f8fafc" font-family="${fontStack}" font-size="58" font-weight="600">
     ${titleSpans}
   </text>
-  <text x="96" y="328" fill="rgba(248, 250, 252, 0.9)" font-family="NotesOG, 'Noto Sans KR', sans-serif" font-size="30" font-weight="400">
+  <text x="96" y="328" fill="rgba(248, 250, 252, 0.9)" font-family="${fontStack}" font-size="30" font-weight="400">
     ${summarySpans}
   </text>
-  <g font-family="NotesOG, 'Noto Sans KR', sans-serif" font-size="26" fill="rgba(248, 250, 252, 0.68)">
+  <g font-family="${fontStack}" font-size="26" fill="rgba(248, 250, 252, 0.68)">
     <text x="96" y="536">notes.jiun.dev</text>
     <text x="${OG_IMAGE_WIDTH - 96}" y="536" text-anchor="end">${escapeXml(date)}</text>
   </g>
@@ -152,9 +139,17 @@ const generateNoteOgImage = async ({
 
   const summaryText = description?.trim() || excerpt?.trim() || '짧은 생각을 기록하는 Notes'
 
-  const svg = await createNoteOgSvg(title, summaryText, date)
+  const fonts = await loadOgFonts()
+  const svg = createNoteOgSvg(title, summaryText, date, fonts.family)
   const resvg = new Resvg(svg, {
-    fitTo: { mode: 'width', value: OG_IMAGE_WIDTH }
+    fitTo: { mode: 'width', value: OG_IMAGE_WIDTH },
+    font: {
+      loadSystemFonts: false,
+      fontFiles: fonts.files,
+      defaultFontFamily: fonts.family,
+      sansSerifFamily: fonts.family
+    },
+    languages: ['en', 'ko']
   })
 
   const pngData = resvg.render().asPng()
