@@ -1,7 +1,8 @@
 import type { CreateSchemaCustomizationArgs, CreateWebpackConfigArgs, GatsbyNode } from 'gatsby'
 import path from 'path'
-import { promises as fsPromises } from 'fs'
-import { Resvg } from '@resvg/resvg-js'
+import { promises as fsPromises, Dirent } from 'fs'
+import { Resvg, type ResvgRenderOptions } from '@resvg/resvg-js'
+import { decompress } from 'wawoff2'
 import { createRequire } from 'module'
 
 const requireFromNode = createRequire(__filename)
@@ -16,27 +17,207 @@ const OG_IMAGE_HEIGHT = 630
 
 type OgFontConfig = {
   family: string;
-  files: string[];
+  stack: string[];
+  titleWeight: number;
+  bodyWeight: number;
+  fontFiles: string[];
+  fontBuffers: Buffer[];
 };
 
 const loadOgFonts = (() => {
   let cache: OgFontConfig | null = null
-
   return async () => {
     if (cache) return cache
 
-    const resolveFont = (filename: string) =>
-      requireFromNode.resolve(`@fontsource/noto-sans-kr/files/${filename}`)
+    const searchDirs = [
+      '/usr/share/fonts/opentype',
+      '/usr/share/fonts/truetype',
+      '/usr/share/fonts',
+      '/System/Library/Fonts',
+      '/Library/Fonts',
+      path.join(process.env.HOME ?? '', 'Library/Fonts')
+    ]
 
-    cache = {
-      family: 'Noto Sans KR',
-      files: [
-        resolveFont('noto-sans-kr-korean-600-normal.woff'),
-        resolveFont('noto-sans-kr-korean-400-normal.woff')
-      ]
+    const findFontFile = async (patterns: RegExp[], directories: string[], depth = 3): Promise<string | null> => {
+      for (const directory of directories) {
+        let entries: Dirent[]
+
+        try {
+          entries = await fsPromises.readdir(directory, { withFileTypes: true })
+        } catch (error) {
+          const err = error as NodeJS.ErrnoException
+          if (err.code && err.code !== 'ENOENT' && err.code !== 'ENOTDIR') throw err
+          continue
+        }
+
+        for (const entry of entries) {
+          const entryPath = path.join(directory, entry.name)
+
+          if (entry.isDirectory()) {
+            if (depth > 0) {
+              const nested = await findFontFile(patterns, [entryPath], depth - 1)
+              if (nested) return nested
+            }
+            continue
+          }
+
+          if (patterns.some(pattern => pattern.test(entry.name))) {
+            return entryPath
+          }
+        }
+      }
+
+      return null
     }
 
-    return cache
+    const systemRegularPath = await findFontFile([
+      /NotoSansCJK.*Regular\.(ttc|otf|ttf)$/i,
+      /NotoSansKR-?Regular\.(ttc|otf|ttf)$/i,
+      /AppleSDGothicNeo-Regular\.(ttc|otf|ttf)$/i,
+      /MalgunGothic\.ttf$/i
+    ], searchDirs)
+
+    const systemBoldPath = await findFontFile([
+      /NotoSansCJK.*Bold\.(ttc|otf|ttf)$/i,
+      /NotoSansKR-?Bold\.(ttc|otf|ttf)$/i,
+      /AppleSDGothicNeo-Bold\.(ttc|otf|ttf)$/i,
+      /MalgunGothicBold\.ttf$/i
+    ], searchDirs)
+
+    if (systemRegularPath || systemBoldPath) {
+      const uniquePaths = Array.from(
+        new Set([systemRegularPath, systemBoldPath].filter((value): value is string => Boolean(value)))
+      )
+      console.info(`[notes][og] system font 사용: ${uniquePaths.join(', ')}`)
+      cache = {
+        family: 'Noto Sans CJK KR',
+        stack: ['Noto Sans CJK KR', 'Noto Sans CJK KR Regular', 'Noto Sans KR', 'Apple SD Gothic Neo', 'sans-serif'],
+        titleWeight: systemBoldPath ? 700 : 500,
+        bodyWeight: 400,
+        fontFiles: uniquePaths,
+        fontBuffers: []
+      }
+
+      return cache
+    }
+
+    const bundledFontSources = [
+      {
+        weight: 700,
+        path: path.join(process.cwd(), 'static', 'fonts', 'noto-sans-kr-korean-700-normal.ttf')
+      },
+      {
+        weight: 400,
+        path: path.join(process.cwd(), 'static', 'fonts', 'noto-sans-kr-korean-400-normal.ttf')
+      }
+    ]
+
+    const bundledFiles: string[] = []
+    let bundledHasBold = false
+    let bundledHasRegular = false
+
+    for (const source of bundledFontSources) {
+      try {
+        await fsPromises.access(source.path)
+        bundledFiles.push(source.path)
+        if (source.weight >= 600) {
+          bundledHasBold = true
+        } else {
+          bundledHasRegular = true
+        }
+        console.info(`[notes][og] bundled font 사용 (weight: ${source.weight}) ${source.path}`)
+      } catch (error) {
+        const err = error as NodeJS.ErrnoException
+        if (err.code !== 'ENOENT') {
+          const reason = err.message ?? String(err)
+          console.warn(`[notes][og] bundled 폰트 접근 실패 (${source.path})\n${reason}`)
+        }
+      }
+    }
+
+    if (bundledFiles.length > 0) {
+      cache = {
+        family: 'Noto Sans KR',
+        stack: ['Noto Sans KR', 'sans-serif'],
+        titleWeight: bundledHasBold ? 700 : 500,
+        bodyWeight: bundledHasRegular ? 400 : 500,
+        fontFiles: bundledFiles,
+        fontBuffers: []
+      }
+
+      return cache
+    }
+
+    const fallbackFontSources = [
+      {
+        weight: 700,
+        modulePath: '@fontsource/noto-sans-kr/files/noto-sans-kr-korean-700-normal.woff2',
+        fallback: '@fontsource/noto-sans-kr/files/noto-sans-kr-korean-700-normal.woff'
+      },
+      {
+        weight: 400,
+        modulePath: '@fontsource/noto-sans-kr/files/noto-sans-kr-korean-400-normal.woff2',
+        fallback: '@fontsource/noto-sans-kr/files/noto-sans-kr-korean-400-normal.woff'
+      }
+    ]
+
+    const buffers: Buffer[] = []
+    let hasBold = false
+    let hasRegular = false
+
+    for (const source of fallbackFontSources) {
+      const resolved = (() => {
+        try {
+          return requireFromNode.resolve(source.modulePath)
+        } catch (error) {
+          try {
+            return requireFromNode.resolve(source.fallback)
+          } catch (fallbackError) {
+            return null
+          }
+        }
+      })()
+
+      if (!resolved) {
+        console.warn(`[notes][og] @fontsource Noto Sans KR 폰트 모듈을 찾지 못했습니다: ${source.modulePath}`)
+        continue
+      }
+
+      if (!resolved.endsWith('.woff2')) {
+        console.warn(`[notes][og] @fontsource Noto Sans KR woff2 자산이 필요합니다. 사용 가능한 파일: ${resolved}`)
+        continue
+      }
+
+      try {
+        const fontData = await fsPromises.readFile(resolved)
+        const decompressed = await decompress(fontData)
+        buffers.push(Buffer.from(decompressed))
+        if (source.weight >= 600) {
+          hasBold = true
+        } else {
+          hasRegular = true
+        }
+        console.info(`[notes][og] @fontsource Noto Sans KR 폴백 사용 (weight: ${source.weight})`)
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : String(error)
+        console.warn(`[notes][og] @fontsource Noto Sans KR woff2 디코딩 실패 (${resolved})\n${reason}`)
+      }
+    }
+
+    if (buffers.length > 0) {
+      cache = {
+        family: 'Noto Sans KR',
+        stack: ['Noto Sans KR', 'Pretendard', 'sans-serif'],
+        titleWeight: hasBold ? 600 : 500,
+        bodyWeight: hasRegular ? 400 : 500,
+        fontFiles: [],
+        fontBuffers: buffers
+      }
+
+      return cache
+    }
+
+    throw new Error('[notes][og] 사용할 한글 글꼴을 찾지 못했습니다. 시스템 글꼴 또는 @fontsource woff2 자산을 확인하세요.')
   }
 })()
 
@@ -83,12 +264,23 @@ const escapeXml = (value: string) =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;')
 
-const createNoteOgSvg = (title: string, summary: string, date: string, fontFamily: string) => {
+const escapeFontFamilyName = (family: string) =>
+  family.replace(/\\/g, '\\\\').replace(/'/g, "\\'")
+
+const formatFontStack = (families: string[]) =>
+  families
+    .map(family => {
+      if (family === 'sans-serif' || family === 'serif' || family === 'monospace') return family
+      const escaped = escapeFontFamilyName(family)
+      return /[\s,]/.test(escaped) ? `'${escaped}'` : escaped
+    })
+    .join(', ')
+
+const createNoteOgSvg = (title: string, summary: string, date: string, fonts: OgFontConfig) => {
   const titleLines = wrapText(title, 16, 2)
   const summaryLines = truncateSummary(summary)
 
-  const sanitizedFontFamily = fontFamily.replace(/"/g, '\\"').replace(/'/g, "\\'")
-  const fontStack = `'${sanitizedFontFamily}', sans-serif`
+  const fontStack = formatFontStack(fonts.stack)
 
   const titleSpans = titleLines
     .map((line, index) => `<tspan x="96" dy="${index === 0 ? 0 : 68}">${escapeXml(line)}</tspan>`)
@@ -107,13 +299,13 @@ const createNoteOgSvg = (title: string, summary: string, date: string, fontFamil
     </linearGradient>
   </defs>
   <rect fill="url(#og-bg)" width="${OG_IMAGE_WIDTH}" height="${OG_IMAGE_HEIGHT}" rx="32" />
-  <text x="96" y="168" fill="#f8fafc" font-family="${fontStack}" font-size="58" font-weight="600">
+  <text x="96" y="168" fill="#f8fafc" font-family="${fontStack}" font-size="58" font-weight="${fonts.titleWeight}">
     ${titleSpans}
   </text>
-  <text x="96" y="328" fill="rgba(248, 250, 252, 0.9)" font-family="${fontStack}" font-size="30" font-weight="400">
+  <text x="96" y="328" fill="rgba(248, 250, 252, 0.9)" font-family="${fontStack}" font-size="30" font-weight="${fonts.bodyWeight}">
     ${summarySpans}
   </text>
-  <g font-family="${fontStack}" font-size="26" fill="rgba(248, 250, 252, 0.68)">
+  <g font-family="${fontStack}" font-size="26" font-weight="${fonts.bodyWeight}" fill="rgba(248, 250, 252, 0.68)">
     <text x="96" y="536">notes.jiun.dev</text>
     <text x="${OG_IMAGE_WIDTH - 96}" y="536" text-anchor="end">${escapeXml(date)}</text>
   </g>
@@ -140,15 +332,22 @@ const generateNoteOgImage = async ({
   const summaryText = description?.trim() || excerpt?.trim() || '짧은 생각을 기록하는 Notes'
 
   const fonts = await loadOgFonts()
-  const svg = createNoteOgSvg(title, summaryText, date, fonts.family)
+  const svg = createNoteOgSvg(title, summaryText, date, fonts)
+  const fontOptions: Record<string, unknown> = {
+    loadSystemFonts: false,
+    defaultFontFamily: fonts.family,
+    sansSerifFamily: fonts.family
+  }
+
+  if (fonts.fontBuffers.length > 0) {
+    fontOptions.fontBuffers = fonts.fontBuffers
+  } else if (fonts.fontFiles.length > 0) {
+    fontOptions.fontFiles = fonts.fontFiles
+  }
+
   const resvg = new Resvg(svg, {
     fitTo: { mode: 'width', value: OG_IMAGE_WIDTH },
-    font: {
-      loadSystemFonts: false,
-      fontFiles: fonts.files,
-      defaultFontFamily: fonts.family,
-      sansSerifFamily: fonts.family
-    },
+    font: fontOptions as ResvgRenderOptions['font'],
     languages: ['en', 'ko']
   })
 
