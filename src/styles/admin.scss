@@ -1,0 +1,721 @@
+/**
+ * 블로그 관리자 페이지 스타일
+ */
+
+.admin-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    sans-serif;
+}
+
+.admin-header {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+
+.admin-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* 인증 컴포넌트 */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+
+  h2 {
+    margin: 0 0 0.5rem;
+  }
+
+  .auth-description {
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.auth-status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  .auth-status-badge {
+    color: #22c55e;
+    font-weight: 500;
+  }
+}
+
+.auth-loading {
+  text-align: center;
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  small {
+    display: block;
+    color: #666;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+.token-input-wrapper {
+  display: flex;
+  gap: 0.5rem;
+
+  .token-input {
+    flex: 1;
+  }
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.auth-help {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+
+  h3 {
+    font-size: 1rem;
+    margin: 0 0 1rem;
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.5rem;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  code {
+    background: #f5f5f5;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+  }
+}
+
+.auth-warning {
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+
+/* 버튼 스타일 */
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btn-login,
+.btn-save {
+  background: #3b82f6;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  width: 100%;
+
+  &:hover:not(:disabled) {
+    background: #2563eb;
+  }
+}
+
+.btn-logout,
+.btn-cancel {
+  background: #f5f5f5;
+  color: #333;
+
+  &:hover {
+    background: #e0e0e0;
+  }
+}
+
+.btn-toggle-visibility {
+  background: #f5f5f5;
+  color: #666;
+  padding: 0.75rem 1rem;
+}
+
+/* 포스트 목록 */
+.post-list {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.post-list-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem;
+}
+
+.post-list-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  .tab {
+    background: none;
+    padding: 0.5rem 1rem;
+    color: #666;
+
+    &.active {
+      background: #3b82f6;
+      color: #fff;
+    }
+  }
+}
+
+.post-list-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-new,
+.btn-new-large {
+  background: #22c55e;
+  color: #fff;
+
+  &:hover {
+    background: #16a34a;
+  }
+}
+
+.btn-new-large {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
+
+.btn-refresh {
+  background: #f5f5f5;
+  color: #333;
+
+  &:hover:not(:disabled) {
+    background: #e0e0e0;
+  }
+}
+
+.post-list-content {
+  min-height: 400px;
+}
+
+.post-list-loading,
+.post-list-empty {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.post-list-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post-list-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #f9fafb;
+  }
+
+  &.active {
+    background: #eff6ff;
+  }
+}
+
+.post-item-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.post-item-description {
+  margin: 0 0 0.5rem;
+  color: #666;
+}
+
+.post-item-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #999;
+}
+
+.post-item-tags {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.tag {
+  background: #e0e7ff;
+  color: #4f46e5;
+  padding: 0.125rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+}
+
+/* 에디터 */
+.editor-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.editor-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+}
+
+.editor-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.save-status {
+  color: #22c55e;
+  font-size: 0.875rem;
+}
+
+.editor-content {
+  padding: 1.5rem;
+}
+
+.editor-section {
+  margin-bottom: 2rem;
+
+  h3 {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.btn-toggle {
+  background: #f5f5f5;
+  color: #666;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+}
+
+/* Frontmatter 폼 */
+.frontmatter-form {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 1rem;
+  background: #fafafa;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.slug-input-wrapper {
+  display: flex;
+  gap: 0.5rem;
+
+  input {
+    flex: 1;
+  }
+}
+
+.btn-generate-slug {
+  background: #f5f5f5;
+  color: #666;
+  white-space: nowrap;
+}
+
+/* 이미지 업로더 */
+.image-uploader {
+  .dropzone {
+    border: 2px dashed #d0d0d0;
+    border-radius: 4px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &.active {
+      border-color: #3b82f6;
+      background: #eff6ff;
+    }
+
+    &.uploading {
+      border-color: #fbbf24;
+      background: #fef3c7;
+      cursor: wait;
+    }
+
+    &:hover:not(.uploading) {
+      border-color: #3b82f6;
+    }
+  }
+
+  .dropzone-content {
+    p {
+      margin: 0 0 0.5rem;
+      font-weight: 500;
+    }
+
+    small {
+      color: #666;
+    }
+  }
+
+  .dropzone-uploading {
+    p {
+      margin: 0;
+      color: #d97706;
+      font-weight: 500;
+    }
+  }
+}
+
+/* Draft 관리자 */
+.draft-manager {
+  position: relative;
+}
+
+.btn-drafts {
+  background: #f59e0b;
+  color: #fff;
+
+  &:hover {
+    background: #d97706;
+  }
+}
+
+.draft-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.draft-modal-content {
+  background: #fff;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.draft-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.btn-close {
+  background: none;
+  color: #999;
+  font-size: 1.5rem;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+.draft-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.draft-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.draft-item-content {
+  flex: 1;
+
+  h4 {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+  }
+}
+
+.draft-item-meta {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.draft-item-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-load {
+  background: #3b82f6;
+  color: #fff;
+
+  &:hover {
+    background: #2563eb;
+  }
+}
+
+.btn-delete {
+  background: #ef4444;
+  color: #fff;
+
+  &:hover {
+    background: #dc2626;
+  }
+}
+
+/* 마크다운 에디터 */
+.editor-main {
+  .w-md-editor {
+    box-shadow: none !important;
+    border: 1px solid #e0e0e0 !important;
+  }
+}
+
+.view-mode-toggle {
+  display: flex;
+  gap: 0.25rem;
+
+  button {
+    background: #f5f5f5;
+    color: #666;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+
+    &.active {
+      background: #3b82f6;
+      color: #fff;
+    }
+  }
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .admin-container {
+    padding: 1rem;
+  }
+
+  .post-list-header {
+    padding: 0.75rem;
+  }
+
+  .post-list-tabs {
+    flex-direction: column;
+  }
+
+  .post-list-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .editor-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .editor-actions {
+    width: 100%;
+    flex-wrap: wrap;
+
+    button {
+      flex: 1;
+    }
+  }
+
+  .editor-content {
+    padding: 1rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .view-mode-toggle {
+    button {
+      flex: 1;
+    }
+  }
+}
+
+/* 다크 모드 대응 (선택사항) */
+@media (prefers-color-scheme: dark) {
+  .admin-page {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
+
+  .admin-header,
+  .post-list,
+  .editor-container,
+  .auth-card {
+    background: #2a2a2a;
+    border-color: #404040;
+  }
+
+  .frontmatter-form {
+    background: #333;
+    border-color: #404040;
+  }
+
+  input,
+  textarea {
+    background: #1a1a1a;
+    border-color: #404040;
+    color: #e0e0e0;
+  }
+
+  .btn-logout,
+  .btn-cancel,
+  .btn-refresh,
+  .btn-toggle,
+  .btn-generate-slug {
+    background: #333;
+    color: #e0e0e0;
+
+    &:hover {
+      background: #404040;
+    }
+  }
+
+  .post-list-item:hover {
+    background: #333;
+  }
+
+  .post-list-item.active {
+    background: #1e3a5f;
+  }
+
+  .dropzone {
+    border-color: #404040;
+    color: #e0e0e0;
+  }
+}
