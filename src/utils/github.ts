@@ -65,7 +65,11 @@ export const getFileContent = async (
     });
 
     if ('content' in data && data.type === 'file') {
-      const content = Buffer.from(data.content, 'base64').toString('utf-8');
+      // Browser-compatible base64 decoding
+      const base64Content = data.content.replace(/\n/g, '');
+      const decodedContent = atob(base64Content);
+      // Convert to UTF-8
+      const content = decodeURIComponent(escape(decodedContent));
       return {
         path,
         content,
@@ -270,7 +274,8 @@ export const createOrUpdateFile = async (
   sha?: string
 ): Promise<boolean> => {
   try {
-    const contentBase64 = Buffer.from(content).toString('base64');
+    // Browser-compatible base64 encoding
+    const contentBase64 = btoa(unescape(encodeURIComponent(content)));
 
     await octokit.repos.createOrUpdateFileContents({
       owner: REPO_OWNER,
@@ -305,9 +310,13 @@ export const uploadImage = async (
       // Base64 string
       contentBase64 = imageData.replace(/^data:image\/\w+;base64,/, '');
     } else {
-      // ArrayBuffer
-      const buffer = Buffer.from(imageData);
-      contentBase64 = buffer.toString('base64');
+      // ArrayBuffer - browser-compatible conversion
+      const bytes = new Uint8Array(imageData);
+      let binary = '';
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      contentBase64 = btoa(binary);
     }
 
     await octokit.repos.createOrUpdateFileContents({
