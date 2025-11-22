@@ -132,11 +132,15 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
       } else {
         // 새 포스트
         const datePrefix = frontmatter.date;
-        const slugName = frontmatter.slug.replace(/^\//, '');
+        let slugName = frontmatter.slug.replace(/^\//, '');
 
         if (postType === 'post') {
+          // posts: contents/posts/YYYY-MM-DD-slug/index.md
           filePath = `contents/posts/${datePrefix}-${slugName}/index.md`;
         } else {
+          // notes: contents/notes/YYYY-MM-DD-slug.md
+          // slug가 /notes/xxx 형식이면 notes/ prefix 제거
+          slugName = slugName.replace(/^notes\//, '');
           filePath = `contents/notes/${datePrefix}-${slugName}.md`;
         }
       }
@@ -211,7 +215,7 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
         {/* Frontmatter 폼 */}
         <div className="editor-section">
           <h3>메타데이터</h3>
-          <FrontmatterForm frontmatter={frontmatter} onChange={setFrontmatter} />
+          <FrontmatterForm frontmatter={frontmatter} onChange={setFrontmatter} postType={postType} />
         </div>
 
         {/* 이미지 업로더 */}
@@ -228,7 +232,7 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
           {showImageUploader && (
             <ImageUploader
               postSlug={
-                frontmatter.slug.replace(/^\//, '') || `draft-${draftId}`
+                frontmatter.slug.replace(/^\//, '').replace(/^notes\//, '') || `draft-${draftId}`
               }
               postType={postType}
               onImageUploaded={handleImageUploaded}

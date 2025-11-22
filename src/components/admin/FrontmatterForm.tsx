@@ -9,9 +9,10 @@ import { Post } from '@/utils/github';
 interface FrontmatterFormProps {
   frontmatter: Omit<Post, 'content' | 'path' | 'sha'>;
   onChange: (frontmatter: Omit<Post, 'content' | 'path' | 'sha'>) => void;
+  postType: 'post' | 'note';
 }
 
-const FrontmatterForm: React.FC<FrontmatterFormProps> = ({ frontmatter, onChange }) => {
+const FrontmatterForm: React.FC<FrontmatterFormProps> = ({ frontmatter, onChange, postType }) => {
   const handleChange = (field: string, value: any) => {
     onChange({
       ...frontmatter,
@@ -34,7 +35,10 @@ const FrontmatterForm: React.FC<FrontmatterFormProps> = ({ frontmatter, onChange
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .trim();
-    handleChange('slug', `/${slug}`);
+
+    // notes의 경우 /notes/ prefix 추가
+    const finalSlug = postType === 'note' ? `/notes/${slug}` : `/${slug}`;
+    handleChange('slug', finalSlug);
   };
 
   return (

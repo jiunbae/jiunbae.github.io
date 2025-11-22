@@ -3,7 +3,8 @@
  * /admin 경로로 접근
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import type { PageProps } from 'gatsby';
 import { GitHubProvider, useGitHub } from '@/contexts/GitHubContext';
 import Auth from '@/components/admin/Auth';
 import PostList from '@/components/admin/PostList';
@@ -44,44 +45,49 @@ const AdminContent: React.FC = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className="admin-page">
+  return (
+    <div className="admin-page">
+      {!isAuthenticated ? (
         <div className="admin-container">
           <Auth />
         </div>
-      </div>
-    );
-  }
+      ) : (
+        <>
+          <div className="admin-header-actions">
+            <Auth />
+          </div>
 
-  return (
-    <div className="admin-page">
-      <header className="admin-header">
-        <h1>블로그 관리자</h1>
-        <Auth />
-      </header>
-
-      <div className="admin-container">
-        {isEditing ? (
-          <Editor
-            post={selectedPost}
-            postType={postType}
-            onSaved={handleSaved}
-            onCancel={handleCancel}
-          />
-        ) : (
-          <PostList
-            onSelectPost={handleSelectPost}
-            onNewPost={handleNewPost}
-            selectedPost={selectedPost}
-          />
-        )}
-      </div>
+          <div className="admin-container">
+            {isEditing ? (
+              <Editor
+                post={selectedPost}
+                postType={postType}
+                onSaved={handleSaved}
+                onCancel={handleCancel}
+              />
+            ) : (
+              <PostList
+                onSelectPost={handleSelectPost}
+                onNewPost={handleNewPost}
+                selectedPost={selectedPost}
+              />
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
-const AdminPage: React.FC = () => {
+const AdminPage: React.FC<PageProps> = () => {
+  // admin 페이지임을 body에 표시
+  useEffect(() => {
+    document.body.classList.add('admin-page-body');
+    return () => {
+      document.body.classList.remove('admin-page-body');
+    };
+  }, []);
+
   return (
     <GitHubProvider>
       <AdminContent />
