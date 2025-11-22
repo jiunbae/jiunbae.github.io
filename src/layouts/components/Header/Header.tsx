@@ -32,7 +32,8 @@ export const Header = ({ pathname }: HeaderProps) => {
 
   const navLinks = [
     { to: '/', label: 'Posts', state: { tag: undefined } },
-    { to: '/notes/', label: 'Notes', state: { tag: undefined } }
+    { to: '/notes/', label: 'Notes', state: { tag: undefined } },
+    { to: '/reviews/', label: 'Reviews', state: { tag: undefined } }
   ] as const
 
   const normalizePathname = (path: string) => (path.endsWith('/') ? path : `${path}/`)
@@ -40,6 +41,10 @@ export const Header = ({ pathname }: HeaderProps) => {
   const isActivePath = (target: string) => {
     if (target === '/') {
       return pathname === '/' || pathname.startsWith('/posts/')
+    }
+
+    if (target === '/reviews/') {
+      return pathname.startsWith('/reviews/')
     }
 
     return activePathname === normalizePathname(target)

@@ -360,6 +360,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
   const { createPage } = actions
   const blogPostTemplate = path.resolve('src/templates/Post.tsx')
   const noteTemplate = path.resolve('src/templates/Note.tsx')
+  const reviewTemplate = path.resolve('src/templates/Review.tsx')
 
   const result = await graphql<Queries.PagesQuery>(`
     query Pages {
@@ -400,6 +401,18 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
           }
         }
       }
+      reviews: allMarkdownRemark(
+        sort: { frontmatter: { date: DESC } }
+        filter: { fields: { collection: { eq: "review" } } }
+      ) {
+        nodes {
+          id
+          frontmatter {
+            slug
+            title
+          }
+        }
+      }
     }
   `)
 
@@ -409,6 +422,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
 
   const posts = result.data?.allMarkdownRemark.edges
   const notes = result.data?.notes?.nodes ?? []
+  const reviews = result.data?.reviews?.nodes ?? []
 
   posts?.forEach(({ node, previous, next }) => {
     createPage({
@@ -443,6 +457,22 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions 
       }
     })
   })
+
+  reviews.forEach(review => {
+    const slug = review.frontmatter.slug
+
+    if (!slug) {
+      throw new Error(`리뷰 슬러그가 존재하지 않습니다. (id: ${review.id})`)
+    }
+
+    createPage({
+      path: slug,
+      component: reviewTemplate,
+      context: {
+        id: review.id
+      }
+    })
+  })
 }
 
 export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ actions }: CreateWebpackConfigArgs) => {
@@ -473,9 +503,12 @@ export const onCreateNode: GatsbyNode['onCreateNode'] = ({ node, actions, getNod
     sourceInstanceName?: string | null;
   }
 
-  if (sourceInstanceName !== 'notes' && sourceInstanceName !== 'posts') return
+  if (sourceInstanceName !== 'notes' && sourceInstanceName !== 'posts' && sourceInstanceName !== 'reviews') return
 
-  const collection = sourceInstanceName === 'notes' ? 'note' : 'post'
+  const collection =
+    sourceInstanceName === 'notes' ? 'note' :
+    sourceInstanceName === 'reviews' ? 'review' :
+    'post'
 
   actions.createNodeField({
     node,
@@ -502,6 +535,17 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       siteMetadata: SiteSiteMetadata!
     }
 
+    type ReviewMetadata {
+      originalTitle: String
+      year: Int
+      director: String
+      creator: String
+      author: String
+      genre: [String!]
+      runtime: String
+      pages: String
+    }
+
     type Frontmatter {
       title: String!
       description: String
@@ -510,6 +554,11 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       tags: [String!]!
       heroImage: File @fileByRelativePath
       heroImageAlt: String
+      poster: File @fileByRelativePath
+      mediaType: String
+      rating: Float
+      oneLiner: String
+      metadata: ReviewMetadata
     }
 
     type MarkdownRemarkFields {

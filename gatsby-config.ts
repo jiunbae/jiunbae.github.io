@@ -117,6 +117,13 @@ const config: GatsbyConfig = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
+        name: 'reviews',
+        path: path.resolve(__dirname, 'contents', 'reviews')
+      }
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
         name: 'images',
         path: path.resolve(__dirname, 'src/images')
       }

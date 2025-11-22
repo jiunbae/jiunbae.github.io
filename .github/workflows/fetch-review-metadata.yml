@@ -1,0 +1,53 @@
+name: Fetch Review Metadata
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - 'contents/reviews/**/*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Fetch media metadata
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          GOOGLE_BOOKS_API_KEY: ${{ secrets.GOOGLE_BOOKS_API_KEY }}
+        run: pnpm run fetch-metadata
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add contents/reviews/
+          git commit -m "chore: auto-fetch review metadata and posters"
+          git push

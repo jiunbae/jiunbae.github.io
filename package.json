@@ -16,13 +16,13 @@
     "clean": "gatsby clean",
     "deploy": "pnpm run clean && pnpm run build && gh-pages -d public",
     "convert": "node scripts/issue-to-md.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "fetch-metadata": "ts-node scripts/fetch-media-metadata.ts"
   },
   "dependencies": {
     "@fontsource/noto-sans-kr": "^5.1.0",
     "@resvg/resvg-js": "^2.4.0",
     "axios": "^1.7.0",
-    "wawoff2": "^2.0.0",
     "clsx": "^2.0.0",
     "gatsby": "^5.14.1",
     "gatsby-plugin-advanced-sitemap-v5": "^2.1.12",
@@ -42,7 +42,8 @@
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "svg-react-loader": "^0.4.6"
+    "svg-react-loader": "^0.4.6",
+    "wawoff2": "^2.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
@@ -60,7 +61,10 @@
     "gatsby-plugin-sass": "6.15.0-next.0",
     "gh-pages": "^6.0.0",
     "globals": "^15.14.0",
+    "gray-matter": "^4.0.3",
     "sass": "^1.83.4",
+    "sharp": "^0.34.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.1.3",
     "typescript-eslint": "^8.22.0"
   },
