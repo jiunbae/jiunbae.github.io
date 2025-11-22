@@ -40,15 +40,18 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
             const base64Data = e.target.result as string;
 
-            // 파일명 생성 (타임스탬프 + 원본 파일명)
+            // 파일 확장자 추출 및 보안 강화된 파일명 생성
             const timestamp = Date.now();
-            const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-            const fileName = `${timestamp}_${sanitizedName}`;
+            const fileExtension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+            // 확장자만 추출하고 타임스탬프 기반으로 파일명 생성 (directory traversal 방지)
+            const safeExtension = fileExtension.replace(/[^a-z0-9]/g, '');
+            const fileName = `image_${timestamp}.${safeExtension}`;
 
-            // 업로드 경로 생성
+            // 업로드 경로 생성 (postSlug가 비어있으면 공통 이미지 폴더 사용)
+            const slugForPath = postSlug && postSlug !== '' ? postSlug : 'common';
             const uploadPath =
               postType === 'post'
-                ? `contents/posts/${postSlug}/${fileName}`
+                ? `contents/posts/${slugForPath}/${fileName}`
                 : `contents/images/${fileName}`;
 
             // GitHub에 업로드

@@ -66,25 +66,30 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
     }
   }, [post]);
 
-  // Draft 자동 저장 (5초마다)
+  // Draft 자동 저장 (debounce: 5초 동안 변경 없으면 저장)
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (content || frontmatter.title) {
-        const draft: Draft = {
-          id: draftId,
-          title: frontmatter.title || '(제목 없음)',
-          content,
-          frontmatter,
-          type: postType,
-          savedAt: new Date().toISOString(),
-        };
-        saveDraft(draft);
-        setSaveStatus('자동 저장됨');
-        setTimeout(() => setSaveStatus(''), 2000);
-      }
+    // 내용이 없으면 저장하지 않음
+    if (!content && !frontmatter.title) {
+      return;
+    }
+
+    // 5초 후에 저장하는 타이머 설정
+    const timer = setTimeout(() => {
+      const draft: Draft = {
+        id: draftId,
+        title: frontmatter.title || '(제목 없음)',
+        content,
+        frontmatter,
+        type: postType,
+        savedAt: new Date().toISOString(),
+      };
+      saveDraft(draft);
+      setSaveStatus('자동 저장됨');
+      setTimeout(() => setSaveStatus(''), 2000);
     }, 5000);
 
-    return () => clearInterval(interval);
+    // content나 frontmatter가 변경되면 이전 타이머를 취소하고 새로 시작
+    return () => clearTimeout(timer);
   }, [content, frontmatter, draftId, postType]);
 
   // Draft 불러오기

@@ -12,6 +12,7 @@ interface GitHubContextType {
   token: string | null;
   isAuthenticated: boolean;
   isValidating: boolean;
+  error: string | null;
   login: (token: string) => Promise<boolean>;
   logout: () => void;
 }
@@ -23,6 +24,7 @@ export const GitHubProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isValidating, setIsValidating] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // 초기 로드 시 토큰 확인
   useEffect(() => {
@@ -34,8 +36,10 @@ export const GitHubProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           setToken(savedToken);
           setOctokit(createOctokit(savedToken));
           setIsAuthenticated(true);
+          setError(null);
         } else {
           removeGitHubToken();
+          setError('저장된 토큰이 만료되었거나 유효하지 않습니다. 다시 로그인해주세요.');
         }
       }
       setIsValidating(false);
@@ -66,6 +70,7 @@ export const GitHubProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setToken(null);
     setOctokit(null);
     setIsAuthenticated(false);
+    setError(null);
   };
 
   return (
@@ -75,6 +80,7 @@ export const GitHubProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         token,
         isAuthenticated,
         isValidating,
+        error,
         login,
         logout,
       }}

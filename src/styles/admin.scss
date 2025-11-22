@@ -59,6 +59,19 @@
   }
 }
 
+.auth-error {
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  color: #c00;
+
+  p {
+    margin: 0;
+  }
+}
+
 .auth-status {
   display: flex;
   align-items: center;

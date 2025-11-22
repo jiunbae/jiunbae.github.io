@@ -7,24 +7,27 @@ import React, { useState } from 'react';
 import { useGitHub } from '@/contexts/GitHubContext';
 
 const Auth: React.FC = () => {
-  const { login, logout, isAuthenticated, isValidating } = useGitHub();
+  const { login, logout, isAuthenticated, isValidating, error: contextError } = useGitHub();
   const [tokenInput, setTokenInput] = useState('');
-  const [error, setError] = useState('');
+  const [localError, setLocalError] = useState('');
   const [showToken, setShowToken] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setLocalError('');
 
     if (!tokenInput.trim()) {
-      setError('토큰을 입력해주세요.');
+      setLocalError('토큰을 입력해주세요.');
       return;
     }
 
+    setIsLoggingIn(true);
     const success = await login(tokenInput);
+    setIsLoggingIn(false);
 
     if (!success) {
-      setError('유효하지 않은 토큰입니다. 다시 확인해주세요.');
+      setLocalError('유효하지 않은 토큰입니다. 다시 확인해주세요.');
     } else {
       setTokenInput('');
     }
@@ -57,6 +60,8 @@ const Auth: React.FC = () => {
     );
   }
 
+  const displayError = contextError || localError;
+
   return (
     <div className="auth-container">
       <div className="auth-card">
@@ -64,6 +69,12 @@ const Auth: React.FC = () => {
         <p className="auth-description">
           블로그를 관리하려면 GitHub Personal Access Token이 필요합니다.
         </p>
+
+        {displayError && (
+          <div className="auth-error">
+            <p>{displayError}</p>
+          </div>
+        )}
 
         <form onSubmit={handleLogin}>
           <div className="form-group">
@@ -86,11 +97,10 @@ const Auth: React.FC = () => {
                 {showToken ? '숨기기' : '보기'}
               </button>
             </div>
-            {error && <p className="error-message">{error}</p>}
           </div>
 
-          <button type="submit" className="btn-login" disabled={isValidating}>
-            {isValidating ? '확인 중...' : '로그인'}
+          <button type="submit" className="btn-login" disabled={isLoggingIn}>
+            {isLoggingIn ? '확인 중...' : '로그인'}
           </button>
         </form>
 

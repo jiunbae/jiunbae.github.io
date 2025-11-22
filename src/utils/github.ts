@@ -186,7 +186,7 @@ export const parseMarkdownFile = (
   const frontmatterText = match[1];
   const bodyContent = match[2];
 
-  const frontmatter: any = {
+  const frontmatter: Omit<Post, 'content' | 'path' | 'sha'> = {
     title: '',
     description: '',
     date: new Date().toISOString().split('T')[0],
@@ -198,7 +198,7 @@ export const parseMarkdownFile = (
     const [key, ...valueParts] = line.split(':');
     if (key && valueParts.length > 0) {
       const value = valueParts.join(':').trim();
-      const trimmedKey = key.trim();
+      const trimmedKey = key.trim() as keyof typeof frontmatter;
 
       if (trimmedKey === 'tags') {
         // Parse array: [tag1, tag2]
@@ -209,8 +209,16 @@ export const parseMarkdownFile = (
             .map((t) => t.trim().replace(/['"]/g, ''))
             .filter(Boolean);
         }
-      } else {
-        frontmatter[trimmedKey] = value;
+      } else if (trimmedKey === 'heroImage' || trimmedKey === 'heroImageAlt') {
+        // Handle optional fields - set undefined if empty
+        if (value && value !== '') {
+          frontmatter[trimmedKey] = value;
+        } else {
+          frontmatter[trimmedKey] = undefined;
+        }
+      } else if (trimmedKey in frontmatter) {
+        // Only set known properties
+        (frontmatter as Record<string, string | string[] | undefined>)[trimmedKey] = value;
       }
     }
   });

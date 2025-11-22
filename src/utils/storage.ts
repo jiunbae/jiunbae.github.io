@@ -1,10 +1,44 @@
 /**
- * localStorage 헬퍼 함수
- * GitHub PAT 및 Draft 데이터를 안전하게 저장/조회
+ * localStorage/sessionStorage 헬퍼 함수
+ * GitHub PAT 및 Draft 데이터를 저장/조회
+ *
+ * SECURITY WARNING:
+ * - localStorage/sessionStorage는 XSS 공격에 취약합니다
+ * - Personal Access Token을 저장할 때는 보안 위험을 인지하고 사용하세요
+ * - 공용 컴퓨터에서는 sessionStorage 사용을 권장합니다
+ * - 사용 후 반드시 로그아웃하여 토큰을 제거하세요
  */
 
 const GITHUB_TOKEN_KEY = 'github_pat';
 const DRAFTS_KEY = 'blog_drafts';
+const USE_SESSION_STORAGE_KEY = 'use_session_storage';
+
+/**
+ * 스토리지 타입 선택 (localStorage 또는 sessionStorage)
+ */
+const getStorage = (): Storage | null => {
+  if (typeof window === 'undefined') return null;
+
+  const useSessionStorage = localStorage.getItem(USE_SESSION_STORAGE_KEY) === 'true';
+  return useSessionStorage ? sessionStorage : localStorage;
+};
+
+/**
+ * 스토리지 타입 설정
+ */
+export const setStorageType = (useSessionStorage: boolean): void => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(USE_SESSION_STORAGE_KEY, String(useSessionStorage));
+  }
+};
+
+/**
+ * 현재 스토리지 타입 확인
+ */
+export const isUsingSessionStorage = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem(USE_SESSION_STORAGE_KEY) === 'true';
+};
 
 export interface Draft {
   id: string;
@@ -27,8 +61,9 @@ export interface Draft {
  * GitHub Personal Access Token 저장
  */
 export const saveGitHubToken = (token: string): void => {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(GITHUB_TOKEN_KEY, token);
+  const storage = getStorage();
+  if (storage) {
+    storage.setItem(GITHUB_TOKEN_KEY, token);
   }
 };
 
@@ -36,8 +71,9 @@ export const saveGitHubToken = (token: string): void => {
  * GitHub Personal Access Token 조회
  */
 export const getGitHubToken = (): string | null => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem(GITHUB_TOKEN_KEY);
+  const storage = getStorage();
+  if (storage) {
+    return storage.getItem(GITHUB_TOKEN_KEY);
   }
   return null;
 };
@@ -46,8 +82,10 @@ export const getGitHubToken = (): string | null => {
  * GitHub Personal Access Token 삭제 (로그아웃)
  */
 export const removeGitHubToken = (): void => {
+  // Both storages should be cleared to ensure complete logout
   if (typeof window !== 'undefined') {
     localStorage.removeItem(GITHUB_TOKEN_KEY);
+    sessionStorage.removeItem(GITHUB_TOKEN_KEY);
   }
 };
 
