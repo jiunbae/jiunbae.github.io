@@ -30,11 +30,17 @@ export const Header = ({ pathname }: HeaderProps) => {
   const { isPost, progressWidth } = useScrollIndicator(pathname)
   const headerRef = useRef<HTMLElement>(null)
 
-  const navLinks = [
+  const isAdminPage = pathname.startsWith('/admin')
+
+  const baseNavLinks = [
     { to: '/', label: 'Posts', state: { tag: undefined } },
     { to: '/notes/', label: 'Notes', state: { tag: undefined } },
     { to: '/reviews/', label: 'Reviews', state: { tag: undefined } }
-  ] as const
+  ]
+
+  const navLinks = isAdminPage
+    ? [...baseNavLinks, { to: '/admin/', label: 'Admin', state: undefined }]
+    : baseNavLinks
 
   const normalizePathname = (path: string) => (path.endsWith('/') ? path : `${path}/`)
   const activePathname = normalizePathname(pathname)
@@ -45,6 +51,10 @@ export const Header = ({ pathname }: HeaderProps) => {
 
     if (target === '/reviews/') {
       return pathname.startsWith('/reviews/')
+    }
+
+    if (target === '/admin/') {
+      return pathname.startsWith('/admin')
     }
 
     return activePathname === normalizePathname(target)
