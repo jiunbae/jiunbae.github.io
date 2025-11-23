@@ -23,6 +23,36 @@ export interface Post {
   tags: string[];
   heroImage?: string;
   heroImageAlt?: string;
+  published?: boolean;
+  content: string;
+  path: string;
+  sha?: string;
+}
+
+export interface Review {
+  title: string;
+  mediaType: 'movie' | 'animation' | 'tv' | 'book' | 'game';
+  rating: number;
+  oneLiner: string;
+  slug: string;
+  date: string;
+  tags: string[];
+  poster?: string;
+  metadata: {
+    originalTitle?: string;
+    year?: number;
+    director?: string;
+    creator?: string;
+    author?: string;
+    genre?: string[];
+    runtime?: string;
+    pages?: number;
+  };
+  externalIds?: {
+    tmdbId?: string;
+    imdbId?: string;
+  };
+  published?: boolean;
   content: string;
   path: string;
   sha?: string;
@@ -196,6 +226,7 @@ export const parseMarkdownFile = (
     date: new Date().toISOString().split('T')[0],
     slug: '',
     tags: [],
+    published: true,
   };
 
   frontmatterText.split('\n').forEach((line) => {
@@ -213,6 +244,9 @@ export const parseMarkdownFile = (
             .map((t) => t.trim().replace(/['"]/g, ''))
             .filter(Boolean);
         }
+      } else if (trimmedKey === 'published') {
+        // Parse boolean
+        frontmatter.published = value === 'true' || value === 'True';
       } else if (trimmedKey === 'heroImage' || trimmedKey === 'heroImageAlt') {
         // Handle optional fields - set undefined if empty
         if (value && value !== '') {
@@ -222,7 +256,7 @@ export const parseMarkdownFile = (
         }
       } else if (trimmedKey in frontmatter) {
         // Only set known properties
-        (frontmatter as Record<string, string | string[] | undefined>)[trimmedKey] = value;
+        (frontmatter as Record<string, string | string[] | undefined | boolean>)[trimmedKey] = value;
       }
     }
   });
@@ -254,6 +288,11 @@ heroImage: ${frontmatter.heroImage}`
     frontmatter.heroImageAlt
       ? `
 heroImageAlt: ${frontmatter.heroImageAlt}`
+      : ''
+  }${
+    frontmatter.published !== undefined
+      ? `
+published: ${frontmatter.published}`
       : ''
   }
 ---
@@ -359,5 +398,243 @@ export const deleteFile = async (
   } catch (error) {
     console.error('Failed to delete file:', error);
     return false;
+  }
+};
+
+/**
+ * Review 마크다운 파일 파싱
+ */
+export const parseReviewMarkdownFile = (
+  content: string
+): {
+  frontmatter: Omit<Review, 'content' | 'path' | 'sha'>;
+  content: string;
+} => {
+  const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
+  const match = content.match(frontmatterRegex);
+
+  if (!match) {
+    return {
+      frontmatter: {
+        title: '',
+        mediaType: 'movie',
+        rating: 0,
+        oneLiner: '',
+        slug: '',
+        date: new Date().toISOString().split('T')[0],
+        tags: [],
+        metadata: {},
+        published: true,
+      },
+      content: content,
+    };
+  }
+
+  const frontmatterText = match[1];
+  const bodyContent = match[2];
+
+  const frontmatter: Omit<Review, 'content' | 'path' | 'sha'> = {
+    title: '',
+    mediaType: 'movie',
+    rating: 0,
+    oneLiner: '',
+    slug: '',
+    date: new Date().toISOString().split('T')[0],
+    tags: [],
+    metadata: {},
+    published: true,
+  };
+
+  let currentMetadataKey: string | null = null;
+  let currentExternalIdsKey: string | null = null;
+
+  frontmatterText.split('\n').forEach((line) => {
+    // Handle nested objects (metadata, externalIds)
+    if (line.trim() === 'metadata:') {
+      currentMetadataKey = 'metadata';
+      currentExternalIdsKey = null;
+      return;
+    }
+    if (line.trim() === 'externalIds:') {
+      currentExternalIdsKey = 'externalIds';
+      currentMetadataKey = null;
+      frontmatter.externalIds = {};
+      return;
+    }
+
+    // Handle nested properties
+    if (currentMetadataKey && line.startsWith('  ')) {
+      const [key, ...valueParts] = line.trim().split(':');
+      if (key && valueParts.length > 0) {
+        const value = valueParts.join(':').trim();
+        if (key === 'genre') {
+          const arrayMatch = value.match(/\[(.*?)\]/) || value.match(/^-\s*(.+)/);
+          if (arrayMatch) {
+            frontmatter.metadata.genre = arrayMatch[1]
+              .split(',')
+              .map((t) => t.trim().replace(/['"]/g, ''))
+              .filter(Boolean);
+          }
+        } else if (key === 'year' || key === 'pages') {
+          frontmatter.metadata[key] = parseInt(value, 10);
+        } else {
+          (frontmatter.metadata as any)[key] = value;
+        }
+      }
+      return;
+    }
+
+    if (currentExternalIdsKey && line.startsWith('  ') && frontmatter.externalIds) {
+      const [key, ...valueParts] = line.trim().split(':');
+      if (key && valueParts.length > 0) {
+        const value = valueParts.join(':').trim().replace(/['"]/g, '');
+        (frontmatter.externalIds as any)[key] = value;
+      }
+      return;
+    }
+
+    // Handle top-level properties
+    const [key, ...valueParts] = line.split(':');
+    if (key && valueParts.length > 0) {
+      const value = valueParts.join(':').trim();
+      const trimmedKey = key.trim();
+
+      // Reset nested parsing when we hit a top-level key
+      if (!line.startsWith('  ')) {
+        currentMetadataKey = null;
+        currentExternalIdsKey = null;
+      }
+
+      if (trimmedKey === 'tags') {
+        const arrayMatch = value.match(/\[(.*?)\]/);
+        if (arrayMatch) {
+          frontmatter.tags = arrayMatch[1]
+            .split(',')
+            .map((t) => t.trim().replace(/['"]/g, ''))
+            .filter(Boolean);
+        }
+      } else if (trimmedKey === 'rating') {
+        frontmatter.rating = parseFloat(value);
+      } else if (trimmedKey === 'mediaType') {
+        frontmatter.mediaType = value as Review['mediaType'];
+      } else if (trimmedKey === 'published') {
+        frontmatter.published = value === 'true' || value === 'True';
+      } else if (trimmedKey === 'poster') {
+        if (value && value !== '') {
+          frontmatter.poster = value;
+        }
+      } else if (
+        trimmedKey === 'title' ||
+        trimmedKey === 'oneLiner' ||
+        trimmedKey === 'slug' ||
+        trimmedKey === 'date'
+      ) {
+        (frontmatter as any)[trimmedKey] = value;
+      }
+    }
+  });
+
+  return {
+    frontmatter,
+    content: bodyContent.trim(),
+  };
+};
+
+/**
+ * Review 마크다운 파일 생성
+ */
+export const createReviewMarkdownFile = (
+  frontmatter: Omit<Review, 'content' | 'path' | 'sha'>,
+  content: string
+): string => {
+  const metadataLines: string[] = [];
+  if (frontmatter.metadata.originalTitle)
+    metadataLines.push(`  originalTitle: ${frontmatter.metadata.originalTitle}`);
+  if (frontmatter.metadata.year) metadataLines.push(`  year: ${frontmatter.metadata.year}`);
+  if (frontmatter.metadata.director)
+    metadataLines.push(`  director: ${frontmatter.metadata.director}`);
+  if (frontmatter.metadata.creator) metadataLines.push(`  creator: ${frontmatter.metadata.creator}`);
+  if (frontmatter.metadata.author) metadataLines.push(`  author: ${frontmatter.metadata.author}`);
+  if (frontmatter.metadata.genre && frontmatter.metadata.genre.length > 0) {
+    metadataLines.push(`  genre:`);
+    frontmatter.metadata.genre.forEach((g) => metadataLines.push(`    - ${g}`));
+  }
+  if (frontmatter.metadata.runtime) metadataLines.push(`  runtime: ${frontmatter.metadata.runtime}`);
+  if (frontmatter.metadata.pages) metadataLines.push(`  pages: ${frontmatter.metadata.pages}`);
+
+  const externalIdsLines: string[] = [];
+  if (frontmatter.externalIds?.tmdbId)
+    externalIdsLines.push(`  tmdbId: '${frontmatter.externalIds.tmdbId}'`);
+  if (frontmatter.externalIds?.imdbId)
+    externalIdsLines.push(`  imdbId: '${frontmatter.externalIds.imdbId}'`);
+
+  const frontmatterText = `---
+title: ${frontmatter.title}
+mediaType: ${frontmatter.mediaType}
+rating: ${frontmatter.rating}
+oneLiner: ${frontmatter.oneLiner}
+slug: ${frontmatter.slug}
+date: '${frontmatter.date}'
+tags:
+${frontmatter.tags.map((tag) => `  - ${tag}`).join('\n')}${
+    frontmatter.poster
+      ? `
+poster: ${frontmatter.poster}`
+      : ''
+  }${
+    metadataLines.length > 0
+      ? `
+metadata:
+${metadataLines.join('\n')}`
+      : ''
+  }${
+    externalIdsLines.length > 0
+      ? `
+externalIds:
+${externalIdsLines.join('\n')}`
+      : ''
+  }${
+    frontmatter.published !== undefined
+      ? `
+published: ${frontmatter.published}`
+      : ''
+  }
+---
+
+${content}`;
+
+  return frontmatterText;
+};
+
+/**
+ * Review 목록 조회
+ */
+export const getReviews = async (octokit: Octokit): Promise<Review[]> => {
+  try {
+    const basePath = 'contents/reviews';
+    const items = await getDirectoryContents(octokit, basePath);
+
+    const reviews: Review[] = [];
+
+    for (const item of items) {
+      if (item.type === 'dir') {
+        // reviews는 디렉토리 형식: contents/reviews/YYYY-MM-DD-slug/index.md
+        const indexFile = await getFileContent(octokit, `${item.path}/index.md`);
+        if (indexFile) {
+          const parsed = parseReviewMarkdownFile(indexFile.content);
+          reviews.push({
+            ...parsed.frontmatter,
+            content: parsed.content,
+            path: `${item.path}/index.md`,
+            sha: indexFile.sha,
+          });
+        }
+      }
+    }
+
+    return reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  } catch (error) {
+    console.error('Failed to get reviews:', error);
+    return [];
   }
 };

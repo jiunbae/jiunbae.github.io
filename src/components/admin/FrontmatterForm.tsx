@@ -129,6 +129,20 @@ const FrontmatterForm: React.FC<FrontmatterFormProps> = ({ frontmatter, onChange
           placeholder="이미지 설명 (접근성)"
         />
       </div>
+
+      <div className="form-group">
+        <label htmlFor="published">
+          <input
+            id="published"
+            type="checkbox"
+            checked={frontmatter.published !== false}
+            onChange={(e) => handleChange('published', e.target.checked)}
+            style={{ marginRight: '8px', width: 'auto' }}
+          />
+          블로그에 공개
+        </label>
+        <small>체크 해제하면 블로그에 표시되지 않습니다</small>
+      </div>
     </div>
   );
 };
