@@ -30,7 +30,12 @@ const Review = ({ data }: PageProps<Queries.ReviewQuery>) => {
       <div className={styles.reviewHeader}>
         <div className={styles.posterSection}>
           {posterImage ? (
-            <GatsbyImage image={posterImage} alt={title} className={styles.poster} />
+            <GatsbyImage
+              image={posterImage}
+              alt={title}
+              className={styles.poster}
+              loading="eager"
+            />
           ) : (
             <div className={styles.posterPlaceholder}>No Image</div>
           )}

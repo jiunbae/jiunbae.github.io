@@ -20,7 +20,13 @@ const Post = ({ data }: PageProps<Queries.PostQuery>) => {
       <p className={styles.date}>{date}</p>
       <TagList tags={tags} className={styles.tagList} />
       {image !== null && (
-        <GatsbyImage image={image} alt={heroImageAlt || ''} className={styles.heroImage} objectFit="contain" />
+        <GatsbyImage
+          image={image}
+          alt={heroImageAlt || ''}
+          className={styles.heroImage}
+          objectFit="contain"
+          loading="eager"
+        />
       )}
       <div className={styles.contentWrapper}>
         <section className={styles.content} dangerouslySetInnerHTML={{ __html: getRefinedStringValue(html) }} />
