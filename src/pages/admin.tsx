@@ -45,10 +45,8 @@ const AdminContent: React.FC = () => {
   };
 
   const handleCancel = () => {
-    if (confirm('작성 중인 내용이 임시 저장됩니다. 취소하시겠습니까?')) {
-      setIsEditing(false);
-      setSelectedPost(null);
-    }
+    setIsEditing(false);
+    setSelectedPost(null);
   };
 
   return (
