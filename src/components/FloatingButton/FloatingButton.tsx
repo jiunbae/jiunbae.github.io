@@ -9,8 +9,13 @@ export const FloatingButton = () => {
   const { isVisible, scrollToTop } = useFloatingButton()
 
   return (
-    <button className={clsx(styles.floatingButton, { [styles.visible]: isVisible })} onClick={scrollToTop}>
-      <ArrowUpIcon className={styles.arrowUpIcon} />
+    <button
+      className={clsx(styles.floatingButton, { [styles.visible]: isVisible })}
+      onClick={scrollToTop}
+      aria-label="Scroll to top"
+      aria-hidden={!isVisible}
+    >
+      <ArrowUpIcon className={styles.arrowUpIcon} aria-hidden="true" />
     </button>
   )
 }

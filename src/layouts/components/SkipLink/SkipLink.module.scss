@@ -1,0 +1,21 @@
+@use '@/styles/abstracts' as *;
+
+.skipLink {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  z-index: 100;
+  padding: 8px 16px;
+  background-color: var(--primary-c1);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 0 0 4px 0;
+  transition: top 0.3s;
+
+  &:focus {
+    top: 0;
+    outline: 2px solid var(--primary-c1);
+    outline-offset: 2px;
+  }
+}

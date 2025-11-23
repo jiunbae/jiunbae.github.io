@@ -38,7 +38,12 @@ const MediaCard: React.FC<MediaCardProps> = ({
     <Link to={slug} className={`${styles.mediaCard} ${className || ''}`}>
       <div className={styles.posterWrapper}>
         {poster ? (
-          <GatsbyImage image={poster} alt={title} className={styles.poster} />
+          <GatsbyImage
+            image={poster}
+            alt={title}
+            className={styles.poster}
+            loading="lazy"
+          />
         ) : (
           <div className={styles.posterPlaceholder}>
             <span>No Image</span>

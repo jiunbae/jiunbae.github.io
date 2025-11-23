@@ -1,14 +1,17 @@
 import type { PropsWithChildren } from 'react'
 
-import { Footer, Header } from './components'
+import { Footer, Header, SkipLink } from './components'
 
 type LayoutProps = PropsWithChildren<{ pathname: string }>;
 
 const Layout = ({ pathname, children }: LayoutProps) => {
   return (
     <>
+      <SkipLink />
       <Header pathname={pathname} />
-      {children}
+      <main id="main-content">
+        {children}
+      </main>
       <Footer />
     </>
   )

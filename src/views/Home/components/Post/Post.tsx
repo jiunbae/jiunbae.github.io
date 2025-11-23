@@ -39,7 +39,12 @@ export const CardPost = ({
   <Link to={`/posts${slug}`} className={className}>
     <article className={styles.card}>
       <figure>
-        <GatsbyImage image={heroImage} alt={heroImageAlt} className={styles.cardImage} />
+        <GatsbyImage
+          image={heroImage}
+          alt={heroImageAlt}
+          className={styles.cardImage}
+          loading="lazy"
+        />
         <figcaption className={styles.cardCaption}>
           <Date date={date} className={styles.cardDate} />
           <TagList tags={tags} className={styles.cardTagList} />
@@ -64,7 +69,12 @@ export const ItemPost = ({
   <Link to={`/posts${slug}`} className={className}>
     <article className={styles.item}>
       <figure className={styles.itemFigure}>
-        <GatsbyImage image={heroImage} alt={heroImageAlt} className={styles.itemImage} />
+        <GatsbyImage
+          image={heroImage}
+          alt={heroImageAlt}
+          className={styles.itemImage}
+          loading="lazy"
+        />
         <figcaption className={styles.itemCaption}>
           <Title title={title} className={styles.itemTitle} />
           <Description description={description} className={styles.itemDescription} />
