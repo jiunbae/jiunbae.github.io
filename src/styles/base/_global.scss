@@ -70,7 +70,7 @@ a {
   color: var(--primary-c1);
   text-decoration-color: rgba(100, 181, 246, 0.3);
   text-underline-offset: 2px;
-  transition: text-decoration-color 0.15s ease, color 0.15s ease;
+  transition: text-decoration-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
 
   &:hover {
     text-decoration-color: var(--primary-c1);
@@ -91,6 +91,7 @@ a {
 button,
 [role="button"] {
   cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
 
   &:active {
     transform: scale(0.98);
