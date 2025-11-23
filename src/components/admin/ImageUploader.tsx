@@ -10,7 +10,7 @@ import { uploadImage } from '@/utils/github';
 
 interface ImageUploaderProps {
   postSlug: string;
-  postType: 'post' | 'note';
+  postType: 'post' | 'note' | 'review';
   onImageUploaded: (imageUrl: string) => void;
 }
 

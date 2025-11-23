@@ -2,12 +2,15 @@
  * localStorage/sessionStorage 헬퍼 함수
  * GitHub PAT 및 Draft 데이터를 저장/조회
  *
- * SECURITY WARNING:
- * - localStorage/sessionStorage는 XSS 공격에 취약합니다
- * - Personal Access Token을 저장할 때는 보안 위험을 인지하고 사용하세요
+ * SECURITY NOTE:
+ * - GitHub Personal Access Token은 AES-GCM 암호화되어 저장됩니다
+ * - Web Crypto API를 사용한 브라우저 기반 암호화
+ * - localStorage/sessionStorage는 XSS 공격에 취약하므로 주의가 필요합니다
  * - 공용 컴퓨터에서는 sessionStorage 사용을 권장합니다
  * - 사용 후 반드시 로그아웃하여 토큰을 제거하세요
  */
+
+import { encrypt, decrypt, isValidEncryptedData } from './crypto';
 
 const GITHUB_TOKEN_KEY = 'github_pat';
 const DRAFTS_KEY = 'blog_drafts';
@@ -53,27 +56,52 @@ export interface Draft {
     heroImage?: string;
     heroImageAlt?: string;
   };
-  type: 'post' | 'note';
+  type: 'post' | 'note' | 'review';
   savedAt: string;
 }
 
 /**
- * GitHub Personal Access Token 저장
+ * GitHub Personal Access Token 저장 (암호화됨)
  */
-export const saveGitHubToken = (token: string): void => {
+export const saveGitHubToken = async (token: string): Promise<void> => {
   const storage = getStorage();
   if (storage) {
-    storage.setItem(GITHUB_TOKEN_KEY, token);
+    try {
+      const encrypted = await encrypt(token);
+      storage.setItem(GITHUB_TOKEN_KEY, encrypted);
+    } catch (error) {
+      console.error('Failed to encrypt token:', error);
+      // 암호화 실패 시 저장하지 않음 (보안상 평문 저장 방지)
+      throw new Error('토큰 암호화에 실패했습니다');
+    }
   }
 };
 
 /**
- * GitHub Personal Access Token 조회
+ * GitHub Personal Access Token 조회 (복호화됨)
  */
-export const getGitHubToken = (): string | null => {
+export const getGitHubToken = async (): Promise<string | null> => {
   const storage = getStorage();
   if (storage) {
-    return storage.getItem(GITHUB_TOKEN_KEY);
+    const encryptedToken = storage.getItem(GITHUB_TOKEN_KEY);
+    if (encryptedToken) {
+      try {
+        // 암호화된 데이터인지 확인
+        if (!isValidEncryptedData(encryptedToken)) {
+          console.warn('Invalid encrypted token format, removing...');
+          removeGitHubToken();
+          return null;
+        }
+
+        const decrypted = await decrypt(encryptedToken);
+        return decrypted;
+      } catch (error) {
+        console.error('Failed to decrypt token:', error);
+        // 복호화 실패 시 토큰 제거 (손상된 데이터)
+        removeGitHubToken();
+        return null;
+      }
+    }
   }
   return null;
 };

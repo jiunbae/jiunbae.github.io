@@ -25,7 +25,21 @@ const config: GatsbyConfig = {
   },
   graphqlTypegen: true,
   jsxRuntime: 'automatic',
+  flags: {
+    // 성능 최적화 플래그
+    FAST_DEV: true,
+  },
   plugins: [
+    // 번들 사이즈 분석 (빌드 시에만 활성화)
+    ...(process.env.ANALYZE_BUNDLE === 'true' ? [{
+      resolve: 'gatsby-plugin-webpack-bundle-analyser-v2',
+      options: {
+        devMode: false,
+        analyzerMode: 'static',
+        reportFilename: 'bundle-report.html',
+        openAnalyzer: false,
+      }
+    }] : []),
     {
       resolve: 'gatsby-plugin-google-gtag',
       options: {
@@ -145,8 +159,29 @@ const config: GatsbyConfig = {
         `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }: any) => {
-              return allMarkdownRemark.nodes.map((node: any) => {
+            serialize: ({ query }: {
+              query: {
+                site: {
+                  siteMetadata: {
+                    siteUrl: string
+                  }
+                }
+                allMarkdownRemark: {
+                  nodes: Array<{
+                    frontmatter: {
+                      date: string
+                      description?: string | null
+                      slug: string
+                      title: string
+                    }
+                    excerpt?: string | null
+                    html: string
+                  }>
+                }
+              }
+            }) => {
+              const { site, allMarkdownRemark } = query
+              return allMarkdownRemark.nodes.map((node) => {
                 const description = node.frontmatter.description ?? node.excerpt ?? ''
                 return Object.assign({}, node.frontmatter, {
                   description,
