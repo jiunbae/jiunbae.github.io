@@ -274,6 +274,9 @@ export const createMarkdownFile = (
   frontmatter: Omit<Post, 'content' | 'path' | 'sha'>,
   content: string
 ): string => {
+  // published가 명시되지 않았으면 기본값 true 사용
+  const published = frontmatter.published !== undefined ? frontmatter.published : true;
+
   const frontmatterText = `---
 title: ${frontmatter.title}
 description: ${frontmatter.description}
@@ -289,12 +292,8 @@ heroImage: ${frontmatter.heroImage}`
       ? `
 heroImageAlt: ${frontmatter.heroImageAlt}`
       : ''
-  }${
-    frontmatter.published !== undefined
-      ? `
-published: ${frontmatter.published}`
-      : ''
   }
+published: ${published}
 ---
 
 ${content}`;
@@ -547,6 +546,9 @@ export const createReviewMarkdownFile = (
   frontmatter: Omit<Review, 'content' | 'path' | 'sha'>,
   content: string
 ): string => {
+  // published가 명시되지 않았으면 기본값 true 사용
+  const published = frontmatter.published !== undefined ? frontmatter.published : true;
+
   const metadataLines: string[] = [];
   if (frontmatter.metadata.originalTitle)
     metadataLines.push(`  originalTitle: ${frontmatter.metadata.originalTitle}`);
@@ -593,12 +595,8 @@ ${metadataLines.join('\n')}`
 externalIds:
 ${externalIdsLines.join('\n')}`
       : ''
-  }${
-    frontmatter.published !== undefined
-      ? `
-published: ${frontmatter.published}`
-      : ''
   }
+published: ${published}
 ---
 
 ${content}`;

@@ -132,12 +132,14 @@ const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, onLoadDraf
                   onClick={() => onSelectPost(item)}
                 >
                   <div className="post-item-content">
-                    <h3 className="post-item-title">
-                      {item.title || '(제목 없음)'}
+                    <div className="post-item-header">
+                      <h3 className="post-item-title">
+                        {item.title || '(제목 없음)'}
+                      </h3>
                       {item.published === false && (
-                        <span className="unpublished-badge"> (비공개)</span>
+                        <span className="unpublished-badge">비공개</span>
                       )}
-                    </h3>
+                    </div>
                     <p className="post-item-description">
                       {isReview ? review.oneLiner : post.description || '(설명 없음)'}
                     </p>
