@@ -1,0 +1,161 @@
+@use '@/styles/abstracts' as *;
+
+.mobileNavWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.currentPage {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--icon-color);
+
+  @include tabletAndUp {
+    display: none;
+  }
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--icon-color);
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--icon-color);
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background-color: var(--background);
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+
+  &.open {
+    right: 0;
+  }
+}
+
+.drawerContent {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  height: 100%;
+}
+
+.navLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 40px; /* 헤더 공간 확보 */
+}
+
+.navLink {
+  display: block;
+  padding: 16px 12px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-1);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--article-background);
+  }
+
+  &.active {
+    color: var(--primary-c1);
+    background-color: var(--article-background);
+  }
+}
+
+.divider {
+  margin: 24px 0;
+  border: none;
+  border-top: 1px solid var(--gray-2);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray-1);
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: var(--article-background);
+  }
+
+  .actionIcon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: var(--icon-color);
+    stroke: var(--icon-color);
+  }
+}
