@@ -51,27 +51,6 @@ const config: GatsbyConfig = {
     FAST_DEV: true,
   },
   plugins: [
-    // Content Security Policy (프로덕션에서만 활성화)
-    ...(process.env.NODE_ENV === 'production' ? [{
-      resolve: 'gatsby-plugin-csp',
-      options: {
-        mergeScriptHashes: true,
-        mergeStyleHashes: true,
-        mergeDefaultDirectives: true,
-        directives: {
-          'default-src': ["'self'"],
-          'script-src': ["'self'", 'https://www.googletagmanager.com', 'https://www.google-analytics.com'],
-          'style-src': ["'self'"],
-          'img-src': ["'self'", 'data:', 'https:', 'blob:'],
-          'font-src': ["'self'", 'data:'],
-          'connect-src': ["'self'", 'https://api.github.com', 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
-          'frame-ancestors': ["'none'"],
-          'base-uri': ["'self'"],
-          'form-action': ["'self'"],
-          'object-src': ["'none'"],
-        }
-      }
-    }] : []),
     // 번들 사이즈 분석 (빌드 시에만 활성화)
     ...(process.env.ANALYZE_BUNDLE === 'true' ? [{
       resolve: 'gatsby-plugin-webpack-bundle-analyser-v2',
