@@ -1,6 +1,27 @@
 import type { GatsbyConfig } from 'gatsby'
 import path from 'path'
 
+// RSS Feed 타입 정의
+type FeedQuery = {
+  site: {
+    siteMetadata: {
+      siteUrl: string
+    }
+  }
+  allMarkdownRemark: {
+    nodes: Array<{
+      frontmatter: {
+        date: string
+        description?: string | null
+        slug: string
+        title: string
+      }
+      excerpt?: string | null
+      html: string
+    }>
+  }
+}
+
 const config: GatsbyConfig = {
   siteMetadata: {
     title: 'Jiunbae\'s Blog',
@@ -30,6 +51,27 @@ const config: GatsbyConfig = {
     FAST_DEV: true,
   },
   plugins: [
+    // Content Security Policy (프로덕션에서만 활성화)
+    ...(process.env.NODE_ENV === 'production' ? [{
+      resolve: 'gatsby-plugin-csp',
+      options: {
+        mergeScriptHashes: true,
+        mergeStyleHashes: true,
+        mergeDefaultDirectives: true,
+        directives: {
+          'default-src': ["'self'"],
+          'script-src': ["'self'", 'https://www.googletagmanager.com', 'https://www.google-analytics.com'],
+          'style-src': ["'self'"],
+          'img-src': ["'self'", 'data:', 'https:', 'blob:'],
+          'font-src': ["'self'", 'data:'],
+          'connect-src': ["'self'", 'https://api.github.com', 'https://www.google-analytics.com', 'https://www.googletagmanager.com'],
+          'frame-ancestors': ["'none'"],
+          'base-uri': ["'self'"],
+          'form-action': ["'self'"],
+          'object-src': ["'none'"],
+        }
+      }
+    }] : []),
     // 번들 사이즈 분석 (빌드 시에만 활성화)
     ...(process.env.ANALYZE_BUNDLE === 'true' ? [{
       resolve: 'gatsby-plugin-webpack-bundle-analyser-v2',
@@ -159,27 +201,7 @@ const config: GatsbyConfig = {
         `,
         feeds: [
           {
-            serialize: ({ query }: {
-              query: {
-                site: {
-                  siteMetadata: {
-                    siteUrl: string
-                  }
-                }
-                allMarkdownRemark: {
-                  nodes: Array<{
-                    frontmatter: {
-                      date: string
-                      description?: string | null
-                      slug: string
-                      title: string
-                    }
-                    excerpt?: string | null
-                    html: string
-                  }>
-                }
-              }
-            }) => {
+            serialize: ({ query }: { query: FeedQuery }) => {
               const { site, allMarkdownRemark } = query
               return allMarkdownRemark.nodes.map((node) => {
                 const description = node.frontmatter.description ?? node.excerpt ?? ''
