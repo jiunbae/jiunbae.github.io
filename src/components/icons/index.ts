@@ -6,6 +6,9 @@ export { ArrowUpIcon } from './ArrowUpIcon'
 export { TableOfContentsIcon } from './TableOfContentsIcon'
 export { ProfileIcon } from './ProfileIcon'
 export { LogoIcon } from './LogoIcon'
+export { MenuIcon } from './MenuIcon'
+export { CloseIcon } from './CloseIcon'
+export { SearchIcon } from './SearchIcon'
 export {
   MailIcon,
   FacebookIcon,
