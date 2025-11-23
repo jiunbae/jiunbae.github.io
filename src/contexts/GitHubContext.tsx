@@ -29,20 +29,27 @@ export const GitHubProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   // 초기 로드 시 토큰 확인
   useEffect(() => {
     const initAuth = async () => {
-      const savedToken = getGitHubToken();
-      if (savedToken) {
-        const isValid = await validateToken(savedToken);
-        if (isValid) {
-          setToken(savedToken);
-          setOctokit(createOctokit(savedToken));
-          setIsAuthenticated(true);
-          setError(null);
-        } else {
-          removeGitHubToken();
-          setError('저장된 토큰이 만료되었거나 유효하지 않습니다. 다시 로그인해주세요.');
+      try {
+        const savedToken = await getGitHubToken();
+        if (savedToken) {
+          const isValid = await validateToken(savedToken);
+          if (isValid) {
+            setToken(savedToken);
+            setOctokit(createOctokit(savedToken));
+            setIsAuthenticated(true);
+            setError(null);
+          } else {
+            removeGitHubToken();
+            setError('저장된 토큰이 만료되었거나 유효하지 않습니다. 다시 로그인해주세요.');
+          }
         }
+      } catch (error) {
+        console.error('Failed to load token:', error);
+        setError('토큰을 불러오는데 실패했습니다.');
+        removeGitHubToken();
+      } finally {
+        setIsValidating(false);
       }
-      setIsValidating(false);
     };
 
     initAuth();
@@ -50,19 +57,27 @@ export const GitHubProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   const login = async (newToken: string): Promise<boolean> => {
     setIsValidating(true);
-    const isValid = await validateToken(newToken);
+    try {
+      const isValid = await validateToken(newToken);
 
-    if (isValid) {
-      saveGitHubToken(newToken);
-      setToken(newToken);
-      setOctokit(createOctokit(newToken));
-      setIsAuthenticated(true);
+      if (isValid) {
+        await saveGitHubToken(newToken);
+        setToken(newToken);
+        setOctokit(createOctokit(newToken));
+        setIsAuthenticated(true);
+        setError(null);
+        return true;
+      }
+
+      setError('유효하지 않은 토큰입니다.');
+      return false;
+    } catch (error) {
+      console.error('Login failed:', error);
+      setError('로그인에 실패했습니다.');
+      return false;
+    } finally {
       setIsValidating(false);
-      return true;
     }
-
-    setIsValidating(false);
-    return false;
   };
 
   const logout = () => {
