@@ -559,6 +559,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       rating: Float
       oneLiner: String
       metadata: ReviewMetadata
+      published: Boolean
     }
 
     type MarkdownRemarkFields {
