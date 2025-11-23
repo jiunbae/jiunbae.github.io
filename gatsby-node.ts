@@ -515,6 +515,12 @@ export const onCreateNode: GatsbyNode['onCreateNode'] = ({ node, actions, getNod
     name: 'collection',
     value: collection
   })
+
+  // published 필드가 없으면 기본값 true 설정
+  const frontmatter = (node as any).frontmatter
+  if (frontmatter && frontmatter.published === undefined) {
+    frontmatter.published = true
+  }
 }
 
 export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] = ({
@@ -559,6 +565,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       rating: Float
       oneLiner: String
       metadata: ReviewMetadata
+      published: Boolean @dontInfer
     }
 
     type MarkdownRemarkFields {

@@ -6,6 +6,7 @@ slug: /ITE4065
 tags: [curriculum, tech]
 heroImage:
 heroImageAlt:
+published: true
 ---
 
 # 멀티코어 프로그래밍

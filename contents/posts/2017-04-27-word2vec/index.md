@@ -6,6 +6,7 @@ slug: /word2vec
 tags: [nlp, tech]
 heroImage:
 heroImageAlt:
+published: true
 ---
 ## NLP
 

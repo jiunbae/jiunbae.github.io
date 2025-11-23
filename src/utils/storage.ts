@@ -142,3 +142,12 @@ export const getDraft = (id: string): Draft | null => {
   const drafts = getDrafts();
   return drafts.find((d) => d.id === id) || null;
 };
+
+/**
+ * 모든 Draft 삭제
+ */
+export const deleteAllDrafts = (): void => {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(DRAFTS_KEY);
+  }
+};

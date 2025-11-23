@@ -3,35 +3,60 @@
  * Frontmatter, 에디터, 이미지 업로더, Draft 관리 통합
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import { useGitHub } from '@/contexts/GitHubContext';
-import { Post, createOrUpdateFile, createMarkdownFile } from '@/utils/github';
+import {
+  Post,
+  Review,
+  createOrUpdateFile,
+  createMarkdownFile,
+  createReviewMarkdownFile,
+} from '@/utils/github';
 import { saveDraft, Draft } from '@/utils/storage';
 import FrontmatterForm from './FrontmatterForm';
+import ReviewForm from './ReviewForm';
 import ImageUploader from './ImageUploader';
 import DraftManager from './DraftManager';
 import { format } from 'date-fns';
 
 interface EditorProps {
-  post: Post | null;
-  postType: 'post' | 'note';
+  post: Post | Review | null;
+  postType: 'post' | 'note' | 'review';
+  loadedDraft?: Draft | null;
   onSaved: () => void;
   onCancel: () => void;
 }
 
-const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) => {
+const Editor: React.FC<EditorProps> = ({ post, postType, loadedDraft, onSaved, onCancel }) => {
   const { octokit } = useGitHub();
   const [content, setContent] = useState('');
-  const [frontmatter, setFrontmatter] = useState<Omit<Post, 'content' | 'path' | 'sha'>>({
-    title: '',
-    description: '',
-    date: format(new Date(), 'yyyy-MM-dd'),
-    slug: '',
-    tags: [],
-    heroImage: '',
-    heroImageAlt: '',
-  });
+  const [frontmatter, setFrontmatter] = useState<
+    Omit<Post, 'content' | 'path' | 'sha'> | Omit<Review, 'content' | 'path' | 'sha'>
+  >(
+    postType === 'review'
+      ? {
+          title: '',
+          mediaType: 'movie' as const,
+          rating: 0,
+          oneLiner: '',
+          slug: '',
+          date: format(new Date(), 'yyyy-MM-dd'),
+          tags: [],
+          metadata: {},
+          published: true,
+        }
+      : {
+          title: '',
+          description: '',
+          date: format(new Date(), 'yyyy-MM-dd'),
+          slug: '',
+          tags: [],
+          heroImage: '',
+          heroImageAlt: '',
+          published: true,
+        }
+  );
   const [draftId] = useState(`draft_${Date.now()}`);
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState('');
@@ -42,29 +67,67 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
   useEffect(() => {
     if (post) {
       setContent(post.content);
-      setFrontmatter({
-        title: post.title,
-        description: post.description,
-        date: post.date,
-        slug: post.slug,
-        tags: post.tags,
-        heroImage: post.heroImage,
-        heroImageAlt: post.heroImageAlt,
-      });
+      if (postType === 'review') {
+        const reviewPost = post as Review;
+        setFrontmatter({
+          title: reviewPost.title,
+          mediaType: reviewPost.mediaType,
+          rating: reviewPost.rating,
+          oneLiner: reviewPost.oneLiner,
+          slug: reviewPost.slug,
+          date: reviewPost.date,
+          tags: reviewPost.tags,
+          poster: reviewPost.poster,
+          metadata: reviewPost.metadata,
+          externalIds: reviewPost.externalIds,
+          published: reviewPost.published,
+        });
+      } else {
+        const postData = post as Post;
+        setFrontmatter({
+          title: postData.title,
+          description: postData.description,
+          date: postData.date,
+          slug: postData.slug,
+          tags: postData.tags,
+          heroImage: postData.heroImage,
+          heroImageAlt: postData.heroImageAlt,
+          published: postData.published,
+        });
+      }
+    } else if (loadedDraft) {
+      // Draft 불러오기
+      setContent(loadedDraft.content);
+      setFrontmatter(loadedDraft.frontmatter as any);
     } else {
       // 새 포스트
       setContent('');
-      setFrontmatter({
-        title: '',
-        description: '',
-        date: format(new Date(), 'yyyy-MM-dd'),
-        slug: '',
-        tags: [],
-        heroImage: '',
-        heroImageAlt: '',
-      });
+      if (postType === 'review') {
+        setFrontmatter({
+          title: '',
+          mediaType: 'movie' as const,
+          rating: 0,
+          oneLiner: '',
+          slug: '',
+          date: format(new Date(), 'yyyy-MM-dd'),
+          tags: [],
+          metadata: {},
+          published: true,
+        });
+      } else {
+        setFrontmatter({
+          title: '',
+          description: '',
+          date: format(new Date(), 'yyyy-MM-dd'),
+          slug: '',
+          tags: [],
+          heroImage: '',
+          heroImageAlt: '',
+          published: true,
+        });
+      }
     }
-  }, [post]);
+  }, [post, postType, loadedDraft]);
 
   // Draft 자동 저장 (debounce: 5초 동안 변경 없으면 저장)
   useEffect(() => {
@@ -79,8 +142,8 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
         id: draftId,
         title: frontmatter.title || '(제목 없음)',
         content,
-        frontmatter,
-        type: postType,
+        frontmatter: frontmatter as any,
+        type: postType === 'review' ? 'post' : postType,
         savedAt: new Date().toISOString(),
       };
       saveDraft(draft);
@@ -92,11 +155,26 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
     return () => clearTimeout(timer);
   }, [content, frontmatter, draftId, postType]);
 
-  // Draft 불러오기
-  const handleLoadDraft = useCallback((draft: Draft) => {
-    setContent(draft.content);
-    setFrontmatter(draft.frontmatter);
-  }, []);
+  // 취소 시 임시저장
+  const handleCancel = () => {
+    if (!confirm('작성을 취소하시겠습니까? (작성 중인 내용은 자동으로 임시 저장됩니다)')) {
+      return;
+    }
+
+    // 내용이 있으면 임시저장
+    if (content || frontmatter.title) {
+      const draft: Draft = {
+        id: draftId,
+        title: frontmatter.title || '(제목 없음)',
+        content,
+        frontmatter: frontmatter as any,
+        type: postType === 'review' ? 'post' : postType,
+        savedAt: new Date().toISOString(),
+      };
+      saveDraft(draft);
+    }
+    onCancel();
+  };
 
   // 저장 및 퍼블리시
   const handleSave = async () => {
@@ -122,7 +200,10 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
 
     try {
       // 마크다운 파일 생성
-      const markdownContent = createMarkdownFile(frontmatter, content);
+      const markdownContent =
+        postType === 'review'
+          ? createReviewMarkdownFile(frontmatter as Omit<Review, 'content' | 'path' | 'sha'>, content)
+          : createMarkdownFile(frontmatter as Omit<Post, 'content' | 'path' | 'sha'>, content);
 
       // 파일 경로 생성
       let filePath: string;
@@ -137,6 +218,10 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
         if (postType === 'post') {
           // posts: contents/posts/YYYY-MM-DD-slug/index.md
           filePath = `contents/posts/${datePrefix}-${slugName}/index.md`;
+        } else if (postType === 'review') {
+          // reviews: contents/reviews/YYYY-MM-DD-slug/index.md
+          slugName = slugName.replace(/^reviews\//, '');
+          filePath = `contents/reviews/${datePrefix}-${slugName}/index.md`;
         } else {
           // notes: contents/notes/YYYY-MM-DD-slug.md
           // slug가 /notes/xxx 형식이면 notes/ prefix 제거
@@ -198,11 +283,14 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
   return (
     <div className="editor-container">
       <div className="editor-header">
-        <h2>{post ? '포스트 수정' : `새 ${postType === 'post' ? '포스트' : '노트'}`}</h2>
+        <h2>
+          {post
+            ? '포스트 수정'
+            : `새 ${postType === 'post' ? '포스트' : postType === 'note' ? '노트' : '리뷰'}`}
+        </h2>
         <div className="editor-actions">
           {saveStatus && <span className="save-status">{saveStatus}</span>}
-          <DraftManager onLoadDraft={handleLoadDraft} currentDraftId={draftId} />
-          <button onClick={onCancel} className="btn-cancel">
+          <button onClick={handleCancel} className="btn-cancel">
             취소
           </button>
           <button onClick={handleSave} className="btn-save" disabled={saving}>
@@ -215,7 +303,18 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
         {/* Frontmatter 폼 */}
         <div className="editor-section">
           <h3>메타데이터</h3>
-          <FrontmatterForm frontmatter={frontmatter} onChange={setFrontmatter} postType={postType} />
+          {postType === 'review' ? (
+            <ReviewForm
+              frontmatter={frontmatter as Omit<Review, 'content' | 'path' | 'sha'>}
+              onChange={setFrontmatter}
+            />
+          ) : (
+            <FrontmatterForm
+              frontmatter={frontmatter as Omit<Post, 'content' | 'path' | 'sha'>}
+              onChange={setFrontmatter}
+              postType={postType}
+            />
+          )}
         </div>
 
         {/* 이미지 업로더 */}

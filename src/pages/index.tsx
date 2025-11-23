@@ -4,7 +4,10 @@ export const query = graphql`
   query Home {
     allMarkdownRemark(
       sort: { frontmatter: { date: DESC } }
-      filter: { fields: { collection: { eq: "post" } } }
+      filter: {
+        fields: { collection: { eq: "post" } }
+        frontmatter: { published: { eq: true } }
+      }
     ) {
       totalCount
       nodes {

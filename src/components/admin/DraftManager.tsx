@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { getDrafts, deleteDraft, Draft } from '@/utils/storage';
+import { getDrafts, deleteDraft, deleteAllDrafts, Draft } from '@/utils/storage';
 import { format } from 'date-fns';
 
 interface DraftManagerProps {
@@ -28,6 +28,14 @@ const DraftManager: React.FC<DraftManagerProps> = ({ onLoadDraft, currentDraftId
     if (confirm('이 임시 저장을 삭제하시겠습니까?')) {
       deleteDraft(id);
       loadDrafts();
+    }
+  };
+
+  const handleDeleteAllDrafts = () => {
+    if (confirm(`모든 임시 저장 (${drafts.length}개)을 삭제하시겠습니까?`)) {
+      deleteAllDrafts();
+      loadDrafts();
+      setIsOpen(false);
     }
   };
 
@@ -59,9 +67,14 @@ const DraftManager: React.FC<DraftManagerProps> = ({ onLoadDraft, currentDraftId
           <div className="draft-modal-content">
             <div className="draft-modal-header">
               <h3>임시 저장 목록</h3>
-              <button onClick={() => setIsOpen(false)} className="btn-close">
-                ✕
-              </button>
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                <button onClick={handleDeleteAllDrafts} className="btn-delete-all">
+                  전체 삭제
+                </button>
+                <button onClick={() => setIsOpen(false)} className="btn-close">
+                  ✕
+                </button>
+              </div>
             </div>
 
             <ul className="draft-list">

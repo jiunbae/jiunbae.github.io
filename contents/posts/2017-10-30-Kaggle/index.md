@@ -6,6 +6,7 @@ slug: /Kaggle
 tags: [tech]
 heroImage:
 heroImageAlt:
+published: true
 ---
 
 # Kaggle로 시작하는 데이터 사이언스

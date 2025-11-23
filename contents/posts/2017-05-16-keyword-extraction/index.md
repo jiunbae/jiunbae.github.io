@@ -6,6 +6,7 @@ slug: /keyword-extraction
 tags: [tech]
 heroImage:
 heroImageAlt:
+published: true
 ---
 
 # 문서에서 키워드 추출하기

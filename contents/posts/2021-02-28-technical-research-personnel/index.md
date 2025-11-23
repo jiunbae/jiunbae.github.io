@@ -6,6 +6,7 @@ slug: /technical-research-personnel
 tags: [review]
 heroImage:
 heroImageAlt:
+published: true
 ---
 
 # 전문연구요원이 되기까지

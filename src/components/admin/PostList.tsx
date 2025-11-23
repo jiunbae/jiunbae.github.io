@@ -5,21 +5,25 @@
 
 import React, { useState, useEffect } from 'react';
 import { useGitHub } from '@/contexts/GitHubContext';
-import { getPosts, Post } from '@/utils/github';
+import { getPosts, getReviews, Post, Review } from '@/utils/github';
 import { format } from 'date-fns';
+import DraftManager from './DraftManager';
+import { Draft } from '@/utils/storage';
 
 interface PostListProps {
-  onSelectPost: (post: Post | null) => void;
-  onNewPost: (type: 'post' | 'note') => void;
-  selectedPost: Post | null;
+  onSelectPost: (post: Post | Review | null) => void;
+  onNewPost: (type: 'post' | 'note' | 'review') => void;
+  onLoadDraft: (draft: Draft) => void;
+  selectedPost: Post | Review | null;
 }
 
-const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, selectedPost }) => {
+const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, onLoadDraft, selectedPost }) => {
   const { octokit } = useGitHub();
   const [posts, setPosts] = useState<Post[]>([]);
   const [notes, setNotes] = useState<Post[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'posts' | 'notes'>('posts');
+  const [activeTab, setActiveTab] = useState<'posts' | 'notes' | 'reviews'>('posts');
 
   useEffect(() => {
     loadPosts();
@@ -30,13 +34,15 @@ const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, selectedPo
 
     setLoading(true);
     try {
-      const [postsData, notesData] = await Promise.all([
+      const [postsData, notesData, reviewsData] = await Promise.all([
         getPosts(octokit, 'posts'),
         getPosts(octokit, 'notes'),
+        getReviews(octokit),
       ]);
 
       setPosts(postsData);
       setNotes(notesData);
+      setReviews(reviewsData);
     } catch (error) {
       console.error('Failed to load posts:', error);
     } finally {
@@ -44,7 +50,7 @@ const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, selectedPo
     }
   };
 
-  const currentList = activeTab === 'posts' ? posts : notes;
+  const currentList = activeTab === 'posts' ? posts : activeTab === 'notes' ? notes : reviews;
 
   return (
     <div className="post-list">
@@ -62,11 +68,23 @@ const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, selectedPo
           >
             노트 ({notes.length})
           </button>
+          <button
+            className={`tab ${activeTab === 'reviews' ? 'active' : ''}`}
+            onClick={() => setActiveTab('reviews')}
+          >
+            리뷰 ({reviews.length})
+          </button>
         </div>
 
         <div className="post-list-actions">
-          <button onClick={() => onNewPost(activeTab === 'posts' ? 'post' : 'note')} className="btn-new">
-            + 새 {activeTab === 'posts' ? '포스트' : '노트'}
+          <DraftManager onLoadDraft={onLoadDraft} currentDraftId="" />
+          <button
+            onClick={() =>
+              onNewPost(activeTab === 'posts' ? 'post' : activeTab === 'notes' ? 'note' : 'review')
+            }
+            className="btn-new"
+          >
+            + 새 {activeTab === 'posts' ? '포스트' : activeTab === 'notes' ? '노트' : '리뷰'}
           </button>
           <button onClick={loadPosts} className="btn-refresh" disabled={loading}>
             새로고침
@@ -81,43 +99,68 @@ const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, selectedPo
           </div>
         ) : currentList.length === 0 ? (
           <div className="post-list-empty">
-            <p>아직 {activeTab === 'posts' ? '포스트' : '노트'}가 없습니다.</p>
-            <button onClick={() => onNewPost(activeTab === 'posts' ? 'post' : 'note')} className="btn-new-large">
-              첫 {activeTab === 'posts' ? '포스트' : '노트'} 작성하기
+            <p>
+              아직{' '}
+              {activeTab === 'posts' ? '포스트' : activeTab === 'notes' ? '노트' : '리뷰'}가
+              없습니다.
+            </p>
+            <button
+              onClick={() =>
+                onNewPost(
+                  activeTab === 'posts' ? 'post' : activeTab === 'notes' ? 'note' : 'review'
+                )
+              }
+              className="btn-new-large"
+            >
+              첫 {activeTab === 'posts' ? '포스트' : activeTab === 'notes' ? '노트' : '리뷰'}{' '}
+              작성하기
             </button>
           </div>
         ) : (
           <ul className="post-list-items">
-            {currentList.map((post) => (
-              <li
-                key={post.path}
-                className={`post-list-item ${
-                  selectedPost?.path === post.path ? 'active' : ''
-                }`}
-                onClick={() => onSelectPost(post)}
-              >
-                <div className="post-item-content">
-                  <h3 className="post-item-title">{post.title || '(제목 없음)'}</h3>
-                  <p className="post-item-description">
-                    {post.description || '(설명 없음)'}
-                  </p>
-                  <div className="post-item-meta">
-                    <span className="post-item-date">
-                      {format(new Date(post.date), 'yyyy-MM-dd')}
-                    </span>
-                    {post.tags.length > 0 && (
-                      <span className="post-item-tags">
-                        {post.tags.map((tag: string) => (
-                          <span key={tag} className="tag">
-                            {tag}
-                          </span>
-                        ))}
+            {currentList.map((item) => {
+              const isReview = 'mediaType' in item;
+              const post = item as Post;
+              const review = item as Review;
+
+              return (
+                <li
+                  key={item.path}
+                  className={`post-list-item ${
+                    selectedPost?.path === item.path ? 'active' : ''
+                  }`}
+                  onClick={() => onSelectPost(item)}
+                >
+                  <div className="post-item-content">
+                    <div className="post-item-header">
+                      <h3 className="post-item-title">
+                        {item.title || '(제목 없음)'}
+                      </h3>
+                      {item.published === false && (
+                        <span className="unpublished-badge">비공개</span>
+                      )}
+                    </div>
+                    <p className="post-item-description">
+                      {isReview ? review.oneLiner : post.description || '(설명 없음)'}
+                    </p>
+                    <div className="post-item-meta">
+                      <span className="post-item-date">
+                        {format(new Date(item.date), 'yyyy-MM-dd')}
                       </span>
-                    )}
+                      {item.tags.length > 0 && (
+                        <span className="post-item-tags">
+                          {item.tags.map((tag: string) => (
+                            <span key={tag} className="tag">
+                              {tag}
+                            </span>
+                          ))}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

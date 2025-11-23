@@ -6,6 +6,7 @@ slug: /review-ncsoft
 tags: [review]
 heroImage:
 heroImageAlt:
+published: true
 ---
 
 # NCSOFT에서의 3년간

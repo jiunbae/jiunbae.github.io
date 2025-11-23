@@ -6,6 +6,7 @@ slug: /ITE3068
 tags: [curriculum]
 heroImage:
 heroImageAlt:
+published: true
 ---
 
 Project: Software Studio @ cs.hanynag
