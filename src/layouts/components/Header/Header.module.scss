@@ -5,19 +5,20 @@
   
   &.shrink {
     .wrapper {
-      height: 40px;
+      height: 52px;
       padding: 10px 20px;
       transition: height 0.3s;
 
       @include tabletAndUp {
+        height: 40px;
         padding: 10px 30px;
       }
 
       .headingLink {
         .headingWrapper {
           .logoIcon {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             transition: width 0.3s, height 0.3s;
           }
           .heading {
@@ -37,11 +38,6 @@
           width: 20px;
           height: 20px;
           transition: width 0.3s, height 0.3s;
-
-          @include tabletAndUp {
-            width: 24px;
-            height: 24px;
-          }
         }
 
         .link {
@@ -78,6 +74,8 @@
     }
 
     .headingLink {
+      display: flex;
+      align-items: center;
       text-decoration: none;
 
       .headingWrapper {
@@ -86,17 +84,20 @@
         gap: 8px;
 
         .logoIcon {
-          width: 28px;
-          height: 28px;
+          display: block;
+          width: 32px;
+          height: 32px;
+          flex-shrink: 0;
           color: var(--icon-color);
+          vertical-align: middle;
+          transition: width 0.3s, height 0.3s;
         }
 
         .heading {
           display: none;
           font-weight: 800;
           font-size: 1.5rem;
-          line-height: 1.125rem;
-          margin-top: 2px;
+          line-height: 1.5rem;
           color: var(--icon-color);
 
           @include tabletAndUp {
@@ -106,7 +107,23 @@
       }
     }
 
-      .headerButtons {
+    .desktopOnly {
+      display: none;
+
+      @include tabletAndUp {
+        display: flex;
+      }
+    }
+
+    .mobileOnly {
+      display: flex;
+
+      @include tabletAndUp {
+        display: none;
+      }
+    }
+
+    .headerButtons {
       display: flex;
       align-items: center;
       gap: .75rem;
@@ -116,18 +133,20 @@
       }
 
         .navigation {
-          display: flex;
+          display: none;
           align-items: center;
           gap: .75rem;
 
           @include tabletAndUp {
+            display: flex;
             gap: 1rem;
           }
         }
 
         .icon {
-          width: 26px;
-          height: 26px;
+          display: block;
+          width: 24px;
+          height: 24px;
           color: var(--icon-color);
           stroke: var(--icon-color);
           transition: width 0.3s, height 0.3s;
@@ -139,19 +158,59 @@
           font-weight: 600;
           font-size: 1rem;
           line-height: 1.5rem;
-          transition: width 0.3s, height 0.3s;
+          transition: color 0.2s ease, opacity 0.2s ease;
+          opacity: 0.7;
 
           &:visited {
             color: var(--icon-color);
+          }
+
+          &:hover {
+            opacity: 1;
           }
         }
 
         .activeLink {
           color: var(--primary-c1);
+          opacity: 1;
+
+          &:visited {
+            color: var(--primary-c1);
+          }
+
+          &:hover {
+            color: var(--primary-c1);
+          }
+        }
+
+        .iconLink {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 6px;
+          opacity: 0.7;
+          transition: opacity 0.2s ease;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+        .activeIconLink {
+          opacity: 1;
+
+          .icon {
+            color: var(--primary-c1);
+            stroke: var(--primary-c1);
+          }
         }
 
         .iconButton {
           all: unset;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 6px;
           cursor: pointer;
 
         &:focus {
