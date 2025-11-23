@@ -33,6 +33,7 @@ interface ReviewFrontmatter {
     tmdbId?: string;
     isbn?: string;
   };
+  metadataFetched?: boolean;
 }
 
 async function fetchTMDBMetadata(tmdbId: string, mediaType: 'movie' | 'series' | 'animation') {
@@ -106,8 +107,6 @@ async function downloadImage(url: string, outputPath: string): Promise<void> {
       .resize(500, null, { withoutEnlargement: true })
       .jpeg({ quality: 90 })
       .toFile(outputPath);
-
-    console.log(`Downloaded and optimized image: ${outputPath}`);
   } catch (error) {
     console.error(`Failed to download image from ${url}:`, error);
   }
@@ -137,7 +136,7 @@ function removeUndefinedValues(obj: any): any {
   return obj;
 }
 
-async function processReviewFile(filePath: string) {
+async function processReviewFile(filePath: string, force: boolean = false) {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   // Parse with engines option to keep dates as strings
   const parsed = matter(fileContent, {
@@ -153,8 +152,16 @@ async function processReviewFile(filePath: string) {
   const frontmatter = parsed.data as ReviewFrontmatter;
   const content = parsed.content;
 
+  const reviewTitle = frontmatter.title || 'Untitled';
+
   if (!frontmatter.externalIds) {
-    console.log(`Skipping ${path.basename(filePath)}: No externalIds found`);
+    console.log(`⏭️  [${reviewTitle}] Skipping: No externalIds found`);
+    return;
+  }
+
+  // Check if metadata was already fetched
+  if (frontmatter.metadataFetched && !force) {
+    console.log(`✓ [${reviewTitle}] Already fetched (use --force to update)`);
     return;
   }
 
@@ -165,7 +172,7 @@ async function processReviewFile(filePath: string) {
   // Fetch metadata based on external IDs
   if (frontmatter.externalIds.tmdbId && frontmatter.mediaType !== 'book') {
     if (!TMDB_API_KEY) {
-      console.log(`Skipping ${path.basename(filePath)}: TMDB API key not set`);
+      console.log(`⚠️  [${reviewTitle}] Skipping: TMDB API key not set`);
       return;
     }
 
@@ -189,7 +196,7 @@ async function processReviewFile(filePath: string) {
     }
   } else if (frontmatter.externalIds.isbn) {
     if (!GOOGLE_BOOKS_API_KEY) {
-      console.log(`⚠️  ${path.basename(filePath)}: Google Books API key not set (will use existing metadata if available)`);
+      console.log(`⚠️  [${reviewTitle}] Google Books API key not set (will use existing metadata if available)`);
     } else {
       const bookData = await fetchGoogleBooksMetadata(frontmatter.externalIds.isbn);
 
@@ -217,28 +224,30 @@ async function processReviewFile(filePath: string) {
       await downloadImage(posterUrl, posterPath);
       frontmatter.poster = './poster.jpg';
       updated = true;
+      console.log(`📷 [${reviewTitle}] Downloaded poster`);
     }
   } else {
     // Check if poster was manually added
     if (fs.existsSync(posterPath) && !frontmatter.poster) {
       frontmatter.poster = './poster.jpg';
       updated = true;
-      console.log(`📷 Found manual poster for ${path.basename(filePath)}`);
+      console.log(`📷 [${reviewTitle}] Found manual poster`);
     }
   }
 
   // Update frontmatter if changes were made
   if (updated) {
     frontmatter.metadata = metadata;
+    frontmatter.metadataFetched = true;
 
     // Remove undefined values before stringifying
     const cleanedFrontmatter = removeUndefinedValues(frontmatter);
     const updatedContent = matter.stringify(content, cleanedFrontmatter);
     fs.writeFileSync(filePath, updatedContent, 'utf-8');
 
-    console.log(`Updated ${path.basename(filePath)}`);
+    console.log(`✅ [${reviewTitle}] Updated successfully`);
   } else {
-    console.log(`No updates for ${path.basename(filePath)}`);
+    console.log(`⏭️  [${reviewTitle}] No updates needed`);
   }
 }
 
@@ -248,15 +257,27 @@ async function main() {
     process.exit(1);
   }
 
+  // Parse command line arguments
+  const args = process.argv.slice(2);
+  const force = args.includes('--force') || args.includes('-f');
+
   // Show API key status
-  console.log('API Key Status:');
-  console.log(`- TMDB API Key: ${TMDB_API_KEY ? '✓ Set' : '✗ Not set'}`);
-  console.log(`- Google Books API Key: ${GOOGLE_BOOKS_API_KEY ? '✓ Set' : '✗ Not set'}`);
+  console.log('='.repeat(60));
+  console.log('Fetch Media Metadata');
+  console.log('='.repeat(60));
+  console.log('\nAPI Key Status:');
+  console.log(`  TMDB API Key: ${TMDB_API_KEY ? '✓ Set' : '✗ Not set'}`);
+  console.log(`  Google Books API Key: ${GOOGLE_BOOKS_API_KEY ? '✓ Set' : '✗ Not set'}`);
+
+  if (force) {
+    console.log('\n⚡ Force mode enabled: Will update all files');
+  }
   console.log('');
 
   if (!TMDB_API_KEY && !GOOGLE_BOOKS_API_KEY) {
-    console.warn('Warning: No API keys found. Metadata fetching will be skipped.');
+    console.warn('⚠️  Warning: No API keys found. Metadata fetching will be skipped.');
     console.warn('Set TMDB_API_KEY for movies/series/animation or GOOGLE_BOOKS_API_KEY for books.');
+    console.log('');
   }
 
   // Find all index.md files in review folders
@@ -270,13 +291,38 @@ async function main() {
     .map(folder => path.join(REVIEWS_DIR, folder, 'index.md'))
     .filter(filePath => fs.existsSync(filePath));
 
-  console.log(`Found ${files.length} review files`);
+  console.log(`📚 Found ${files.length} review files\n`);
+  console.log('-'.repeat(60));
+
+  let updatedCount = 0;
+  let skippedCount = 0;
+  let errorCount = 0;
 
   for (const file of files) {
-    await processReviewFile(file);
+    try {
+      const beforeContent = fs.readFileSync(file, 'utf-8');
+      await processReviewFile(file, force);
+      const afterContent = fs.readFileSync(file, 'utf-8');
+
+      if (beforeContent !== afterContent) {
+        updatedCount++;
+      } else {
+        skippedCount++;
+      }
+    } catch (error) {
+      errorCount++;
+      console.error(`❌ Error processing ${path.basename(path.dirname(file))}: ${error}`);
+    }
   }
 
-  console.log('\nDone!');
+  console.log('-'.repeat(60));
+  console.log('\n📊 Summary:');
+  console.log(`  ✅ Updated: ${updatedCount}`);
+  console.log(`  ⏭️  Skipped: ${skippedCount}`);
+  if (errorCount > 0) {
+    console.log(`  ❌ Errors: ${errorCount}`);
+  }
+  console.log('\n✨ Done!');
 }
 
 main().catch(console.error);

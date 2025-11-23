@@ -17,7 +17,8 @@
     "deploy": "pnpm run clean && pnpm run build && gh-pages -d public",
     "convert": "node scripts/issue-to-md.js",
     "typecheck": "tsc --noEmit",
-    "fetch-metadata": "ts-node scripts/fetch-media-metadata.ts"
+    "fetch-metadata": "pnpm exec ts-node scripts/fetch-media-metadata.ts",
+    "fetch-metadata:force": "pnpm exec ts-node scripts/fetch-media-metadata.ts --force"
   },
   "dependencies": {
     "@fontsource/noto-sans-kr": "^5.1.0",
