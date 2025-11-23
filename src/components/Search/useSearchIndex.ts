@@ -36,7 +36,7 @@ export const useSearchIndex = (): SearchItem[] => {
       title: node.frontmatter!.title!,
       excerpt: node.excerpt || '',
       date: node.frontmatter!.date || '',
-      type: (node.fields!.collection as 'post' | 'note' | 'review') || 'post',
+      type: (node.fields?.collection as 'post' | 'note' | 'review') || 'post',
       tags: node.frontmatter!.tags || [],
     }))
 }

@@ -3,7 +3,7 @@ import { navigate } from 'gatsby'
 import clsx from 'clsx'
 import Fuse from 'fuse.js'
 import { CloseIcon } from '@/components/icons'
-import { useSearchIndex } from './useSearchIndex'
+import { useSearchIndex, type SearchItem } from './useSearchIndex'
 
 import * as styles from './SearchModal.module.scss'
 
@@ -20,11 +20,11 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
   const searchIndex = useSearchIndex()
 
-  const fuse = useRef<Fuse<any> | null>(null)
+  const fuse = useRef<Fuse<SearchItem> | null>(null)
 
   useEffect(() => {
     if (searchIndex.length > 0) {
-      fuse.current = new Fuse(searchIndex, {
+      fuse.current = new Fuse<SearchItem>(searchIndex, {
         keys: ['title', 'excerpt', 'tags'],
         threshold: 0.3,
         includeScore: true,
@@ -81,12 +81,9 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset'
+      return () => {
+        document.body.style.overflow = 'unset'
+      }
     }
   }, [isOpen])
 
