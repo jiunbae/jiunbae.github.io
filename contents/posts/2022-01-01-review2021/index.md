@@ -6,6 +6,7 @@ slug: /review2021
 tags: [review]
 heroImage:
 heroImageAlt:
+published: true
 ---
 
 # 2021 Review

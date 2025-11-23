@@ -6,6 +6,7 @@ slug: /SW-Maestro
 tags: [review]
 heroImage:
 heroImageAlt:
+published: true
 ---
 
 # SOFTWARE MAESTRO 후기

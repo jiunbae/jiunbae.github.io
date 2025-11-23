@@ -6,6 +6,7 @@ slug: /MAT4015
 tags: [curriculum]
 heroImage: 
 heroImageAlt: 
+published: true
 ---
 
 # Object tracking
