@@ -136,7 +136,7 @@ function removeUndefinedValues(obj: any): any {
   return obj;
 }
 
-async function processReviewFile(filePath: string, force: boolean = false) {
+async function processReviewFile(filePath: string, force: boolean = false): Promise<boolean> {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   // Parse with engines option to keep dates as strings
   const parsed = matter(fileContent, {
@@ -156,13 +156,13 @@ async function processReviewFile(filePath: string, force: boolean = false) {
 
   if (!frontmatter.externalIds) {
     console.log(`⏭️  [${reviewTitle}] Skipping: No externalIds found`);
-    return;
+    return false;
   }
 
   // Check if metadata was already fetched
   if (frontmatter.metadataFetched && !force) {
     console.log(`✓ [${reviewTitle}] Already fetched (use --force to update)`);
-    return;
+    return false;
   }
 
   let metadata: any = frontmatter.metadata || {};
@@ -173,7 +173,7 @@ async function processReviewFile(filePath: string, force: boolean = false) {
   if (frontmatter.externalIds.tmdbId && frontmatter.mediaType !== 'book') {
     if (!TMDB_API_KEY) {
       console.log(`⚠️  [${reviewTitle}] Skipping: TMDB API key not set`);
-      return;
+      return false;
     }
 
     const tmdbData = await fetchTMDBMetadata(
@@ -249,6 +249,8 @@ async function processReviewFile(filePath: string, force: boolean = false) {
   } else {
     console.log(`⏭️  [${reviewTitle}] No updates needed`);
   }
+
+  return updated;
 }
 
 async function main() {
@@ -300,11 +302,7 @@ async function main() {
 
   for (const file of files) {
     try {
-      const beforeContent = fs.readFileSync(file, 'utf-8');
-      await processReviewFile(file, force);
-      const afterContent = fs.readFileSync(file, 'utf-8');
-
-      if (beforeContent !== afterContent) {
+      if (await processReviewFile(file, force)) {
         updatedCount++;
       } else {
         skippedCount++;
