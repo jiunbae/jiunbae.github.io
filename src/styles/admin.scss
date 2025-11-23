@@ -848,12 +848,25 @@ button {
     tab-size: 2 !important;
   }
 
-  .w-md-editor-text-pre > code,
   .w-md-editor-text-input {
     font-family: 'Courier New', 'Consolas', 'Monaco', monospace !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
     letter-spacing: 0 !important;
+    padding: 10px !important;
+  }
+
+  .w-md-editor-text-pre {
+    padding: 0 !important;
+  }
+
+  .w-md-editor-text-pre > code {
+    font-family: 'Courier New', 'Consolas', 'Monaco', monospace !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    letter-spacing: 0 !important;
+    padding: 10px !important;
+    display: block !important;
   }
 
   .w-md-editor-preview {
