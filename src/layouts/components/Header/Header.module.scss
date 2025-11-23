@@ -21,8 +21,13 @@
             transition: width 0.3s, height 0.3s;
           }
           .heading {
+            display: none;
             font-size: 1.25rem;
             transition: font-size 0.3s;
+
+            @include tabletAndUp {
+              display: inline-block;
+            }
           }
         }
       }
