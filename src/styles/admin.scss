@@ -803,6 +803,17 @@ button {
   }
 }
 
+.btn-delete-all {
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.875rem;
+  padding: 0.5rem 0.875rem;
+
+  &:hover {
+    background: #dc2626;
+  }
+}
+
 /* 마크다운 에디터 */
 .editor-main {
   .w-md-editor {
