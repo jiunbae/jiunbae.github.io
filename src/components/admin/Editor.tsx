@@ -124,37 +124,29 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
     }
   }, [post, postType]);
 
-  // Draft 자동 저장 (debounce: 5초 동안 변경 없으면 저장)
-  useEffect(() => {
-    // 내용이 없으면 저장하지 않음
-    if (!content && !frontmatter.title) {
-      return;
-    }
-
-    // 5초 후에 저장하는 타이머 설정
-    const timer = setTimeout(() => {
-      const draft: Draft = {
-        id: draftId,
-        title: frontmatter.title || '(제목 없음)',
-        content,
-        frontmatter,
-        type: postType,
-        savedAt: new Date().toISOString(),
-      };
-      saveDraft(draft);
-      setSaveStatus('자동 저장됨');
-      setTimeout(() => setSaveStatus(''), 2000);
-    }, 5000);
-
-    // content나 frontmatter가 변경되면 이전 타이머를 취소하고 새로 시작
-    return () => clearTimeout(timer);
-  }, [content, frontmatter, draftId, postType]);
-
   // Draft 불러오기
   const handleLoadDraft = useCallback((draft: Draft) => {
     setContent(draft.content);
     setFrontmatter(draft.frontmatter);
   }, []);
+
+  // 취소 시 임시저장
+  const handleCancel = () => {
+    // 내용이 있으면 임시저장
+    if (content || frontmatter.title) {
+      const draft: Draft = {
+        id: draftId,
+        title: frontmatter.title || '(제목 없음)',
+        content,
+        frontmatter: frontmatter as any,
+        type: postType === 'review' ? 'post' : postType,
+        savedAt: new Date().toISOString(),
+      };
+      saveDraft(draft);
+      alert('작성 중인 내용이 임시 저장되었습니다.');
+    }
+    onCancel();
+  };
 
   // 저장 및 퍼블리시
   const handleSave = async () => {
@@ -271,7 +263,7 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
         <div className="editor-actions">
           {saveStatus && <span className="save-status">{saveStatus}</span>}
           <DraftManager onLoadDraft={handleLoadDraft} currentDraftId={draftId} />
-          <button onClick={onCancel} className="btn-cancel">
+          <button onClick={handleCancel} className="btn-cancel">
             취소
           </button>
           <button onClick={handleSave} className="btn-save" disabled={saving}>
