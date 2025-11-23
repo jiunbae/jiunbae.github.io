@@ -3,7 +3,7 @@
  * Frontmatter, 에디터, 이미지 업로더, Draft 관리 통합
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import MDEditor from '@uiw/react-md-editor';
 import { useGitHub } from '@/contexts/GitHubContext';
 import {
@@ -23,11 +23,12 @@ import { format } from 'date-fns';
 interface EditorProps {
   post: Post | Review | null;
   postType: 'post' | 'note' | 'review';
+  loadedDraft?: Draft | null;
   onSaved: () => void;
   onCancel: () => void;
 }
 
-const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) => {
+const Editor: React.FC<EditorProps> = ({ post, postType, loadedDraft, onSaved, onCancel }) => {
   const { octokit } = useGitHub();
   const [content, setContent] = useState('');
   const [frontmatter, setFrontmatter] = useState<
@@ -94,6 +95,10 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
           published: postData.published,
         });
       }
+    } else if (loadedDraft) {
+      // Draft 불러오기
+      setContent(loadedDraft.content);
+      setFrontmatter(loadedDraft.frontmatter as any);
     } else {
       // 새 포스트
       setContent('');
@@ -122,7 +127,7 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
         });
       }
     }
-  }, [post, postType]);
+  }, [post, postType, loadedDraft]);
 
   // Draft 자동 저장 (debounce: 5초 동안 변경 없으면 저장)
   useEffect(() => {
@@ -149,12 +154,6 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
     // content나 frontmatter가 변경되면 이전 타이머를 취소하고 새로 시작
     return () => clearTimeout(timer);
   }, [content, frontmatter, draftId, postType]);
-
-  // Draft 불러오기
-  const handleLoadDraft = useCallback((draft: Draft) => {
-    setContent(draft.content);
-    setFrontmatter(draft.frontmatter);
-  }, []);
 
   // 취소 시 임시저장
   const handleCancel = () => {
@@ -291,7 +290,6 @@ const Editor: React.FC<EditorProps> = ({ post, postType, onSaved, onCancel }) =>
         </h2>
         <div className="editor-actions">
           {saveStatus && <span className="save-status">{saveStatus}</span>}
-          <DraftManager onLoadDraft={handleLoadDraft} currentDraftId={draftId} />
           <button onClick={handleCancel} className="btn-cancel">
             취소
           </button>

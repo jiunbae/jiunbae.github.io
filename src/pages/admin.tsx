@@ -10,6 +10,7 @@ import Auth from '@/components/admin/Auth';
 import PostList from '@/components/admin/PostList';
 import Editor from '@/components/admin/Editor';
 import { Post, Review } from '@/utils/github';
+import { Draft } from '@/utils/storage';
 import '@/styles/admin.scss';
 
 const AdminContent: React.FC = () => {
@@ -17,6 +18,7 @@ const AdminContent: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<Post | Review | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [postType, setPostType] = useState<'post' | 'note' | 'review'>('post');
+  const [loadedDraft, setLoadedDraft] = useState<Draft | null>(null);
 
   const handleSelectPost = (post: Post | Review | null) => {
     setSelectedPost(post);
@@ -47,6 +49,14 @@ const AdminContent: React.FC = () => {
   const handleCancel = () => {
     setIsEditing(false);
     setSelectedPost(null);
+    setLoadedDraft(null);
+  };
+
+  const handleLoadDraft = (draft: Draft) => {
+    setLoadedDraft(draft);
+    setSelectedPost(null);
+    setPostType(draft.type);
+    setIsEditing(true);
   };
 
   return (
@@ -66,6 +76,7 @@ const AdminContent: React.FC = () => {
               <Editor
                 post={selectedPost}
                 postType={postType}
+                loadedDraft={loadedDraft}
                 onSaved={handleSaved}
                 onCancel={handleCancel}
               />
@@ -73,6 +84,7 @@ const AdminContent: React.FC = () => {
               <PostList
                 onSelectPost={handleSelectPost}
                 onNewPost={handleNewPost}
+                onLoadDraft={handleLoadDraft}
                 selectedPost={selectedPost}
               />
             )}

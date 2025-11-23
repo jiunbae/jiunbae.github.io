@@ -7,14 +7,17 @@ import React, { useState, useEffect } from 'react';
 import { useGitHub } from '@/contexts/GitHubContext';
 import { getPosts, getReviews, Post, Review } from '@/utils/github';
 import { format } from 'date-fns';
+import DraftManager from './DraftManager';
+import { Draft } from '@/utils/storage';
 
 interface PostListProps {
   onSelectPost: (post: Post | Review | null) => void;
   onNewPost: (type: 'post' | 'note' | 'review') => void;
+  onLoadDraft: (draft: Draft) => void;
   selectedPost: Post | Review | null;
 }
 
-const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, selectedPost }) => {
+const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, onLoadDraft, selectedPost }) => {
   const { octokit } = useGitHub();
   const [posts, setPosts] = useState<Post[]>([]);
   const [notes, setNotes] = useState<Post[]>([]);
@@ -74,6 +77,7 @@ const PostList: React.FC<PostListProps> = ({ onSelectPost, onNewPost, selectedPo
         </div>
 
         <div className="post-list-actions">
+          <DraftManager onLoadDraft={onLoadDraft} currentDraftId="" />
           <button
             onClick={() =>
               onNewPost(activeTab === 'posts' ? 'post' : activeTab === 'notes' ? 'note' : 'review')
