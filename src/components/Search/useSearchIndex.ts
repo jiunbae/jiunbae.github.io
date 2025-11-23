@@ -6,7 +6,7 @@ export interface SearchItem {
   excerpt: string
   date: string
   type: 'post' | 'note' | 'review'
-  tags?: string[]
+  tags?: readonly string[]
 }
 
 export const useSearchIndex = (): SearchItem[] => {

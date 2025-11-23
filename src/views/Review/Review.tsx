@@ -37,7 +37,7 @@ const Review = ({ data }: PageProps<Queries.ReviewQuery>) => {
         </div>
 
         <div className={styles.headerContent}>
-          <div className={styles.mediaTypeBadge}>{mediaTypeLabels[mediaType]}</div>
+          <div className={styles.mediaTypeBadge}>{mediaType ? mediaTypeLabels[mediaType] : ''}</div>
           <h1 className={styles.title}>{title}</h1>
 
           {rating !== undefined && rating !== null && (
@@ -60,9 +60,18 @@ const Review = ({ data }: PageProps<Queries.ReviewQuery>) => {
         </div>
       </div>
 
-      {metadata && (
+      {metadata && mediaType && (
         <MediaMetadata
-          metadata={metadata}
+          metadata={{
+            originalTitle: metadata.originalTitle ?? undefined,
+            year: metadata.year ?? undefined,
+            director: metadata.director ?? undefined,
+            creator: metadata.creator ?? undefined,
+            author: metadata.author ?? undefined,
+            genre: metadata.genre ? [...metadata.genre] : undefined,
+            runtime: metadata.runtime ?? undefined,
+            pages: metadata.pages ?? undefined,
+          }}
           mediaType={mediaType as 'movie' | 'series' | 'animation' | 'book'}
           className={styles.metadata}
         />
