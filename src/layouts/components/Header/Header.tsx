@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useStaticQuery, graphql } from 'gatsby'
 
 import { useTheme } from '@/contexts'
-import { ThemeIcon, RssIcon, ProfileIcon } from '@/components/icons'
+import { ThemeIcon, RssIcon, ProfileIcon, LogoIcon } from '@/components/icons'
 import { reactCss } from '@/utils'
 
 import * as styles from './Header.module.scss'
@@ -95,6 +95,7 @@ export const Header = ({ pathname }: HeaderProps) => {
         <div className={styles.wrapper}>
           <Link to="/" state={{ tag: undefined }} className={styles.headingLink}>
             <h1 className={styles.headingWrapper}>
+              <LogoIcon className={styles.logoIcon} />
               <span className={styles.heading}>{heading}</span>
             </h1>
           </Link>

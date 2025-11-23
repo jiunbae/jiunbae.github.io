@@ -5,6 +5,7 @@ export { ShareIcon } from './ShareIcon'
 export { ArrowUpIcon } from './ArrowUpIcon'
 export { TableOfContentsIcon } from './TableOfContentsIcon'
 export { ProfileIcon } from './ProfileIcon'
+export { LogoIcon } from './LogoIcon'
 export {
   MailIcon,
   FacebookIcon,

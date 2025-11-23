@@ -87,12 +87,16 @@
         }
 
         .heading {
-          display: inline-block;
+          display: none;
           font-weight: 800;
           font-size: 1.5rem;
           line-height: 1.125rem;
           margin-top: 2px;
           color: var(--icon-color);
+
+          @include tabletAndUp {
+            display: inline-block;
+          }
         }
       }
     }
