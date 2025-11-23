@@ -6,7 +6,7 @@ export const query = graphql`
       sort: { frontmatter: { date: DESC } }
       filter: {
         fields: { collection: { eq: "note" } }
-        frontmatter: { published: { ne: false } }
+        frontmatter: { published: { eq: true } }
       }
     ) {
       totalCount
