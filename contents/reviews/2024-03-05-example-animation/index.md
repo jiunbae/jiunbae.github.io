@@ -21,7 +21,8 @@ metadata:
   runtime: 125분
 externalIds:
   tmdbId: '129'
-published: true
+published: false
+metadataFetched: true
 ---
 
 10살 소녀 치히로가 신들의 세계에서 겪는 모험과 성장 이야기. 미야자키 하야오 감독의 대표작이자 아카데미 장편 애니메이션상 수상작.

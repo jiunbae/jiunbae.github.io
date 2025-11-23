@@ -566,6 +566,7 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       oneLiner: String
       metadata: ReviewMetadata
       published: Boolean @dontInfer
+      metadataFetched: Boolean @dontInfer
     }
 
     type MarkdownRemarkFields {

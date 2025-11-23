@@ -22,6 +22,11 @@ const Notes = ({ data, location }: PageProps<Queries.NotesQuery, object, Locatio
 
   const visibleNotes = useMemo(
     () => allNotes.filter(({ frontmatter }) => {
+      // 프로덕션 환경에서는 published: true인 항목만 표시
+      if (process.env.NODE_ENV === 'production' && frontmatter.published === false) {
+        return false
+      }
+
       if (selectedTag === TAGS.ALL) return true
 
       const noteTags = frontmatter.tags ?? []

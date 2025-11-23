@@ -6,7 +6,6 @@ export const query = graphql`
       sort: { frontmatter: { date: DESC } }
       filter: {
         fields: { collection: { eq: "review" } }
-        frontmatter: { published: { eq: true } }
       }
     ) {
       totalCount
@@ -16,10 +15,12 @@ export const query = graphql`
           title
           slug
           date(formatString: "YY.MM.DD")
+          sortDate: date
           mediaType
           rating
           oneLiner
           tags
+          published
           poster {
             childImageSharp {
               gatsbyImageData(width: 500, placeholder: BLURRED)

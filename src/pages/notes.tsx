@@ -6,7 +6,6 @@ export const query = graphql`
       sort: { frontmatter: { date: DESC } }
       filter: {
         fields: { collection: { eq: "note" } }
-        frontmatter: { published: { eq: true } }
       }
     ) {
       totalCount
@@ -18,6 +17,7 @@ export const query = graphql`
           date(formatString: "YY.MM.DD")
           tags
           slug
+          published
         }
       }
       group(field: { frontmatter: { tags: SELECT } }) {

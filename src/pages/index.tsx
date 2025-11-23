@@ -6,7 +6,6 @@ export const query = graphql`
       sort: { frontmatter: { date: DESC } }
       filter: {
         fields: { collection: { eq: "post" } }
-        frontmatter: { published: { eq: true } }
       }
     ) {
       totalCount
@@ -17,6 +16,7 @@ export const query = graphql`
           description
           date(formatString: "YY.MM.DD")
           title
+          published
           heroImage {
             childImageSharp {
               gatsbyImageData(placeholder: BLURRED)

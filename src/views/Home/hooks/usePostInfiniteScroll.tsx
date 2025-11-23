@@ -10,7 +10,14 @@ export const usePostInfiniteScroll = (
   totalCount: number
 ) => {
   const posts = useMemo(
-    () => allPosts.filter(({ frontmatter: { tags } }) => selectedTag === TAGS.ALL || tags.includes(selectedTag)),
+    () => allPosts.filter(({ frontmatter }) => {
+      // 프로덕션 환경에서는 published: true인 항목만 표시
+      if (process.env.NODE_ENV === 'production' && frontmatter.published === false) {
+        return false
+      }
+
+      return selectedTag === TAGS.ALL || frontmatter.tags.includes(selectedTag)
+    }),
     [allPosts, selectedTag]
   )
   const [displayedItems, setDisplayedItems] = useState(8)

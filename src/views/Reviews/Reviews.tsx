@@ -31,6 +31,11 @@ const Reviews = ({ data }: PageProps<Queries.ReviewsQuery>) => {
   const filteredAndSortedReviews = useMemo(() => {
     let result = [...allReviews]
 
+    // 프로덕션 환경에서는 published: true인 항목만 표시
+    if (process.env.NODE_ENV === 'production') {
+      result = result.filter(review => review.frontmatter.published !== false)
+    }
+
     if (selectedMediaType !== 'all') {
       result = result.filter(
         review => review.frontmatter.mediaType === selectedMediaType
@@ -47,13 +52,13 @@ const Reviews = ({ data }: PageProps<Queries.ReviewsQuery>) => {
       switch (selectedSort) {
         case 'latest':
           return (
-            new Date(b.frontmatter.date).getTime() -
-            new Date(a.frontmatter.date).getTime()
+            new Date(b.frontmatter.sortDate).getTime() -
+            new Date(a.frontmatter.sortDate).getTime()
           )
         case 'oldest':
           return (
-            new Date(a.frontmatter.date).getTime() -
-            new Date(b.frontmatter.date).getTime()
+            new Date(a.frontmatter.sortDate).getTime() -
+            new Date(b.frontmatter.sortDate).getTime()
           )
         case 'rating-high':
           return (b.frontmatter.rating || 0) - (a.frontmatter.rating || 0)
