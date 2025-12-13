@@ -123,38 +123,36 @@ export const Note = ({ note, className }: NoteProps) => {
           })}
           dangerouslySetInnerHTML={{ __html: refinedHtml }}
         />
-        {(visibleTags.length > 0 || isCollapsible) && (
-          <div className={styles.footer}>
-            {visibleTags.length > 0 && (
-              <ul className={styles.tags}>
-                {visibleTags.map(tag => (
-                  <li key={tag} className={styles.tag}>{tag}</li>
-                ))}
-              </ul>
-            )}
-            <div className={styles.actions}>
+        <div className={styles.footer}>
+          {visibleTags.length > 0 && (
+            <ul className={styles.tags}>
+              {visibleTags.map(tag => (
+                <li key={tag} className={styles.tag}>{tag}</li>
+              ))}
+            </ul>
+          )}
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={clsx(styles.shareButton, { [styles.copied]: isLinkCopied })}
+              onClick={handleCopyLink}
+              aria-label="노트 링크 복사"
+              title={isLinkCopied ? '링크 복사됨' : '노트 링크 복사'}
+            >
+              <ShareIcon className={styles.shareIcon} />
+            </button>
+            {isCollapsible && (
               <button
                 type="button"
-                className={clsx(styles.shareButton, { [styles.copied]: isLinkCopied })}
-                onClick={handleCopyLink}
-                aria-label="노트 링크 복사"
-                title={isLinkCopied ? '링크 복사됨' : '노트 링크 복사'}
+                className={styles.toggleButton}
+                onClick={toggleCollapse}
+                aria-expanded={!isCollapsed}
               >
-                <ShareIcon className={styles.shareIcon} />
+                {isCollapsed ? '더보기' : '접기'}
               </button>
-              {isCollapsible && (
-                <button
-                  type="button"
-                  className={styles.toggleButton}
-                  onClick={toggleCollapse}
-                  aria-expanded={!isCollapsed}
-                >
-                  {isCollapsed ? '더보기' : '접기'}
-                </button>
-              )}
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </article>
     </li>
   )
