@@ -109,5 +109,12 @@
         font-style: italic;
       }
     }
+
+    .description {
+      font-size: 0.9rem;
+      color: var(--gray-4);
+      margin: 0.25rem 0 0 0;
+      line-height: 1.5;
+    }
   }
 } 
