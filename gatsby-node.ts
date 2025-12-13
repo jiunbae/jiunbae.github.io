@@ -581,23 +581,23 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
     }
 
     type JsonEducationSchoolsAdvisor {
-      name: String
-      url: String
+      name: String!
+      url: String!
     }
 
     type JsonEducationSchools {
-      name: String
-      location: String
-      degree: String
-      period: String
-      url: String
+      name: String!
+      location: String!
+      degree: String!
+      period: String!
+      url: String!
       status: String
       description: String
       advisor: JsonEducationSchoolsAdvisor
     }
 
     type JsonEducation {
-      schools: [JsonEducationSchools]
+      schools: [JsonEducationSchools!]
     }
   `)
 }
