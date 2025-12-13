@@ -1,8 +1,8 @@
 import type { HeadProps, PageProps } from 'gatsby'
-import { GatsbyImage, getSrc, getImage } from 'gatsby-plugin-image'
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
 import { FloatingButton, Seo } from '@/components'
-import { getRefinedImage, getRefinedStringValue } from '@/utils'
+import { getRefinedStringValue, sanitizeReviewSlug } from '@/utils'
 import StarRating from '@/components/StarRating'
 import MediaMetadata from '@/components/MediaMetadata'
 import { Tag } from '@/components/Tag'
@@ -92,15 +92,19 @@ const Review = ({ data }: PageProps<Queries.ReviewQuery>) => {
 export const Head = ({ data: { markdownRemark }, location }: HeadProps<Queries.ReviewQuery>) => {
   const { href } = location as typeof location & { href?: string }
   const pageUrl = href ?? location.pathname
-  const seo = {
-    title: markdownRemark?.frontmatter.title,
-    description: markdownRemark?.frontmatter.oneLiner ?? markdownRemark?.excerpt ?? undefined,
-    heroImage: markdownRemark?.frontmatter.poster
-  }
 
-  const image = seo.heroImage && getSrc(getRefinedImage(seo.heroImage?.childImageSharp?.gatsbyImageData))
+  const slug = markdownRemark?.frontmatter.slug
+  const normalizedSlug = slug ? sanitizeReviewSlug(slug) : null
+  const heroImage = normalizedSlug ? `/og/reviews/${normalizedSlug}.png` : ''
 
-  return <Seo title={seo.title} description={seo.description} heroImage={image || ''} pathname={pageUrl} />
+  return (
+    <Seo
+      title={markdownRemark?.frontmatter.title}
+      description={markdownRemark?.frontmatter.oneLiner ?? markdownRemark?.excerpt ?? undefined}
+      heroImage={heroImage}
+      pathname={pageUrl}
+    />
+  )
 }
 
 export default Review

@@ -1,8 +1,8 @@
 import type { HeadProps, PageProps } from 'gatsby'
-import { GatsbyImage, getSrc } from 'gatsby-plugin-image'
+import { GatsbyImage } from 'gatsby-plugin-image'
 
 import { Comments, FloatingButton, Seo } from '@/components'
-import { getRefinedImage, getRefinedStringValue } from '@/utils'
+import { getRefinedImage, getRefinedStringValue, sanitizePostSlug } from '@/utils'
 
 import { TableOfContents, TagList } from './components'
 import * as styles from './Post.module.scss'
@@ -41,15 +41,19 @@ const Post = ({ data }: PageProps<Queries.PostQuery>) => {
 export const Head = ({ data: { markdownRemark }, location }: HeadProps<Queries.PostQuery>) => {
   const { href } = location as typeof location & { href?: string }
   const pageUrl = href ?? location.pathname
-  const seo = {
-    title: markdownRemark?.frontmatter.title,
-    description: markdownRemark?.frontmatter.description ?? markdownRemark?.excerpt ?? undefined,
-    heroImage: markdownRemark?.frontmatter.heroImage
-  }
 
-  const image = seo.heroImage && getSrc(getRefinedImage(seo.heroImage?.childImageSharp?.gatsbyImageData))
+  const slug = markdownRemark?.frontmatter.slug
+  const normalizedSlug = slug ? sanitizePostSlug(slug) : null
+  const heroImage = normalizedSlug ? `/og/posts/${normalizedSlug}.png` : ''
 
-  return <Seo title={seo.title} description={seo.description} heroImage={image || ''} pathname={pageUrl} />
+  return (
+    <Seo
+      title={markdownRemark?.frontmatter.title}
+      description={markdownRemark?.frontmatter.description ?? markdownRemark?.excerpt ?? undefined}
+      heroImage={heroImage}
+      pathname={pageUrl}
+    />
+  )
 }
 
 export default Post
