@@ -68,11 +68,12 @@ export const onRenderBody: GatsbySSR['onRenderBody'] = ({ setHeadComponents }) =
   if (process.env.NODE_ENV === 'production') {
     const cspContent = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com https://utteranc.es",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
       "connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com",
+      "frame-src 'self' https://utteranc.es",
       "base-uri 'self'",
       "form-action 'self'",
       "object-src 'none'",
