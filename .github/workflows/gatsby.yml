@@ -9,6 +9,10 @@ on:
   push:
     branches: ["main"]
 
+  # Runs on pull requests targeting the default branch
+  pull_request:
+    branches: ["main"]
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -80,6 +84,8 @@ jobs:
             ${{ runner.os }}-gatsby-build-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium --with-deps
       - name: Build with Gatsby
         env:
           PREFIX_PATHS: 'true'
@@ -89,8 +95,9 @@ jobs:
         with:
           path: ./public
 
-  # Deployment job
+  # Deployment job (only on push to main, not on PRs)
   deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
