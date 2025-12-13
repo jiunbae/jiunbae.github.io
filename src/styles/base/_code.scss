@@ -159,3 +159,12 @@ h4 code[class*='language-'] {
 .token.italic {
   font-style: italic;
 }
+
+/* Mermaid 다이어그램 스타일 */
+svg[id^="mermaid"] {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  display: block;
+}

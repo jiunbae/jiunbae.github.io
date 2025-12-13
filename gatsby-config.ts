@@ -101,6 +101,17 @@ const config: GatsbyConfig = {
             }
           },
           {
+            resolve: 'gatsby-remark-mermaid',
+            options: {
+              mermaidConfig: {
+                theme: 'default',
+                themeVariables: {
+                  fontFamily: 'inherit'
+                }
+              }
+            }
+          },
+          {
             resolve: 'gatsby-remark-prismjs',
             options: {
               inlineCodeMarker: '>'
