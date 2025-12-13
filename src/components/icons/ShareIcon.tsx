@@ -1,17 +1,23 @@
 import type { IconProps } from './RssIcon'
 
-export const ShareIcon = ({ size = 24, width, height, fill = 'currentColor', ...rest }: IconProps) => {
+export const ShareIcon = ({ size = 24, width, height, fill = 'currentColor', stroke = 'currentColor', ...rest }: IconProps) => {
   return (
     <svg
       width={width ?? size}
       height={height ?? size}
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
+      fill="none"
       {...rest}
     >
+      <circle cx="18" cy="5" r="3" fill={fill} />
+      <circle cx="6" cy="12" r="3" fill={fill} />
+      <circle cx="18" cy="19" r="3" fill={fill} />
       <path
-        d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 5.18401 15.0149 5.36291 15.0435 5.53562L8.72887 8.76777C8.11077 7.70701 6.96383 7 5.66667 7C3.6416 7 2 8.6416 2 10.6667C2 12.6917 3.6416 14.3333 5.66667 14.3333C6.96383 14.3333 8.11077 13.6263 8.72887 12.5656L15.0435 15.7978C15.0149 15.9705 15 16.1494 15 16.3333C15 17.9902 16.3431 19.3333 18 19.3333C19.6569 19.3333 21 17.9902 21 16.3333C21 14.6765 19.6569 13.3333 18 13.3333C16.9631 13.3333 16.0413 13.8488 15.4992 14.6338L9.22391 11.4286C9.40797 10.974 9.507 10.4888 9.507 9.98802C9.507 9.48729 9.40797 9.00211 9.22391 8.54749L15.4992 5.34238C16.0413 6.12738 16.9631 6.64287 18 6.64287Z"
-        fill={fill}
+        d="M8.59 13.51L15.42 17.49M15.41 6.51L8.59 10.49"
+        stroke={stroke}
+        strokeWidth="2"
+        strokeLinecap="round"
       />
     </svg>
   )
