@@ -11,6 +11,7 @@ export interface School {
   url: string
   status?: string
   advisor?: Advisor
+  description?: string
 }
 
 export interface Education {

@@ -15,6 +15,7 @@ export const EducationSection = () => {
             period
             url
             status
+            description
             advisor {
               name
               url
@@ -54,6 +55,9 @@ export const EducationSection = () => {
               <span className={styles.status}>{school.status}</span>
             )}
           </p>
+          {school.description && (
+            <p className={styles.description}>{school.description}</p>
+          )}
         </div>
       ))}
     </section>
