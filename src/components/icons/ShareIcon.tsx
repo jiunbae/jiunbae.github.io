@@ -10,13 +10,13 @@ export const ShareIcon = ({ size = 24, width, height, fill = 'currentColor', str
       fill="none"
       {...rest}
     >
-      <circle cx="18" cy="5" r="3" fill={fill} />
-      <circle cx="6" cy="12" r="3" fill={fill} />
-      <circle cx="18" cy="19" r="3" fill={fill} />
+      <circle cx="18" cy="5" r="2.5" fill={fill} />
+      <circle cx="6" cy="12" r="2.5" fill={fill} />
+      <circle cx="18" cy="19" r="2.5" fill={fill} />
       <path
-        d="M8.59 13.51L15.42 17.49M15.41 6.51L8.59 10.49"
+        d="M8.5 13.5L15.5 17.5M15.5 6.5L8.5 10.5"
         stroke={stroke}
-        strokeWidth="2"
+        strokeWidth="1.5"
         strokeLinecap="round"
       />
     </svg>

@@ -139,7 +139,7 @@ export const Note = ({ note, className }: NoteProps) => {
               aria-label="노트 링크 복사"
               title={isLinkCopied ? '링크 복사됨' : '노트 링크 복사'}
             >
-              <ShareIcon size={18} />
+              <ShareIcon size={20} />
             </button>
             {isCollapsible && (
               <button
