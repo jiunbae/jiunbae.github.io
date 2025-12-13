@@ -579,6 +579,26 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
       html: String!
       fields: MarkdownRemarkFields!
     }
+
+    type JsonEducationSchoolsAdvisor {
+      name: String!
+      url: String!
+    }
+
+    type JsonEducationSchools {
+      name: String!
+      location: String!
+      degree: String!
+      period: String!
+      url: String!
+      status: String
+      description: String
+      advisor: JsonEducationSchoolsAdvisor
+    }
+
+    type JsonEducation {
+      schools: [JsonEducationSchools!]
+    }
   `)
 }
 
