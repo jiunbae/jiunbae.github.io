@@ -2,15 +2,10 @@ import type { HeadProps, PageProps } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
 import { Comments, FloatingButton, Seo } from '@/components'
-import { getRefinedImage, getRefinedStringValue } from '@/utils'
+import { getRefinedImage, getRefinedStringValue, sanitizePostSlug } from '@/utils'
 
 import { TableOfContents, TagList } from './components'
 import * as styles from './Post.module.scss'
-
-const sanitizePostSlug = (slug: string) => {
-  const trimmed = slug.replace(/^\/+/, '').replace(/\/+$/, '')
-  return trimmed.replace(/[^a-zA-Z0-9-_]/g, '-').replace(/-+/g, '-').toLowerCase() || 'post'
-}
 
 const Post = ({ data }: PageProps<Queries.PostQuery>) => {
   if (!data.markdownRemark) throw new Error('마크다운 데이터가 존재하지 않습니다.')

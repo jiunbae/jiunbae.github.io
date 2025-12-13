@@ -2,17 +2,12 @@ import type { HeadProps, PageProps } from 'gatsby'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
 import { FloatingButton, Seo } from '@/components'
-import { getRefinedStringValue } from '@/utils'
+import { getRefinedStringValue, sanitizeReviewSlug } from '@/utils'
 import StarRating from '@/components/StarRating'
 import MediaMetadata from '@/components/MediaMetadata'
 import { Tag } from '@/components/Tag'
 
 import * as styles from './Review.module.scss'
-
-const sanitizeReviewSlug = (slug: string) => {
-  const trimmed = slug.replace(/^\/+/, '').replace(/\/+$/, '')
-  return trimmed.replace(/[^a-zA-Z0-9-_]/g, '-').replace(/-+/g, '-').toLowerCase() || 'review'
-}
 
 const mediaTypeLabels: Record<string, string> = {
   movie: '영화',

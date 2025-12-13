@@ -732,8 +732,7 @@ export const onPostBuild: GatsbyNode['onPostBuild'] = async ({ graphql, reporter
   ) => {
     if (items.length === 0) return 0
 
-    let successCount = 0
-    await Promise.all(
+    const results = await Promise.all(
       items
         .filter(item => item.frontmatter.slug)
         .map(async item => {
@@ -745,14 +744,15 @@ export const onPostBuild: GatsbyNode['onPostBuild'] = async ({ graphql, reporter
               description: getDescription(item),
               excerpt: item.excerpt
             })
-            successCount++
+            return true
           } catch (error) {
             const reason = error instanceof Error ? (error.stack ?? error.message) : String(error)
             reporter.warn(`${collectionName} OG 이미지 생성 중 오류가 발생했습니다. slug: ${item.frontmatter.slug}\n${reason}`)
+            return false
           }
         })
     )
-    return successCount
+    return results.filter(Boolean).length
   }
 
   const [noteCount, postCount, reviewCount] = await Promise.all([
