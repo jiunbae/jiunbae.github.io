@@ -7,10 +7,14 @@ import { createRequire } from 'module'
 
 const requireFromNode = createRequire(__filename)
 
-const sanitizeNoteSlug = (slug: string) => {
+const sanitizeSlug = (slug: string, fallback = 'page') => {
   const trimmed = slug.replace(/^\/+/, '').replace(/\/+$/, '')
-  return trimmed.replace(/[^a-zA-Z0-9-_]/g, '-').replace(/-+/g, '-').toLowerCase() || 'note'
+  return trimmed.replace(/[^a-zA-Z0-9-_]/g, '-').replace(/-+/g, '-').toLowerCase() || fallback
 }
+
+const sanitizeNoteSlug = (slug: string) => sanitizeSlug(slug, 'note')
+const sanitizePostSlug = (slug: string) => sanitizeSlug(slug, 'post')
+const sanitizeReviewSlug = (slug: string) => sanitizeSlug(slug, 'review')
 
 const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
@@ -276,7 +280,13 @@ const formatFontStack = (families: string[]) =>
     })
     .join(', ')
 
-const createNoteOgSvg = (title: string, summary: string, date: string, fonts: OgFontConfig) => {
+const createOgSvg = (
+  title: string,
+  summary: string,
+  date: string,
+  fonts: OgFontConfig,
+  siteName: string
+) => {
   const titleLines = wrapText(title, 16, 2)
   const summaryLines = truncateSummary(summary)
 
@@ -306,33 +316,49 @@ const createNoteOgSvg = (title: string, summary: string, date: string, fonts: Og
     ${summarySpans}
   </text>
   <g font-family="${fontStack}" font-size="26" font-weight="${fonts.bodyWeight}" fill="rgba(248, 250, 252, 0.68)">
-    <text x="96" y="536">notes.jiun.dev</text>
+    <text x="96" y="536">${escapeXml(siteName)}</text>
     <text x="${OG_IMAGE_WIDTH - 96}" y="536" text-anchor="end">${escapeXml(date)}</text>
   </g>
 </svg>`
 }
 
-const generateNoteOgImage = async ({
-  title,
-  date,
-  slug,
-  description,
-  excerpt
-}: {
+const createNoteOgSvg = (title: string, summary: string, date: string, fonts: OgFontConfig) =>
+  createOgSvg(title, summary, date, fonts, 'notes.jiun.dev')
+
+const createPostOgSvg = (title: string, summary: string, date: string, fonts: OgFontConfig) =>
+  createOgSvg(title, summary, date, fonts, 'jiun.dev')
+
+const createReviewOgSvg = (title: string, summary: string, date: string, fonts: OgFontConfig) =>
+  createOgSvg(title, summary, date, fonts, 'jiun.dev/reviews')
+
+type OgImageParams = {
   title: string;
   date: string;
   slug: string;
   description?: string | null;
   excerpt?: string | null;
-}) => {
-  const normalizedSlug = sanitizeNoteSlug(slug)
-  const outputDir = path.join(process.cwd(), 'public', 'og', 'notes')
+};
+
+const generateOgImage = async (
+  params: OgImageParams,
+  options: {
+    outputSubDir: string;
+    sanitizeSlugFn: (slug: string) => string;
+    createSvgFn: (title: string, summary: string, date: string, fonts: OgFontConfig) => string;
+    defaultSummary: string;
+  }
+) => {
+  const { title, date, slug, description, excerpt } = params
+  const { outputSubDir, sanitizeSlugFn, createSvgFn, defaultSummary } = options
+
+  const normalizedSlug = sanitizeSlugFn(slug)
+  const outputDir = path.join(process.cwd(), 'public', 'og', outputSubDir)
   await fsPromises.mkdir(outputDir, { recursive: true })
 
-  const summaryText = description?.trim() || excerpt?.trim() || '짧은 생각을 기록하는 Notes'
+  const summaryText = description?.trim() || excerpt?.trim() || defaultSummary
 
   const fonts = await loadOgFonts()
-  const svg = createNoteOgSvg(title, summaryText, date, fonts)
+  const svg = createSvgFn(title, summaryText, date, fonts)
   const fontOptions: Record<string, unknown> = {
     loadSystemFonts: false,
     defaultFontFamily: fonts.family,
@@ -355,6 +381,30 @@ const generateNoteOgImage = async ({
   const outputPath = path.join(outputDir, `${normalizedSlug}.png`)
   await fsPromises.writeFile(outputPath, pngData)
 }
+
+const generateNoteOgImage = (params: OgImageParams) =>
+  generateOgImage(params, {
+    outputSubDir: 'notes',
+    sanitizeSlugFn: sanitizeNoteSlug,
+    createSvgFn: createNoteOgSvg,
+    defaultSummary: '짧은 생각을 기록하는 Notes'
+  })
+
+const generatePostOgImage = (params: OgImageParams) =>
+  generateOgImage(params, {
+    outputSubDir: 'posts',
+    sanitizeSlugFn: sanitizePostSlug,
+    createSvgFn: createPostOgSvg,
+    defaultSummary: ''
+  })
+
+const generateReviewOgImage = (params: OgImageParams) =>
+  generateOgImage(params, {
+    outputSubDir: 'reviews',
+    sanitizeSlugFn: sanitizeReviewSlug,
+    createSvgFn: createReviewOgSvg,
+    defaultSummary: ''
+  })
 
 export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions }) => {
   const { createPage } = actions
@@ -602,22 +652,25 @@ export const createSchemaCustomization: GatsbyNode['createSchemaCustomization'] 
   `)
 }
 
+type OgImageNode = {
+  frontmatter: {
+    title: string;
+    slug: string;
+    date: string;
+    description?: string | null;
+    oneLiner?: string | null;
+  };
+  excerpt: string | null;
+};
+
 export const onPostBuild: GatsbyNode['onPostBuild'] = async ({ graphql, reporter }) => {
   const result = await graphql<{
-    allMarkdownRemark: {
-      nodes: {
-        frontmatter: {
-          title: string;
-          slug: string;
-          date: string;
-          description?: string | null;
-        };
-        excerpt: string | null;
-      }[];
-    };
+    notes: { nodes: OgImageNode[] };
+    posts: { nodes: OgImageNode[] };
+    reviews: { nodes: OgImageNode[] };
   }>(`
-    query NoteOgImageSources {
-      allMarkdownRemark(
+    query OgImageSources {
+      notes: allMarkdownRemark(
         filter: { fields: { collection: { eq: "note" } } }
         sort: { frontmatter: { date: DESC } }
       ) {
@@ -631,36 +684,84 @@ export const onPostBuild: GatsbyNode['onPostBuild'] = async ({ graphql, reporter
           excerpt(pruneLength: 220)
         }
       }
+      posts: allMarkdownRemark(
+        filter: { fields: { collection: { eq: "post" } } }
+        sort: { frontmatter: { date: DESC } }
+      ) {
+        nodes {
+          frontmatter {
+            title
+            slug
+            date(formatString: "YYYY.MM.DD")
+            description
+          }
+          excerpt(pruneLength: 220)
+        }
+      }
+      reviews: allMarkdownRemark(
+        filter: { fields: { collection: { eq: "review" } } }
+        sort: { frontmatter: { date: DESC } }
+      ) {
+        nodes {
+          frontmatter {
+            title
+            slug
+            date(formatString: "YYYY.MM.DD")
+            oneLiner
+          }
+          excerpt(pruneLength: 220)
+        }
+      }
     }
   `)
 
   if (result.errors) {
-    reporter.warn('노트 OG 이미지 생성을 위한 GraphQL 쿼리에 실패했습니다.')
+    reporter.warn('OG 이미지 생성을 위한 GraphQL 쿼리에 실패했습니다.')
     return
   }
 
-  const notes = result.data?.allMarkdownRemark.nodes ?? []
+  const notes = result.data?.notes.nodes ?? []
+  const posts = result.data?.posts.nodes ?? []
+  const reviews = result.data?.reviews.nodes ?? []
 
-  if (notes.length === 0) return
+  const generateForCollection = async (
+    items: OgImageNode[],
+    generateFn: (params: OgImageParams) => Promise<void>,
+    collectionName: string,
+    getDescription: (item: OgImageNode) => string | null | undefined = (item) => item.frontmatter.description
+  ) => {
+    if (items.length === 0) return 0
 
-  await Promise.all(
-    notes
-      .filter(note => note.frontmatter.slug)
-      .map(async note => {
-        try {
-          await generateNoteOgImage({
-            title: note.frontmatter.title,
-            date: note.frontmatter.date,
-            slug: note.frontmatter.slug,
-            description: note.frontmatter.description,
-            excerpt: note.excerpt
-          })
-        } catch (error) {
-          const reason = error instanceof Error ? (error.stack ?? error.message) : String(error)
-          reporter.warn(`노트 OG 이미지 생성 중 오류가 발생했습니다. slug: ${note.frontmatter.slug}\n${reason}`)
-        }
-      })
-  )
+    let successCount = 0
+    await Promise.all(
+      items
+        .filter(item => item.frontmatter.slug)
+        .map(async item => {
+          try {
+            await generateFn({
+              title: item.frontmatter.title,
+              date: item.frontmatter.date,
+              slug: item.frontmatter.slug,
+              description: getDescription(item),
+              excerpt: item.excerpt
+            })
+            successCount++
+          } catch (error) {
+            const reason = error instanceof Error ? (error.stack ?? error.message) : String(error)
+            reporter.warn(`${collectionName} OG 이미지 생성 중 오류가 발생했습니다. slug: ${item.frontmatter.slug}\n${reason}`)
+          }
+        })
+    )
+    return successCount
+  }
 
-  reporter.info(`[notes] OG 이미지가 생성되었습니다. (${notes.length}건)`)
+  const [noteCount, postCount, reviewCount] = await Promise.all([
+    generateForCollection(notes, generateNoteOgImage, 'notes'),
+    generateForCollection(posts, generatePostOgImage, 'posts'),
+    generateForCollection(reviews, generateReviewOgImage, 'reviews', (item) => item.frontmatter.oneLiner)
+  ])
+
+  if (noteCount > 0) reporter.info(`[notes] OG 이미지가 생성되었습니다. (${noteCount}건)`)
+  if (postCount > 0) reporter.info(`[posts] OG 이미지가 생성되었습니다. (${postCount}건)`)
+  if (reviewCount > 0) reporter.info(`[reviews] OG 이미지가 생성되었습니다. (${reviewCount}건)`)
 }
