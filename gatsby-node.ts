@@ -5,16 +5,9 @@ import { Resvg, type ResvgRenderOptions } from '@resvg/resvg-js'
 import { decompress } from 'wawoff2'
 import { createRequire } from 'module'
 
+import { sanitizeNoteSlug, sanitizePostSlug, sanitizeReviewSlug } from './src/utils/slug'
+
 const requireFromNode = createRequire(__filename)
-
-const sanitizeSlug = (slug: string, fallback = 'page') => {
-  const trimmed = slug.replace(/^\/+/, '').replace(/\/+$/, '')
-  return trimmed.replace(/[^a-zA-Z0-9-_]/g, '-').replace(/-+/g, '-').toLowerCase() || fallback
-}
-
-const sanitizeNoteSlug = (slug: string) => sanitizeSlug(slug, 'note')
-const sanitizePostSlug = (slug: string) => sanitizeSlug(slug, 'post')
-const sanitizeReviewSlug = (slug: string) => sanitizeSlug(slug, 'review')
 
 const OG_IMAGE_WIDTH = 1200
 const OG_IMAGE_HEIGHT = 630
