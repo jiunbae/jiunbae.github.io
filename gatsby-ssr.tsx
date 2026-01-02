@@ -89,5 +89,14 @@ export const onRenderBody: GatsbySSR['onRenderBody'] = ({ setHeadComponents }) =
     )
   }
 
+  // Google AdSense
+  components.push(
+    <meta
+      key="google-adsense"
+      name="google-adsense-account"
+      content="ca-pub-3746587025439528"
+    />
+  )
+
   setHeadComponents(components)
 }
