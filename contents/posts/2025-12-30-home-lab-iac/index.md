@@ -1,0 +1,361 @@
+---
+title: Home Lab IaC
+description: Terraform과 Ansible로 집 서버 인프라를 코드로 관리하기
+date: 2025-12-30
+slug: /home-lab-iac
+tags: [dev, homelab, iac]
+heroImage:
+heroImageAlt:
+published: true
+---
+
+# Home Lab 인프라를 코드로 관리하기: Terraform + Ansible
+
+> 목표: **"서버 날아가면 그냥 다시 돌리면 돼"**를 현실로 만들기.
+> 결과: 수동 설정 0, 재현 가능한 인프라, 그리고 마음의 평화.
+
+---
+
+## 배경: 왜 IaC를 도입했나
+
+[이전 글](/home-dev)에서 Tailscale과 Cloudflare Tunnel로 네트워크를 정리한 이야기를 했었다. 그 과정에서 자연스럽게 "이 설정들을 어떻게 관리하지?"라는 고민이 생겼다.
+
+처음에는 그냥 서버에 SSH로 접속해서 하나씩 설정했다. Tailscale 설치하고, nginx 설정하고, Docker 컨테이너 띄우고. 문제는 이게 쌓이면서 "내가 뭘 어떻게 설정했더라?"를 기억하기 어려워졌다는 것이다. 특히 몇 달 후에 서버를 재설정해야 할 때, 과거의 내가 무슨 짓을 했는지 알 수 없는 상황이 생겼다.
+
+회사에서 Kubernetes나 Terraform을 사용하면서 인프라를 코드로 관리하는 경험을 했었고, 집에서도 비슷하게 해보고 싶다는 생각이 있었다. 마침 LLM의 도움을 받으면 익숙하지 않은 도구도 빠르게 배울 수 있을 것 같아서 이번 기회에 제대로 구성해보기로 했다.
+
+---
+
+## 현재 인프라 구성
+
+먼저 현재 Home Lab의 물리적 구성을 설명하면, Aoostar WTR Pro라는 미니 PC에 Proxmox VE를 설치해서 사용하고 있다. 저전력이면서도 코어 수가 충분해서 가상화 용도로 적합했다.
+
+```mermaid
+flowchart TB
+  subgraph PROXMOX["Proxmox VE 9.1.2 (Aoostar WTR Pro)"]
+    subgraph LXC["LXC Containers"]
+      GW["Gateway (110)<br/>192.168.0.10<br/>Tailscale, CoreDNS, nginx"]
+      MON["Monitoring (120)<br/>192.168.0.20<br/>Prometheus, Grafana"]
+      REG["Registry (130)<br/>192.168.0.30<br/>Docker Registry"]
+    end
+
+    subgraph VM["Virtual Machines"]
+      K3S["Kubernetes k3s (200)<br/>192.168.0.66<br/>12 cores, 24GB RAM"]
+    end
+  end
+
+  Internet((Internet))
+  CF[(Cloudflare<br/>Tunnel)]
+  TS[(Tailscale<br/>Tailnet)]
+
+  Internet <-->|"HTTPS *.jiun.dev"| CF
+  CF <-->|Tunnel| K3S
+
+  TS <-->|VPN| GW
+  GW -->|내부 프록시| MON
+  GW -->|내부 프록시| REG
+```
+
+### 왜 이런 구조인가
+
+처음에는 모든 것을 Docker Compose로 NAS에서 돌렸다. 간단하고 편했지만, 서비스가 늘어나면서 관리가 어려워졌고 NAS가 재부팅되면 모든 서비스가 함께 내려갔다.
+
+Proxmox로 마이그레이션하면서 역할별로 분리했다:
+
+- **Gateway LXC**: 네트워크 진입점. Tailscale Subnet Router로 내부망 접근을 담당하고, 내부 서비스들의 리버스 프록시 역할
+- **Monitoring LXC**: Prometheus + Grafana. 메트릭 수집과 대시보드
+- **Registry LXC**: Private Docker Registry. 내부에서만 접근 가능
+- **k3s VM**: 외부 공개 서비스는 Kubernetes에서 관리. Cloudflare Tunnel로 노출
+
+이렇게 분리하니 하나가 죽어도 다른 서비스에 영향이 없고, 필요한 리소스만 할당할 수 있어서 효율적이었다.
+
+---
+
+## IaC 구조 설계
+
+인프라를 코드로 관리하기 위해 Terraform과 Ansible을 조합했다. 역할 분담은 이렇다:
+
+| 도구          | 담당 영역         | 예시                                    |
+| ------------- | ----------------- | --------------------------------------- |
+| **Terraform** | 인프라 프로비저닝 | LXC/VM 생성, 네트워크 설정, 디스크 할당 |
+| **Ansible**   | 설정 관리         | 패키지 설치, 서비스 설정, 인증서 발급   |
+
+이 분리가 중요한 이유는, "무엇을 만들 것인가"와 "어떻게 설정할 것인가"가 다른 문제이기 때문이다. Terraform은 선언적으로 인프라 상태를 정의하고, Ansible은 그 위에서 실제 소프트웨어를 설치하고 설정한다.
+
+```
+IaC/
+├── terraform/
+│   ├── environments/homelab/     # 환경별 변수
+│   └── modules/
+│       ├── lxc-base/             # 재사용 가능한 LXC 모듈
+│       └── vm-base/              # 재사용 가능한 VM 모듈
+├── ansible/
+│   ├── inventory/                # 호스트 정의
+│   ├── playbooks/                # 실행 단위
+│   └── roles/                    # 서비스별 역할
+│       ├── common/               # 공통 설정 (timezone, packages)
+│       ├── tailscale/            # VPN 설정
+│       ├── nginx/                # 리버스 프록시
+│       ├── prometheus/           # 메트릭 수집
+│       ├── grafana/              # 대시보드
+│       └── k3s/                  # Kubernetes
+├── kubernetes/                   # k8s 매니페스트
+│   ├── cloudflared/              # Cloudflare Tunnel
+│   └── apps/                     # 애플리케이션
+└── scripts/
+    └── deploy.sh                 # 통합 배포 스크립트
+```
+
+---
+
+## Terraform: 인프라 정의
+
+### LXC 모듈화
+
+처음에는 각 LXC마다 별도의 Terraform 파일을 만들었다. 그런데 Gateway, Monitoring, Registry가 거의 비슷한 구조여서 중복이 많았다. 이를 모듈로 추출했다:
+
+```hcl
+# modules/lxc-base/main.tf
+resource "proxmox_virtual_environment_container" "lxc" {
+  node_name   = var.node_name
+  vm_id       = var.vmid
+  description = var.description
+
+  initialization {
+    hostname = var.hostname
+    ip_config {
+      ipv4 {
+        address = "${var.ip_address}/24"
+        gateway = var.gateway
+      }
+    }
+  }
+
+  cpu {
+    cores = var.cores
+  }
+
+  memory {
+    dedicated = var.memory
+  }
+
+  disk {
+    datastore_id = var.datastore
+    size         = var.disk_size
+  }
+
+  network_interface {
+    name   = "eth0"
+    bridge = "vmbr0"
+  }
+
+  operating_system {
+    template_file_id = var.template
+    type             = "debian"
+  }
+}
+```
+
+이제 새 LXC를 추가할 때는 모듈을 호출하기만 하면 된다:
+
+```hcl
+# environments/homelab/main.tf
+module "gateway" {
+  source      = "../../modules/lxc-base"
+  vmid        = 110
+  hostname    = "gateway"
+  ip_address  = "192.168.0.10"
+  cores       = 2
+  memory      = 2048
+  disk_size   = 8
+  # ...
+}
+
+module "monitoring" {
+  source      = "../../modules/lxc-base"
+  vmid        = 120
+  hostname    = "monitoring"
+  ip_address  = "192.168.0.20"
+  cores       = 2
+  memory      = 4096
+  disk_size   = 20
+  # ...
+}
+```
+
+### 상태 관리
+
+Terraform은 `terraform.tfstate` 파일로 현재 인프라 상태를 추적한다. 처음에는 로컬에 저장했는데, 여러 장소에서 작업하다 보니 상태 충돌이 발생했다. 결국 MinIO(S3 호환)를 NAS에 띄우고 원격 백엔드로 사용하게 되었다.
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket                      = "terraform-state"
+    key                         = "homelab/terraform.tfstate"
+    endpoint                    = "https://minio.internal.jiun.dev"
+    skip_credentials_validation = true
+    skip_metadata_api_check     = true
+    force_path_style            = true
+  }
+}
+```
+
+---
+
+## Ansible: 설정 관리
+
+### 역할 기반 구조
+
+Ansible의 장점은 역할(Role)로 설정을 캡슐화할 수 있다는 것이다. 예를 들어 `tailscale` 역할은 어떤 호스트에서든 Tailscale을 설치하고 설정한다:
+
+```yaml
+# roles/tailscale/tasks/main.yml
+- name: Install Tailscale
+  shell: curl -fsSL https://tailscale.com/install.sh | sh
+  args:
+    creates: /usr/bin/tailscale
+
+- name: Start Tailscale
+  command: tailscale up --authkey={{ tailscale_authkey }} --advertise-routes={{ tailscale_routes | default('') }}
+  when: tailscale_authkey is defined
+```
+
+플레이북에서는 호스트별로 역할을 할당한다:
+
+```yaml
+# playbooks/site.yml
+- hosts: gateway
+  roles:
+    - common
+    - tailscale
+    - coredns
+    - nginx
+    - certbot
+
+- hosts: monitoring
+  roles:
+    - common
+    - prometheus
+    - grafana
+
+- hosts: registry
+  roles:
+    - common
+    - docker-registry
+```
+
+### 민감 정보 관리
+
+API 토큰, 비밀번호 같은 민감 정보는 Ansible Vault로 암호화했다:
+
+```bash
+# 암호화
+ansible-vault encrypt ansible/inventory/group_vars/all/secrets.yml
+
+# 실행 시
+ansible-playbook playbooks/site.yml --ask-vault-pass
+```
+
+처음에는 귀찮아서 평문으로 관리했는데, Git에 실수로 커밋할 뻔한 적이 있어서 바로 Vault로 전환했다.
+
+---
+
+## 배포 워크플로우
+
+전체 배포는 하나의 스크립트로 실행한다:
+
+```bash
+#!/bin/bash
+# scripts/deploy.sh
+
+set -e
+
+echo "=== Terraform Apply ==="
+cd terraform/environments/homelab
+terraform init
+terraform apply -auto-approve
+
+echo "=== Wait for LXC/VM to be ready ==="
+sleep 30
+
+echo "=== Ansible Playbook ==="
+cd ../../../ansible
+ansible-playbook playbooks/site.yml -i inventory/hosts.yml
+```
+
+새 서비스를 추가할 때의 흐름은 이렇다:
+
+1. `terraform/environments/homelab/main.tf`에 LXC/VM 정의 추가
+2. `ansible/roles/`에 새 역할 생성
+3. `ansible/playbooks/site.yml`에 역할 할당
+4. `./scripts/deploy.sh` 실행
+
+처음 설정할 때는 시간이 걸리지만, 한 번 구조를 잡아두니 새 서비스 추가가 정말 빠르고 일관적이 되었다.
+
+---
+
+## 실제로 도움이 됐던 순간
+
+### 1. 서버 재설치
+
+Proxmox를 업그레이드하다가 실수로 설정이 꼬였다. 예전 같았으면 며칠은 삽질했을 텐데, 그냥 `terraform apply && ansible-playbook site.yml` 한 번으로 30분 만에 복구했다.
+
+### 2. 새 서비스 추가
+
+NextCloud를 추가하고 싶었다. 예전 방식대로라면 LXC 수동 생성, SSH 접속, 패키지 설치, nginx 설정... 이런 과정을 거쳐야 했다. IaC로는:
+
+```hcl
+module "nextcloud" {
+  source     = "../../modules/lxc-base"
+  vmid       = 140
+  hostname   = "nextcloud"
+  ip_address = "192.168.0.40"
+  cores      = 2
+  memory     = 4096
+  disk_size  = 20
+}
+```
+
+```yaml
+- hosts: nextcloud
+  roles:
+    - common
+    - nextcloud
+```
+
+이렇게 정의하고 배포하면 끝이다. 물론 `nextcloud` 역할을 처음 작성하는 데는 시간이 걸렸지만, 한 번 만들어두면 재사용할 수 있다.
+
+### 3. 설정 변경 추적
+
+"이 nginx 설정 왜 이렇게 했더라?"를 Git 히스토리에서 찾을 수 있다. 언제, 왜 변경했는지가 커밋 메시지에 남아있으니 미래의 내가 과거의 나를 이해할 수 있게 되었다.
+
+---
+
+## 아직 남은 과제
+
+완벽하지는 않다. 몇 가지 개선하고 싶은 부분이 있다:
+
+- **GitOps 도입**: 지금은 로컬에서 스크립트를 실행하는데, GitHub Actions나 ArgoCD로 자동화하고 싶다
+- **테스트 환경**: 프로덕션에 바로 적용하는 게 불안할 때가 있다. 테스트용 Proxmox 환경이 있으면 좋겠다
+- **문서화**: 코드가 곧 문서라고는 하지만, 의도와 이유를 설명하는 문서가 더 필요하다
+
+---
+
+## 맺음말
+
+처음에는 "집 서버에 이렇게까지 해야 하나?" 싶었다. 학습 비용도 있고, 설정하는 데 시간도 걸렸다. 그런데 한 번 구조를 잡아두니 정말 편해졌다.
+
+무엇보다 **마음의 평화**가 생겼다. 서버가 날아가도 복구할 수 있다는 확신, 설정을 까먹어도 코드에 남아있다는 안심. 이게 IaC의 진짜 가치인 것 같다.
+
+LLM의 도움 없이는 이렇게 빠르게 구성하지 못했을 것이다. Terraform 문법이나 Ansible 모범 사례를 물어보면서 진행했고, 특히 Proxmox 프로바이더 설정 같은 세부 사항은 문서만 봐서는 이해하기 어려웠는데 대화하면서 해결할 수 있었다.
+
+미뤄뒀던 짐을 하나씩 정리하는 기분으로, 앞으로도 집 개발 환경을 조금씩 개선해 나가려고 한다.
+
+---
+
+## 참고
+
+- [Terraform Proxmox Provider (bpg/proxmox)](https://registry.terraform.io/providers/bpg/proxmox/latest/docs)
+- [Ansible Best Practices](https://docs.ansible.com/ansible/latest/tips_tricks/ansible_tips_tricks.html)
+- [Tailscale Subnet Routers](https://tailscale.com/kb/1019/subnets)
+- [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)
