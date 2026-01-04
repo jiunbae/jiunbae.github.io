@@ -1,7 +1,7 @@
 ---
 title: Claude Code Cloud
 description: Claude Code CLI를 클라우드에서 실행하는 웹 서비스 개발기
-date: 2025-01-04
+date: 2025-12-10
 slug: /claude-code-cloud
 tags: [dev, claude, ai, docker]
 heroImage: ./terminal.png
@@ -28,13 +28,13 @@ LLM의 도움 없이는 이 프로젝트를 일주일 만에 완성하지 못했
 
 ## 핵심 기능
 
-| 기능 | 설명 |
-|------|------|
-| **Terminal Mirroring** | Claude Code CLI 출력을 WebSocket으로 실시간 전송 |
-| **Session Management** | 세션 생성, 시작, 중지, 삭제를 SQLite로 영구 저장 |
-| **File Explorer** | 프로젝트 파일을 트리 형태로 탐색하고 구문 강조로 미리보기 |
-| **Real-time Collaboration** | 토큰 기반 링크로 세션 공유, 참여자 실시간 확인 |
-| **Multi-Terminal** | Claude, Codex, Shell 탭을 동시에 사용 |
+| 기능                        | 설명                                                      |
+| --------------------------- | --------------------------------------------------------- |
+| **Terminal Mirroring**      | Claude Code CLI 출력을 WebSocket으로 실시간 전송          |
+| **Session Management**      | 세션 생성, 시작, 중지, 삭제를 SQLite로 영구 저장          |
+| **File Explorer**           | 프로젝트 파일을 트리 형태로 탐색하고 구문 강조로 미리보기 |
+| **Real-time Collaboration** | 토큰 기반 링크로 세션 공유, 참여자 실시간 확인            |
+| **Multi-Terminal**          | Claude, Codex, Shell 탭을 동시에 사용                     |
 
 ---
 
@@ -112,21 +112,21 @@ flowchart TB
 
 ```typescript
 // PtyManager.ts - 핵심 로직
-const pty = spawn('claude', [], {
-  name: 'xterm-256color',
+const pty = spawn("claude", [], {
+  name: "xterm-256color",
   cols: 120,
   rows: 30,
   cwd: workDir,
   env: {
     ...process.env,
     ANTHROPIC_API_KEY: apiKey,
-    TERM: 'xterm-256color',
-  }
+    TERM: "xterm-256color",
+  },
 });
 
-pty.onData(data => {
+pty.onData((data) => {
   // WebSocket을 통해 모든 연결된 클라이언트에 브로드캐스트
-  wsServer.broadcast('terminal:output', { sessionId, data });
+  wsServer.broadcast("terminal:output", { sessionId, data });
 });
 ```
 
