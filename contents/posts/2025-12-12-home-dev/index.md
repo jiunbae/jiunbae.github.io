@@ -76,8 +76,7 @@ flowchart TB
 flowchart TB
   Internet((Internet))
 
-  CF_J[(Cloudflare<br/>jiun.dev)]
-  CF_I[(Cloudflare<br/>dev.domain)]
+  CF[(Cloudflare<br/>jiun.dev)]
 
   subgraph TAILNET["Tailscale Tailnet"]
     TS["Tailnet"]
@@ -87,43 +86,54 @@ flowchart TB
     DEVICES["User devices<br/>Tailscale clients"]
   end
 
-  subgraph HOME["Home LAN 192.168.0.0/24"]
+  subgraph HOME["Home LAN 192.168.32.0/24"]
     IPTIME["ipTIME<br/>DMZ OFF<br/>Port Forward OFF"]
 
-    NAS["Synology NAS 192.168.0.64<br/>DSM HTTPS<br/>Tailscale Subnet Router<br/>Docker cloudflared (jiun.dev)"]
+    subgraph PROXMOX["Proxmox VE (Aoostar WTR Pro)"]
+      GW["Gateway LXC<br/>192.168.32.10<br/>Tailscale Subnet Router<br/>CoreDNS, nginx"]
 
-    REG["Private Registry<br/>registry.dev.domain<br/>Reverse Proxy<br/>Tailscale only"]
+      MON["Monitoring LXC<br/>192.168.32.20<br/>Prometheus, Grafana"]
 
-    subgraph VMM["VMM on NAS"]
-      K3S["k3s-host VM<br/>k8s cloudflared (dev.domain)"]
-      SVC["dev.domain Services"]
-      K3S --- SVC
+      REG["Registry LXC<br/>192.168.32.30<br/>Docker Registry"]
+
+      K3S["k3s VM<br/>192.168.32.66<br/>cloudflared, ArgoCD"]
     end
 
-    IPTIME --- NAS
-    NAS --- REG
-    NAS --- VMM
+    NAS["Synology NAS<br/>192.168.32.65<br/>Storage"]
+
+    IPTIME --- PROXMOX
+    PROXMOX --- NAS
   end
 
-  %% Overlay connectivity (bi-directional shown as single link)
+  %% Overlay connectivity
   DEVICES <-->|Tailscale over Internet| TS
-  NAS <-->|Tailscale over Internet| TS
-  K3S <-->|Tailscale over Internet| TS
+  GW <-->|Tailscale over Internet| TS
 
-  %% Tailnet provides subnet access via NAS
-  TS <-->|Subnet routes 192.168.0.0/24| NAS
+  %% Tailnet provides subnet access via Gateway
+  TS <-->|Subnet routes 192.168.32.0/24| GW
 
-  %% Public tunnels (bi-directional shown as single link)
-  Internet <-->|HTTPS nas.jiun.dev via Tunnel| CF_J
-  CF_J <-->|Tunnel to DSM| NAS
+  %% CoreDNS Split DNS
+  DEVICES -.->|DNS: *.internal.jiun.dev| GW
 
-  Internet <-->|HTTPS *.dev.domain via Tunnel| CF_I
-  CF_I <-->|Tunnel to services| K3S
+  %% Public tunnels
+  Internet <-->|HTTPS *.jiun.dev| CF
+  CF <-->|Tunnel| K3S
 
-  %% Private registry access (bi-directional shown as single link)
-  TS <-->|Private HTTPS registry.dev.domain| REG
-
+  %% Internal reverse proxy
+  GW -->|Reverse Proxy| MON
+  GW -->|Reverse Proxy| REG
 ```
+
+### 구성 변경 사항 (2024.12 → 2025.01)
+
+초기 구성 이후 몇 가지 변경이 있었다:
+
+- **NAS VMM → Proxmox VE**: Synology NAS의 VMM은 리소스가 제한적이라 별도 미니 PC(Aoostar WTR Pro)에 Proxmox VE를 설치했다. 저전력이면서 코어 수가 충분해서 가상화 용도로 적합했다
+- **역할 분리**: 모든 서비스를 NAS에서 돌리던 것을 LXC/VM으로 분리. Gateway, Monitoring, Registry, k3s 각각 독립적으로 운영
+- **Subnet Router 이전**: NAS에서 Gateway LXC로 Tailscale Subnet Router를 옮겼다. 네트워크 진입점을 한 곳으로 모으기 위해
+- **CoreDNS 도입**: Split DNS를 위해 Gateway에 CoreDNS를 설치. 내부에서는 `*.internal.jiun.dev`로 접근
+
+> 이후 이 구성을 Terraform + Ansible로 코드화했다. 자세한 내용은 [Home Lab IaC](/home-lab-iac) 글 참고.
 
 ---
 
@@ -165,6 +175,161 @@ Registry는 Reverse Proxy 구조 자체는 유지하되, 실제 접근은 Tailsc
 
 ---
 
+## Split DNS와 CoreDNS
+
+내부 서비스에 접근할 때 IP 주소를 외우고 싶지 않았다. `grafana.internal.jiun.dev`처럼 도메인으로 접근하고 싶었는데, 문제는 이 도메인이 외부에서는 해석되면 안 된다는 것이다. 이걸 해결하는 게 Split DNS다.
+
+### Split DNS란
+
+같은 도메인이라도 **어디서 질의하느냐에 따라 다른 IP를 반환**하는 구성이다:
+
+| 도메인 | 외부(인터넷) | 내부(Tailscale) |
+|--------|-------------|-----------------|
+| `grafana.jiun.dev` | Cloudflare → Tunnel | 해석 안 됨 (또는 Tunnel) |
+| `grafana.internal.jiun.dev` | 해석 안 됨 | CoreDNS → 192.168.32.10 |
+
+외부 사용자가 `internal.jiun.dev`를 질의해도 응답이 없다. 이 도메인은 오직 내부 DNS(CoreDNS)에서만 해석된다.
+
+### CoreDNS 구성
+
+Gateway LXC에 CoreDNS를 설치하고, Tailscale의 DNS 설정에서 이 서버를 지정했다. Corefile은 이렇게 생겼다:
+
+```
+internal.jiun.dev {
+    hosts /etc/coredns/hosts.internal.jiun.dev {
+        fallthrough
+    }
+    forward . 1.1.1.1 8.8.8.8
+    log
+    errors
+}
+
+jiun.dev {
+    hosts /etc/coredns/hosts.jiun.dev {
+        fallthrough
+    }
+    forward . 1.1.1.1 8.8.8.8
+    log
+    errors
+}
+
+. {
+    forward . 1.1.1.1 8.8.8.8
+    cache 30
+    log
+    errors
+}
+```
+
+`internal.jiun.dev` 존은 hosts 파일에서 먼저 찾고, 없으면 upstream DNS로 forward한다. 나머지 도메인(`.`)은 그냥 upstream으로 보낸다.
+
+### DNS 레코드 관리
+
+hosts 파일은 이런 식으로 구성된다:
+
+```
+# /etc/coredns/hosts.internal.jiun.dev
+192.168.32.10  grafana.internal.jiun.dev
+192.168.32.10  prometheus.internal.jiun.dev
+192.168.32.10  registry.internal.jiun.dev
+192.168.32.10  argocd.internal.jiun.dev
+192.168.32.10  pve.internal.jiun.dev
+```
+
+대부분의 서비스가 Gateway(192.168.32.10)를 가리키는 이유는, Gateway에서 nginx 리버스 프록시로 각 서비스에 라우팅하기 때문이다. 도메인별로 다른 백엔드로 보내는 구조다.
+
+### Tailscale DNS 설정
+
+Tailscale Admin Console에서 DNS 설정을 추가한다:
+
+1. **Nameservers**: `192.168.32.10` (Gateway)를 Split DNS로 추가
+2. **Split DNS domains**: `internal.jiun.dev`, `jiun.dev`
+
+이렇게 하면 Tailscale 클라이언트는 `*.internal.jiun.dev` 질의를 Gateway로 보내고, Gateway의 CoreDNS가 내부 IP를 반환한다.
+
+결과적으로 Tailscale에 연결된 상태에서 `grafana.internal.jiun.dev`를 브라우저에 입력하면 내부 Grafana에 접속된다. 외부에서는 이 도메인이 존재하지 않는 것처럼 보인다.
+
+---
+
+## 보안 관점에서 본 변경
+
+단순히 "편해졌다"가 아니라, 보안 측면에서도 의미 있는 개선이었다.
+
+### DMZ/Port Forward의 위험성
+
+기존 구성의 문제점을 정리하면:
+
+| 위험 요소 | 설명 |
+|----------|------|
+| **공격 표면 확대** | DMZ로 NAS 전체 포트가 인터넷에 노출. 취약점 하나로 전체 시스템 침해 가능 |
+| **무차별 대입 공격** | SSH, DSM 로그인 페이지가 외부에서 접근 가능. 봇에 의한 brute force 시도 |
+| **내부망 침투 경로** | NAS가 뚫리면 같은 LAN의 다른 장비(PC, IoT 등)도 위험 |
+| **암호화 미적용 구간** | 일부 서비스가 HTTP로 노출될 경우 MITM 가능 |
+
+10년간 별일 없었던 건 운이 좋았던 것일 수 있다. 취약점이 발견되거나 잘못된 설정이 있었다면 피해를 입었을 것이다.
+
+### Zero Trust 접근
+
+새 구성은 "Zero Trust" 원칙에 가깝다:
+
+1. **네트워크 위치를 신뢰하지 않음**: 사내망이든 집이든 Tailscale 인증 없이는 접근 불가
+2. **기본 차단, 명시적 허용**: Router inbound를 전부 막고, Cloudflare Tunnel로 필요한 것만 노출
+3. **최소 권한**: 각 서비스별로 접근 권한을 Tailscale ACL로 제어 가능
+
+```json
+// Tailscale ACL 예시
+{
+  "acls": [
+    {
+      "action": "accept",
+      "src": ["tag:admin"],
+      "dst": ["192.168.32.0/24:*"]
+    },
+    {
+      "action": "accept",
+      "src": ["tag:developer"],
+      "dst": ["192.168.32.66:443"]  // k8s만 허용
+    }
+  ]
+}
+```
+
+### 계층별 보안
+
+현재 구성의 보안 계층을 정리하면:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ Layer 1: Network (Router)                               │
+│ - Inbound 전체 차단 (DMZ OFF, Port Forward OFF)         │
+│ - 물리적으로 외부에서 내부망 접근 불가                  │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│ Layer 2: Overlay Network (Tailscale)                    │
+│ - WireGuard 기반 암호화 (상시 E2E 암호화)               │
+│ - 디바이스별 인증 (SSO 연동 가능)                       │
+│ - ACL로 접근 제어                                       │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│ Layer 3: Application Gateway (Cloudflare Tunnel)        │
+│ - 외부 노출 서비스만 선택적 publish                     │
+│ - Cloudflare Access로 추가 인증 (MFA)                   │
+│ - DDoS 보호, WAF 적용 가능                              │
+└─────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────┐
+│ Layer 4: Service Level                                  │
+│ - 각 서비스별 자체 인증 (Grafana, ArgoCD 등)            │
+│ - HTTPS 강제 (Let's Encrypt 또는 Cloudflare Origin CA) │
+└─────────────────────────────────────────────────────────┘
+```
+
+각 계층이 독립적으로 동작해서, 한 계층이 뚫려도 다음 계층에서 막을 수 있다.
+
+---
+
 ## 결론
 
 이번 Migration의 핵심은 기능 추가가 아니라 “경계 정리”였다.
@@ -194,3 +359,9 @@ Registry는 Reverse Proxy 구조 자체는 유지하되, 실제 접근은 Tailsc
 [^cf-tunnel-routing]: Cloudflare Tunnel routing(Public Hostname → origin): https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/routing-to-tunnel/
 [^cf-origin-params]: cloudflared origin parameters(No TLS Verify 등): https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/configure-tunnels/cloudflared-parameters/origin-parameters/
 [^cf-access-selfhosted]: Cloudflare Access(Self-hosted apps): https://developers.cloudflare.com/cloudflare-one/access-controls/applications/http-apps/self-hosted-public-app/
+
+### 추가 참고
+
+- [CoreDNS Manual](https://coredns.io/manual/toc/)
+- [Tailscale Split DNS](https://tailscale.com/kb/1054/dns)
+- [Zero Trust Security Model (NIST)](https://www.nist.gov/publications/zero-trust-architecture)
