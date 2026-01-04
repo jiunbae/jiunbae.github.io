@@ -6,7 +6,7 @@ slug: /Kaggle-Digit-Recognizer
 tags: [tech]
 heroImage:
 heroImageAlt:
-published: true
+published: false
 ---
 
 # Kaggle로 시작하는 데이터 사이언스: Digit Recognizer
