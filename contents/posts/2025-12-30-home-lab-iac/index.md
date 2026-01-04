@@ -294,6 +294,142 @@ ansible-playbook playbooks/site.yml -i inventory/hosts.yml
 
 ---
 
+## GitOps: 코드 푸시만으로 배포까지
+
+로컬에서 스크립트를 실행하는 방식도 나쁘지 않았지만, 결국 "코드를 푸시하면 자동으로 배포되는" GitOps를 도입하게 되었다. 특히 Kubernetes 위에서 돌아가는 서비스들은 ArgoCD와 Gitea를 활용해서 완전 자동화했다.
+
+### 왜 GitHub + Gitea 조합인가
+
+처음에는 GitHub Actions만 쓰려고 했다. 그런데 Private Docker Registry에 이미지를 푸시하려면 GitHub에서 내부 네트워크로 접근해야 하는 문제가 있었다. Tailscale을 GitHub Actions runner에 붙이는 방법도 있지만, 그보다는 내부에 CI를 두는 게 깔끔해 보였다.
+
+그래서 Gitea를 Self-hosted로 띄우고, GitHub 레포를 미러링하는 구조를 만들었다:
+
+```mermaid
+flowchart LR
+  subgraph External["External"]
+    GH["GitHub<br/>App Repo"]
+  end
+
+  subgraph Internal["Internal (Tailscale)"]
+    GT["Gitea<br/>Mirror"]
+    GA["Gitea Actions<br/>CI Runner"]
+    REG["Docker Registry<br/>registry.jiun.dev"]
+  end
+
+  subgraph K8s["Kubernetes"]
+    ARGO["ArgoCD"]
+    DEPLOY["Deployment"]
+  end
+
+  GH -->|webhook push| GT
+  GT -->|trigger| GA
+  GA -->|build & push| REG
+  GA -->|update kustomization.yaml| GH
+  GH -->|watch IaC repo| ARGO
+  ARGO -->|sync| DEPLOY
+```
+
+개발할 때는 GitHub에 푸시하면 끝이다. webhook이 Gitea로 전달되고, Gitea Actions가 이미지를 빌드해서 내부 Registry에 푸시한다. 그리고 IaC 레포의 `kustomization.yaml`에서 이미지 태그를 업데이트하면, ArgoCD가 변경을 감지하고 Kubernetes에 배포한다.
+
+### App Repo와 Config Repo 분리
+
+GitOps의 핵심은 "애플리케이션 코드"와 "배포 설정"을 분리하는 것이다. 애플리케이션 레포에는 소스 코드와 Dockerfile만 있고, 실제 Kubernetes 매니페스트는 IaC 레포에 둔다:
+
+```
+# App Repo (예: claude-code-cloud)
+├── src/                    # 애플리케이션 소스
+├── Dockerfile              # 이미지 빌드
+└── .gitea/workflows/
+    └── deploy.yml          # CI 파이프라인
+
+# IaC Repo
+└── kubernetes/apps/claude-code-cloud/
+    ├── application.yaml    # ArgoCD Application
+    ├── kustomization.yaml  # 이미지 태그 관리
+    ├── deployment.yaml
+    ├── service.yaml
+    └── ingress.yaml
+```
+
+이렇게 분리하면 좋은 점이 있다. 애플리케이션 개발자는 코드만 신경 쓰면 되고, 인프라 설정은 IaC 레포에서 한 곳에서 관리된다. 롤백도 간단하다. `kustomization.yaml`의 `newTag`를 이전 커밋 해시로 바꾸면 끝이다.
+
+### CI 파이프라인
+
+Gitea Actions의 워크플로우는 이렇게 생겼다:
+
+```yaml
+name: Build and Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: registry.jiun.dev/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Update IaC repo
+        run: |
+          cd iac/kubernetes/apps/${{ env.APP_NAME }}
+          sed -i "s/newTag: .*/newTag: ${{ github.sha }}/" kustomization.yaml
+          git commit -am "chore: update image tag"
+          git push
+```
+
+이미지 태그로 Git 커밋 해시를 사용하는 게 포인트다. 어떤 코드가 배포되었는지 추적하기 쉽고, 태그 충돌도 없다.
+
+### ArgoCD 설정
+
+ArgoCD Application은 이렇게 정의한다:
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: claude-code-cloud
+  namespace: argocd
+spec:
+  source:
+    repoURL: https://github.com/jiunbae/IaC.git
+    path: kubernetes/apps/claude-code-cloud
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true      # 삭제된 리소스 정리
+      selfHeal: true   # drift 자동 복구
+```
+
+`automated` 설정이 핵심이다. IaC 레포에 변경이 생기면 자동으로 sync하고, 누군가 kubectl로 직접 수정해도 원래 상태로 되돌린다. "Git에 있는 게 진실"이라는 GitOps 원칙을 강제하는 셈이다.
+
+### 실제 운영 중인 서비스들
+
+현재 이 구조로 운영 중인 서비스들:
+
+- **claude-code-cloud**: Claude Code 웹 인터페이스
+- **selectchatgpt**: ChatGPT 프록시 서비스
+- **kurim**: 개인 프로젝트 백엔드
+
+새 서비스를 추가할 때 체크리스트가 있다:
+
+1. GitHub에 App Repo 생성
+2. Gitea에서 mirror 설정
+3. `.gitea/workflows/deploy.yml` 작성
+4. IaC 레포에 `kubernetes/apps/{app-name}/` 디렉토리 생성
+5. ArgoCD Application 등록
+6. Kubernetes secrets 수동 생성 (민감 정보는 Git에 넣지 않음)
+
+처음에는 복잡해 보이지만, 한 번 익숙해지면 새 서비스 배포가 정말 빠르다. 기존 서비스의 매니페스트를 복사해서 약간만 수정하면 되니까.
+
+---
+
 ## 실제로 도움이 됐던 순간
 
 ### 1. 서버 재설치
@@ -335,9 +471,9 @@ module "nextcloud" {
 
 완벽하지는 않다. 몇 가지 개선하고 싶은 부분이 있다:
 
-- **GitOps 도입**: 지금은 로컬에서 스크립트를 실행하는데, GitHub Actions나 ArgoCD로 자동화하고 싶다
+- **LXC 서비스도 GitOps로**: 현재 GitOps는 Kubernetes 서비스에만 적용되어 있다. Gateway, Monitoring 같은 LXC 서비스들도 Ansible Pull 방식이나 다른 방법으로 자동화하고 싶다
 - **테스트 환경**: 프로덕션에 바로 적용하는 게 불안할 때가 있다. 테스트용 Proxmox 환경이 있으면 좋겠다
-- **문서화**: 코드가 곧 문서라고는 하지만, 의도와 이유를 설명하는 문서가 더 필요하다
+- **Secrets 관리 개선**: 지금은 Kubernetes secrets를 수동으로 생성하는데, Sealed Secrets나 External Secrets Operator 같은 솔루션을 도입하면 더 깔끔할 것 같다
 
 ---
 
@@ -359,3 +495,6 @@ LLM의 도움 없이는 이렇게 빠르게 구성하지 못했을 것이다. Te
 - [Ansible Best Practices](https://docs.ansible.com/ansible/latest/tips_tricks/ansible_tips_tricks.html)
 - [Tailscale Subnet Routers](https://tailscale.com/kb/1019/subnets)
 - [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)
+- [ArgoCD Getting Started](https://argo-cd.readthedocs.io/en/stable/getting_started/)
+- [Gitea Actions](https://docs.gitea.com/usage/actions/overview)
+- [Kustomize](https://kustomize.io/)
