@@ -291,7 +291,7 @@ const createOgSvg = (
     .join('')
 
   const summarySpans = summaryLines
-    .map((line, index) => `<tspan x="${padding}" dy="${index === 0 ? 0 : 52}">${escapeXml(line)}</tspan>`)
+    .map((line, index) => `<tspan x="${padding}" dy="${index === 0 ? 0 : 56}">${escapeXml(line)}</tspan>`)
     .join('')
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -306,10 +306,10 @@ const createOgSvg = (
   <text x="${padding}" y="168" fill="#f8fafc" font-family="${fontStack}" font-size="66" font-weight="${fonts.titleWeight}">
     ${titleSpans}
   </text>
-  <text x="${padding}" y="340" fill="rgba(248, 250, 252, 0.9)" font-family="${fontStack}" font-size="36" font-weight="${fonts.bodyWeight}">
+  <text x="${padding}" y="340" fill="rgba(248, 250, 252, 0.9)" font-family="${fontStack}" font-size="40" font-weight="${fonts.bodyWeight}">
     ${summarySpans}
   </text>
-  <g font-family="${fontStack}" font-size="32" font-weight="${fonts.bodyWeight}" fill="rgba(248, 250, 252, 0.68)">
+  <g font-family="${fontStack}" font-size="36" font-weight="${fonts.bodyWeight}" fill="rgba(248, 250, 252, 0.68)">
     <text x="${padding}" y="550">${escapeXml(siteName)}</text>
     <text x="${OG_IMAGE_WIDTH - padding}" y="550" text-anchor="end">${escapeXml(date)}</text>
   </g>
