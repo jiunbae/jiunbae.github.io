@@ -409,9 +409,46 @@ spec:
 
 `automated` 설정이 핵심이다. IaC 레포에 변경이 생기면 자동으로 sync하고, 누군가 kubectl로 직접 수정해도 원래 상태로 되돌린다. "Git에 있는 게 진실"이라는 GitOps 원칙을 강제하는 셈이다.
 
+### Private Docker Registry
+
+Docker Hub 대신 내부 Registry를 사용하는 이유:
+
+- **비공개 이미지**: 개인 프로젝트는 공개하고 싶지 않음
+- **Pull 제한 없음**: Docker Hub 무료 플랜의 rate limit 회피
+- **네트워크 비용 절약**: 빌드와 배포가 모두 내부에서 이뤄짐
+
+Registry는 LXC 컨테이너에 바이너리로 직접 설치했다. Docker-in-LXC보다 단순하고 리소스 오버헤드가 없다:
+
+```yaml
+# Ansible로 Registry 설정
+registry_version: "2.8.3"
+registry_listen_port: 5000
+registry_storage_path: /var/lib/docker-registry
+```
+
+접근 제어는 네트워크 레벨에서 처리한다. Tailscale 내부에서만 접근 가능하고, 외부 노출 없음. 개인 홈랩에서는 이 정도면 충분하다.
+
+### 이미지 캐싱
+
+빌드 시간을 줄이기 위해 Registry에 빌드 캐시를 저장한다:
+
+```yaml
+- name: Build and push
+  uses: docker/build-push-action@v6
+  with:
+    push: true
+    tags: registry.jiun.dev/${{ env.IMAGE_NAME }}:${{ github.sha }}
+    cache-from: type=registry,ref=registry.jiun.dev/${{ env.IMAGE_NAME }}:buildcache
+    cache-to: type=registry,ref=registry.jiun.dev/${{ env.IMAGE_NAME }}:buildcache,mode=max
+```
+
+효과:
+- **첫 빌드**: 약 5분 (의존성 설치 포함)
+- **캐시 있을 때**: 약 30초 (변경된 레이어만)
+
 ### 서비스를 추가할 땐
 
-새 서비스를 추가할 때 체크리스트가 있다:
+새 서비스를 추가할 때 체크리스트:
 
 1. GitHub에 App Repo 생성
 2. Gitea에서 mirror 설정
@@ -421,6 +458,102 @@ spec:
 6. Kubernetes secrets 수동 생성 (민감 정보는 Git에 넣지 않음)
 
 처음에는 복잡해 보이지만, 한 번 익숙해지면 새 서비스 배포가 정말 빠르다. 기존 서비스의 매니페스트를 복사해서 약간만 수정하면 되니까.
+
+---
+
+## Monitoring: Prometheus + Grafana
+
+인프라를 코드로 관리하는 것만으로는 "지금 잘 돌아가고 있는지"를 알 수 없다. SSH로 `htop` 띄우는 건 원시적이고, 여러 노드를 한 번에 보기 어렵다.
+
+### 모니터링 아키텍처
+
+```mermaid
+flowchart LR
+  subgraph MON["Monitoring LXC"]
+    PROM["Prometheus<br/>:9090"]
+    GRAF["Grafana<br/>:3000"]
+    PVE_EXP["PVE Exporter"]
+  end
+
+  subgraph TARGETS["Scrape Targets"]
+    NODE["node_exporter<br/>(각 노드)"]
+    KSM["kube-state-metrics<br/>(K8s)"]
+  end
+
+  PROM -->|scrape| NODE
+  PROM -->|scrape| KSM
+  PROM -->|scrape| PVE_EXP
+  GRAF -->|query| PROM
+```
+
+### 수집하는 메트릭
+
+| 컴포넌트 | 역할 | 대상 |
+|---------|------|------|
+| **node_exporter** | 노드 메트릭 | CPU, 메모리, 디스크, 네트워크 |
+| **pve-exporter** | Proxmox 메트릭 | VM/LXC 상태, 리소스 사용량 |
+| **kube-state-metrics** | K8s 오브젝트 | Pod, Deployment 상태 |
+
+Ansible에서 스크랩 대상을 변수로 관리한다. IP 하드코딩 없이 `hosts_ip` 변수 참조:
+
+```yaml
+prometheus_scrape_configs:
+  - job_name: "node-lxc"
+    static_configs:
+      - targets:
+          - "{{ hosts_ip.gateway }}:9100"
+          - "{{ hosts_ip.monitoring }}:9100"
+          - "{{ hosts_ip.registry }}:9100"
+
+  - job_name: "pve"
+    static_configs:
+      - targets: ["localhost:9221"]
+    metrics_path: /pve
+    params:
+      target: ["{{ hosts_ip.pve }}"]
+```
+
+### Grafana 대시보드
+
+Grafana Labs에서 인기 대시보드를 다운로드해서 사용한다:
+
+- **Node Exporter Full** (ID: 1860): 노드 종합 메트릭
+- **Proxmox** (ID: 10347): Proxmox 클러스터 현황
+- **Kubernetes Cluster** (ID: 15759): K8s 상태
+
+Ansible로 자동 프로비저닝해서 수동 설정 없이 바로 사용 가능:
+
+```yaml
+# datasource 자동 설정
+datasources:
+  - name: Prometheus
+    type: prometheus
+    url: http://localhost:9090
+    isDefault: true
+```
+
+### 알림 설정
+
+Prometheus Alertmanager로 Discord에 알림을 보낸다:
+
+```yaml
+groups:
+  - name: node
+    rules:
+      - alert: HighMemoryUsage
+        expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 > 90
+        for: 5m
+        labels:
+          severity: critical
+
+      - alert: DiskSpaceLow
+        expr: (1 - node_filesystem_avail_bytes / node_filesystem_size_bytes) * 100 > 85
+        for: 10m
+        labels:
+          severity: warning
+```
+
+실제로 디스크 용량 알림 덕분에 Registry 스토리지가 가득 차기 전에 정리할 수 있었다.
 
 ---
 
@@ -492,3 +625,6 @@ LLM의 도움 없이는 이렇게 빠르게 구성하지 못했을 것이다. Te
 - [ArgoCD Getting Started](https://argo-cd.readthedocs.io/en/stable/getting_started/)
 - [Gitea Actions](https://docs.gitea.com/usage/actions/overview)
 - [Kustomize](https://kustomize.io/)
+- [Docker Registry](https://docs.docker.com/registry/)
+- [Prometheus Getting Started](https://prometheus.io/docs/prometheus/latest/getting_started/)
+- [Grafana Provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/)
