@@ -1,7 +1,7 @@
-import { Link, graphql, useStaticQuery } from 'gatsby'
-import { GatsbyImage, type IGatsbyImageData, getImage } from 'gatsby-plugin-image'
+import { Link } from 'gatsby'
+import { GatsbyImage, type IGatsbyImageData } from 'gatsby-plugin-image'
 
-import { getRefinedImage } from '@/utils'
+import { sanitizePostSlug } from '@/utils'
 
 import { Date, Description, TagList, Title } from './components'
 import * as styles from './Post.module.scss'
@@ -18,13 +18,48 @@ type PostProps = {
 };
 
 type StyledProps = {
-  heroImage: IGatsbyImageData;
+  heroImage: IGatsbyImageData | undefined;
   heroImageAlt: string;
+  ogImageSrc: string;
   className: string;
 }
 
 type CardPostProps = Omit<PostProps, 'variants'> & StyledProps
 type ItemPostProps = Omit<PostProps, 'variants'> & StyledProps
+
+const PostImage = ({
+  heroImage,
+  heroImageAlt,
+  ogImageSrc,
+  className
+}: {
+  heroImage: IGatsbyImageData | undefined;
+  heroImageAlt: string;
+  ogImageSrc: string;
+  className: string;
+}) => {
+  if (heroImage) {
+    return (
+      <GatsbyImage
+        image={heroImage}
+        alt={heroImageAlt}
+        className={className}
+        loading="lazy"
+      />
+    )
+  }
+
+  return (
+    <div className={className}>
+      <img
+        src={ogImageSrc}
+        alt={heroImageAlt}
+        loading="lazy"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      />
+    </div>
+  )
+}
 
 export const CardPost = ({
   title,
@@ -34,16 +69,17 @@ export const CardPost = ({
   slug,
   heroImage,
   heroImageAlt,
+  ogImageSrc,
   className
 }: CardPostProps) => (
   <Link to={`/posts${slug}`} className={className}>
     <article className={styles.card}>
       <figure>
-        <GatsbyImage
-          image={heroImage}
-          alt={heroImageAlt}
+        <PostImage
+          heroImage={heroImage}
+          heroImageAlt={heroImageAlt}
+          ogImageSrc={ogImageSrc}
           className={styles.cardImage}
-          loading="lazy"
         />
         <figcaption className={styles.cardCaption}>
           <Date date={date} className={styles.cardDate} />
@@ -64,16 +100,17 @@ export const ItemPost = ({
   slug,
   heroImage,
   heroImageAlt,
+  ogImageSrc,
   className
 }: ItemPostProps) => (
   <Link to={`/posts${slug}`} className={className}>
     <article className={styles.item}>
       <figure className={styles.itemFigure}>
-        <GatsbyImage
-          image={heroImage}
-          alt={heroImageAlt}
+        <PostImage
+          heroImage={heroImage}
+          heroImageAlt={heroImageAlt}
+          ogImageSrc={ogImageSrc}
           className={styles.itemImage}
-          loading="lazy"
         />
         <figcaption className={styles.itemCaption}>
           <Title title={title} className={styles.itemTitle} />
@@ -87,18 +124,8 @@ export const ItemPost = ({
 )
 
 export const Post = ({ variants, title, description, date, tags, slug, heroImage, heroImageAlt }: PostProps) => {
-  const defaultImage = useStaticQuery(graphql`
-    query {
-      cover: file(relativePath: { eq: "cover.png" }) {
-        childImageSharp {
-          gatsbyImageData(placeholder: BLURRED)
-        }
-      }
-    }
-  `)
-
-  const image = getRefinedImage(heroImage === undefined ? getImage(defaultImage.cover) : heroImage)
-  const imageAlt = heroImageAlt ?? 'Cover Image'
+  const ogImageSrc = `/og/posts/${sanitizePostSlug(slug)}.png`
+  const imageAlt = heroImageAlt ?? title
 
   if (variants === 'card') {
     return (
@@ -108,8 +135,9 @@ export const Post = ({ variants, title, description, date, tags, slug, heroImage
         date={date}
         tags={tags}
         slug={slug}
-        heroImage={image}
+        heroImage={heroImage}
         heroImageAlt={imageAlt}
+        ogImageSrc={ogImageSrc}
         className={styles.articleLink}
       />
     )
@@ -123,8 +151,9 @@ export const Post = ({ variants, title, description, date, tags, slug, heroImage
         date={date}
         tags={tags}
         slug={slug}
-        heroImage={image}
+        heroImage={heroImage}
         heroImageAlt={imageAlt}
+        ogImageSrc={ogImageSrc}
         className={styles.articleLink}
       />
     )
