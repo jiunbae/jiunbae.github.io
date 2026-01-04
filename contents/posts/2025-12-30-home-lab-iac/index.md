@@ -403,19 +403,13 @@ spec:
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
-      prune: true      # 삭제된 리소스 정리
-      selfHeal: true   # drift 자동 복구
+      prune: true # 삭제된 리소스 정리
+      selfHeal: true # drift 자동 복구
 ```
 
 `automated` 설정이 핵심이다. IaC 레포에 변경이 생기면 자동으로 sync하고, 누군가 kubectl로 직접 수정해도 원래 상태로 되돌린다. "Git에 있는 게 진실"이라는 GitOps 원칙을 강제하는 셈이다.
 
-### 실제 운영 중인 서비스들
-
-현재 이 구조로 운영 중인 서비스들:
-
-- **claude-code-cloud**: Claude Code 웹 인터페이스
-- **selectchatgpt**: ChatGPT 프록시 서비스
-- **kurim**: 개인 프로젝트 백엔드
+### 서비스를 추가할 땐
 
 새 서비스를 추가할 때 체크리스트가 있다:
 
