@@ -247,10 +247,10 @@ const wrapText = (text: string, maxCharsPerLine: number, maxLines: number) => {
   return lines
 }
 
-const truncateSummary = (text: string, maxChars = 200, maxLines = 3) => {
+const truncateSummary = (text: string, maxChars = 180, maxLines = 3) => {
   const normalized = text.replace(/\s+/g, ' ').trim()
   const truncated = normalized.length > maxChars ? `${normalized.slice(0, maxChars - 1).trim()}…` : normalized
-  return wrapText(truncated, 30, maxLines)
+  return wrapText(truncated, 28, maxLines)
 }
 
 const escapeXml = (value: string) =>
@@ -280,18 +280,18 @@ const createOgSvg = (
   fonts: OgFontConfig,
   siteName: string
 ) => {
-  const titleLines = wrapText(title, 14, 2)
+  const titleLines = wrapText(title, 15, 2)
   const summaryLines = truncateSummary(summary)
 
   const fontStack = formatFontStack(fonts.stack)
-  const padding = 140
+  const padding = 96
 
   const titleSpans = titleLines
-    .map((line, index) => `<tspan x="${padding}" dy="${index === 0 ? 0 : 68}">${escapeXml(line)}</tspan>`)
+    .map((line, index) => `<tspan x="${padding}" dy="${index === 0 ? 0 : 76}">${escapeXml(line)}</tspan>`)
     .join('')
 
   const summarySpans = summaryLines
-    .map((line, index) => `<tspan x="${padding}" dy="${index === 0 ? 0 : 46}">${escapeXml(line)}</tspan>`)
+    .map((line, index) => `<tspan x="${padding}" dy="${index === 0 ? 0 : 52}">${escapeXml(line)}</tspan>`)
     .join('')
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -303,15 +303,15 @@ const createOgSvg = (
     </linearGradient>
   </defs>
   <rect fill="url(#og-bg)" width="${OG_IMAGE_WIDTH}" height="${OG_IMAGE_HEIGHT}" rx="32" />
-  <text x="${padding}" y="168" fill="#f8fafc" font-family="${fontStack}" font-size="58" font-weight="${fonts.titleWeight}">
+  <text x="${padding}" y="168" fill="#f8fafc" font-family="${fontStack}" font-size="66" font-weight="${fonts.titleWeight}">
     ${titleSpans}
   </text>
-  <text x="${padding}" y="328" fill="rgba(248, 250, 252, 0.9)" font-family="${fontStack}" font-size="30" font-weight="${fonts.bodyWeight}">
+  <text x="${padding}" y="340" fill="rgba(248, 250, 252, 0.9)" font-family="${fontStack}" font-size="36" font-weight="${fonts.bodyWeight}">
     ${summarySpans}
   </text>
-  <g font-family="${fontStack}" font-size="26" font-weight="${fonts.bodyWeight}" fill="rgba(248, 250, 252, 0.68)">
-    <text x="${padding}" y="536">${escapeXml(siteName)}</text>
-    <text x="${OG_IMAGE_WIDTH - padding}" y="536" text-anchor="end">${escapeXml(date)}</text>
+  <g font-family="${fontStack}" font-size="32" font-weight="${fonts.bodyWeight}" fill="rgba(248, 250, 252, 0.68)">
+    <text x="${padding}" y="550">${escapeXml(siteName)}</text>
+    <text x="${OG_IMAGE_WIDTH - padding}" y="550" text-anchor="end">${escapeXml(date)}</text>
   </g>
 </svg>`
 }
