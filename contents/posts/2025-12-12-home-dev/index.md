@@ -130,7 +130,7 @@ flowchart TB
 
 - **NAS VMM → Proxmox VE**: Synology NAS의 VMM은 리소스가 제한적이라 별도 미니 PC에 Proxmox VE를 설치했다
 
-![Aoostar WTR PRO](./Aoostar%20WTR%20PRO.png)
+![Aoostar WTR PRO](./aoostar-wtr-pro.png)
 
 구매한 장비는 **Aoostar WTR PRO**로, AMD Ryzen 7 5825U(8C/16T)를 탑재한 미니 PC다. 주요 선택 이유는:
 
