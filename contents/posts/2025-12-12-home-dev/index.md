@@ -3,7 +3,7 @@ title: Home Dev Environment
 description: 집 개발 환경 구축하기
 date: 2025-12-12
 slug: /home-dev
-tags: [dev]
+tags: [dev, homelab, tailscale, cloudflare]
 heroImage:
 heroImageAlt:
 published: true
