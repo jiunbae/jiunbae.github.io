@@ -25,4 +25,10 @@ const NotFoundPage = () => {
 
 export default NotFoundPage
 
-export const Head = () => <title>Not found</title>
+export const Head = () => (
+  <>
+    <title>페이지를 찾을 수 없습니다 | Jiunbae's Blog</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="description" content="요청하신 페이지를 찾을 수 없습니다." />
+  </>
+)

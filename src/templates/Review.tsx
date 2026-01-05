@@ -9,6 +9,7 @@ export const query = graphql`
         title
         slug
         date(formatString: "YYYY년 MM월 DD일")
+        dateISO: date(formatString: "YYYY-MM-DD")
         mediaType
         rating
         oneLiner

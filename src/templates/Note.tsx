@@ -9,6 +9,7 @@ export const query = graphql`
       frontmatter {
         title
         date(formatString: "YY.MM.DD")
+        dateISO: date(formatString: "YYYY-MM-DD")
         tags
         slug
         description

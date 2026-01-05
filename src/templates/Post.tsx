@@ -7,6 +7,7 @@ export const query = graphql`
       excerpt(pruneLength: 200, truncate: true)
       frontmatter {
         date(formatString: "YY.MM.DD")
+        dateISO: date(formatString: "YYYY-MM-DD")
         description
         slug
         heroImage {

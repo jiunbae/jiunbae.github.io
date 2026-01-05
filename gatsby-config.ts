@@ -31,6 +31,12 @@ const config: GatsbyConfig = {
       kr: '배지운',
       en: 'Jiun Bae'
     },
+    author: {
+      name: 'Jiun Bae',
+      nameKr: '배지운',
+      email: 'jiunbae.623@gmail.com'
+    },
+    language: 'ko',
     siteUrl: 'https://blog.jiun.dev',
     keywords: ['jiunbae', 'blog', 'dev'],
     heroImage: path.resolve(__dirname, 'src/images/cover.png'),

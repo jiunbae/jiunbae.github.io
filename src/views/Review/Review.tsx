@@ -1,13 +1,17 @@
 import type { HeadProps, PageProps } from 'gatsby'
 import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 
-import { FloatingButton, Seo } from '@/components'
+import { FloatingButton, JsonLd, Seo, createBreadcrumbSchema, createReviewSchema } from '@/components'
 import { getRefinedStringValue, sanitizeReviewSlug } from '@/utils'
 import StarRating from '@/components/StarRating'
 import MediaMetadata from '@/components/MediaMetadata'
 import { Tag } from '@/components/Tag'
 
 import * as styles from './Review.module.scss'
+
+const SITE_URL = 'https://blog.jiun.dev'
+const AUTHOR_NAME = 'Jiun Bae'
+const AUTHOR_URL = `${SITE_URL}/about`
 
 const mediaTypeLabels: Record<string, string> = {
   movie: '영화',
@@ -92,18 +96,59 @@ const Review = ({ data }: PageProps<Queries.ReviewQuery>) => {
 export const Head = ({ data: { markdownRemark }, location }: HeadProps<Queries.ReviewQuery>) => {
   const { href } = location as typeof location & { href?: string }
   const pageUrl = href ?? location.pathname
+  const resolvedUrl = pageUrl.startsWith('http') ? pageUrl : `${SITE_URL}${pageUrl}`
 
-  const slug = markdownRemark?.frontmatter.slug
+  if (!markdownRemark) return null
+
+  const { frontmatter, excerpt } = markdownRemark
+  const slug = frontmatter.slug
   const normalizedSlug = slug ? sanitizeReviewSlug(slug) : null
   const heroImage = normalizedSlug ? `/og/reviews/${normalizedSlug}.png` : ''
+  const heroImageUrl = heroImage ? `${SITE_URL}${heroImage}` : ''
+
+  const creatorName = frontmatter.mediaType === 'book'
+    ? frontmatter.metadata?.author ?? undefined
+    : frontmatter.metadata?.director
+      ?? frontmatter.metadata?.creator
+      ?? frontmatter.metadata?.author
+      ?? undefined
+
+  const reviewSchema = createReviewSchema({
+    title: frontmatter.title ?? '',
+    description: frontmatter.oneLiner ?? excerpt ?? '',
+    datePublished: frontmatter.dateISO ?? '',
+    url: resolvedUrl,
+    image: heroImageUrl,
+    rating: frontmatter.rating ?? 0,
+    mediaType: frontmatter.mediaType as 'movie' | 'series' | 'animation' | 'book',
+    authorName: AUTHOR_NAME,
+    authorUrl: AUTHOR_URL,
+    itemReviewed: {
+      name: frontmatter.metadata?.originalTitle ?? frontmatter.title ?? '',
+      url: resolvedUrl,
+      image: heroImageUrl,
+      creatorName
+    }
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: 'Home', url: SITE_URL },
+    { name: 'Reviews', url: `${SITE_URL}/reviews` },
+    { name: frontmatter.title ?? 'Review', url: resolvedUrl }
+  ])
 
   return (
-    <Seo
-      title={markdownRemark?.frontmatter.title}
-      description={markdownRemark?.frontmatter.oneLiner ?? markdownRemark?.excerpt ?? undefined}
-      heroImage={heroImage}
-      pathname={pageUrl}
-    />
+    <>
+      <Seo
+        title={frontmatter.title}
+        description={frontmatter.oneLiner ?? excerpt ?? undefined}
+        heroImage={heroImage}
+        pathname={pageUrl}
+        publishedTime={frontmatter.dateISO ?? undefined}
+        type="article"
+      />
+      <JsonLd data={[reviewSchema, breadcrumbSchema]} />
+    </>
   )
 }
 

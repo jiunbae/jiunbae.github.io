@@ -1,11 +1,15 @@
 import type { HeadProps, PageProps } from 'gatsby'
 import { GatsbyImage } from 'gatsby-plugin-image'
 
-import { Comments, FloatingButton, Seo } from '@/components'
+import { Comments, FloatingButton, JsonLd, Seo, createBlogPostingSchema, createBreadcrumbSchema } from '@/components'
 import { getRefinedImage, getRefinedStringValue, sanitizePostSlug } from '@/utils'
 
 import { TableOfContents, TagList } from './components'
 import * as styles from './Post.module.scss'
+
+const SITE_URL = 'https://blog.jiun.dev'
+const AUTHOR_NAME = 'Jiun Bae'
+const AUTHOR_URL = `${SITE_URL}/about`
 
 const Post = ({ data }: PageProps<Queries.PostQuery>) => {
   if (!data.markdownRemark) throw new Error('마크다운 데이터가 존재하지 않습니다.')
@@ -41,18 +45,49 @@ const Post = ({ data }: PageProps<Queries.PostQuery>) => {
 export const Head = ({ data: { markdownRemark }, location }: HeadProps<Queries.PostQuery>) => {
   const { href } = location as typeof location & { href?: string }
   const pageUrl = href ?? location.pathname
+  const resolvedUrl = pageUrl.startsWith('http') ? pageUrl : `${SITE_URL}${pageUrl}`
 
-  const slug = markdownRemark?.frontmatter.slug
+  if (!markdownRemark) return null
+
+  const { frontmatter, excerpt } = markdownRemark
+  const { title, description, dateISO, tags } = frontmatter
+  const normalizedTags = tags?.filter(Boolean) as string[] | undefined
+  const slug = frontmatter.slug
   const normalizedSlug = slug ? sanitizePostSlug(slug) : null
   const heroImage = normalizedSlug ? `/og/posts/${normalizedSlug}.png` : ''
+  const heroImageUrl = heroImage ? `${SITE_URL}${heroImage}` : ''
+
+  const blogPostingSchema = createBlogPostingSchema({
+    title: title ?? '',
+    description: description ?? excerpt ?? '',
+    datePublished: dateISO ?? '',
+    dateModified: dateISO ?? '',
+    url: resolvedUrl,
+    image: heroImageUrl,
+    authorName: AUTHOR_NAME,
+    authorUrl: AUTHOR_URL,
+    tags: normalizedTags
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: 'Home', url: SITE_URL },
+    { name: 'Posts', url: `${SITE_URL}/posts` },
+    { name: title ?? 'Post', url: resolvedUrl }
+  ])
 
   return (
-    <Seo
-      title={markdownRemark?.frontmatter.title}
-      description={markdownRemark?.frontmatter.description ?? markdownRemark?.excerpt ?? undefined}
-      heroImage={heroImage}
-      pathname={pageUrl}
-    />
+    <>
+      <Seo
+        title={title}
+        description={description ?? excerpt ?? undefined}
+        heroImage={heroImage}
+        pathname={pageUrl}
+        publishedTime={dateISO ?? undefined}
+        tags={normalizedTags}
+        type="article"
+      />
+      <JsonLd data={[blogPostingSchema, breadcrumbSchema]} />
+    </>
   )
 }
 

@@ -2,12 +2,16 @@ import type { HeadProps, PageProps } from 'gatsby'
 import { Link } from 'gatsby'
 import { useMemo, useState } from 'react'
 
-import { Seo } from '@/components'
+import { JsonLd, Seo, createArticleSchema, createBreadcrumbSchema } from '@/components'
 import { getRefinedStringValue } from '@/utils'
 
 import { ShareIcon } from '@/components/icons'
 import { buildNoteShareUrl, sanitizeNoteSlug } from '../Notes/utils'
 import * as styles from './Note.module.scss'
+
+const SITE_URL = 'https://blog.jiun.dev'
+const AUTHOR_NAME = 'Jiun Bae'
+const AUTHOR_URL = `${SITE_URL}/about`
 
 type LocationState = {
   from?: string;
@@ -97,21 +101,47 @@ export const Head = ({ data, location }: HeadProps<Queries.NoteTemplateQuery>) =
   const note = data.markdownRemark
   const { href } = location as typeof location & { href?: string }
   const pageUrl = href ?? location.pathname
+  const resolvedUrl = pageUrl.startsWith('http') ? pageUrl : `${SITE_URL}${pageUrl}`
 
   if (!note) return null
 
   const { frontmatter, html, excerpt } = note
   const summary = getSummary(frontmatter.description, getRefinedStringValue(html ?? ''), 160) || excerpt || frontmatter.title
+  const normalizedTags = frontmatter.tags?.filter(Boolean) as string[] | undefined
   const normalizedSlug = sanitizeNoteSlug(frontmatter.slug)
   const heroImage = `/og/notes/${normalizedSlug}.png`
+  const heroImageUrl = heroImage ? `${SITE_URL}${heroImage}` : ''
+
+  const articleSchema = createArticleSchema({
+    title: frontmatter.title ?? '',
+    description: summary ?? '',
+    datePublished: frontmatter.dateISO ?? '',
+    dateModified: frontmatter.dateISO ?? '',
+    url: resolvedUrl,
+    image: heroImageUrl,
+    authorName: AUTHOR_NAME,
+    authorUrl: AUTHOR_URL,
+    tags: normalizedTags
+  })
+
+  const breadcrumbSchema = createBreadcrumbSchema([
+    { name: 'Home', url: SITE_URL },
+    { name: 'Notes', url: `${SITE_URL}/notes` },
+    { name: frontmatter.title ?? 'Note', url: resolvedUrl }
+  ])
 
   return (
-    <Seo
-      title={frontmatter.title}
-      description={summary}
-      heroImage={heroImage}
-      pathname={pageUrl}
-    />
+    <>
+      <Seo
+        title={frontmatter.title}
+        description={summary}
+        heroImage={heroImage}
+        pathname={pageUrl}
+        publishedTime={frontmatter.dateISO ?? undefined}
+        type="article"
+      />
+      <JsonLd data={[articleSchema, breadcrumbSchema]} />
+    </>
   )
 }
 

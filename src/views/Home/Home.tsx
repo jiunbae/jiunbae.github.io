@@ -1,5 +1,5 @@
 import type { HeadProps, PageProps } from 'gatsby'
-import { FloatingButton, Seo } from '@/components'
+import { FloatingButton, JsonLd, Seo, createWebSiteSchema } from '@/components'
 import { getRefinedStringValue } from '@/utils'
 
 import { PostList, TagList } from './components'
@@ -29,13 +29,27 @@ const Home = ({ data, location }: PageProps<Queries.HomeQuery, object, LocationS
 export const Head = ({ location, data: { site, file } }: HeadProps<Queries.HomeQuery>) => {
   const { href } = location as typeof location & { href?: string }
   const pageUrl = href ?? location.pathname
+  const siteUrl = site?.siteMetadata.siteUrl ?? 'https://blog.jiun.dev'
+  const siteName = site?.siteMetadata.title ?? 'Jiunbae\'s Blog'
+  const description = site?.siteMetadata.description ?? ''
   const seo = {
     title: site?.siteMetadata.title,
     description: site?.siteMetadata.description,
     heroImage: getRefinedStringValue(file?.publicURL)
   }
 
-  return <Seo title={seo.title} description={seo.description} heroImage={seo.heroImage} pathname={pageUrl}></Seo>
+  const webSiteSchema = createWebSiteSchema({
+    siteUrl,
+    siteName,
+    description
+  })
+
+  return (
+    <>
+      <Seo title={seo.title} description={seo.description} heroImage={seo.heroImage} pathname={pageUrl} type="website" />
+      <JsonLd data={webSiteSchema} />
+    </>
+  )
 }
 
 export default Home

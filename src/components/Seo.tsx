@@ -4,26 +4,42 @@ import { PropsWithChildren } from 'react'
 import { useTheme } from '@/contexts'
 
 interface SeoProps {
-  title?: string;
-  description?: string;
-  heroImage?: string;
-  pathname: string;
-};
+  title?: string
+  description?: string
+  heroImage?: string
+  pathname: string
+  publishedTime?: string
+  modifiedTime?: string
+  author?: string
+  tags?: string[]
+  type?: 'website' | 'article'
+}
 
 interface SeoQuery {
   file: {
-    publicURL: string;
-  };
+    publicURL: string
+  }
   site: {
     siteMetadata: {
-      title: string;
-      description: string;
-      siteUrl: string;
-    };
-  };
-};
+      title: string
+      description: string
+      siteUrl: string
+    }
+  }
+}
 
-export const Seo = ({ title, description, heroImage, pathname, children }: PropsWithChildren<SeoProps>) => {
+export const Seo = ({
+  title,
+  description,
+  heroImage,
+  pathname,
+  publishedTime,
+  modifiedTime,
+  author,
+  tags,
+  type,
+  children
+}: PropsWithChildren<SeoProps>) => {
   const { theme } = useTheme()
   const data = useStaticQuery<SeoQuery>(graphql`
     query SeoQuery {
@@ -52,6 +68,9 @@ export const Seo = ({ title, description, heroImage, pathname, children }: Props
     ? (isHeroAbsolute ? heroImage : `${siteUrl}${heroImage}`)
     : `${siteUrl}${defaultImage}`
 
+  const ogType = type === 'article' || publishedTime ? 'article' : 'website'
+  const siteName = defaultTitle
+
   const seo = {
     title: resolvedTitle,
     description: resolvedDescription,
@@ -65,18 +84,26 @@ export const Seo = ({ title, description, heroImage, pathname, children }: Props
       <link rel="canonical" href={seo.url} />
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
-      <meta name="theme-color" content={theme == 'dark' ? '#242424' : '#f4f4f4fa'}/>
+      <meta name="theme-color" content={theme == 'dark' ? '#242424' : '#f4f4f4fa'} />
       {/* Open Graph / Facebook */}
+      <meta property="og:locale" content="ko_KR" />
+      <meta property="og:site_name" content={siteName} />
       <meta property="og:title" content={seo.title} />
       <meta property="og:description" content={seo.description} />
-      <meta property="og:type" content="article" />
-      <meta property="og:url" content={seo.url}></meta>
-      <meta property="og:image" content={seo.image}></meta>
+      <meta property="og:type" content={ogType} />
+      <meta property="og:url" content={seo.url} />
+      <meta property="og:image" content={seo.image} />
+      {publishedTime ? <meta property="article:published_time" content={publishedTime} /> : null}
+      {modifiedTime ? <meta property="article:modified_time" content={modifiedTime} /> : null}
+      {author ? <meta property="article:author" content={author} /> : null}
+      {tags?.map((tag, index) => (
+        <meta property="article:tag" content={tag} key={`article-tag-${index}`} />
+      ))}
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={seo.title} />
       <meta name="twitter:description" content={seo.description} />
-      <meta property="twitter:image" content={seo.image}></meta>
+      <meta name="twitter:image" content={seo.image} />
       {children}
     </>
   )
