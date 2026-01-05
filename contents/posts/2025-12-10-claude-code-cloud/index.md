@@ -20,7 +20,7 @@ published: true
 
 Claude Code CLI가 공개되고 나서부터 거의 모든 개발 작업에 Claude를 활용하게 되었다. 문제는 환경이 달라질 때였다. 데스크톱에서 시작한 작업을 랩톱에서 이어가려면 상태가 공유되지 않고, iPad에서는 아예 CLI를 실행할 수 없었다.
 
-"Claude Code가 웹에서 돌아가면 어떨까?"라는 생각이 들었다. 브라우저만 있으면 어디서든 접속해서 AI와 코딩할 수 있으면 좋겠다고 생각했다. 마침 [Home Lab](/home-lab-iac)에 Kubernetes 환경도 갖춰져 있으니, 직접 만들어보기로 했다.
+"Claude Code가 웹에서 돌아가면 어떨까?"라는 생각이 들었다. 브라우저만 있으면 어디서든 접속해서 AI와 코딩할 수 있으면 좋겠다고 생각했다. 마침 [Home Lab](/posts/home-lab-iac)에 Kubernetes 환경도 갖춰져 있으니, 직접 만들어보기로 했다.
 
 LLM의 도움 없이는 이 프로젝트를 일주일 만에 완성하지 못했을 것이다. 특히 node-pty와 WebSocket 연동, Docker 멀티스테이지 빌드 같은 부분은 Claude와 대화하면서 빠르게 해결할 수 있었다.
 
@@ -198,7 +198,7 @@ WebSocket 연결이 끊기는 문제가 있었는데, Claude가 heartbeat 메커
 
 ## GitOps로 배포
 
-[이전 글](/home-lab-iac)에서 구축한 GitOps 파이프라인으로 배포했다. GitHub에 푸시하면 Gitea Actions가 이미지를 빌드하고, ArgoCD가 Kubernetes에 배포한다.
+[이전 글](/posts/home-lab-iac)에서 구축한 GitOps 파이프라인으로 배포했다. GitHub에 푸시하면 Gitea Actions가 이미지를 빌드하고, ArgoCD가 Kubernetes에 배포한다.
 
 ```yaml
 # ArgoCD Application
@@ -261,4 +261,4 @@ Claude Code Cloud를 만들면서 AI와 함께 개발하는 경험이 한층 더
 - [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code/overview)
 - [xterm.js](https://xtermjs.org/)
 - [node-pty](https://github.com/microsoft/node-pty)
-- [Home Lab IaC](/home-lab-iac)
+- [Home Lab IaC](/posts/home-lab-iac)

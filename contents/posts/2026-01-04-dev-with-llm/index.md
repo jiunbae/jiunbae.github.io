@@ -18,7 +18,7 @@ published: false
 
 ## 배경: 왜 LLM을 활용하게 됐나
 
-[Home Lab IaC](/home-lab-iac) 글에서 언급했듯이, Terraform과 Ansible로 인프라를 코드화하는 건 처음이었다. 회사에서 Kubernetes는 써봤지만, Proxmox 프로바이더나 Ansible Galaxy 역할 작성은 경험이 없었다.
+[Home Lab IaC](/posts/home-lab-iac) 글에서 언급했듯이, Terraform과 Ansible로 인프라를 코드화하는 건 처음이었다. 회사에서 Kubernetes는 써봤지만, Proxmox 프로바이더나 Ansible Galaxy 역할 작성은 경험이 없었다.
 
 예전 같았으면 공식 문서를 읽고, Stack Overflow를 뒤지고, 예제 코드를 복붙하면서 삽질했을 것이다. 물론 그 과정에서 배우는 것도 있지만, 시간이 오래 걸리고 "왜 이렇게 해야 하는지"를 이해하기 어려울 때가 많다.
 

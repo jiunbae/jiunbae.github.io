@@ -133,7 +133,7 @@ flowchart TB
 - **Subnet Router 이전**: NAS에서 Gateway LXC로 Tailscale Subnet Router를 옮겼다. 네트워크 진입점을 한 곳으로 모으기 위해
 - **CoreDNS 도입**: Split DNS를 위해 Gateway에 CoreDNS를 설치. 내부에서는 `*.internal.jiun.dev`로 접근
 
-> 이후 이 구성을 Terraform + Ansible로 코드화했다. 자세한 내용은 [Home Lab IaC](/home-lab-iac) 글 참고.
+> 이후 이 구성을 Terraform + Ansible로 코드화했다. 자세한 내용은 [Home Lab IaC](/posts/home-lab-iac) 글 참고.
 
 ---
 
