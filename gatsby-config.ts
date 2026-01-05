@@ -37,7 +37,7 @@ const config: GatsbyConfig = {
       email: 'jiunbae.623@gmail.com'
     },
     language: 'ko',
-    siteUrl: 'https://blog.jiun.dev',
+    siteUrl: 'https://jiun.dev',
     keywords: ['jiunbae', 'blog', 'dev'],
     heroImage: path.resolve(__dirname, 'src/images/cover.png'),
     repo: 'jiunbae/jiunbae.github.io',
