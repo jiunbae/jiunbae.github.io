@@ -128,7 +128,19 @@ flowchart TB
 
 초기 구성 이후 몇 가지 변경이 있었다:
 
-- **NAS VMM → Proxmox VE**: Synology NAS의 VMM은 리소스가 제한적이라 별도 미니 PC(Aoostar WTR Pro)에 Proxmox VE를 설치했다. 저전력이면서 코어 수가 충분해서 가상화 용도로 적합했다
+- **NAS VMM → Proxmox VE**: Synology NAS의 VMM은 리소스가 제한적이라 별도 미니 PC에 Proxmox VE를 설치했다
+
+![Aoostar WTR PRO](./Aoostar%20WTR%20PRO.png)
+
+구매한 장비는 **Aoostar WTR PRO**로, AMD Ryzen 7 5825U(8C/16T)를 탑재한 미니 PC다. 주요 선택 이유는:
+
+- **저전력 고성능**: TDP 45W로 24시간 상시 가동에 적합하면서도 8코어로 가상화에 충분한 성능
+- **확장성**: RAM 최대 64GB, M.2 SSD 2개, 3.5인치 HDD 4개 장착 가능
+- **듀얼 2.5GbE**: 네트워크 분리나 링크 어그리게이션 가능
+- **외관**: 알류미늄인데 마감도 좋고 책상 위에 두어도 부담 없는 작은 폼팩터. 현재는 TV뒤에 가려져있다.
+
+NAS 옆에 두고 Proxmox VE를 설치해서 LXC/VM을 운영 중이다. 팬 소음이 거의 없어서 거실에 두어도 괜찮다.
+
 - **역할 분리**: 모든 서비스를 NAS에서 돌리던 것을 LXC/VM으로 분리. Gateway, Monitoring, Registry, k3s 각각 독립적으로 운영
 - **Subnet Router 이전**: NAS에서 Gateway LXC로 Tailscale Subnet Router를 옮겼다. 네트워크 진입점을 한 곳으로 모으기 위해
 - **CoreDNS 도입**: Split DNS를 위해 Gateway에 CoreDNS를 설치. 내부에서는 `*.internal.jiun.dev`로 접근
