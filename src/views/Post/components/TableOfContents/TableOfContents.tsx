@@ -12,7 +12,7 @@ export const TableOfContents = ({ html }: TableOfContentsProps) => {
 
   return (
     <div className={styles.wrapper}>
-      <TableOfContentsIcon className={styles.TableOfContentsIcon} />
+      <TableOfContentsIcon className={styles.tableOfContentsIcon} />
       <div ref={ref} className={styles.tableOfContents} dangerouslySetInnerHTML={{ __html: html }}></div>
     </div>
   )

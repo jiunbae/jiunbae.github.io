@@ -6,8 +6,13 @@ export const getRefinedImage = (heroImage: IGatsbyImageData | undefined) => {
   return heroImage
 }
 
-export const getRefinedStringValue = (value: string | null | undefined) => {
-  if (value === null || value === undefined) throw new Error('값이 존재하지 않습니다.')
+export const getRefinedStringValue = (value: string | null | undefined): string => {
+  if (value === null || value === undefined) {
+    if (typeof window === 'undefined') {
+      return ''
+    }
+    throw new Error('값이 존재하지 않습니다.')
+  }
 
   return value
 }

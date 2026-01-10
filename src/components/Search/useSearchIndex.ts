@@ -29,6 +29,10 @@ export const useSearchIndex = (): SearchItem[] => {
     }
   `)
 
+  if (!data?.allMarkdownRemark?.nodes) {
+    return []
+  }
+
   return data.allMarkdownRemark.nodes
     .filter(node => node.frontmatter?.slug && node.frontmatter?.title)
     .map(node => ({
