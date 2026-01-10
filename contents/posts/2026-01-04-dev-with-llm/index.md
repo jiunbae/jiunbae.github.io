@@ -3,12 +3,11 @@ title: LLM과 함께 개발하기
 description: Claude Code로 홈랩 인프라를 구축한 경험
 date: 2026-01-04
 slug: /dev-with-llm
-tags: [dev, llm, claude]
+tags: [ai, claude, dev]
 heroImage:
 heroImageAlt:
 published: false
 ---
-
 # LLM과 함께 개발하기: Claude Code 활용기
 
 > 목표: **LLM을 "검색 대체재"가 아닌 "페어 프로그래머"로** 활용하기.

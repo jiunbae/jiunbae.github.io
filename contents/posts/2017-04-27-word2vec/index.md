@@ -3,7 +3,7 @@ title: Word Embedding
 description: word embedding for clustering
 date: 2017-04-27
 slug: /word2vec
-tags: [nlp, tech]
+tags: [ai, tech]
 heroImage:
 heroImageAlt:
 published: true

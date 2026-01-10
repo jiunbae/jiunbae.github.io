@@ -139,17 +139,18 @@ const config: GatsbyConfig = {
         }
       }
     },
-    {
-      resolve: 'gatsby-plugin-manifest',
-      options: {
-        icon: path.resolve(__dirname, 'static/profile.png')
-      }
-    },
+    // {
+    //   resolve: 'gatsby-plugin-manifest',
+    //   options: {
+    //     icon: path.resolve(__dirname, 'static/profile.png')
+    //   }
+    // },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'posts',
-        path: path.resolve(__dirname, 'contents', 'posts')
+        path: path.resolve(__dirname, 'contents', 'posts'),
+        ignore: ['**/images/**', '**/README.md']
       }
     },
     {

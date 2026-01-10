@@ -3,12 +3,11 @@ title: Home Lab IaC
 description: Terraform과 Ansible로 집 서버 인프라를 코드로 관리하기
 date: 2025-12-30
 slug: /home-lab-iac
-tags: [dev, homelab, iac, terraform]
+tags: [dev, devops]
 heroImage:
 heroImageAlt:
 published: true
 ---
-
 # Home Lab 인프라를 코드로 관리하기: Terraform + Ansible
 
 > 목표: **"서버 날아가면 그냥 다시 돌리면 돼"**를 현실로 만들기.

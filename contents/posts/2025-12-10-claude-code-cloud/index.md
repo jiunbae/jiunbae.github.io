@@ -3,12 +3,11 @@ title: Claude Code Cloud
 description: Claude Code CLI를 클라우드에서 실행하는 웹 서비스 개발기
 date: 2025-12-10
 slug: /claude-code-cloud
-tags: [dev, claude, ai, docker]
+tags: [ai, claude, dev, devops]
 heroImage: ./terminal.png
 heroImageAlt: Claude Code Cloud 터미널 화면
 published: true
 ---
-
 # Claude Code Cloud: AI 코딩 세션을 브라우저에서
 
 > 목표: **"아무 환경에서나 Claude Code에 접속해서 작업하기"**를 현실로 만들기.
