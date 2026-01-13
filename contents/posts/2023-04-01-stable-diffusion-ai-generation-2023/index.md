@@ -313,7 +313,9 @@ STABLE_DIFFUSION_EVOLUTION = {
 
 - [GPT-3가 바꿔놓은 것들](/posts/gpt3-transformer-innovation)
 - [SDXL로 텍스처 생성 프로젝트를 진행하면서](/posts/stable-diffusion-generative-ai-2023)
-- [LLaMA가 바꿔놓은 것들](/posts/llama-opensouce-ecosystem-2023)
+- [LLaMA가 바꿔놓은 것들](/posts/llama-opensource-ecosystem-2023)
+
+---
 
 ## 참고 자료
 

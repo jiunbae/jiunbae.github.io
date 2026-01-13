@@ -312,7 +312,9 @@ POST_SDXL_DEVELOPMENTS = {
 
 - [GPT-3가 바꿔놓은 것들](/posts/gpt3-transformer-innovation)
 - [Stable Diffusion을 실무에 적용해본 경험](/posts/stable-diffusion-ai-generation-2023)
-- [LLaMA가 바꿔놓은 것들](/posts/llama-opensouce-ecosystem-2023)
+- [LLaMA가 바꿔놓은 것들](/posts/llama-opensource-ecosystem-2023)
+
+---
 
 ## 참고 자료
 

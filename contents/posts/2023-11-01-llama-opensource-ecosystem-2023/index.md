@@ -2,7 +2,7 @@
 title: "LLaMA가 바꿔놓은 것들"
 description: "2023년 오픈소스 LLM 생태계 변화 정리"
 date: 2023-11-01
-slug: /llama-opensouce-ecosystem-2023
+slug: /llama-opensource-ecosystem-2023
 tags: [ai]
 published: true
 ---
@@ -755,6 +755,8 @@ LLAMA_3_RELEASE = {
 - [GPT-3가 바꿔놓은 것들](/posts/gpt3-transformer-innovation)
 - [Stable Diffusion을 실무에 적용해본 경험](/posts/stable-diffusion-ai-generation-2023)
 - [SDXL로 텍스처 생성 프로젝트를 진행하면서](/posts/stable-diffusion-generative-ai-2023)
+
+---
 
 ## 참고 자료
 
