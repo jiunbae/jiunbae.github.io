@@ -38,7 +38,7 @@ const config: GatsbyConfig = {
     },
     language: 'ko',
     siteUrl: 'https://jiun.dev',
-    keywords: ['AI', 'ML', 'DevOps', 'Home Lab', 'LLM', 'Claude', 'Kubernetes', '기술블로그'],
+    keywords: ['AI', '인공지능', 'ML', '머신러닝', 'DevOps', '데브옵스', 'Home Lab', '홈랩', 'LLM', '거대언어모델', 'Claude', 'Kubernetes', '쿠버네티스', '기술블로그'],
     heroImage: path.resolve(__dirname, 'src/images/cover.png'),
     repo: 'jiunbae/jiunbae.github.io',
     social: {
