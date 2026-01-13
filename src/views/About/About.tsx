@@ -4,7 +4,7 @@ import { FloatingButton, JsonLd, ProfileCard, Seo, createBreadcrumbSchema, creat
 import { EducationSection, ExperienceSection, ProjectsSection, AwardsSection, SkillsSection, PublicationSection } from './components'
 import * as styles from './About.module.scss'
 
-const SITE_URL = 'https://blog.jiun.dev'
+const SITE_URL = 'https://jiun.dev'
 
 const AboutPage = () => {
   return (

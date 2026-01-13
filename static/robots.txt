@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /admin/
 
-Sitemap: https://blog.jiun.dev/sitemap.xml
+Sitemap: https://jiun.dev/sitemap.xml
