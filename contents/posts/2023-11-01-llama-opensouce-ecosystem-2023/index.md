@@ -750,6 +750,12 @@ LLAMA_3_RELEASE = {
 
 "AI 연구가 민주화됐다"는 말이 약간 과장이긴 하지만, 방향은 맞다고 생각합니다. 예전에는 빅테크가 아니면 LLM을 만지기 어려웠는데, 이제는 누구나 시도해볼 수 있게 되었습니다.
 
+## 관련 글
+
+- [GPT-3가 바꿔놓은 것들](/posts/gpt3-transformer-innovation)
+- [Stable Diffusion을 실무에 적용해본 경험](/posts/stable-diffusion-ai-generation-2023)
+- [SDXL로 텍스처 생성 프로젝트를 진행하면서](/posts/stable-diffusion-generative-ai-2023)
+
 ## 참고 자료
 
 - [LLaMA Paper](https://arxiv.org/abs/2302.13971)
@@ -760,4 +766,3 @@ LLAMA_3_RELEASE = {
 - [PEFT (LoRA)](https://huggingface.co/docs/peft)
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
 - [QLoRA Paper](https://arxiv.org/abs/2305.14314)
-

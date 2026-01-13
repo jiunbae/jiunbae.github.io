@@ -196,6 +196,12 @@ C: 학습에 사용된 연산량
 
 결국 중요한 것은 기술 자체보다 그것을 어떻게 활용하느냐인 것 같습니다. GPT-3가 나왔을 때 "이걸 어떻게 쓸 수 있을까"를 빨리 고민한 사람들이 지금 앞서 나가고 있으니까요.
 
+## 관련 글
+
+- [Stable Diffusion을 실무에 적용해본 경험](/posts/stable-diffusion-ai-generation-2023)
+- [SDXL로 텍스처 생성 프로젝트를 진행하면서](/posts/stable-diffusion-generative-ai-2023)
+- [LLaMA가 바꿔놓은 것들](/posts/llama-opensouce-ecosystem-2023)
+
 ## 참고 자료
 
 - [Language Models are Few-Shot Learners](https://arxiv.org/abs/2005.14165) - GPT-3 논문

@@ -620,6 +620,11 @@ LLM의 도움 없이는 이렇게 빠르게 구성하지 못했을 것이다. Te
 
 이제 신나게 서비스를 만들어서 배포하면 되겠다.
 
+## 관련 글
+
+- [Home Dev Environment](/posts/home-dev)
+- [Claude Code Cloud](/posts/claude-code-cloud)
+
 ---
 
 ## 참고
