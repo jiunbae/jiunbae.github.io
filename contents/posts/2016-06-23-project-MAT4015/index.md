@@ -1,6 +1,6 @@
 ---
 title: "MAT4015: Fundamentals of applied probability and random processes"
-description: "MAT4015: Fundamentals of applied probability and random processes"
+description: "OpenCV를 활용한 Mean Shift 기반 Object Tracking 구현"
 date: 2016-06-23
 slug: /MAT4015
 tags: [curriculum]

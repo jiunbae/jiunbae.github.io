@@ -26,7 +26,7 @@ const config: GatsbyConfig = {
   siteMetadata: {
     title: 'Jiunbae\'s Blog',
     heading: 'Jiunbae\'s',
-    description: 'Jiunbae\'s Blog',
+    description: 'AI/ML 연구원의 기술 블로그. 딥러닝, DevOps, Home Lab 실전 경험을 공유합니다.',
     name: {
       kr: '배지운',
       en: 'Jiun Bae'
@@ -38,7 +38,7 @@ const config: GatsbyConfig = {
     },
     language: 'ko',
     siteUrl: 'https://jiun.dev',
-    keywords: ['jiunbae', 'blog', 'dev'],
+    keywords: ['AI', 'ML', 'DevOps', 'Home Lab', 'LLM', 'Claude', 'Kubernetes', '기술블로그'],
     heroImage: path.resolve(__dirname, 'src/images/cover.png'),
     repo: 'jiunbae/jiunbae.github.io',
     social: {
