@@ -7,7 +7,7 @@ import { getRefinedImage, getRefinedStringValue, sanitizePostSlug } from '@/util
 import { TableOfContents, TagList } from './components'
 import * as styles from './Post.module.scss'
 
-const SITE_URL = 'https://blog.jiun.dev'
+const SITE_URL = 'https://jiun.dev'
 const AUTHOR_NAME = 'Jiun Bae'
 const AUTHOR_URL = `${SITE_URL}/about`
 
