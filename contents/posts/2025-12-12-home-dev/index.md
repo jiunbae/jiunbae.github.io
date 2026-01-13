@@ -362,6 +362,11 @@ Tailscale Admin Console에서 DNS 설정을 추가한다:
 
 미뤄뒀던 짐을 하나씩 정리하는 기분이 들었고, 앞으로도 집 개발 환경을 더 잘 활용할 수 있을 것 같다.
 
+## 관련 글
+
+- [Home Lab IaC](/posts/home-lab-iac)
+- [Claude Code Cloud](/posts/claude-code-cloud)
+
 ---
 
 ## 각주/참고

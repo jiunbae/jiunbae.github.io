@@ -252,6 +252,11 @@ Claude Code Cloud를 만들면서 AI와 함께 개발하는 경험이 한층 더
 
 이 프로젝트는 [GitHub](https://github.com/jiunbae/claude-code-cloud)에 공개되어 있고, 직접 배포해서 사용할 수 있다. Docker Compose로 간단하게 띄울 수 있으니, 관심 있으면 한번 시도해보길 바란다.
 
+## 관련 글
+
+- [Home Dev Environment](/posts/home-dev)
+- [Home Lab IaC](/posts/home-lab-iac)
+
 ---
 
 ## 참고

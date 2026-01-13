@@ -309,6 +309,14 @@ STABLE_DIFFUSION_EVOLUTION = {
 
 특히 SD3와 FLUX는 이 글에서 언급한 "텍스트 렌더링 불가" 문제를 상당 부분 해결했습니다. 기술 발전 속도가 정말 빠릅니다.
 
+## 관련 글
+
+- [GPT-3가 바꿔놓은 것들](/posts/gpt3-transformer-innovation)
+- [SDXL로 텍스처 생성 프로젝트를 진행하면서](/posts/stable-diffusion-generative-ai-2023)
+- [LLaMA가 바꿔놓은 것들](/posts/llama-opensource-ecosystem-2023)
+
+---
+
 ## 참고 자료
 
 - [Stable Diffusion 공식 문서](https://stability.ai/stable-diffusion)
