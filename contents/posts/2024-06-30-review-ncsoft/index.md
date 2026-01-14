@@ -19,7 +19,7 @@ published: true
 
 ## GameAI Lab, Motion AI 팀 그리고 Facial Motion Generation (2021-2022)
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ahEZAJ-bxoI?si=UPj43xe8-pv_hK1K" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ahEZAJ-bxoI?si=UPj43xe8-pv_hK1K" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ### 코로나의 해
 
@@ -52,7 +52,7 @@ _Audio-Driven Facial Animation by Joint End-to-End Learning of Pose and Emotion,
 
 ## Graphics AI Lab에서의 Digital Human (2023)
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/4mfESaPbLI4?si=OAIG5zqZmoihMYaX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4mfESaPbLI4?si=OAIG5zqZmoihMYaX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 2023년 NCSOFT의 Research 조직은 실시간으로 상호작용하며 인간의 창의력과 즐거움의 가치를 발전시킬 **디지털 휴먼**을 만드는 데 초점을 맞추었습니다. NCSOFT에는 Graphics AI Lab, Speech AI Lab, Vision AI Lab, NLP Center 그리고 뛰어난 아트 인력 등 디지털 휴먼에 필요한 역량이 충분히 갖추어져 있었습니다. 이를 통해 적절하게 답변을 하고, 그 과정에서 표정이나 몸짓 등 비언어적인 상호작용까지 표현할 수 있는 고품질 디지털 휴먼을 더 쉽고 빠르게 대량생산하도록 파이프라인을 형성하는 데까지 나아가고자 했고, 궁극적으로는 디지털 휴먼이 모든 분야에서 활약하는 IP로서 일반 사용자도 대중적으로 활용할 만큼 효율적인 기술로 자리 잡도록 하려고 했습니다. 이를 위해 시간과 비용이 많이 드는 복잡한 과정을 여러 AI 기술로 자동화, 효율화하는 데 초점을 맞추고, 특히 ‘실시간 인터랙션’이 가능한 고품질 디지털 휴먼을 만들기 위한 AI 기반의 그래픽스 파이프라인을 만들려고 했습니다.
 
@@ -68,7 +68,7 @@ Graphics AI Lab에서는 이러한 목표를 달성하기 위해 다양한 AI �
 
 ## Texture Copilot Project (2024)
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/6qGsSw7CffQ?si=5Myw9oyaiFxZJVrx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6qGsSw7CffQ?si=5Myw9oyaiFxZJVrx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 [Texture Copilot Project](https://ncsoft.github.io/ncresearch/3f0ba4889e331ddbed68c9dd48d845fa18d874de)은 3D 오브젝트의 텍스쳐를 빠르게 프로토타이핑 하여 실제 아티스트의 파이프라인을 효율적으로 개선하는 목적을 가지고 2023년 하반기에 새로 입사한 인턴(J)님이 시작한 연구였습니다.
 

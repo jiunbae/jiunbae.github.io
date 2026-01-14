@@ -106,17 +106,17 @@ const config: GatsbyConfig = {
               icon: false
             }
           },
-          {
-            resolve: 'gatsby-remark-mermaid',
-            options: {
-              mermaidConfig: {
-                theme: 'default',
-                themeVariables: {
-                  fontFamily: 'inherit'
-                }
-              }
-            }
-          },
+          // {
+          //   resolve: 'gatsby-remark-mermaid',
+          //   options: {
+          //     mermaidConfig: {
+          //       theme: 'default',
+          //       themeVariables: {
+          //         fontFamily: 'inherit'
+          //       }
+          //     }
+          //   }
+          // },
           {
             resolve: 'gatsby-remark-prismjs',
             options: {
