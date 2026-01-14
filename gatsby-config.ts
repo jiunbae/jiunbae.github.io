@@ -101,12 +101,6 @@ const config: GatsbyConfig = {
             }
           },
           {
-            resolve: 'gatsby-remark-responsive-iframe',
-            options: {
-              wrapperStyle: 'margin-bottom: 1rem'
-            }
-          },
-          {
             resolve: 'gatsby-remark-autolink-headers',
             options: {
               icon: false
@@ -133,15 +127,10 @@ const config: GatsbyConfig = {
       }
     },
     {
-      resolve: 'gatsby-plugin-react-svg',
+      resolve: 'gatsby-plugin-svgr-loader',
       options: {
         rule: {
-          include: /src\/images/,
-          options: {
-            props: {
-              className: 'my-class'
-            }
-          }
+          include: /src\/images/
         }
       }
     },
