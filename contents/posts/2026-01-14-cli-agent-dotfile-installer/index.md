@@ -46,16 +46,16 @@ curl -fsSL https://raw.githubusercontent.com/jiunbae/settings/master/bootstrap.s
 
 ## 무엇을 설치하나
 
-| 구성 요소 | 설명 |
-|-----------|------|
-| **zsh** | Zsh + zinit + Powerlevel10k |
-| **nvim** | NeoVim + LazyVim |
-| **tmux** | tmux + TPM (Tmux Plugin Manager) |
-| **rust** | Rust toolchain + cargo-binstall |
-| **uv** | 빠른 Python 패키지 매니저 (pip 대체) |
-| **tools** | eza, fd, bat, ripgrep, fzf |
-| **tools-extra** | delta, dust, pros, bottom |
-| **hishtory** | 크로스 디바이스 히스토리 동기화 |
+| 구성 요소 | 설명 | 링크 |
+|-----------|------|------|
+| **zsh** | Zsh + zinit 플러그인 매니저 + Powerlevel10k 프롬프트 | [zsh](https://www.zsh.org/) · [zinit](https://github.com/zdharma-continuum/zinit) · [Powerlevel10k](https://github.com/romkatv/powerlevel10k) |
+| **nvim** | NeoVim + LazyVim (modular Neovim setup) | [NeoVim](https://neovim.io/) · [LazyVim](https://github.com/LazyVim/LazyVim) |
+| **tmux** | tmux + TPM (터미널 멀티플렉서 + 플러그인 매니저) | [tmux](https://github.com/tmux/tmux) · [TPM](https://github.com/tmux-plugins/tpm) |
+| **rust** | Rust toolchain + cargo-binstall (바이너리 패키지 인스톨러) | [Rust](https://www.rust-lang.org/) · [cargo-binstall](https://github.com/cargo-bins/cargo-binstall) |
+| **uv** | 빠른 Python 패키지 매니저 (pip보다 10-100배 빠름) | [uv](https://github.com/astral-sh/uv) |
+| **tools** | eza, fd, bat, ripgrep, fzf | - |
+| **tools-extra** | delta, dust, procs, bottom | - |
+| **hishtory** | 크로스 디바이스 히스토리 동기화 | [hishtory](https://github.com/ddworken/hishtory) |
 
 ## 도구들
 
@@ -65,37 +65,55 @@ curl -fsSL https://raw.githubusercontent.com/jiunbae/settings/master/bootstrap.s
 
 아이콘과 git 통합이 들어간 ls다. 파일 권한, 크기, 수정일 한눈에 볼 수 있고, git 상태도 색깔로 표시해준다. 어떤 파일이 수정됐는지, 새로 추가됐는지 바로 알 수 있어서 git 작업할 때 편하다.
 
+[GitHub: eza-community/eza](https://github.com/eza-community/eza)
+
 **`bat` (cat 대체)**
 
 문법 하이라이팅이 들어간 cat이다. 소스 코드를 볼 때 가독성이 확 달라진다. 줄 번호도 나오고, 터미널에서 diff 보듯이 파일 내용을 편하게 볼 수 있다. 로그 파일이나 설정 파일 볼 때도 syntax highlighting 덕분에 훨씬 읽기 쉽다.
+
+[GitHub: sharkdp/bat](https://github.com/sharkdp/bat)
 
 **`fd` (find 대체)**
 
 간단하고 빠른 find다. 재귀 검색, 정규식 지원, 확장자 필터 등 다 있지만 명령어가 훨씬 직관적이다. `find . -name "*.ts"` 대신 `fd "\.ts$"`로 충분하다. git 디렉토리는 자동으로 무시해서 실제로 원하는 파일만 빠르게 찾아준다. 프로젝트 뒤지면서 파일 찾을 때 필수다.
 
+[GitHub: sharkdp/fd](https://github.com/sharkdp/fd)
+
 **`ripgrep` (grep 대체)**
 
 정규식 검색이 엄청나게 빠르다. rust로 짜여서 그런지 몇십만 줄 코드에서도 순식간에 결과가 나온다. 코드베이스에서 특정 함수나 변수 찾을 때, 로그에서 에러 패턴 찾을 때, 설정 파일에서 특정 옵션 검색할 때 다 쓴다. `-t` 플래그로 파일 타입(`py`, `ts`, `js` 등) 필터링도 되어서 실무에서 딱 좋다.
+
+[GitHub: BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
 
 **`delta` (git diff 대체)**
 
 git diff 훨씬 보기 좋게 해준다. 줄 단위 diff가 아닌 단어 단위 diff, 문법 하이라이팅, side-by-side 뷰 등 다 제공한다. 코드 리뷰할 때나 PR 확인할 때 직관적으로 무엇이 바뀌었는지 한눈에 보인다.
 
+[GitHub: dandavison/delta](https://github.com/dandavison/delta)
+
 **`dust` (du 대체)**
 
 디스크 사용량 보여주는 건데 트리 구조로 보여준다. 어느 디렉토리가 용량을 많이 잡고 있는지 한눈에 파악할 수 있다. 서버나 노트북 디스크 꽉 찼을 때, 빠르게 공간 낭비되는 곳 찾을 때 유용하다.
+
+[GitHub: bootandy/dust](https://github.com/bootandy/dust)
 
 **`procs` (ps 대체)**
 
 프로세스 정보를 보기 좋게 보여준다. ps 명령어는 출력이 난해한데 procs는 테이블 형태로 깔끔하다. CPU, 메모리, 실행 시간 다 한눈에 볼 수 있고, 검색/필터링도 쉽다.
 
+[GitHub: dalance/procs](https://github.com/dalance/procs)
+
 **`bottom` (htop 대체)**
 
 현대적 UI의 시스템 모니터다. htop보다 더 직관적이고, GPU, 디스크 I/O, 네트워크 등 더 많은 정보를 보여준다. 커맨드라인에서 서버 상태 모니터링할 때 쓴다.
 
+[GitHub: ClementTsang/bottom](https://github.com/ClementTsang/bottom)
+
 **`fzf` (fuzzy finder)**
 
 거의 모든 것에 연결할 수 있는 fuzzy finder다. `Ctrl+R`로 히스토리 검색, 파일 검색, 프로세스 죽이기 등 다 가능하다. 터미널에서 무언가 찾을 때 거의 표준처럼 쓰게 된다.
+
+[GitHub: junegunn/fzf](https://github.com/junegunn/fzf)
 
 ## 구조
 
