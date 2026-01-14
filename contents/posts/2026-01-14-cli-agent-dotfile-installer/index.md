@@ -7,11 +7,9 @@ tags: [dev, dotfiles, automation, cli]
 published: true
 ---
 
+GitHub: <https://github.com/jiunbae/settings>
+
 새 컴퓨터 사면 가장 먼저 하는 일이 dotfile 세팅이다. git clone하고 스크립트 돌리고, 이런 저런 설정 파일 심링크 걸고... 몇 번 반복하다 보면 귀찮음이 몰려온다. 그래서 만들었다. 한 줄 명령어로 끝나는 dotfile 설치기를.
-
-## 왜 또 새로 만들었냐
-
-기존에도 스크립트는 있었는데 불편한 게 많았다. 플랫폼별로 if-else 지옥, 설치 진행 상황을 볼 수 없어서 어디서 멈췄는지 모르는 문제, 같은 스크립트 여러 번 실행했을 때 꼬이는 문제 등. 하다 하다 보니 그냥 처음부터 다시 만들게 됐다.
 
 ## 핵심 기능
 
