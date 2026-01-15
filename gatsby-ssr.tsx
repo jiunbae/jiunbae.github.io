@@ -73,7 +73,7 @@ export const onRenderBody: GatsbySSR['onRenderBody'] = ({ setHeadComponents }) =
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
       "connect-src 'self' https://api.github.com https://www.google-analytics.com https://www.googletagmanager.com",
-      "frame-src 'self' https://utteranc.es",
+      "frame-src 'self' https://utteranc.es https://www.youtube.com",
       "base-uri 'self'",
       "form-action 'self'",
       "object-src 'none'",
