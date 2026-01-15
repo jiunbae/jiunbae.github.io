@@ -70,6 +70,6 @@ h6 {
 /*
     9. Create a root stacking context
   */
-#___gatsby {
+#root, body {
   isolation: isolate;
 }

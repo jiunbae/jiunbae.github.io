@@ -1,114 +1,488 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
+import aboutData from '../data/about.json';
+
+const { experience, education, skills, projects, awards, publications } = aboutData;
 ---
 
 <Layout
-  title="About"
-  description="Jiun Bae (배지운) - AI/ML 연구원"
+  title="About | Jiunbae"
+  description="Jiun Bae (배지운) - AI/ML Engineer"
 >
-  <div class="container">
-    <header class="page-header">
-      <h1 class="page-title">About</h1>
-    </header>
-
+  <main class="page">
     <section class="profile">
-      <div class="profile-info">
-        <h2 class="name">Jiun Bae <span class="name-kr">배지운</span></h2>
-        <p class="role">AI/ML Engineer</p>
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="avatar-container">
+            <div class="avatar-placeholder">JB</div>
+          </div>
+          <div class="profile-info">
+            <h1 class="name">Jiun Bae <span class="name-kr">배지운</span></h1>
+            <p class="role">AI/ML Engineer</p>
+            <div class="links">
+              <a href="mailto:jiunbae.623@gmail.com" aria-label="Email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </a>
+              <a href="https://github.com/jiunbae" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </a>
+              <a href="https://linkedin.com/in/jiunbae" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="content">
-      <h2>안녕하세요</h2>
-      <p>
-        AI/ML 연구원으로 일하고 있습니다. 딥러닝, DevOps, Home Lab 등
-        다양한 기술에 관심을 가지고 있으며, 이 블로그에서 실전 경험을 공유합니다.
-      </p>
+    <div class="content">
+      <section class="section experience">
+        <h2>Experience</h2>
+        {experience.jobs.map((job) => (
+          <div class="item">
+            <h3>
+              <span class="title">
+                <a href={job.companyUrl} target="_blank" rel="noopener noreferrer">
+                  <strong>{job.company}</strong>
+                </a>
+                {job.team && (
+                  <span class="team">
+                    <a href={job.teamUrl} target="_blank" rel="noopener noreferrer">
+                      {job.team}
+                    </a>
+                  </span>
+                )}
+              </span>
+              <span class="period">{job.period}</span>
+            </h3>
+            <p class="position"><strong>{job.position}</strong></p>
+            {job.description && (
+              <ul>
+                {job.description.map((desc) => (
+                  <li>{desc}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </section>
 
-      <h2>Contact</h2>
-      <ul class="contact-list">
-        <li>
-          <a href="mailto:jiunbae.623@gmail.com">jiunbae.623@gmail.com</a>
-        </li>
-        <li>
-          <a href="https://github.com/jiunbae" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </li>
-        <li>
-          <a href="https://linkedin.com/in/jiunbae" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </li>
-      </ul>
-    </section>
-  </div>
+      <section class="section projects">
+        <h2>Projects</h2>
+        {projects.projects.map((project) => (
+          <div class="item">
+            <h3>
+              <span class="title">
+                {project.url ? (
+                  <a href={project.url} target="_blank" rel="noopener noreferrer">
+                    <strong>{project.title}</strong>
+                  </a>
+                ) : (
+                  <strong>{project.title}</strong>
+                )}
+              </span>
+              <div class="meta">
+                <span class="organization">{project.organization}</span>
+                <span class="period">{project.period}</span>
+              </div>
+            </h3>
+            <ul>
+              {project.description.map((desc) => (
+                <li>{desc}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      <section class="section education">
+        <h2>Education</h2>
+        {education.schools.map((school) => (
+          <div class="item">
+            <h3>
+              <span class="title">
+                <a href={school.url} target="_blank" rel="noopener noreferrer">
+                  <strong>{school.name}</strong>
+                </a>
+              </span>
+              <span class="period">{school.period}</span>
+            </h3>
+            <p class="degree">{school.degree}</p>
+            <p class="location">{school.location}</p>
+            {school.advisor && (
+              <p class="advisor">
+                Advisor: <a href={school.advisor.url} target="_blank" rel="noopener noreferrer">{school.advisor.name}</a>
+              </p>
+            )}
+            {school.description && <p class="description">{school.description}</p>}
+          </div>
+        ))}
+      </section>
+
+      <section class="section awards">
+        <h2>Awards</h2>
+        <ul class="awards-list">
+          {awards.awards.map((award) => (
+            <li>
+              <span class="award-title">{award.title}</span>
+              <span class="award-year">{award.year}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="section publications">
+        <h2>Publications</h2>
+        {publications.papers.map((paper) => (
+          <div class="paper">
+            <h4>
+              {paper.url ? (
+                <a href={paper.url} target="_blank" rel="noopener noreferrer">{paper.title}</a>
+              ) : (
+                paper.title
+              )}
+            </h4>
+            <p class="authors">{paper.authors.join(', ')}</p>
+            <p class="journal">{paper.journal}, {paper.volume}, {paper.year}</p>
+          </div>
+        ))}
+      </section>
+
+      <section class="section skills">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-category">
+            <h4>Languages</h4>
+            <div class="skill-tags">
+              {skills.languages.map((lang) => (
+                <span class="skill-tag">{lang}</span>
+              ))}
+            </div>
+          </div>
+          <div class="skill-category">
+            <h4>Frameworks</h4>
+            <div class="skill-tags">
+              {skills.frameworks.map((fw) => (
+                <span class="skill-tag">{fw}</span>
+              ))}
+            </div>
+          </div>
+          <div class="skill-category">
+            <h4>Tools</h4>
+            <div class="skill-tags">
+              {skills.tools.map((tool) => (
+                <span class="skill-tag">{tool}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
 </Layout>
 
 <style lang="scss">
-  .container {
+  .page {
     max-width: 780px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
-  }
-
-  .page-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--gray-5);
-  }
-
-  .page-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--gray-1);
-    margin: 0;
   }
 
   .profile {
     margin-bottom: 2rem;
   }
 
+  .profile-card {
+    background: var(--article-background);
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+
+  .profile-header {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .avatar-container {
+    flex-shrink: 0;
+  }
+
+  .avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-c1), var(--primary-c2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
   .name {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--gray-1);
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.25rem;
   }
 
   .name-kr {
     font-weight: 400;
     color: var(--gray-4);
+    font-size: 1.25rem;
   }
 
   .role {
     color: var(--primary-c1);
-    font-size: 1.125rem;
-    margin: 0;
+    font-size: 1rem;
+    margin: 0 0 0.75rem;
+  }
+
+  .links {
+    display: flex;
+    gap: 0.75rem;
+
+    a {
+      color: var(--gray-4);
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--primary-c1);
+      }
+    }
   }
 
   .content {
-    line-height: 1.8;
-    color: var(--gray-2);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
 
+  .section {
     h2 {
       font-size: 1.25rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--gray-1);
-      margin: 2rem 0 1rem;
-    }
-
-    p {
-      margin: 1rem 0;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary-c1);
     }
   }
 
-  .contact-list {
+  .item {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--gray-5);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .title {
+      a {
+        color: var(--gray-1);
+        text-decoration: none;
+
+        &:hover {
+          color: var(--primary-c1);
+        }
+      }
+    }
+
+    .team {
+      margin-left: 0.5rem;
+      color: var(--gray-4);
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          color: var(--primary-c1);
+        }
+      }
+    }
+
+    .period {
+      color: var(--gray-4);
+      font-size: 0.875rem;
+      font-weight: 400;
+    }
+
+    .meta {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .organization {
+      color: var(--gray-3);
+    }
+
+    .position, .degree {
+      color: var(--primary-c1);
+      margin: 0.25rem 0;
+    }
+
+    .location, .advisor, .description {
+      color: var(--gray-4);
+      font-size: 0.9375rem;
+      margin: 0.25rem 0;
+
+      a {
+        color: var(--primary-c1);
+      }
+    }
+
+    ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.25rem;
+      color: var(--gray-3);
+      font-size: 0.9375rem;
+
+      li {
+        margin: 0.25rem 0;
+        line-height: 1.6;
+      }
+    }
+  }
+
+  .awards-list {
     list-style: none;
     padding: 0;
 
     li {
-      margin: 0.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--gray-5);
+
+      &:last-child {
+        border-bottom: none;
+      }
     }
 
-    a {
-      color: var(--primary-c1);
+    .award-title {
+      color: var(--gray-2);
+    }
+
+    .award-year {
+      color: var(--gray-4);
+      font-size: 0.875rem;
+    }
+  }
+
+  .paper {
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--gray-5);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-1);
+      margin: 0 0 0.25rem;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          color: var(--primary-c1);
+        }
+      }
+    }
+
+    .authors {
+      color: var(--gray-3);
+      font-size: 0.875rem;
+      margin: 0.25rem 0;
+    }
+
+    .journal {
+      color: var(--gray-4);
+      font-size: 0.875rem;
+      font-style: italic;
+      margin: 0;
+    }
+  }
+
+  .skills-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .skill-category {
+    h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-3);
+      margin: 0 0 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--article-background);
+    border: 1px solid var(--gray-5);
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    color: var(--gray-2);
+  }
+
+  @media (max-width: 768px) {
+    .profile-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .links {
+      justify-content: center;
+    }
+
+    .item h3 {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .item .meta {
+      flex-direction: column;
+      gap: 0.25rem;
     }
   }
 </style>
