@@ -15,50 +15,53 @@ const tagCounts = sortedPosts.reduce((acc, post) => {
 }, {} as Record<string, number>);
 
 const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+const totalCount = sortedPosts.length;
 ---
 
 <Layout
-  title="Posts"
+  title="Posts | Jiunbae"
   description="기술 블로그 포스트 목록"
 >
-  <div class="container">
-    <header class="page-header">
-      <h1 class="page-title">Posts</h1>
-      <p class="post-count">{sortedPosts.length} articles</p>
-    </header>
+  <main class="main">
+    <section class="wrapper">
+      <div class="tag-list" id="tags-container">
+        <button class="tag-button active" data-tag="all">
+          all ({totalCount})
+        </button>
+        {tags.map(([tag, count]) => (
+          <button class="tag-button" data-tag={tag}>
+            {tag} ({count})
+          </button>
+        ))}
+      </div>
 
-    {tags.length > 0 && (
-      <section class="tags-section">
-        <div class="tags" id="tags-container">
-          <button class="tag active" data-tag="all">All</button>
-          {tags.map(([tag, count]) => (
-            <button class="tag" data-tag={tag}>
-              {tag} <span class="tag-count">{count}</span>
-            </button>
-          ))}
-        </div>
-      </section>
-    )}
-
-    <section class="posts-section">
-      <ul class="posts-list" id="posts-list">
+      <ul class="post-list" id="posts-list">
         {sortedPosts.map((post) => (
           <li class="post-item" data-tags={JSON.stringify(post.data.tags)}>
             <a href={`/posts${post.data.permalink}`} class="post-link">
-              <article class="post-card">
-                <div class="post-meta">
-                  <time datetime={post.data.date.toISOString()}>
-                    {format(post.data.date, 'yy.MM.dd')}
-                  </time>
+              <article class="post">
+                <div class="post-content">
+                  <div class="post-header">
+                    <time class="post-date" datetime={post.data.date.toISOString()}>
+                      {format(post.data.date, 'yy.MM.dd')}
+                    </time>
+                  </div>
+                  <h2 class="post-title">{post.data.title}</h2>
+                  {post.data.description && (
+                    <p class="post-description">{post.data.description}</p>
+                  )}
                   {post.data.tags.length > 0 && (
-                    <span class="post-tags">
-                      {post.data.tags.join(', ')}
-                    </span>
+                    <div class="post-tags">
+                      {post.data.tags.map(tag => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </div>
                   )}
                 </div>
-                <h2 class="post-title">{post.data.title}</h2>
-                {post.data.description && (
-                  <p class="post-description">{post.data.description}</p>
+                {post.data.heroImage && (
+                  <div class="post-thumbnail">
+                    <img src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} loading="lazy" />
+                  </div>
                 )}
               </article>
             </a>
@@ -66,7 +69,7 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
         ))}
       </ul>
     </section>
-  </div>
+  </main>
 </Layout>
 
 <script>
@@ -75,11 +78,11 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 
   tagsContainer?.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    if (target.classList.contains('tag')) {
+    if (target.classList.contains('tag-button')) {
       const selectedTag = target.dataset.tag;
 
       // Update active tag
-      tagsContainer.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
+      tagsContainer.querySelectorAll('.tag-button').forEach(tag => tag.classList.remove('active'));
       target.classList.add('active');
 
       // Filter posts
@@ -104,51 +107,31 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 </script>
 
 <style lang="scss">
-  .container {
+  .main {
     max-width: 900px;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem;
   }
 
-  .page-header {
+  .wrapper {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--gray-5);
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
-  .page-title {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--gray-1);
-    margin: 0;
-  }
-
-  .post-count {
-    color: var(--gray-4);
-    font-size: 0.9375rem;
-  }
-
-  .tags-section {
-    margin-bottom: 2rem;
-  }
-
-  .tags {
+  .tag-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
-  .tag {
+  .tag-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.375rem 0.75rem;
-    background: var(--article-background);
-    border: 1px solid transparent;
-    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--gray-5);
+    border-radius: 2rem;
     font-size: 0.875rem;
     color: var(--gray-3);
     cursor: pointer;
@@ -161,23 +144,27 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 
     &.active {
       background: var(--primary-c1);
+      border-color: var(--primary-c1);
       color: white;
     }
   }
 
-  .tag-count {
-    font-size: 0.75rem;
-    opacity: 0.7;
-  }
-
-  .posts-list {
+  .post-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
   .post-item {
-    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--gray-5);
+    padding-bottom: 1rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   .post-link {
@@ -185,42 +172,42 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
     display: block;
   }
 
-  .post-card {
-    padding: 1.25rem;
-    background: var(--article-background);
-    border-radius: 0.5rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
+  .post {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
   }
 
-  .post-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.875rem;
-    color: var(--gray-5);
+  .post-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .post-header {
     margin-bottom: 0.5rem;
   }
 
-  .post-tags {
-    color: var(--primary-c1);
+  .post-date {
+    font-size: 0.8125rem;
+    color: var(--gray-4);
   }
 
   .post-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
     color: var(--gray-1);
     margin: 0 0 0.5rem;
+    line-height: 1.4;
+
+    .post-link:hover & {
+      color: var(--primary-c1);
+    }
   }
 
   .post-description {
-    color: var(--gray-4);
     font-size: 0.9375rem;
-    margin: 0;
+    color: var(--gray-3);
+    margin: 0 0 0.75rem;
     line-height: 1.6;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -228,18 +215,47 @@ const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
     overflow: hidden;
   }
 
-  @media (max-width: 768px) {
-    .page-header {
-      flex-direction: column;
-      gap: 0.5rem;
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    background: var(--article-background);
+    border-radius: 1rem;
+    color: var(--gray-4);
+  }
+
+  .post-thumbnail {
+    flex-shrink: 0;
+    width: 140px;
+    height: 90px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .post {
+      flex-direction: column-reverse;
+      gap: 1rem;
     }
 
-    .page-title {
-      font-size: 1.75rem;
+    .post-thumbnail {
+      width: 100%;
+      height: 160px;
     }
 
     .post-title {
-      font-size: 1.125rem;
+      font-size: 1rem;
     }
   }
 </style>

@@ -3,6 +3,7 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import expressiveCode from 'astro-expressive-code';
+import rehypeMermaid from './src/plugins/rehype-mermaid.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,6 +23,7 @@ export default defineConfig({
     shikiConfig: {
       theme: 'github-dark',
     },
+    rehypePlugins: [rehypeMermaid],
   },
   vite: {
     css: {

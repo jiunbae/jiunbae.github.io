@@ -89,6 +89,42 @@ const isActivePath = (target: string) => {
         localStorage.setItem('theme', newTheme);
       });
     </script>
+
+    <!-- Mermaid support -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+      const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: theme,
+        securityLevel: 'loose'
+      });
+
+      // Re-render on theme change
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'data-theme') {
+            const newTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
+            mermaid.initialize({ theme: newTheme, securityLevel: 'loose' });
+            document.querySelectorAll('.mermaid').forEach((el) => {
+              const code = el.getAttribute('data-mermaid-src');
+              if (code) {
+                el.innerHTML = code;
+                el.removeAttribute('data-processed');
+              }
+            });
+            mermaid.run();
+          }
+        });
+      });
+      observer.observe(document.documentElement, { attributes: true });
+
+      // Store original source for re-rendering
+      document.querySelectorAll('.mermaid').forEach((el) => {
+        el.setAttribute('data-mermaid-src', el.textContent || '');
+      });
+    </script>
   </body>
 </html>
 
