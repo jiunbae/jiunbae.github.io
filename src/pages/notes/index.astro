@@ -1,0 +1,115 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { format } from 'date-fns';
+
+const allNotes = await getCollection('notes', ({ data }) => data.published !== false);
+const sortedNotes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout
+  title="Notes"
+  description="짧은 생각과 메모들"
+>
+  <div class="container">
+    <header class="page-header">
+      <h1 class="page-title">Notes</h1>
+      <p class="note-count">{sortedNotes.length} notes</p>
+    </header>
+
+    <section class="notes-section">
+      <ul class="notes-list">
+        {sortedNotes.map((note) => (
+          <li class="note-item">
+            <a href={`/notes${note.data.permalink}`} class="note-link">
+              <article class="note-card">
+                <time datetime={note.data.date.toISOString()}>
+                  {format(note.data.date, 'yy.MM.dd')}
+                </time>
+                <h2 class="note-title">{note.data.title}</h2>
+                {note.data.description && (
+                  <p class="note-description">{note.data.description}</p>
+                )}
+              </article>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gray-5);
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gray-1);
+    margin: 0;
+  }
+
+  .note-count {
+    color: var(--gray-4);
+    font-size: 0.9375rem;
+  }
+
+  .notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .note-item {
+    margin-bottom: 0.75rem;
+  }
+
+  .note-link {
+    text-decoration: none;
+    display: block;
+  }
+
+  .note-card {
+    padding: 1rem 1.25rem;
+    background: var(--article-background);
+    border-radius: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    time {
+      font-size: 0.8125rem;
+      color: var(--gray-5);
+    }
+  }
+
+  .note-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-1);
+    margin: 0.25rem 0;
+  }
+
+  .note-description {
+    color: var(--gray-4);
+    font-size: 0.9375rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+</style>

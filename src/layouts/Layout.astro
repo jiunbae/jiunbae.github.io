@@ -1,0 +1,209 @@
+---
+import BaseHead from './BaseHead.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+const pathname = Astro.url.pathname;
+
+const baseNavLinks = [
+  { to: '/', label: 'Posts' },
+  { to: '/notes/', label: 'Notes' },
+  { to: '/reviews/', label: 'Reviews' }
+];
+
+const isActivePath = (target: string) => {
+  if (target === '/') {
+    return pathname === '/' || pathname.startsWith('/posts/');
+  }
+  return pathname.startsWith(target);
+};
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <BaseHead title={title} description={description} image={image} />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="header fixed">
+      <div class="wrapper">
+        <a href="/" class="heading-link">
+          <h1 class="heading-wrapper">
+            <span class="heading">Jiunbae's</span>
+          </h1>
+        </a>
+        <nav class="navigation" aria-label="Main navigation">
+          {baseNavLinks.map(link => (
+            <a
+              href={link.to}
+              class:list={['link', { 'active-link': isActivePath(link.to) }]}
+              aria-current={isActivePath(link.to) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a href="/about/" class="icon-link" aria-label="About page">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </a>
+          <a href="/rss.xml" class="icon-link" aria-label="RSS feed">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 11a9 9 0 0 1 9 9"/>
+              <path d="M4 4a16 16 0 0 1 16 16"/>
+              <circle cx="5" cy="19" r="1"/>
+            </svg>
+          </a>
+          <button class="icon-button" id="theme-toggle" aria-label="Toggle theme">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <span class="copy-right">Copyright © 2025. jiunbae. All rights reserved.</span>
+    </footer>
+
+    <script>
+      const themeToggle = document.getElementById('theme-toggle');
+      themeToggle?.addEventListener('click', () => {
+        const currentTheme = document.documentElement.dataset.theme;
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = newTheme;
+        localStorage.setItem('theme', newTheme);
+      });
+    </script>
+  </body>
+</html>
+
+<style lang="scss">
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    padding: 8px;
+    background: var(--primary-c1);
+    color: white;
+    z-index: 100;
+
+    &:focus {
+      top: 0;
+    }
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--gray-5);
+    padding: 1rem 0;
+    backdrop-filter: blur(10px);
+  }
+
+  .wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .heading-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .heading-wrapper {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .heading {
+    background: linear-gradient(135deg, var(--primary-c1), var(--primary-c2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .navigation {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .link {
+    text-decoration: none;
+    color: var(--gray-4);
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--gray-1);
+    }
+
+    &.active-link {
+      color: var(--primary-c1);
+    }
+  }
+
+  .icon-link, .icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-4);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--gray-1);
+    }
+  }
+
+  .footer {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: auto;
+    border-top: 1px solid var(--gray-5);
+  }
+
+  .copy-right {
+    color: var(--gray-4);
+    font-size: 0.875rem;
+  }
+
+  main {
+    min-height: calc(100vh - 200px);
+  }
+
+  @media (max-width: 768px) {
+    .navigation {
+      gap: 1rem;
+    }
+
+    .icon-link:not(:first-of-type) {
+      display: none;
+    }
+  }
+</style>

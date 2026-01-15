@@ -1,0 +1,125 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { format } from 'date-fns';
+
+const allReviews = await getCollection('reviews', ({ data }) => data.published !== false);
+const sortedReviews = allReviews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout
+  title="Reviews"
+  description="책, 영화, 콘텐츠 리뷰"
+>
+  <div class="container">
+    <header class="page-header">
+      <h1 class="page-title">Reviews</h1>
+      <p class="review-count">{sortedReviews.length} reviews</p>
+    </header>
+
+    {sortedReviews.length === 0 ? (
+      <p class="empty-message">아직 작성된 리뷰가 없습니다.</p>
+    ) : (
+      <section class="reviews-section">
+        <ul class="reviews-list">
+          {sortedReviews.map((review) => (
+            <li class="review-item">
+              <a href={`/reviews${review.data.slug}`} class="review-link">
+                <article class="review-card">
+                  <time datetime={review.data.date.toISOString()}>
+                    {format(review.data.date, 'yy.MM.dd')}
+                  </time>
+                  <h2 class="review-title">{review.data.title}</h2>
+                  {review.data.description && (
+                    <p class="review-description">{review.data.description}</p>
+                  )}
+                </article>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gray-5);
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gray-1);
+    margin: 0;
+  }
+
+  .review-count {
+    color: var(--gray-4);
+    font-size: 0.9375rem;
+  }
+
+  .empty-message {
+    color: var(--gray-4);
+    text-align: center;
+    padding: 3rem;
+  }
+
+  .reviews-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .review-item {
+    margin-bottom: 0.75rem;
+  }
+
+  .review-link {
+    text-decoration: none;
+    display: block;
+  }
+
+  .review-card {
+    padding: 1rem 1.25rem;
+    background: var(--article-background);
+    border-radius: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      transform: translateX(4px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    time {
+      font-size: 0.8125rem;
+      color: var(--gray-5);
+    }
+  }
+
+  .review-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-1);
+    margin: 0.25rem 0;
+  }
+
+  .review-description {
+    color: var(--gray-4);
+    font-size: 0.9375rem;
+    margin: 0;
+    line-height: 1.5;
+  }
+</style>

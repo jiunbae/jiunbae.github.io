@@ -1,0 +1,114 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout
+  title="About"
+  description="Jiun Bae (배지운) - AI/ML 연구원"
+>
+  <div class="container">
+    <header class="page-header">
+      <h1 class="page-title">About</h1>
+    </header>
+
+    <section class="profile">
+      <div class="profile-info">
+        <h2 class="name">Jiun Bae <span class="name-kr">배지운</span></h2>
+        <p class="role">AI/ML Engineer</p>
+      </div>
+    </section>
+
+    <section class="content">
+      <h2>안녕하세요</h2>
+      <p>
+        AI/ML 연구원으로 일하고 있습니다. 딥러닝, DevOps, Home Lab 등
+        다양한 기술에 관심을 가지고 있으며, 이 블로그에서 실전 경험을 공유합니다.
+      </p>
+
+      <h2>Contact</h2>
+      <ul class="contact-list">
+        <li>
+          <a href="mailto:jiunbae.623@gmail.com">jiunbae.623@gmail.com</a>
+        </li>
+        <li>
+          <a href="https://github.com/jiunbae" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </li>
+        <li>
+          <a href="https://linkedin.com/in/jiunbae" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </li>
+      </ul>
+    </section>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gray-5);
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gray-1);
+    margin: 0;
+  }
+
+  .profile {
+    margin-bottom: 2rem;
+  }
+
+  .name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-1);
+    margin: 0 0 0.5rem;
+  }
+
+  .name-kr {
+    font-weight: 400;
+    color: var(--gray-4);
+  }
+
+  .role {
+    color: var(--primary-c1);
+    font-size: 1.125rem;
+    margin: 0;
+  }
+
+  .content {
+    line-height: 1.8;
+    color: var(--gray-2);
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gray-1);
+      margin: 2rem 0 1rem;
+    }
+
+    p {
+      margin: 1rem 0;
+    }
+  }
+
+  .contact-list {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin: 0.5rem 0;
+    }
+
+    a {
+      color: var(--primary-c1);
+    }
+  }
+</style>

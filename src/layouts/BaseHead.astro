@@ -1,0 +1,74 @@
+---
+import '@fontsource/noto-sans-kr/400.css';
+import '@fontsource/noto-sans-kr/500.css';
+import '@fontsource/noto-sans-kr/700.css';
+import '@/styles/index.scss';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+}
+
+const { title, description = '', image = '/profile.png', canonicalURL } = Astro.props;
+const siteTitle = "Jiunbae's Blog";
+const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+const resolvedImage = new URL(image, Astro.site).href;
+const resolvedCanonical = canonicalURL || Astro.url.href;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<link rel="canonical" href={resolvedCanonical} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={resolvedCanonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={resolvedImage} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={resolvedCanonical} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={resolvedImage} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/profile.png" />
+<link rel="apple-touch-icon" href="/profile.png" />
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8JQSR962RQ"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8JQSR962RQ');
+</script>
+
+<!-- Theme Script -->
+<script is:inline>
+  const getThemePreference = () => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme');
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+  const theme = getThemePreference();
+  document.documentElement.dataset.theme = theme;
+</script>
