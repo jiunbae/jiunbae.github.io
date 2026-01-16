@@ -11,6 +11,9 @@
   --gray-6: #8b8b8b;
   --icon-color: #000000;
   --header-bg: #f4f4f4fa;
+  --code-inline-bg: rgba(0, 0, 0, 0.05);
+  --code-inline-color: #d63384;
+  --code-bg: #1e1e1e;
 }
 
 [data-theme='dark'] {
@@ -26,6 +29,9 @@
   --gray-6: #b6b6b6;
   --icon-color: #ffffff;
   --header-bg: #242424fa;
+  --code-inline-bg: rgba(255, 255, 255, 0.1);
+  --code-inline-color: #f8b4d9;
+  --code-bg: #1e1e1e;
 }
 
 ::selection {

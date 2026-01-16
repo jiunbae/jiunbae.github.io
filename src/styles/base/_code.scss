@@ -50,16 +50,19 @@ pre[class*='language-'] {
   background: #011627;
 }
 
-:not(pre) > code[class*='language-'] {
+:not(pre) > code[class*='language-'],
+:not(pre) > code {
   margin: 0 0.2em;
-  padding: 0.1em 0.4em;
-  border-radius: 0.2em;
-  background-color: transparent;
-  border: 1px solid var(--primary-c1);
-  color: var(--primary-c1);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  background-color: var(--code-inline-bg, rgba(0, 0, 0, 0.05));
+  border: none;
+  color: var(--code-inline-color, #d63384);
   white-space: normal;
   word-wrap: break-word;
   vertical-align: middle;
+  font-family: 'Fira Code', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  font-size: 0.875em;
 }
 
 :not(pre) > code[class*='language-']::selection {
@@ -167,4 +170,31 @@ svg[id^="mermaid"] {
   padding: 16px;
   margin: 16px 0;
   display: block;
+}
+
+/* Expressive Code frame styling fixes */
+.expressive-code {
+  margin: 1.5rem 0 !important;
+
+  .frame {
+    margin: 0 !important;
+
+    &.is-terminal,
+    &.has-title {
+      margin: 0 !important;
+    }
+  }
+
+  pre {
+    margin: 0 !important;
+  }
+}
+
+/* Fix for code block backgrounds in dark theme */
+[data-theme='dark'] {
+  .expressive-code {
+    pre {
+      background: var(--code-bg, #1e1e1e) !important;
+    }
+  }
 }

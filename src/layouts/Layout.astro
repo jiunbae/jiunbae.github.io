@@ -33,6 +33,7 @@ const isActivePath = (target: string) => {
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <header class="header fixed">
+      <div class="progress-bar" id="progress-bar"></div>
       <div class="wrapper">
         <a href="/" class="heading-link">
           <h1 class="heading-wrapper">
@@ -95,7 +96,15 @@ const isActivePath = (target: string) => {
       <span class="copy-right">Copyright © 2025. jiunbae. All rights reserved.</span>
     </footer>
 
+    <!-- Scroll to top button -->
+    <button class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m18 15-6-6-6 6"/>
+      </svg>
+    </button>
+
     <script>
+      // Theme toggle
       const themeToggle = document.getElementById('theme-toggle');
       themeToggle?.addEventListener('click', () => {
         const currentTheme = document.documentElement.dataset.theme;
@@ -103,6 +112,34 @@ const isActivePath = (target: string) => {
         document.documentElement.dataset.theme = newTheme;
         localStorage.setItem('theme', newTheme);
       });
+
+      // Progress bar
+      const progressBar = document.getElementById('progress-bar');
+      const updateProgressBar = () => {
+        if (!progressBar) return;
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = `${scrollPercent}%`;
+      };
+      window.addEventListener('scroll', updateProgressBar, { passive: true });
+      updateProgressBar();
+
+      // Scroll to top button
+      const scrollToTopBtn = document.getElementById('scroll-to-top');
+      const toggleScrollBtn = () => {
+        if (!scrollToTopBtn) return;
+        if (window.scrollY > 300) {
+          scrollToTopBtn.classList.add('visible');
+        } else {
+          scrollToTopBtn.classList.remove('visible');
+        }
+      };
+      window.addEventListener('scroll', toggleScrollBtn, { passive: true });
+      scrollToTopBtn?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      toggleScrollBtn();
     </script>
 
     <!-- Mermaid support -->
@@ -166,6 +203,17 @@ const isActivePath = (target: string) => {
     border-bottom: 1px solid var(--gray-5);
     padding: 1rem 0;
     backdrop-filter: blur(10px);
+  }
+
+  .progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--primary-c1), var(--primary-c2));
+    z-index: 100;
+    transition: width 0.1s ease-out;
   }
 
   .wrapper {
@@ -270,6 +318,38 @@ const isActivePath = (target: string) => {
 
   main {
     min-height: calc(100vh - 200px);
+  }
+
+  .scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--primary-c1);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.2s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 40;
+
+    &.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    &:hover {
+      background: var(--primary-c2);
+    }
   }
 
   @media (max-width: 768px) {

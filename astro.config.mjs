@@ -13,6 +13,15 @@ export default defineConfig({
       themes: ['github-dark', 'github-light'],
       styleOverrides: {
         borderRadius: '0.5rem',
+        frames: {
+          frameBoxShadowCssValue: 'none',
+          terminalTitlebarDotsOpacity: '0',
+          terminalTitlebarBackground: 'transparent',
+          terminalTitlebarBorderBottomColor: 'transparent',
+          editorTabBarBackground: 'transparent',
+          editorTabBarBorderBottomColor: 'transparent',
+        },
+        codeBackground: 'var(--code-bg, #1e1e1e)',
       },
     }),
     mdx(),
