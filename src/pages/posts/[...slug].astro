@@ -81,15 +81,20 @@ const ogImage = heroImage || '/profile.png';
     </footer>
 
     <!-- Comments (utterances) -->
-    <section class="comments">
-      <script
-        src="https://utteranc.es/client.js"
-        repo="jiunbae/jiunbae.github.io"
-        issue-term="pathname"
-        theme="preferred-color-scheme"
-        crossorigin="anonymous"
-        async
-      ></script>
+    <section class="comments" id="comments-section">
+      <script is:inline>
+        (function() {
+          const theme = document.documentElement.dataset.theme === 'dark' ? 'github-dark' : 'github-light';
+          const script = document.createElement('script');
+          script.src = 'https://utteranc.es/client.js';
+          script.setAttribute('repo', 'jiunbae/jiunbae.github.io');
+          script.setAttribute('issue-term', 'pathname');
+          script.setAttribute('theme', theme);
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.getElementById('comments-section').appendChild(script);
+        })();
+      </script>
     </section>
   </article>
 </Layout>

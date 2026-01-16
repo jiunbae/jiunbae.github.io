@@ -32,8 +32,7 @@ const isActivePath = (target: string) => {
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <header class="header fixed">
-      <div class="progress-bar" id="progress-bar"></div>
+    <header class="header" id="site-header">
       <div class="wrapper">
         <a href="/" class="heading-link">
           <h1 class="heading-wrapper">
@@ -86,6 +85,7 @@ const isActivePath = (target: string) => {
           </button>
         </nav>
       </div>
+      <div class="progress-bar" id="progress-bar"></div>
     </header>
 
     <main id="main-content">
@@ -111,7 +111,30 @@ const isActivePath = (target: string) => {
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = newTheme;
         localStorage.setItem('theme', newTheme);
+
+        // Update utterances theme
+        const utterancesFrame = document.querySelector('.utterances-frame') as HTMLIFrameElement;
+        if (utterancesFrame) {
+          const theme = newTheme === 'dark' ? 'github-dark' : 'github-light';
+          utterancesFrame.contentWindow?.postMessage(
+            { type: 'set-theme', theme },
+            'https://utteranc.es'
+          );
+        }
       });
+
+      // Header shrink effect
+      const header = document.getElementById('site-header');
+      const handleHeaderShrink = () => {
+        if (!header) return;
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      };
+      window.addEventListener('scroll', handleHeaderShrink, { passive: true });
+      handleHeaderShrink();
 
       // Progress bar
       const progressBar = document.getElementById('progress-bar');
@@ -203,11 +226,25 @@ const isActivePath = (target: string) => {
     border-bottom: 1px solid var(--gray-5);
     padding: 1rem 0;
     backdrop-filter: blur(10px);
+    transition: padding 0.2s ease;
+
+    &.scrolled {
+      padding: 0.625rem 0;
+
+      .heading-wrapper {
+        font-size: 1.125rem;
+      }
+
+      .logo-icon svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
   }
 
   .progress-bar {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     height: 3px;
     width: 0;
@@ -370,7 +407,12 @@ const isActivePath = (target: string) => {
     }
 
     .link {
+      display: none;
       font-size: 0.875rem;
+
+      &.active-link {
+        display: inline;
+      }
     }
 
     .scroll-to-top {
@@ -379,6 +421,15 @@ const isActivePath = (target: string) => {
       width: 40px;
       height: 40px;
     }
+
+    .header.scrolled {
+      padding: 0.5rem 0;
+
+      .logo-icon svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
   }
 
   @media (max-width: 480px) {
@@ -386,7 +437,7 @@ const isActivePath = (target: string) => {
       gap: 0.5rem;
     }
 
-    .link {
+    .link.active-link {
       font-size: 0.8125rem;
     }
 
