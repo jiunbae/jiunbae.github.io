@@ -36,6 +36,18 @@ const isActivePath = (target: string) => {
       <div class="wrapper">
         <a href="/" class="heading-link">
           <h1 class="heading-wrapper">
+            <span class="logo-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="14" cy="14" r="14" fill="url(#logo-gradient)"/>
+                <text x="14" y="19" text-anchor="middle" fill="white" font-size="14" font-weight="700" font-family="system-ui">J</text>
+                <defs>
+                  <linearGradient id="logo-gradient" x1="0" y1="0" x2="28" y2="28">
+                    <stop offset="0%" stop-color="var(--primary-c1)"/>
+                    <stop offset="100%" stop-color="var(--primary-c2)"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
             <span class="heading">Jiunbae's</span>
           </h1>
         </a>
@@ -49,7 +61,7 @@ const isActivePath = (target: string) => {
               {link.label}
             </a>
           ))}
-          <a href="/about/" class="icon-link" aria-label="About page">
+          <a href="/about/" class:list={['icon-link', { 'active-icon': pathname.startsWith('/about') }]} aria-label="About page">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
@@ -62,11 +74,14 @@ const isActivePath = (target: string) => {
               <circle cx="5" cy="19" r="1"/>
             </svg>
           </a>
-          <button class="icon-button" id="theme-toggle" aria-label="Toggle theme">
+          <button class="icon-button" id="search-toggle" aria-label="Search">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5"/>
-              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
             </svg>
+          </button>
+          <button class="icon-button theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <span class="theme-icon"></span>
           </button>
         </nav>
       </div>
@@ -171,13 +186,19 @@ const isActivePath = (target: string) => {
     margin: 0;
     font-size: 1.25rem;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .heading {
-    background: linear-gradient(135deg, var(--primary-c1), var(--primary-c2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--gray-1);
   }
 
   .navigation {
@@ -214,6 +235,24 @@ const isActivePath = (target: string) => {
 
     &:hover {
       color: var(--gray-1);
+    }
+
+    &.active-icon {
+      color: var(--primary-c1);
+    }
+  }
+
+  .theme-toggle {
+    .theme-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--gray-4);
+      transition: background 0.2s;
+    }
+
+    &:hover .theme-icon {
+      background: var(--gray-1);
     }
   }
 
