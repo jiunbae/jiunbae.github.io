@@ -1,7 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 
-// Helper to handle null/undefined values from YAML
-const nullableString = () => z.string().nullish().transform(val => val ?? undefined);
+// Helper to handle null/undefined/empty values from YAML
+const nullableString = () => z.string().nullish().transform(val => (val && val.trim()) ? val : undefined);
 
 
 const posts = defineCollection({

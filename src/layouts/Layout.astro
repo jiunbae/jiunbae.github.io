@@ -353,12 +353,50 @@ const isActivePath = (target: string) => {
   }
 
   @media (max-width: 768px) {
-    .navigation {
-      gap: 1rem;
+    .wrapper {
+      padding: 0 1rem;
     }
 
-    .icon-link:not(:first-of-type) {
+    .heading-wrapper {
+      font-size: 1.125rem;
+    }
+
+    .heading {
       display: none;
+    }
+
+    .navigation {
+      gap: 0.75rem;
+    }
+
+    .link {
+      font-size: 0.875rem;
+    }
+
+    .scroll-to-top {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .navigation {
+      gap: 0.5rem;
+    }
+
+    .link {
+      font-size: 0.8125rem;
+    }
+
+    .icon-link, .icon-button {
+      padding: 0.125rem;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
     }
   }
 </style>

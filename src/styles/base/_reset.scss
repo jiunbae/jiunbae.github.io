@@ -17,9 +17,12 @@
 /*
     3. Allow percentage-based heights in the application
   */
-html,
-body {
+html {
   height: 100%;
+}
+
+body {
+  min-height: 100%;
 }
 
 /*
