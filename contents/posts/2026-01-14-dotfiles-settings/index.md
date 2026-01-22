@@ -1,8 +1,8 @@
 ---
-title: "개인 환경 설정(dotfile) 관리하기"
+title: "개인 환경 설정 (dotfiles) 관리하기"
 description: "한 줄 명령어로 환경 설정 자동화하기"
 date: 2026-01-14
-slug: /dotfile-settings
+slug: /dotfiles-settings
 tags: [dev, dotfiles, automation, cli]
 published: true
 ---
