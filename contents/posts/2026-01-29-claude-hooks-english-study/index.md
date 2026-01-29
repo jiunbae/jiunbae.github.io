@@ -4,6 +4,8 @@ description: "Claude Code의 Hook 시스템을 활용해 코딩하면서 자연�
 date: 2026-01-29
 slug: /claude-hooks-english-study
 tags: [Claude, AI, Productivity, English]
+heroImage: ./hook-usage.png
+heroImageAlt: Claude Code English Coach Hook 사용 화면
 published: true
 ---
 
@@ -102,6 +104,8 @@ chmod +x ~/.claude/hooks/english-coach.sh
 `UserPromptSubmit` 이벤트에 `command` 타입으로 등록하면, 프롬프트를 제출할 때마다 스크립트가 실행되고 출력이 Claude에게 전달됩니다.
 
 ### 실제 동작 예시
+
+![English Coach Hook 동작 화면](./hook-usage.png)
 
 프롬프트를 입력하면:
 
