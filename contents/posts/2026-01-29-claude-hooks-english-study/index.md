@@ -4,12 +4,12 @@ description: "Claude Code의 Hook 시스템을 활용해 코딩하면서 자연�
 date: 2026-01-29
 slug: /claude-hooks-english-study
 tags: [Claude, AI, Productivity, English]
-heroImage: ./hook-usage.png
-heroImageAlt: Claude Code English Coach Hook 사용 화면
 published: true
 ---
 
 # Claude Code Hooks로 영어 공부하기
+
+![English Coach Hook 동작 화면](./hook-usage.png)
 
 개발하면서 영어 공부도 하고 싶다는 생각, 해보신 적 있으신가요? Claude Code를 사용하다 보면 프롬프트를 영어로 작성할 일이 많은데, 매번 "이 표현이 맞나?" 고민이 됩니다. 이번 글에서는 Claude Code의 Hook 시스템을 활용해서, 프롬프트를 입력할 때마다 자동으로 영어 교정과 어휘 학습을 해주는 환경을 만든 경험을 공유합니다.
 
