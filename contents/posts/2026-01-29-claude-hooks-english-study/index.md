@@ -262,4 +262,4 @@ Claude Code의 Hook 시스템은 단순한 자동화를 넘어, 개발 워크플
 
 ---
 
-Hook을 포함한 전체 스킬 시스템에 대해서는 [Claude Code 스킬 시스템 소개와 개인화 경험](/claude-code-agent-skills) 글도 함께 참고해주세요.
+Hook을 포함한 전체 스킬 시스템에 대해서는 [Claude Code 스킬 시스템 소개와 개인화 경험](/posts/claude-code-agent-skills) 글도 함께 참고해주세요.
