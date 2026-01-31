@@ -83,7 +83,7 @@ flowchart LR
 
 [이전 글](/posts/home-lab-iac)에서 Terraform + Ansible로 홈랩 인프라를 코드화한 이야기를 했다. 인프라가 정리되니 자연스럽게 "이 위에서 뭘 돌릴까?"라는 고민이 생겼다.
 
-마침 M3 Max MacBook을 메인으로 사용하면서 Apple Silicon의 MLX 프레임워크가 눈에 들어왔다. GPU 메모리 제약 없이 통합 메모리를 활용할 수 있어서, 생각보다 큰 모델도 로컬에서 돌릴 수 있었다.
+마침 Mac Mini M4 (32GB)를 새로 구입해서 홈 서버로 사용하게 되었다. Apple Silicon의 MLX 프레임워크가 눈에 들어왔는데, GPU 메모리 제약 없이 통합 메모리를 활용할 수 있어서 생각보다 큰 모델도 로컬에서 돌릴 수 있었다. 24시간 상시 가동해도 전력 소모가 적고, 팬 소음도 거의 없어서 AI 서버로 딱이었다.
 
 OpenAI API를 쓰면 편하지만, Self-hosted를 선택한 이유가 있다:
 
@@ -148,7 +148,7 @@ flowchart TB
 | 원칙 | 구현 |
 |------|------|
 | **On-demand Loading** | Worker는 요청이 들어올 때만 로드, idle 5분 후 자동 offload |
-| **Memory Management** | 24GB 통합 메모리를 LRU 기반으로 관리, 필요시 오래된 모델 evict |
+| **Memory Management** | 32GB 통합 메모리를 LRU 기반으로 관리, 필요시 오래된 모델 evict |
 | **OpenAI 호환** | `/v1/chat/completions`, `/v1/audio/speech`, `/v1/audio/transcriptions` 엔드포인트 |
 | **Gateway-Worker 분리** | Gateway는 항상 떠있고, 무거운 모델은 Worker로 분리 |
 
@@ -377,7 +377,7 @@ Worker가 on-demand로 로드되기 때문에, 처음에는 "Stopped" 상태로 
 
 ### 1. MLX의 가능성
 
-Apple Silicon에서 MLX는 정말 인상적이다. PyTorch보다 메모리 효율이 좋고, 4bit 양자화도 쉽게 적용된다. M3 Max 36GB로도 꽤 큰 모델을 돌릴 수 있다.
+Apple Silicon에서 MLX는 정말 인상적이다. PyTorch보다 메모리 효율이 좋고, 4bit 양자화도 쉽게 적용된다. Mac Mini M4 32GB로도 VLM, 이미지 생성, STT, TTS를 동시에 서빙할 수 있다.
 
 ### 2. On-demand의 중요성
 
@@ -397,19 +397,15 @@ API를 OpenAI 호환으로 만들어두니, 기존에 OpenAI를 쓰던 코드에
 
 이 인프라로 어떤 걸 할 수 있는지 몇 가지 예시:
 
-### 1. AI 사주 서비스 개발
-
-[청월당 사주 서비스](https://github.com/vibe-homelab/chungwol-dang-saju)를 만들 때, 사용자 입력을 음성으로 받고 결과를 음성으로 읽어주는 기능이 필요했다. Voice Insight API 덕분에 별도 서비스 없이 바로 연동할 수 있었다.
-
-### 2. 이미지 기반 코드 생성
+### 1. 이미지 기반 코드 생성
 
 스크린샷을 찍어서 Vision API로 분석하고, Claude에게 "이 UI를 React로 만들어줘"라고 하면 바로 코드가 나온다. OpenAI Vision을 쓰면 매번 비용이 드는데, 로컬이라 부담 없이 수십 번 반복할 수 있다.
 
-### 3. 음성 메모 정리 자동화
+### 2. 음성 메모 정리 자동화
 
 회의 녹음 → STT → LLM 요약 → TTS 브리핑. 이 파이프라인을 iOS Shortcuts로 자동화하면, 녹음 버튼 하나로 정리된 요약을 음성으로 들을 수 있다.
 
-### 4. 프로토타입 에셋 생성
+### 3. 프로토타입 에셋 생성
 
 새 프로젝트를 시작할 때 샘플 이미지가 필요하면 Image Gen으로 즉시 생성. 아이콘, 배경, 캐릭터 등을 빠르게 만들어서 프로토타입에 넣을 수 있다.
 
