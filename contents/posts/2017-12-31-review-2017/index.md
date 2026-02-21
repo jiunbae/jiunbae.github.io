@@ -2,7 +2,7 @@
 title: Review 2017
 description: Review 2017 for next year
 date: 2017-12-31
-slug: /review2017
+slug: /review-2017
 tags: [review]
 heroImage:
 heroImageAlt:
