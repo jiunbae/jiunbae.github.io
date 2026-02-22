@@ -39,7 +39,8 @@ export const Header = ({ pathname }: HeaderProps) => {
   const baseNavLinks = [
     { to: '/', label: 'Posts', state: { tag: undefined } },
     { to: '/notes/', label: 'Notes', state: { tag: undefined } },
-    { to: '/reviews/', label: 'Reviews', state: { tag: undefined } }
+    { to: '/reviews/', label: 'Reviews', state: { tag: undefined } },
+    { to: '/playground/', label: 'Playground', state: undefined }
   ]
 
   const navLinks = isAdminPage
@@ -59,6 +60,10 @@ export const Header = ({ pathname }: HeaderProps) => {
 
     if (target === '/admin/') {
       return pathname.startsWith('/admin')
+    }
+
+    if (target === '/playground/') {
+      return pathname.startsWith('/playground')
     }
 
     if (target === '/about/') {

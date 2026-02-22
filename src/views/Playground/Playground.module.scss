@@ -1,0 +1,132 @@
+@use '../../styles/abstracts' as *;
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--gray-1);
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--gray-5);
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--article-background);
+  border: 1px solid var(--gray-6);
+  text-decoration: none;
+  color: var(--gray-1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    color: var(--gray-1);
+
+    .thumbnail::after {
+      opacity: 1;
+    }
+  }
+}
+
+.thumbnail {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.06);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+}
+
+.cardBody {
+  padding: 1.25rem;
+}
+
+.cardTitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--gray-1);
+}
+
+.cardDescription {
+  font-size: 0.875rem;
+  color: var(--gray-5);
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--gray-6);
+  color: var(--gray-2);
+}
+
+.date {
+  font-size: 0.75rem;
+  color: var(--gray-5);
+  white-space: nowrap;
+}
+
+.empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--gray-5);
+  font-size: 1rem;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+}

@@ -12,12 +12,13 @@
 const ALGORITHM = 'AES-GCM'
 const KEY_LENGTH = 256
 const IV_LENGTH = 12 // 96 bits for GCM
+type StrictUint8Array = Uint8Array<ArrayBuffer>
 
 /**
  * 텍스트를 ArrayBuffer로 변환
  */
-const textToBuffer = (text: string): Uint8Array => {
-  return new TextEncoder().encode(text)
+const textToBuffer = (text: string): StrictUint8Array => {
+  return new TextEncoder().encode(text) as StrictUint8Array
 }
 
 /**
@@ -42,14 +43,14 @@ const bufferToBase64 = (buffer: Uint8Array): string => {
 /**
  * Base64를 ArrayBuffer로 디코딩
  */
-const base64ToBuffer = (base64: string): Uint8Array => {
+const base64ToBuffer = (base64: string): StrictUint8Array => {
   const binary = atob(base64)
   const len = binary.length
-  const buffer = new Uint8Array(len)
+  const buffer = new Uint8Array(new ArrayBuffer(len))
   for (let i = 0; i < len; i++) {
     buffer[i] = binary.charCodeAt(i)
   }
-  return buffer
+  return buffer as StrictUint8Array
 }
 
 /**
@@ -112,7 +113,7 @@ export const encrypt = async (plaintext: string): Promise<string> => {
     const key = await deriveKey(fingerprint)
 
     // 랜덤 IV 생성
-    const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH))
+    const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH)) as StrictUint8Array
 
     // 암호화
     const encrypted = await crypto.subtle.encrypt(

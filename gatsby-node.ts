@@ -528,7 +528,8 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ act
         '@/styles': path.resolve(__dirname, 'src/styles'),
         '@/utils': path.resolve(__dirname, 'src/utils'),
         '@/contexts': path.resolve(__dirname, 'src/contexts'),
-        '@/layouts': path.resolve(__dirname, 'src/layouts')
+        '@/layouts': path.resolve(__dirname, 'src/layouts'),
+        '@/data': path.resolve(__dirname, 'src/data')
       }
     }
   })
