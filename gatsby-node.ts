@@ -401,7 +401,14 @@ const generateReviewOgImage = (params: OgImageParams) =>
   })
 
 export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage, createRedirect } = actions
+
+  createRedirect({
+    fromPath: '/tools/svg-converter/',
+    toPath: '/tools/image-converter/',
+    isPermanent: true,
+    redirectInBrowser: true
+  })
   const blogPostTemplate = path.resolve('src/templates/Post.tsx')
   const noteTemplate = path.resolve('src/templates/Note.tsx')
   const reviewTemplate = path.resolve('src/templates/Review.tsx')
@@ -530,6 +537,11 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ act
         '@/contexts': path.resolve(__dirname, 'src/contexts'),
         '@/layouts': path.resolve(__dirname, 'src/layouts'),
         '@/data': path.resolve(__dirname, 'src/data')
+      },
+      fallback: {
+        fs: false,
+        path: false,
+        crypto: false
       }
     }
   })

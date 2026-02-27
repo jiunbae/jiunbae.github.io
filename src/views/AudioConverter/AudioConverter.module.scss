@@ -1,0 +1,288 @@
+@use '../../styles/abstracts' as *;
+
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.backLink {
+  font-size: 0.85rem;
+  color: var(--gray-5);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--gray-2);
+  }
+
+  &::before {
+    content: '\2190\00a0';
+  }
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.25rem 0 0.5rem;
+  color: var(--gray-1);
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--gray-5);
+  line-height: 1.6;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Drop zone */
+.dropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  border: 2px dashed var(--gray-6);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: var(--article-background);
+
+  &:hover,
+  &.dragging {
+    border-color: var(--gray-4);
+    background: var(--gray-7, var(--article-background));
+  }
+}
+
+.dropIcon {
+  color: var(--gray-5);
+  margin-bottom: 1rem;
+}
+
+.dropText {
+  font-size: 0.95rem;
+  color: var(--gray-5);
+}
+
+.dropHint {
+  font-size: 0.8rem;
+  color: var(--gray-5);
+  opacity: 0.7;
+  margin-top: 0.4rem;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+/* File info */
+.previewSection {
+  min-height: 320px;
+}
+
+.fileInfo {
+  border: 1px solid var(--gray-6);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--article-background);
+}
+
+.previewToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--gray-6);
+}
+
+.fileName {
+  font-size: 0.85rem;
+  color: var(--gray-3);
+  font-family: monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.removeBtn {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border: 1px solid var(--gray-6);
+  border-radius: 6px;
+  background: none;
+  color: var(--gray-4);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--gray-1);
+    border-color: var(--gray-4);
+  }
+}
+
+.fileDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1.5rem;
+  gap: 1rem;
+}
+
+.fileIcon {
+  color: var(--gray-4);
+}
+
+.fileMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--gray-5);
+}
+
+.fileSize {
+  font-family: monospace;
+}
+
+.fileType {
+  font-family: monospace;
+  opacity: 0.7;
+}
+
+/* Progress */
+.progressSection {
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--gray-6);
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: var(--gray-6);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--gray-3);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.8rem;
+  color: var(--gray-5);
+}
+
+.error {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.85rem;
+  color: #e53e3e;
+  border-top: 1px solid var(--gray-6);
+}
+
+/* Controls panel */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gray-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+/* Format toggle */
+.formatToggle {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--gray-6);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.formatBtn {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  background: none;
+  color: var(--gray-4);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &.active {
+    background: var(--gray-6);
+    color: var(--gray-1);
+  }
+
+  &:not(.active):hover {
+    background: var(--gray-7, transparent);
+  }
+}
+
+/* Download button */
+.downloadBtn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--gray-1);
+  color: var(--background);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover:not(:disabled) {
+    opacity: 0.85;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.note {
+  font-size: 0.75rem;
+  color: var(--gray-5);
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 1.25rem;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+}

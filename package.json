@@ -22,6 +22,8 @@
     "fetch-metadata:force": "pnpm exec ts-node scripts/fetch-media-metadata.ts --force"
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
     "@fontsource/noto-sans-kr": "^5.2.8",
     "@octokit/rest": "^22.0.1",
     "@resvg/resvg-js": "^2.6.2",
@@ -46,6 +48,7 @@
     "gatsby-transformer-json": "^5.15.0",
     "gatsby-transformer-remark": "^6.15.0",
     "gatsby-transformer-sharp": "^5.15.0",
+    "jspdf": "^4.2.0",
     "playwright": "^1.57.0",
     "prismjs": "^1.30.0",
     "react": "^18.3.1",
