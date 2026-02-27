@@ -67,6 +67,18 @@ function v2limit(a: Vec2, max: number): Vec2 {
 }
 
 // ---------------------------------------------------------------------------
+// Mutable Vec2 helpers (zero-allocation, for hot paths)
+// ---------------------------------------------------------------------------
+
+/** Inline magnitude from raw components (avoids allocating a Vec2 just for v2len). */
+function mag2(x: number, y: number): number {
+  return Math.sqrt(x * x + y * y)
+}
+
+/** Scratch Vec2 used by wrapDeltaMut and predator avoidance. */
+const _wd: Vec2 = { x: 0, y: 0 }
+
+// ---------------------------------------------------------------------------
 // Boid
 // ---------------------------------------------------------------------------
 
@@ -352,6 +364,21 @@ export class BoidsEngine {
     return v2(dx, dy)
   }
 
+  /**
+   * Same as wrapDelta but writes into the module-level _wd scratch object.
+   * The returned reference is _wd; callers must consume values before the
+   * next call to wrapDeltaMut.
+   */
+  private wrapDeltaMut(dx: number, dy: number): Vec2 {
+    if (dx > this.w * 0.5) dx -= this.w
+    else if (dx < -this.w * 0.5) dx += this.w
+    if (dy > this.h * 0.5) dy -= this.h
+    else if (dy < -this.h * 0.5) dy += this.h
+    _wd.x = dx
+    _wd.y = dy
+    return _wd
+  }
+
   private updateBoids() {
     const w = this.w
     const h = this.h
@@ -384,15 +411,16 @@ export class BoidsEngine {
       this.spatialHash.query(boid.pos.x, boid.pos.y, pr, (j: number) => {
         if (j === i) return
         const other = boids[j]
-        const delta = this.wrapDelta(other.pos.x - boid.pos.x, other.pos.y - boid.pos.y)
-        const dSq = v2lenSq(delta)
+        const delta = this.wrapDeltaMut(other.pos.x - boid.pos.x, other.pos.y - boid.pos.y)
+        const dx = delta.x, dy = delta.y
+        const dSq = dx * dx + dy * dy
         if (dSq > prSq || dSq < 1e-6) return
 
         const d = Math.sqrt(dSq)
 
         // Separation - weight inversely by distance
-        sepX -= delta.x / d
-        sepY -= delta.y / d
+        sepX -= dx / d
+        sepY -= dy / d
         sepCount++
 
         // Alignment
@@ -401,8 +429,8 @@ export class BoidsEngine {
         aliCount++
 
         // Cohesion
-        cohX += delta.x
-        cohY += delta.y
+        cohX += dx
+        cohY += dy
         cohCount++
       })
 
@@ -412,11 +440,11 @@ export class BoidsEngine {
       if (sepCount > 0) {
         sepX /= sepCount
         sepY /= sepCount
-        const sepMag = v2len(v2(sepX, sepY))
+        const sepMag = mag2(sepX, sepY)
         if (sepMag > 0) {
           sepX = sepX / sepMag * this.maxSpeed - boid.vel.x
           sepY = sepY / sepMag * this.maxSpeed - boid.vel.y
-          const l = v2len(v2(sepX, sepY))
+          const l = mag2(sepX, sepY)
           if (l > this.maxForce) {
             sepX = sepX / l * this.maxForce
             sepY = sepY / l * this.maxForce
@@ -430,11 +458,11 @@ export class BoidsEngine {
       if (aliCount > 0) {
         aliX /= aliCount
         aliY /= aliCount
-        const aliMag = v2len(v2(aliX, aliY))
+        const aliMag = mag2(aliX, aliY)
         if (aliMag > 0) {
           aliX = aliX / aliMag * this.maxSpeed - boid.vel.x
           aliY = aliY / aliMag * this.maxSpeed - boid.vel.y
-          const l = v2len(v2(aliX, aliY))
+          const l = mag2(aliX, aliY)
           if (l > this.maxForce) {
             aliX = aliX / l * this.maxForce
             aliY = aliY / l * this.maxForce
@@ -448,11 +476,11 @@ export class BoidsEngine {
       if (cohCount > 0) {
         cohX /= cohCount
         cohY /= cohCount
-        const cohMag = v2len(v2(cohX, cohY))
+        const cohMag = mag2(cohX, cohY)
         if (cohMag > 0) {
           cohX = cohX / cohMag * this.maxSpeed - boid.vel.x
           cohY = cohY / cohMag * this.maxSpeed - boid.vel.y
-          const l = v2len(v2(cohX, cohY))
+          const l = mag2(cohX, cohY)
           if (l > this.maxForce) {
             cohX = cohX / l * this.maxForce
             cohY = cohY / l * this.maxForce
@@ -472,7 +500,7 @@ export class BoidsEngine {
           const factor = this.mouseMode === 'attract' ? 1 : -1
           const mx = (mdx / md * this.maxSpeed - boid.vel.x) * factor
           const my = (mdy / md * this.maxSpeed - boid.vel.y) * factor
-          const ml = v2len(v2(mx, my))
+          const ml = mag2(mx, my)
           const cap = this.maxForce * 3
           if (ml > cap) {
             steerX += mx / ml * cap
@@ -486,14 +514,15 @@ export class BoidsEngine {
 
       // Predator avoidance
       if (this.predator) {
-        const pd = this.wrapDelta(this.predator.pos.x - boid.pos.x, this.predator.pos.y - boid.pos.y)
-        const pdSq = v2lenSq(pd)
+        const pd = this.wrapDeltaMut(this.predator.pos.x - boid.pos.x, this.predator.pos.y - boid.pos.y)
+        const pdx = pd.x, pdy = pd.y
+        const pdSq = pdx * pdx + pdy * pdy
         const scatterRadius = pr * 2
         if (pdSq < scatterRadius * scatterRadius && pdSq > 1) {
           const pdd = Math.sqrt(pdSq)
-          const fleeX = (-pd.x / pdd * this.maxSpeed - boid.vel.x)
-          const fleeY = (-pd.y / pdd * this.maxSpeed - boid.vel.y)
-          const fl = v2len(v2(fleeX, fleeY))
+          const fleeX = (-pdx / pdd * this.maxSpeed - boid.vel.x)
+          const fleeY = (-pdy / pdd * this.maxSpeed - boid.vel.y)
+          const fl = mag2(fleeX, fleeY)
           const cap = this.maxForce * 4
           if (fl > cap) {
             steerX += fleeX / fl * cap
@@ -505,31 +534,39 @@ export class BoidsEngine {
         }
       }
 
-      boid.acc = v2(steerX, steerY)
+      boid.acc.x = steerX
+      boid.acc.y = steerY
     }
 
     // Integrate
     for (let i = 0; i < n; i++) {
       const b = boids[i]
 
-      // Store trail
+      // Store trail (allocation is acceptable here; trails are opt-in)
       if (this.showTrails) {
         b.trail.push(v2(b.pos.x, b.pos.y))
         if (b.trail.length > 5) b.trail.shift()
       }
 
-      b.vel = v2add(b.vel, b.acc)
+      b.vel.x += b.acc.x
+      b.vel.y += b.acc.y
 
       // Clamp speed
-      const speed = v2len(b.vel)
+      const speed = mag2(b.vel.x, b.vel.y)
       if (speed > this.maxSpeed) {
-        b.vel = v2setMag(b.vel, this.maxSpeed)
-      } else if (speed < this.minSpeed) {
-        b.vel = v2setMag(b.vel, this.minSpeed)
+        const s = this.maxSpeed / speed
+        b.vel.x *= s
+        b.vel.y *= s
+      } else if (speed < this.minSpeed && speed > 1e-10) {
+        const s = this.minSpeed / speed
+        b.vel.x *= s
+        b.vel.y *= s
       }
 
-      b.pos = v2add(b.pos, b.vel)
-      b.acc = v2(0, 0)
+      b.pos.x += b.vel.x
+      b.pos.y += b.vel.y
+      b.acc.x = 0
+      b.acc.y = 0
 
       // Wrap around edges
       if (b.pos.x < 0) b.pos.x += w
@@ -553,8 +590,8 @@ export class BoidsEngine {
     let nearestDist = Infinity
     let nearestBoid: Boid | null = null
     for (const b of this.boids) {
-      const d = this.wrapDelta(b.pos.x - pred.pos.x, b.pos.y - pred.pos.y)
-      const dSq = v2lenSq(d)
+      const d = this.wrapDeltaMut(b.pos.x - pred.pos.x, b.pos.y - pred.pos.y)
+      const dSq = d.x * d.x + d.y * d.y
       if (dSq < nearestDist) {
         nearestDist = dSq
         nearestBoid = b
@@ -562,6 +599,7 @@ export class BoidsEngine {
     }
 
     if (nearestBoid) {
+      // Safe to use allocating wrapDelta here (once per frame)
       const d = this.wrapDelta(nearestBoid.pos.x - pred.pos.x, nearestBoid.pos.y - pred.pos.y)
       const dn = v2norm(d)
       const desired = v2scale(dn, this.maxSpeed * 0.9)

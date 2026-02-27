@@ -91,6 +91,8 @@ const GenerativeArtPage = () => {
         ref={canvasRef}
         className={styles.canvas}
         onClick={handleCanvasClick}
+        role="img"
+        aria-label="Generative art canvas"
       />
 
       <div className={clsx(styles.hint, { [styles.hidden]: hasGenerated })}>

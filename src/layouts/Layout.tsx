@@ -30,6 +30,13 @@ const ImmersiveLayout = ({ pathname, children }: LayoutProps) => {
     hideTimer.current = setTimeout(() => setHeaderVisible(false), 400)
   }, [])
 
+  // Clear hideTimer on unmount
+  useEffect(() => {
+    return () => {
+      if (hideTimer.current) clearTimeout(hideTimer.current)
+    }
+  }, [])
+
   // Hide hint after animation finishes (4s)
   useEffect(() => {
     const timer = setTimeout(() => setHintDone(true), 4000)

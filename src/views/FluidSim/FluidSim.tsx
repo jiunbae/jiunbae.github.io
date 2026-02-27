@@ -74,7 +74,7 @@ const FluidSimPage = () => {
 
   return (
     <div className={styles.page}>
-      <div ref={canvasRef} className={styles.canvas} />
+      <div ref={canvasRef} className={styles.canvas} role="img" aria-label="Fluid dynamics simulation" />
 
       <div className={styles.hint}>
         Draw with your mouse to create fluid

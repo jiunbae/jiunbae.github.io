@@ -54,15 +54,21 @@
   position: relative;
   height: 180px;
   overflow: hidden;
+  background-size: cover;
+  transition: transform 0.4s ease;
 
   &::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.4) 100%);
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.3s ease;
   }
+}
+
+.card:hover .thumbnail {
+  transform: scale(1.05);
 }
 
 .cardBody {

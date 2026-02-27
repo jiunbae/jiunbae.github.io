@@ -22,6 +22,7 @@ const AudioVisualizerPage = () => {
   const [isPanelOpen, setIsPanelOpen] = useState(true)
   const [isDragging, setIsDragging] = useState(false)
   const [sourceName, setSourceName] = useState<string | null>(null)
+  const [micError, setMicError] = useState<string | null>(null)
   const dragCounter = useRef(0)
 
   useEffect(() => {
@@ -78,11 +79,16 @@ const AudioVisualizerPage = () => {
 
   const handleMic = useCallback(async () => {
     if (!sceneRef.current) return
+    setMicError(null)
     try {
       await sceneRef.current.startMic()
       setSourceName('Microphone')
-    } catch {
-      // permission denied or error
+    } catch (err) {
+      const message = err instanceof DOMException && err.name === 'NotAllowedError'
+        ? 'Microphone access denied'
+        : 'Microphone error'
+      setMicError(message)
+      console.error('Microphone access error:', err)
     }
   }, [])
 
@@ -157,7 +163,7 @@ const AudioVisualizerPage = () => {
       onDragLeave={onDragLeave}
       onDrop={onDrop}
     >
-      <div ref={canvasRef} className={styles.canvas} />
+      <div ref={canvasRef} className={styles.canvas} role="img" aria-label="Audio visualization" />
 
       {/* Drag overlay */}
       <div className={clsx(styles.dropOverlay, { [styles.dropActive]: isDragging })}>
@@ -173,6 +179,9 @@ const AudioVisualizerPage = () => {
 
       {/* Source indicator */}
       {sourceName && <div className={styles.sourceIndicator}>{sourceName}</div>}
+
+      {/* Mic error */}
+      {micError && <div className={styles.sourceIndicator} style={{ color: '#ff6b6b' }}>{micError}</div>}
 
       {/* Panel toggle */}
       <button

@@ -42,7 +42,8 @@ interface FBOHandle {
 // ---------------------------------------------------------------------------
 
 function compileShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader {
-  const shader = gl.createShader(type)!
+  const shader = gl.createShader(type)
+  if (!shader) throw new Error('Failed to create shader — WebGL context may be lost')
   gl.shaderSource(shader, source)
   gl.compileShader(shader)
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -54,7 +55,8 @@ function compileShader(gl: WebGLRenderingContext, type: number, source: string):
 }
 
 function createProgram(gl: WebGLRenderingContext, vertSrc: string, fragSrc: string) {
-  const program = gl.createProgram()!
+  const program = gl.createProgram()
+  if (!program) throw new Error('Failed to create program — WebGL context may be lost')
   gl.attachShader(program, compileShader(gl, gl.VERTEX_SHADER, vertSrc))
   gl.attachShader(program, compileShader(gl, gl.FRAGMENT_SHADER, fragSrc))
   gl.linkProgram(program)
@@ -263,6 +265,20 @@ const CLEAR_FRAG = `
 `
 
 // ---------------------------------------------------------------------------
+// Context loss overlay
+// ---------------------------------------------------------------------------
+
+function showContextLostOverlay(container: HTMLElement): HTMLDivElement {
+  const overlay = document.createElement('div')
+  overlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);color:#fff;font:14px/1.5 sans-serif;cursor:pointer;z-index:100'
+  overlay.textContent = 'WebGL context lost — click to reload'
+  overlay.addEventListener('click', () => location.reload())
+  container.style.position = 'relative'
+  container.appendChild(overlay)
+  return overlay
+}
+
+// ---------------------------------------------------------------------------
 // Program wrapper
 // ---------------------------------------------------------------------------
 
@@ -352,6 +368,10 @@ export class FluidSimulation {
     container.appendChild(this.canvas)
 
     this.initGL()
+
+    this.canvas.addEventListener('webglcontextlost', this.handleContextLost)
+    this.canvas.addEventListener('webglcontextrestored', this.handleContextRestored)
+
     this.initPrograms()
     this.initQuad()
     this.initFramebuffers()
@@ -384,11 +404,43 @@ export class FluidSimulation {
     this.disposed = true
     cancelAnimationFrame(this.animationId)
     this.removeListeners()
+    this.canvas.removeEventListener('webglcontextlost', this.handleContextLost)
+    this.canvas.removeEventListener('webglcontextrestored', this.handleContextRestored)
     if (this.resizeObserver) {
       this.resizeObserver.disconnect()
       this.resizeObserver = null
     }
-    this.gl.getExtension('WEBGL_lose_context')?.loseContext()
+
+    // Explicit WebGL resource cleanup
+    const gl = this.gl
+
+    const deleteFBO = (handle: FBOHandle) => {
+      gl.deleteTexture(handle.texture)
+      gl.deleteFramebuffer(handle.fbo)
+    }
+    const deleteDoubleFBO = (dfbo: DoubleFBO) => {
+      deleteFBO(dfbo.read)
+      deleteFBO(dfbo.write)
+    }
+
+    deleteDoubleFBO(this.velocity)
+    deleteDoubleFBO(this.pressure)
+    deleteDoubleFBO(this.dye)
+    deleteFBO(this.divergenceFBO)
+    deleteFBO(this.curlFBO)
+
+    gl.deleteBuffer(this.quadVAO)
+
+    const programs = [
+      this.splatProgram, this.advectionProgram, this.divergenceProgram,
+      this.pressureProgram, this.gradientSubProgram, this.curlProgram,
+      this.vorticityProgram, this.displayProgram, this.clearProgram,
+    ]
+    for (const p of programs) {
+      gl.deleteProgram(p.program)
+    }
+
+    gl.getExtension('WEBGL_lose_context')?.loseContext()
     if (this.canvas.parentElement) {
       this.canvas.parentElement.removeChild(this.canvas)
     }
@@ -806,6 +858,18 @@ export class FluidSimulation {
     this.canvas.removeEventListener('touchstart', this.onTouchStart)
     this.canvas.removeEventListener('touchmove', this.onTouchMove)
     window.removeEventListener('touchend', this.onTouchEnd)
+  }
+
+  // --- Context loss ---
+
+  private handleContextLost = (e: Event) => {
+    e.preventDefault()
+    cancelAnimationFrame(this.animationId)
+    showContextLostOverlay(this.container)
+  }
+
+  private handleContextRestored = () => {
+    location.reload()
   }
 
   // --- Main loop ---

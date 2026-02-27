@@ -78,6 +78,8 @@ const ParticleGalaxyPage = () => {
         ref={canvasRef}
         className={styles.canvas}
         onClick={handleCanvasClick}
+        role="img"
+        aria-label="Particle galaxy simulation"
       />
 
       <div className={clsx(styles.hint, { [styles.hidden]: attractorCount > 0 })}>

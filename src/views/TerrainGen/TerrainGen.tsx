@@ -91,7 +91,7 @@ const TerrainGenPage = () => {
 
   return (
     <div className={styles.page}>
-      <div ref={canvasRef} className={styles.canvas} />
+      <div ref={canvasRef} className={styles.canvas} role="img" aria-label="3D terrain visualization" />
 
       <button
         className={styles.panelToggle}

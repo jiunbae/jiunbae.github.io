@@ -423,6 +423,84 @@ function resolveCollision(m: Manifold) {
 }
 
 // ---------------------------------------------------------------------------
+// Spatial hash grid for broad-phase collision detection
+// ---------------------------------------------------------------------------
+
+class SpatialGrid {
+  private cellSize: number
+  private cols: number
+  private rows: number
+  private grid: Int32Array
+  private counts: Int32Array
+  private cellCapacity: number
+
+  constructor(width: number, height: number, cellSize: number, maxPerCell: number) {
+    this.cellSize = cellSize
+    this.cols = Math.max(1, Math.ceil(width / cellSize))
+    this.rows = Math.max(1, Math.ceil(height / cellSize))
+    this.cellCapacity = maxPerCell
+    const totalCells = this.cols * this.rows
+    this.grid = new Int32Array(totalCells * maxPerCell)
+    this.counts = new Int32Array(totalCells)
+  }
+
+  clear() {
+    this.counts.fill(0)
+  }
+
+  insert(index: number, x: number, y: number) {
+    const col = Math.floor(x / this.cellSize)
+    const row = Math.floor(y / this.cellSize)
+    if (col < 0 || col >= this.cols || row < 0 || row >= this.rows) return
+    const cellIdx = row * this.cols + col
+    const count = this.counts[cellIdx]
+    if (count < this.cellCapacity) {
+      this.grid[cellIdx * this.cellCapacity + count] = index
+      this.counts[cellIdx] = count + 1
+    }
+  }
+
+  query(x: number, y: number, radius: number, callback: (index: number) => void) {
+    const minCol = Math.max(0, Math.floor((x - radius) / this.cellSize))
+    const maxCol = Math.min(this.cols - 1, Math.floor((x + radius) / this.cellSize))
+    const minRow = Math.max(0, Math.floor((y - radius) / this.cellSize))
+    const maxRow = Math.min(this.rows - 1, Math.floor((y + radius) / this.cellSize))
+
+    for (let r = minRow; r <= maxRow; r++) {
+      for (let c = minCol; c <= maxCol; c++) {
+        const cellIdx = r * this.cols + c
+        const count = this.counts[cellIdx]
+        const base = cellIdx * this.cellCapacity
+        for (let i = 0; i < count; i++) {
+          callback(this.grid[base + i])
+        }
+      }
+    }
+  }
+
+  resize(width: number, height: number) {
+    this.cols = Math.max(1, Math.ceil(width / this.cellSize))
+    this.rows = Math.max(1, Math.ceil(height / this.cellSize))
+    const totalCells = this.cols * this.rows
+    this.grid = new Int32Array(totalCells * this.cellCapacity)
+    this.counts = new Int32Array(totalCells)
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Pre-allocated scratch Vec2 for collision inner loop
+// ---------------------------------------------------------------------------
+
+const _scratch: Vec2 = { x: 0, y: 0 }
+
+/** Mutable subtract: writes (a - b) into `out` and returns `out`. */
+function v2subInto(out: Vec2, a: Vec2, b: Vec2): Vec2 {
+  out.x = a.x - b.x
+  out.y = a.y - b.y
+  return out
+}
+
+// ---------------------------------------------------------------------------
 // Engine
 // ---------------------------------------------------------------------------
 
@@ -455,6 +533,13 @@ export class PhysicsEngine {
   // Grid lines spacing
   private readonly GRID_SIZE = 40
 
+  // Spatial grid for broad-phase collision detection
+  private spatialGrid!: SpatialGrid
+  private readonly SPATIAL_CELL_SIZE = 80
+
+  // Body count change callback
+  private bodyCountChangeCallback: ((count: number) => void) | null = null
+
   constructor(private container: HTMLDivElement) {
     this.canvas = document.createElement('canvas')
     this.canvas.style.width = '100%'
@@ -465,6 +550,9 @@ export class PhysicsEngine {
     this.ctx = this.canvas.getContext('2d')!
 
     this.resizeCanvas()
+    const w = this.container.clientWidth
+    const h = this.container.clientHeight
+    this.spatialGrid = new SpatialGrid(w, h, this.SPATIAL_CELL_SIZE, 20)
     this.initListeners()
     this.lastTime = performance.now()
     this.animate()
@@ -490,10 +578,21 @@ export class PhysicsEngine {
     this.bodies = []
     this.springs = []
     this.springAnchor = null
+    this.notifyBodyCountChange()
   }
 
   get bodyCount(): number {
     return this.bodies.length
+  }
+
+  onBodyCountChange(callback: ((count: number) => void) | null) {
+    this.bodyCountChangeCallback = callback
+  }
+
+  private notifyBodyCountChange() {
+    if (this.bodyCountChangeCallback) {
+      this.bodyCountChangeCallback(this.bodies.length)
+    }
   }
 
   dispose() {
@@ -569,6 +668,7 @@ export class PhysicsEngine {
       if (radius > 3) {
         const body = createCircle(this.dragStart.x, this.dragStart.y, radius, this.restitution)
         this.bodies.push(body)
+        this.notifyBodyCountChange()
       }
       this.dragStart = null
     } else if (this.tool === 'box' && this.dragStart) {
@@ -579,6 +679,7 @@ export class PhysicsEngine {
         const cy = (this.mouse.y + this.dragStart.y) * 0.5
         const body = createBox(cx, cy, hw, hh, this.restitution)
         this.bodies.push(body)
+        this.notifyBodyCountChange()
       }
       this.dragStart = null
     } else if (this.tool === 'spring' && this.springAnchor) {
@@ -627,6 +728,7 @@ export class PhysicsEngine {
       const radius = v2len(v2sub(this.mouse, this.dragStart))
       if (radius > 3) {
         this.bodies.push(createCircle(this.dragStart.x, this.dragStart.y, radius, this.restitution))
+        this.notifyBodyCountChange()
       }
       this.dragStart = null
     } else if (this.tool === 'box' && this.dragStart) {
@@ -636,6 +738,7 @@ export class PhysicsEngine {
         const cx = (this.mouse.x + this.dragStart.x) * 0.5
         const cy = (this.mouse.y + this.dragStart.y) * 0.5
         this.bodies.push(createBox(cx, cy, hw, hh, this.restitution))
+        this.notifyBodyCountChange()
       }
       this.dragStart = null
     } else if (this.tool === 'spring' && this.springAnchor) {
@@ -663,7 +766,10 @@ export class PhysicsEngine {
     window.addEventListener('touchend', this.onTouchEnd)
 
     this.resizeObserver = new ResizeObserver(() => {
-      if (!this.disposed) this.resizeCanvas()
+      if (!this.disposed) {
+        this.resizeCanvas()
+        this.spatialGrid.resize(this.container.clientWidth, this.container.clientHeight)
+      }
     })
     this.resizeObserver.observe(this.container)
   }
@@ -748,32 +854,53 @@ export class PhysicsEngine {
       b.vel = v2scale(b.vel, 0.999)
     }
 
-    // Collision detection & response
-    for (let i = 0; i < this.bodies.length; i++) {
-      for (let j = i + 1; j < this.bodies.length; j++) {
-        // Broad phase: bounding sphere check
-        const a = this.bodies[i]
-        const b = this.bodies[j]
-        const distSq = v2lenSq(v2sub(a.pos, b.pos))
+    // Rebuild spatial grid and detect collisions via broad phase
+    const bodies = this.bodies
+    const n = bodies.length
+    this.spatialGrid.clear()
+
+    // Find max radius across all bodies for query range
+    let maxRadius = 0
+    for (let i = 0; i < n; i++) {
+      if (bodies[i].radius > maxRadius) maxRadius = bodies[i].radius
+      this.spatialGrid.insert(i, bodies[i].pos.x, bodies[i].pos.y)
+    }
+
+    // Query radius: each body needs to find neighbors within (its radius + maxRadius)
+    // We use maxRadius * 2 as the query range to cover the worst case pair
+    const queryRange = maxRadius * 2 * 1.1 // 1.1 factor matches the old 1.2 on squared distance
+
+    for (let i = 0; i < n; i++) {
+      const a = bodies[i]
+      this.spatialGrid.query(a.pos.x, a.pos.y, queryRange, (j: number) => {
+        if (j <= i) return // avoid duplicate pairs and self
+        const b = bodies[j]
+        // Narrow broad phase: bounding sphere check with pre-allocated scratch
+        v2subInto(_scratch, a.pos, b.pos)
+        const distSq = _scratch.x * _scratch.x + _scratch.y * _scratch.y
         const sumR = a.radius + b.radius
-        if (distSq > sumR * sumR * 1.2) continue
+        if (distSq > sumR * sumR * 1.2) return
 
         const manifold = detectCollision(a, b)
         if (manifold) {
           resolveCollision(manifold)
         }
-      }
+      })
     }
 
     // Wall collisions
-    for (const b of this.bodies) {
+    for (const b of bodies) {
       this.resolveWall(b, w, h)
     }
 
     // Remove bodies that fell far off-screen
+    const prevCount = this.bodies.length
     this.bodies = this.bodies.filter(b =>
       b.pos.y < h + 500 && b.pos.y > -500 && b.pos.x > -500 && b.pos.x < w + 500
     )
+    if (this.bodies.length !== prevCount) {
+      this.notifyBodyCountChange()
+    }
 
     // Remove springs whose bodies no longer exist
     const bodySet = new Set(this.bodies)

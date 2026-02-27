@@ -12,7 +12,14 @@ const playground: PlaygroundItem[] = [
     slug: '/cyber-flowers/',
     title: '사이버 꽃꽂이',
     description: 'Interactive 3D cyber flower arrangement with neon, holographic, and retro-futuristic styles',
-    gradient: 'linear-gradient(135deg, #0a0a0a 0%, #001a1a 30%, #1a002a 70%, #0a0a0a 100%)',
+    gradient: [
+      'radial-gradient(circle at 50% 60%, rgba(0,255,255,0.35) 0%, transparent 40%)',
+      'radial-gradient(circle at 30% 40%, rgba(255,0,200,0.3) 0%, transparent 30%)',
+      'radial-gradient(circle at 70% 35%, rgba(0,255,150,0.25) 0%, transparent 25%)',
+      'radial-gradient(circle at 55% 75%, rgba(150,0,255,0.2) 0%, transparent 20%)',
+      'radial-gradient(circle at 40% 55%, rgba(0,200,255,0.15) 0%, transparent 35%)',
+      'linear-gradient(180deg, #050510 0%, #0a0a1a 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['Three.js', '3D', 'Interactive']
   },
@@ -20,7 +27,18 @@ const playground: PlaygroundItem[] = [
     slug: '/particle-galaxy/',
     title: 'Particle Galaxy',
     description: '100K+ GPU particles forming spiral galaxies — click to create gravitational wells, zoom through space',
-    gradient: 'linear-gradient(135deg, #0a001a 0%, #1a0033 30%, #000d1a 70%, #0a0a2e 100%)',
+    gradient: [
+      'radial-gradient(1px 1px at 20% 30%, #fff 50%, transparent 100%)',
+      'radial-gradient(1px 1px at 60% 20%, #aad 50%, transparent 100%)',
+      'radial-gradient(1px 1px at 80% 60%, #fff 50%, transparent 100%)',
+      'radial-gradient(1px 1px at 35% 70%, #ccf 50%, transparent 100%)',
+      'radial-gradient(1px 1px at 90% 40%, #fff 50%, transparent 100%)',
+      'radial-gradient(1px 1px at 15% 85%, #ddf 50%, transparent 100%)',
+      'radial-gradient(1px 1px at 50% 50%, #aaf 50%, transparent 100%)',
+      'radial-gradient(circle at 45% 50%, rgba(100,120,255,0.3) 0%, transparent 50%)',
+      'radial-gradient(ellipse at 55% 45%, rgba(180,140,255,0.15) 0%, transparent 60%)',
+      'linear-gradient(180deg, #020010 0%, #0a0520 50%, #050015 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['Three.js', 'GPU', 'Simulation']
   },
@@ -28,7 +46,12 @@ const playground: PlaygroundItem[] = [
     slug: '/audio-visualizer/',
     title: 'Audio Visualizer',
     description: 'Real-time 3D audio visualization — drop music or use your mic, watch sound come alive',
-    gradient: 'linear-gradient(135deg, #1a0000 0%, #330011 30%, #1a0033 70%, #0a001a 100%)',
+    gradient: [
+      'repeating-linear-gradient(90deg, transparent 0px, transparent 6px, rgba(255,50,100,0.4) 6px, rgba(255,50,100,0.4) 8px, transparent 8px, transparent 14px)',
+      'repeating-linear-gradient(90deg, transparent 0px, transparent 20px, rgba(100,50,255,0.3) 20px, rgba(100,50,255,0.3) 22px, transparent 22px, transparent 40px)',
+      'linear-gradient(0deg, rgba(255,0,100,0.5) 0%, rgba(100,0,255,0.3) 40%, transparent 70%)',
+      'linear-gradient(180deg, #0a0010 0%, #150020 50%, #0a0015 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['Web Audio', 'Three.js', 'Real-time']
   },
@@ -36,7 +59,13 @@ const playground: PlaygroundItem[] = [
     slug: '/fluid-sim/',
     title: 'Fluid Simulation',
     description: 'GPU-accelerated fluid dynamics — paint with colorful ink, watch vortices and smoke swirl',
-    gradient: 'linear-gradient(135deg, #001a0d 0%, #00331a 30%, #001a33 70%, #0a0a1a 100%)',
+    gradient: [
+      'radial-gradient(ellipse at 30% 40%, rgba(0,180,255,0.5) 0%, transparent 50%)',
+      'radial-gradient(ellipse at 65% 55%, rgba(255,0,150,0.4) 0%, transparent 45%)',
+      'radial-gradient(ellipse at 50% 70%, rgba(0,255,100,0.3) 0%, transparent 40%)',
+      'radial-gradient(ellipse at 75% 30%, rgba(255,200,0,0.25) 0%, transparent 35%)',
+      'linear-gradient(180deg, #050510 0%, #0a0a18 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['WebGL', 'GPU', 'Physics']
   },
@@ -44,7 +73,12 @@ const playground: PlaygroundItem[] = [
     slug: '/generative-art/',
     title: 'Generative Art Studio',
     description: 'Algorithmic art generator — flow fields, fractals, circle packing. Every click is unique',
-    gradient: 'linear-gradient(135deg, #1a1a00 0%, #332200 30%, #1a0022 70%, #001a1a 100%)',
+    gradient: [
+      'conic-gradient(from 45deg at 30% 40%, rgba(255,100,50,0.3), rgba(50,200,100,0.3), rgba(50,100,255,0.3), rgba(200,50,200,0.3), rgba(255,100,50,0.3))',
+      'radial-gradient(circle at 70% 60%, rgba(255,200,50,0.2) 0%, transparent 40%)',
+      'repeating-linear-gradient(60deg, transparent 0px, transparent 30px, rgba(255,255,255,0.03) 30px, rgba(255,255,255,0.03) 31px)',
+      'linear-gradient(135deg, #0f0a15 0%, #150a10 50%, #0a1015 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['Canvas', 'Algorithm', 'Generative']
   },
@@ -52,7 +86,12 @@ const playground: PlaygroundItem[] = [
     slug: '/raymarching/',
     title: 'Raymarching Worlds',
     description: 'GPU raymarched alien landscapes — fly through procedural planets, crystals, and fractal terrains',
-    gradient: 'linear-gradient(135deg, #0d001a 0%, #1a0d33 30%, #330d1a 70%, #1a0000 100%)',
+    gradient: [
+      'radial-gradient(circle at 50% 50%, rgba(200,100,255,0.5) 0%, rgba(100,50,200,0.3) 25%, transparent 50%)',
+      'radial-gradient(circle at 50% 50%, rgba(255,150,100,0.15) 20%, transparent 45%)',
+      'linear-gradient(0deg, rgba(80,40,120,0.6) 0%, transparent 40%)',
+      'linear-gradient(180deg, #08050f 0%, #120a1a 50%, #0a0510 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['WebGL', 'GLSL', 'Raymarching']
   },
@@ -60,7 +99,13 @@ const playground: PlaygroundItem[] = [
     slug: '/physics-sandbox/',
     title: 'Physics Sandbox',
     description: '2D physics playground — spawn shapes, watch them collide, connect springs, trigger explosions',
-    gradient: 'linear-gradient(135deg, #1a1a0a 0%, #33220a 30%, #1a330a 70%, #0a1a0a 100%)',
+    gradient: [
+      'radial-gradient(circle at 25% 65%, rgba(255,180,50,0.4) 0%, rgba(255,180,50,0.4) 12px, transparent 13px)',
+      'radial-gradient(circle at 60% 40%, rgba(50,180,255,0.35) 0%, rgba(50,180,255,0.35) 18px, transparent 19px)',
+      'radial-gradient(circle at 75% 70%, rgba(255,80,80,0.3) 0%, rgba(255,80,80,0.3) 10px, transparent 11px)',
+      'radial-gradient(circle at 40% 30%, rgba(80,255,150,0.3) 0%, rgba(80,255,150,0.3) 15px, transparent 16px)',
+      'linear-gradient(180deg, #0a0f15 0%, #0f1520 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['Canvas', 'Physics', 'Interactive']
   },
@@ -68,7 +113,11 @@ const playground: PlaygroundItem[] = [
     slug: '/shader-art/',
     title: 'Shader Art Gallery',
     description: 'Mesmerizing GLSL shader art — plasma, kaleidoscopes, metaballs, fractals. Move your mouse to interact',
-    gradient: 'linear-gradient(135deg, #1a000d 0%, #33001a 30%, #0d0033 70%, #001a1a 100%)',
+    gradient: [
+      'conic-gradient(from 0deg at 50% 50%, #ff006640, #00ff8840, #0066ff40, #ff00ff40, #ffaa0040, #00ffff40, #ff006640)',
+      'radial-gradient(circle at 50% 50%, transparent 30%, rgba(0,0,0,0.5) 70%)',
+      'linear-gradient(180deg, #0a0510 0%, #100818 50%, #050510 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['WebGL', 'GLSL', 'Art']
   },
@@ -76,7 +125,11 @@ const playground: PlaygroundItem[] = [
     slug: '/terrain-gen/',
     title: 'Terrain Generator',
     description: 'Procedural 3D terrain with hydraulic erosion — adjust parameters, watch rivers form, fly through',
-    gradient: 'linear-gradient(135deg, #0a1a0a 0%, #1a330d 30%, #0d1a00 70%, #001a0d 100%)',
+    gradient: [
+      'linear-gradient(180deg, transparent 0%, transparent 30%, rgba(60,120,60,0.15) 30%, rgba(60,120,60,0.3) 50%, rgba(80,140,80,0.4) 65%, rgba(60,100,60,0.5) 80%, rgba(40,80,40,0.6) 100%)',
+      'linear-gradient(100deg, transparent 0%, transparent 20%, rgba(100,160,100,0.1) 25%, transparent 30%, transparent 45%, rgba(80,140,80,0.15) 50%, transparent 55%, transparent 70%, rgba(100,160,100,0.1) 75%, transparent 80%)',
+      'linear-gradient(180deg, #0a1520 0%, #0f1a15 40%, #0a150a 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['Three.js', 'Procedural', 'Terrain']
   },
@@ -84,7 +137,12 @@ const playground: PlaygroundItem[] = [
     slug: '/mandelbrot/',
     title: 'Mandelbrot Explorer',
     description: 'Deep-zoom into the infinite fractal — smooth coloring, click to zoom, explore the boundary',
-    gradient: 'linear-gradient(135deg, #00001a 0%, #000d33 30%, #1a001a 70%, #0a000a 100%)',
+    gradient: [
+      'radial-gradient(circle at 40% 50%, #000 0%, #000 15%, rgba(0,30,80,0.8) 20%, rgba(0,80,200,0.6) 25%, rgba(0,150,255,0.4) 30%, rgba(100,200,255,0.2) 35%, transparent 45%)',
+      'radial-gradient(circle at 40% 50%, rgba(255,200,50,0.15) 10%, transparent 20%)',
+      'conic-gradient(from 180deg at 40% 50%, rgba(0,50,150,0.2), rgba(100,0,150,0.2), rgba(0,100,200,0.2), rgba(0,50,150,0.2))',
+      'linear-gradient(180deg, #000510 0%, #000a1a 50%, #000510 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['WebGL', 'GLSL', 'Fractal']
   },
@@ -92,34 +150,23 @@ const playground: PlaygroundItem[] = [
     slug: '/boids/',
     title: 'Boids Flocking',
     description: 'Emergent swarm behavior — thousands of agents follow simple rules to create mesmerizing flocks',
-    gradient: 'linear-gradient(135deg, #0a0a1a 0%, #0d1a33 30%, #001a2e 70%, #0a0d1a 100%)',
+    gradient: [
+      'radial-gradient(2px 2px at 30% 35%, rgba(100,200,255,0.8) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 35% 40%, rgba(80,180,255,0.7) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 33% 45%, rgba(120,200,255,0.6) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 40% 38%, rgba(100,210,255,0.7) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 38% 50%, rgba(90,190,255,0.6) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 45% 42%, rgba(110,200,255,0.5) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 42% 55%, rgba(80,180,255,0.5) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 55% 48%, rgba(100,200,255,0.4) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 60% 55%, rgba(120,210,255,0.4) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 65% 50%, rgba(100,200,255,0.3) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 70% 58%, rgba(80,190,255,0.3) 50%, transparent 100%)',
+      'linear-gradient(180deg, #050a15 0%, #0a1020 50%, #050810 100%)'
+    ].join(', '),
     date: '2026-02-22',
     tags: ['Canvas', 'Simulation', 'Emergent']
   },
-  {
-    slug: '/cellular-automata/',
-    title: 'Cellular Automata Lab',
-    description: 'Conway-style automata playground — draw cells, switch rules, and watch complex life emerge',
-    gradient: 'linear-gradient(135deg, #04101f 0%, #0b2245 30%, #112a38 70%, #060b1c 100%)',
-    date: '2026-02-22',
-    tags: ['Canvas', 'Simulation', 'Automata']
-  },
-  {
-    slug: '/wave-interference/',
-    title: 'Wave Interference',
-    description: 'Interactive wave-field simulation — place sources and sculpt standing patterns in real time',
-    gradient: 'linear-gradient(135deg, #220a1c 0%, #4a1630 30%, #1f0d2a 70%, #120710 100%)',
-    date: '2026-02-22',
-    tags: ['Canvas', 'Physics', 'Waves']
-  },
-  {
-    slug: '/sorting-lab/',
-    title: 'Sorting Lab',
-    description: 'Sorting algorithm visualizer — compare quick, bubble, selection, and insertion dynamics',
-    gradient: 'linear-gradient(135deg, #05201f 0%, #0b3a3d 30%, #0b223a 70%, #041319 100%)',
-    date: '2026-02-22',
-    tags: ['Canvas', 'Algorithm', 'Visualization']
-  }
 ]
 
 export default playground

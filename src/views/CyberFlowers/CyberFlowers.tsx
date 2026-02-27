@@ -104,6 +104,8 @@ const CyberFlowersPage = () => {
         ref={canvasRef}
         className={styles.canvas}
         onClick={handleCanvasClick}
+        role="img"
+        aria-label="3D cyber flower garden"
       />
 
       <div className={clsx(styles.hint, { [styles.hidden]: flowerCount > 0 })}>

@@ -61,7 +61,7 @@ const RaymarchingPage = () => {
 
   return (
     <div className={styles.page}>
-      <div ref={canvasRef} className={styles.canvas} />
+      <div ref={canvasRef} className={styles.canvas} role="img" aria-label="Raymarched 3D scene" />
 
       <div className={styles.hint}>
         Move mouse to look around

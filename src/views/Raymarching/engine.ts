@@ -6,7 +6,8 @@
 // ── Shader helpers ──────────────────────────────────────────────────
 
 function compileShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader {
-  const shader = gl.createShader(type)!
+  const shader = gl.createShader(type)
+  if (!shader) throw new Error('Failed to create shader — WebGL context may be lost')
   gl.shaderSource(shader, source)
   gl.compileShader(shader)
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -18,7 +19,8 @@ function compileShader(gl: WebGLRenderingContext, type: number, source: string):
 }
 
 function createProgram(gl: WebGLRenderingContext, vertSrc: string, fragSrc: string): WebGLProgram {
-  const program = gl.createProgram()!
+  const program = gl.createProgram()
+  if (!program) throw new Error('Failed to create program — WebGL context may be lost')
   gl.attachShader(program, compileShader(gl, gl.VERTEX_SHADER, vertSrc))
   gl.attachShader(program, compileShader(gl, gl.FRAGMENT_SHADER, fragSrc))
   gl.linkProgram(program)
@@ -512,6 +514,18 @@ const SCENE_NAMES = [
   'Abstract Geometry'
 ]
 
+// ── Context loss overlay ─────────────────────────────────────────────
+
+function showContextLostOverlay(container: HTMLElement): HTMLDivElement {
+  const overlay = document.createElement('div')
+  overlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);color:#fff;font:14px/1.5 sans-serif;cursor:pointer;z-index:100'
+  overlay.textContent = 'WebGL context lost — click to reload'
+  overlay.addEventListener('click', () => location.reload())
+  container.style.position = 'relative'
+  container.appendChild(overlay)
+  return overlay
+}
+
 // ── Engine ──────────────────────────────────────────────────────────
 
 export class RaymarchEngine {
@@ -549,6 +563,9 @@ export class RaymarchEngine {
     })
     if (!gl) throw new Error('WebGL not supported')
     this.gl = gl
+
+    this.canvas.addEventListener('webglcontextlost', this.handleContextLost)
+    this.canvas.addEventListener('webglcontextrestored', this.handleContextRestored)
 
     this.program = createProgram(gl, VERT_SRC, FRAG_SRC)
     gl.useProgram(this.program)
@@ -605,6 +622,8 @@ export class RaymarchEngine {
     window.removeEventListener('resize', this.handleResize)
     this.canvas.removeEventListener('mousemove', this.handleMouseMove)
     this.canvas.removeEventListener('touchmove', this.handleTouchMove)
+    this.canvas.removeEventListener('webglcontextlost', this.handleContextLost)
+    this.canvas.removeEventListener('webglcontextrestored', this.handleContextRestored)
     this.gl.getExtension('WEBGL_lose_context')?.loseContext()
     if (this.canvas.parentElement) {
       this.canvas.parentElement.removeChild(this.canvas)
@@ -638,6 +657,16 @@ export class RaymarchEngine {
     const rect = this.canvas.getBoundingClientRect()
     this.mouseX = (touch.clientX - rect.left) / rect.width
     this.mouseY = 1.0 - (touch.clientY - rect.top) / rect.height
+  }
+
+  private handleContextLost = (e: Event) => {
+    e.preventDefault()
+    cancelAnimationFrame(this.animationId)
+    showContextLostOverlay(this.container)
+  }
+
+  private handleContextRestored = () => {
+    location.reload()
   }
 
   private animate = () => {

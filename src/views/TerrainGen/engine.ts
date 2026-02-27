@@ -84,52 +84,41 @@ class SimplexNoise2D {
 
 // ── Biome color palette ─────────────────────────────────────────────
 
+// Pre-allocated Color instance reused by getBiomeColor (H-3 fix: avoids 65K allocations per rebuild)
+const _biomeColor = new THREE.Color()
+
 function getBiomeColor(height: number, moisture: number): THREE.Color {
   // height: 0..1 normalized, moisture: 0..1
 
   if (height < 0.28) {
-    // Deep water
-    return new THREE.Color(0.05, 0.1, 0.35)
+    return _biomeColor.setRGB(0.05, 0.1, 0.35)
   }
   if (height < 0.35) {
-    // Shallow water
     const t = (height - 0.28) / 0.07
-    return new THREE.Color(0.1 + t * 0.15, 0.25 + t * 0.15, 0.5 + t * 0.1)
+    return _biomeColor.setRGB(0.1 + t * 0.15, 0.25 + t * 0.15, 0.5 + t * 0.1)
   }
   if (height < 0.38) {
-    // Beach / sand
-    return new THREE.Color(0.76, 0.7, 0.5)
+    return _biomeColor.setRGB(0.76, 0.7, 0.5)
   }
   if (height < 0.55) {
-    // Grass / forest depending on moisture
     if (moisture > 0.5) {
-      // Dense forest
-      return new THREE.Color(0.1, 0.3, 0.08)
+      return _biomeColor.setRGB(0.1, 0.3, 0.08)
     }
-    // Grassland
-    return new THREE.Color(0.25, 0.5, 0.15)
+    return _biomeColor.setRGB(0.25, 0.5, 0.15)
   }
   if (height < 0.7) {
-    // Forest / dark green
     if (moisture > 0.4) {
-      return new THREE.Color(0.08, 0.25, 0.06)
+      return _biomeColor.setRGB(0.08, 0.25, 0.06)
     }
-    // Transition to rock
     const t = (height - 0.55) / 0.15
-    return new THREE.Color(
-      0.25 + t * 0.2,
-      0.5 - t * 0.25,
-      0.15 - t * 0.05
-    )
+    return _biomeColor.setRGB(0.25 + t * 0.2, 0.5 - t * 0.25, 0.15 - t * 0.05)
   }
   if (height < 0.85) {
-    // Rock / gray
     const t = (height - 0.7) / 0.15
-    return new THREE.Color(0.4 + t * 0.1, 0.38 + t * 0.1, 0.35 + t * 0.1)
+    return _biomeColor.setRGB(0.4 + t * 0.1, 0.38 + t * 0.1, 0.35 + t * 0.1)
   }
-  // Snow
   const t = Math.min((height - 0.85) / 0.15, 1.0)
-  return new THREE.Color(0.7 + t * 0.2, 0.72 + t * 0.2, 0.78 + t * 0.17)
+  return _biomeColor.setRGB(0.7 + t * 0.2, 0.72 + t * 0.2, 0.78 + t * 0.17)
 }
 
 // ── Terrain Engine ──────────────────────────────────────────────────
@@ -166,6 +155,9 @@ export class TerrainEngine {
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
     container.appendChild(this.renderer.domElement)
+
+    this.renderer.domElement.addEventListener('webglcontextlost', this.handleContextLost)
+    this.renderer.domElement.addEventListener('webglcontextrestored', this.handleContextRestored)
 
     // Scene
     this.scene = new THREE.Scene()
@@ -287,6 +279,8 @@ export class TerrainEngine {
       }
     })
 
+    this.renderer.domElement.removeEventListener('webglcontextlost', this.handleContextLost)
+    this.renderer.domElement.removeEventListener('webglcontextrestored', this.handleContextRestored)
     this.renderer.dispose()
     if (this.renderer.domElement.parentElement) {
       this.renderer.domElement.parentElement.removeChild(this.renderer.domElement)
@@ -595,6 +589,21 @@ export class TerrainEngine {
     this.camera.aspect = w / h
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(w, h)
+  }
+
+  private handleContextLost = (e: Event) => {
+    e.preventDefault()
+    cancelAnimationFrame(this.animId)
+    const overlay = document.createElement('div')
+    overlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);color:#fff;font:14px/1.5 sans-serif;cursor:pointer;z-index:100'
+    overlay.textContent = 'WebGL context lost — click to reload'
+    overlay.addEventListener('click', () => location.reload())
+    this.container.style.position = 'relative'
+    this.container.appendChild(overlay)
+  }
+
+  private handleContextRestored = () => {
+    location.reload()
   }
 
   private animate = () => {

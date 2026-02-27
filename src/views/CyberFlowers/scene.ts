@@ -29,6 +29,7 @@ export class CyberFlowerScene {
   private clock = new THREE.Clock()
   private animationId = 0
   private disposed = false
+  private timedShaderMaterials: THREE.ShaderMaterial[] = []
 
   flowerStyle: FlowerStyle = 'neon'
   accentColor = '#00ffff'
@@ -93,6 +94,9 @@ export class CyberFlowerScene {
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping
     this.renderer.toneMappingExposure = 1.2
     this.container.appendChild(this.renderer.domElement)
+
+    this.renderer.domElement.addEventListener('webglcontextlost', this.handleContextLost)
+    this.renderer.domElement.addEventListener('webglcontextrestored', this.handleContextRestored)
 
     // Scene
     this.scene = new THREE.Scene()
@@ -187,6 +191,7 @@ export class CyberFlowerScene {
     grid.rotation.x = -Math.PI / 2
     grid.position.y = -0.01
     this.scene.add(grid)
+    this.timedShaderMaterials.push(gridMat)
 
     // Invisible ground for raycasting
     const groundGeo = new THREE.PlaneGeometry(gridSize, gridSize)
@@ -282,6 +287,15 @@ export class CyberFlowerScene {
     flower.position.copy(point)
     flower.position.y = 0
     this.scene.add(flower)
+
+    // Register shader materials with uTime for cached updates (H-2 fix)
+    flower.traverse(child => {
+      if (child instanceof THREE.Mesh && child.material instanceof THREE.ShaderMaterial) {
+        if (child.material.uniforms.uTime) {
+          this.timedShaderMaterials.push(child.material)
+        }
+      }
+    })
 
     this.flowers.push({
       group: flower,
@@ -593,6 +607,23 @@ export class CyberFlowerScene {
       })
     }
     this.flowers = []
+    // Remove flower shader materials from cache (keep grid material at index 0)
+    this.timedShaderMaterials = this.timedShaderMaterials.slice(0, 1)
+  }
+
+  private handleContextLost = (e: Event) => {
+    e.preventDefault()
+    cancelAnimationFrame(this.animationId)
+    const overlay = document.createElement('div')
+    overlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);color:#fff;font:14px/1.5 sans-serif;cursor:pointer;z-index:100'
+    overlay.textContent = 'WebGL context lost — click to reload'
+    overlay.addEventListener('click', () => location.reload())
+    this.container.style.position = 'relative'
+    this.container.appendChild(overlay)
+  }
+
+  private handleContextRestored = () => {
+    location.reload()
   }
 
   private animate = () => {
@@ -604,14 +635,10 @@ export class CyberFlowerScene {
     // Update controls
     this.controls.update()
 
-    // Update grid shader time
-    this.scene.traverse(child => {
-      if (child instanceof THREE.Mesh && child.material instanceof THREE.ShaderMaterial) {
-        if (child.material.uniforms.uTime) {
-          child.material.uniforms.uTime.value = elapsed
-        }
-      }
-    })
+    // Update all cached shader materials with uTime (H-2 fix: O(n) flat array instead of scene.traverse)
+    for (const mat of this.timedShaderMaterials) {
+      mat.uniforms.uTime.value = elapsed
+    }
 
     // Update particle shader
     if (this.particles) {
@@ -662,6 +689,8 @@ export class CyberFlowerScene {
         }
       }
     })
+    this.renderer.domElement.removeEventListener('webglcontextlost', this.handleContextLost)
+    this.renderer.domElement.removeEventListener('webglcontextrestored', this.handleContextRestored)
     this.renderer.dispose()
     this.composer.dispose()
     if (this.renderer.domElement.parentElement) {

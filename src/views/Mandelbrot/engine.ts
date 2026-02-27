@@ -13,7 +13,8 @@
 // ---------------------------------------------------------------------------
 
 function compileShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader {
-  const shader = gl.createShader(type)!
+  const shader = gl.createShader(type)
+  if (!shader) throw new Error('Failed to create shader — WebGL context may be lost')
   gl.shaderSource(shader, source)
   gl.compileShader(shader)
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -25,7 +26,8 @@ function compileShader(gl: WebGLRenderingContext, type: number, source: string):
 }
 
 function createProgram(gl: WebGLRenderingContext, vertSrc: string, fragSrc: string): WebGLProgram {
-  const program = gl.createProgram()!
+  const program = gl.createProgram()
+  if (!program) throw new Error('Failed to create program — WebGL context may be lost')
   gl.attachShader(program, compileShader(gl, gl.VERTEX_SHADER, vertSrc))
   gl.attachShader(program, compileShader(gl, gl.FRAGMENT_SHADER, fragSrc))
   gl.bindAttribLocation(program, 0, 'aPosition')
@@ -34,6 +36,17 @@ function createProgram(gl: WebGLRenderingContext, vertSrc: string, fragSrc: stri
     throw new Error(`Program link error: ${gl.getProgramInfoLog(program)}`)
   }
   return program
+}
+
+/** Show a context-lost overlay on the container */
+function showContextLostOverlay(container: HTMLElement): HTMLDivElement {
+  const overlay = document.createElement('div')
+  overlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);color:#fff;font:14px/1.5 sans-serif;cursor:pointer;z-index:100'
+  overlay.textContent = 'WebGL context lost — click to reload'
+  overlay.addEventListener('click', () => location.reload())
+  container.style.position = 'relative'
+  container.appendChild(overlay)
+  return overlay
 }
 
 // ---------------------------------------------------------------------------
@@ -266,6 +279,9 @@ export class MandelbrotEngine {
   private disposed = false
   private resizeObserver: ResizeObserver | null = null
 
+  // Callback for view changes (H-7 fix: replaces rAF polling in React)
+  onViewChange: ((cx: number, cy: number, zoom: number) => void) | null = null
+
   constructor(private container: HTMLDivElement) {
     this.canvas = document.createElement('canvas')
     this.canvas.style.width = '100%'
@@ -299,9 +315,24 @@ export class MandelbrotEngine {
     gl.bindBuffer(gl.ARRAY_BUFFER, this.quadBuffer)
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW)
 
+    // C-1 fix: WebGL context loss handling
+    this.canvas.addEventListener('webglcontextlost', this.handleContextLost)
+    this.canvas.addEventListener('webglcontextrestored', this.handleContextRestored)
+
     this.resizeCanvas()
     this.initListeners()
     this.animate()
+  }
+
+  private handleContextLost = (e: Event) => {
+    e.preventDefault()
+    cancelAnimationFrame(this.animationId)
+    showContextLostOverlay(this.container)
+  }
+
+  private handleContextRestored = () => {
+    // Context restored — reload page for clean state
+    location.reload()
   }
 
   // --- Public API ---
@@ -373,11 +404,17 @@ export class MandelbrotEngine {
     this.disposed = true
     cancelAnimationFrame(this.animationId)
     this.removeListeners()
+    this.canvas.removeEventListener('webglcontextlost', this.handleContextLost)
+    this.canvas.removeEventListener('webglcontextrestored', this.handleContextRestored)
     if (this.resizeObserver) {
       this.resizeObserver.disconnect()
       this.resizeObserver = null
     }
-    this.gl.getExtension('WEBGL_lose_context')?.loseContext()
+    // Explicit WebGL resource cleanup
+    const gl = this.gl
+    gl.deleteProgram(this.program)
+    gl.deleteBuffer(this.quadBuffer)
+    gl.getExtension('WEBGL_lose_context')?.loseContext()
     if (this.canvas.parentElement) {
       this.canvas.parentElement.removeChild(this.canvas)
     }
@@ -552,6 +589,7 @@ export class MandelbrotEngine {
     if (this.needsRender) {
       this.needsRender = false
       this.render()
+      this.onViewChange?.(this._centerX, this._centerY, this._zoom)
     }
   }
 }

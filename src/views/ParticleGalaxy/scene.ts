@@ -215,6 +215,9 @@ export class ParticleGalaxyScene {
     this.renderer.toneMappingExposure = 1.0
     this.container.appendChild(this.renderer.domElement)
 
+    this.renderer.domElement.addEventListener('webglcontextlost', this.handleContextLost)
+    this.renderer.domElement.addEventListener('webglcontextrestored', this.handleContextRestored)
+
     // Scene
     this.scene = new THREE.Scene()
     this.scene.background = new THREE.Color(0x050510)
@@ -392,6 +395,21 @@ export class ParticleGalaxyScene {
 
   /* ---- animation loop ---- */
 
+  private handleContextLost = (e: Event) => {
+    e.preventDefault()
+    cancelAnimationFrame(this.animationId)
+    const overlay = document.createElement('div')
+    overlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);color:#fff;font:14px/1.5 sans-serif;cursor:pointer;z-index:100'
+    overlay.textContent = 'WebGL context lost — click to reload'
+    overlay.addEventListener('click', () => location.reload())
+    this.container.style.position = 'relative'
+    this.container.appendChild(overlay)
+  }
+
+  private handleContextRestored = () => {
+    location.reload()
+  }
+
   private animate = () => {
     if (this.disposed) return
     this.animationId = requestAnimationFrame(this.animate)
@@ -441,6 +459,8 @@ export class ParticleGalaxyScene {
       }
     })
 
+    this.renderer.domElement.removeEventListener('webglcontextlost', this.handleContextLost)
+    this.renderer.domElement.removeEventListener('webglcontextrestored', this.handleContextRestored)
     this.renderer.dispose()
     this.composer.dispose()
     if (this.renderer.domElement.parentElement) {

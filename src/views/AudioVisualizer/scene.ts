@@ -82,6 +82,9 @@ export class AudioVisualizerScene {
     this.renderer.toneMappingExposure = 1.0
     this.container.appendChild(this.renderer.domElement)
 
+    this.renderer.domElement.addEventListener('webglcontextlost', this.handleContextLost)
+    this.renderer.domElement.addEventListener('webglcontextrestored', this.handleContextRestored)
+
     // Scene
     this.scene = new THREE.Scene()
     this.scene.background = new THREE.Color(0x080810)
@@ -121,6 +124,7 @@ export class AudioVisualizerScene {
   // --- Audio setup ---
 
   private ensureAudioContext() {
+    if (this.disposed) return
     if (!this.audioContext || this.audioContext.state === 'closed') {
       this.audioContext = new AudioContext()
     }
@@ -132,6 +136,7 @@ export class AudioVisualizerScene {
 
   private setupAnalyser(source: AudioNode) {
     const ctx = this.ensureAudioContext()
+    if (!ctx) return
     this.analyser = ctx.createAnalyser()
     this.analyser.fftSize = 2048
     this.analyser.smoothingTimeConstant = 0.8
@@ -145,6 +150,7 @@ export class AudioVisualizerScene {
   async loadAudioFile(file: File) {
     this.stopAudio()
     const ctx = this.ensureAudioContext()
+    if (!ctx) return
     const arrayBuffer = await file.arrayBuffer()
     const audioBuffer = await ctx.decodeAudioData(arrayBuffer)
 
@@ -164,6 +170,7 @@ export class AudioVisualizerScene {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       this.mediaStream = stream
       const ctx = this.ensureAudioContext()
+      if (!ctx) return
       const source = ctx.createMediaStreamSource(stream)
       this.sourceNode = source
 
@@ -447,6 +454,21 @@ export class AudioVisualizerScene {
 
   // --- Animation loop ---
 
+  private handleContextLost = (e: Event) => {
+    e.preventDefault()
+    cancelAnimationFrame(this.animationId)
+    const overlay = document.createElement('div')
+    overlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);color:#fff;font:14px/1.5 sans-serif;cursor:pointer;z-index:100'
+    overlay.textContent = 'WebGL context lost — click to reload'
+    overlay.addEventListener('click', () => location.reload())
+    this.container.style.position = 'relative'
+    this.container.appendChild(overlay)
+  }
+
+  private handleContextRestored = () => {
+    location.reload()
+  }
+
   private animate = () => {
     if (this.disposed) return
     this.animationId = requestAnimationFrame(this.animate)
@@ -543,6 +565,8 @@ export class AudioVisualizerScene {
         }
       }
     })
+    this.renderer.domElement.removeEventListener('webglcontextlost', this.handleContextLost)
+    this.renderer.domElement.removeEventListener('webglcontextrestored', this.handleContextRestored)
     this.renderer.dispose()
     this.composer.dispose()
     if (this.renderer.domElement.parentElement) {

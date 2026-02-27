@@ -11,7 +11,8 @@
 // ---------------------------------------------------------------------------
 
 function compileShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader {
-  const shader = gl.createShader(type)!
+  const shader = gl.createShader(type)
+  if (!shader) throw new Error('Failed to create shader — WebGL context may be lost')
   gl.shaderSource(shader, source)
   gl.compileShader(shader)
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -23,7 +24,8 @@ function compileShader(gl: WebGLRenderingContext, type: number, source: string):
 }
 
 function createProgram(gl: WebGLRenderingContext, vertSrc: string, fragSrc: string): WebGLProgram {
-  const program = gl.createProgram()!
+  const program = gl.createProgram()
+  if (!program) throw new Error('Failed to create program — WebGL context may be lost')
   gl.attachShader(program, compileShader(gl, gl.VERTEX_SHADER, vertSrc))
   gl.attachShader(program, compileShader(gl, gl.FRAGMENT_SHADER, fragSrc))
   gl.linkProgram(program)
@@ -558,6 +560,20 @@ void main() {
 ]
 
 // ---------------------------------------------------------------------------
+// Context loss overlay
+// ---------------------------------------------------------------------------
+
+function showContextLostOverlay(container: HTMLElement): HTMLDivElement {
+  const overlay = document.createElement('div')
+  overlay.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.8);color:#fff;font:14px/1.5 sans-serif;cursor:pointer;z-index:100'
+  overlay.textContent = 'WebGL context lost — click to reload'
+  overlay.addEventListener('click', () => location.reload())
+  container.style.position = 'relative'
+  container.appendChild(overlay)
+  return overlay
+}
+
+// ---------------------------------------------------------------------------
 // Engine
 // ---------------------------------------------------------------------------
 
@@ -617,6 +633,9 @@ export class ShaderArtEngine {
     if (!gl) throw new Error('WebGL not supported')
     this.gl = gl
 
+    this.canvas.addEventListener('webglcontextlost', this.handleContextLost)
+    this.canvas.addEventListener('webglcontextrestored', this.handleContextRestored)
+
     // Vertex shader (shared)
     this.vertShader = compileShader(gl, gl.VERTEX_SHADER, VERT_SRC)
 
@@ -669,6 +688,8 @@ export class ShaderArtEngine {
     this.disposed = true
     cancelAnimationFrame(this.animationId)
     this.removeListeners()
+    this.canvas.removeEventListener('webglcontextlost', this.handleContextLost)
+    this.canvas.removeEventListener('webglcontextrestored', this.handleContextRestored)
     if (this.resizeObserver) {
       this.resizeObserver.disconnect()
       this.resizeObserver = null
@@ -684,7 +705,8 @@ export class ShaderArtEngine {
   private buildProgram(fragSrc: string): WebGLProgram {
     const gl = this.gl
     const fragShader = compileShader(gl, gl.FRAGMENT_SHADER, fragSrc)
-    const program = gl.createProgram()!
+    const program = gl.createProgram()
+    if (!program) throw new Error('Failed to create program — WebGL context may be lost')
     gl.attachShader(program, this.vertShader)
     gl.attachShader(program, fragShader)
     gl.bindAttribLocation(program, 0, 'aPosition')
@@ -848,6 +870,18 @@ export class ShaderArtEngine {
   private removeListeners() {
     this.canvas.removeEventListener('mousemove', this.onMouseMove)
     this.canvas.removeEventListener('touchmove', this.onTouchMove)
+  }
+
+  // --- Context loss ---
+
+  private handleContextLost = (e: Event) => {
+    e.preventDefault()
+    cancelAnimationFrame(this.animationId)
+    showContextLostOverlay(this.container)
+  }
+
+  private handleContextRestored = () => {
+    location.reload()
   }
 
   // --- Animation loop ---

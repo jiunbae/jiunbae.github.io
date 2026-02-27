@@ -98,7 +98,7 @@ const BoidsPage = () => {
 
   return (
     <div className={styles.page}>
-      <div ref={canvasRef} className={styles.canvas} />
+      <div ref={canvasRef} className={styles.canvas} role="img" aria-label="Boids flocking simulation" />
 
       <div className={clsx(styles.hint, { [styles.hidden]: !hintVisible })}>
         Watch emergent flocking behavior

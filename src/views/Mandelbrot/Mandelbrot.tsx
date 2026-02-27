@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
+
 import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
 import { Seo } from '@/components'
@@ -28,9 +29,6 @@ const MandelbrotPage = () => {
   const [palette, setPalette] = useState(0)
   const [maxIter, setMaxIter] = useState(200)
 
-  // Polling for coordinate updates during interaction
-  const pollRef = useRef<number>(0)
-
   useEffect(() => {
     setIsSSR(false)
   }, [])
@@ -44,34 +42,23 @@ const MandelbrotPage = () => {
     import('./engine').then(({ MandelbrotEngine }) => {
       if (cancelled || !canvasRef.current) return
       engine = new MandelbrotEngine(canvasRef.current)
+      // H-7 fix: callback-based view updates instead of rAF polling
+      engine.onViewChange = (cx, cy, z) => {
+        setCenterX(cx)
+        setCenterY(cy)
+        setZoomLevel(z)
+      }
       engineRef.current = engine
     })
 
     return () => {
       cancelled = true
       if (engine) {
+        engine.onViewChange = null
         engine.dispose()
         engineRef.current = null
       }
     }
-  }, [isSSR])
-
-  // Poll engine state for UI updates
-  useEffect(() => {
-    if (isSSR) return
-    const poll = () => {
-      const engine = engineRef.current
-      if (engine) {
-        const [cx, cy] = engine.center
-        const z = engine.zoom
-        setCenterX(cx)
-        setCenterY(cy)
-        setZoomLevel(z)
-      }
-      pollRef.current = requestAnimationFrame(poll)
-    }
-    pollRef.current = requestAnimationFrame(poll)
-    return () => cancelAnimationFrame(pollRef.current)
   }, [isSSR])
 
   const handlePaletteChange = useCallback((index: number) => {
@@ -110,7 +97,7 @@ const MandelbrotPage = () => {
 
   return (
     <div className={styles.page}>
-      <div ref={canvasRef} className={styles.canvas} />
+      <div ref={canvasRef} className={styles.canvas} role="img" aria-label="Mandelbrot fractal explorer" />
 
       {/* Toggle panel button */}
       <button

@@ -39,12 +39,14 @@ const PhysicsSandboxPage = () => {
     import('./engine').then(({ PhysicsEngine }) => {
       if (cancelled || !canvasRef.current) return
       engine = new PhysicsEngine(canvasRef.current)
+      engine.onBodyCountChange((c) => setCount(c))
       engineRef.current = engine
     })
 
     return () => {
       cancelled = true
       if (engine) {
+        engine.onBodyCountChange(null)
         engine.dispose()
         engineRef.current = null
       }
@@ -66,15 +68,6 @@ const PhysicsSandboxPage = () => {
     if (engineRef.current) engineRef.current.setRestitution(bounciness)
   }, [bounciness])
 
-  // Poll body count
-  useEffect(() => {
-    if (isSSR) return
-    const id = setInterval(() => {
-      if (engineRef.current) setCount(engineRef.current.bodyCount)
-    }, 200)
-    return () => clearInterval(id)
-  }, [isSSR])
-
   const handleClear = useCallback(() => {
     if (engineRef.current) {
       engineRef.current.clear()
@@ -88,7 +81,7 @@ const PhysicsSandboxPage = () => {
 
   return (
     <div className={styles.page}>
-      <div ref={canvasRef} className={styles.canvas} />
+      <div ref={canvasRef} className={styles.canvas} role="img" aria-label="Physics sandbox" />
 
       <div className={clsx(styles.hint, { [styles.hidden]: count > 0 })}>
         Select a tool and draw shapes

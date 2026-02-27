@@ -119,6 +119,8 @@ const ShaderArtPage = () => {
         ref={canvasRef}
         className={styles.canvas}
         onClick={handleCanvasClick}
+        role="img"
+        aria-label="Shader art visualization"
       />
 
       {/* Toggle panel button */}

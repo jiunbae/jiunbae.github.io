@@ -752,26 +752,84 @@ export class GenerativeArtEngine {
     const imageData = offCtx.createImageData(sw, sh)
     const data = imageData.data
 
+    // ── Build spatial grid for O(pixels * ~9) lookup ──────────────
+    const numPoints = this.voPoints.length
+    const cellSize = Math.max(1, Math.floor(Math.min(w, h) / Math.sqrt(numPoints)))
+    const gridCols = Math.ceil(w / cellSize)
+    const gridRows = Math.ceil(h / cellSize)
+    const gridLen = gridCols * gridRows
+
+    // Flat array of arrays: grid[row * gridCols + col] = list of point indices
+    const grid: number[][] = new Array(gridLen)
+    for (let i = 0; i < gridLen; i++) grid[i] = []
+
+    for (let i = 0; i < numPoints; i++) {
+      const col = Math.min(Math.floor(this.voPoints[i].x / cellSize), gridCols - 1)
+      const row = Math.min(Math.floor(this.voPoints[i].y / cellSize), gridRows - 1)
+      grid[row * gridCols + col].push(i)
+    }
+
+    // Determine search radius in cells. For uniform distributions 1 is
+    // enough, but points can cluster so we use 2 to guarantee correctness
+    // for the typical 40-80 point counts.
+    const searchR = 2
+
     for (let py = 0; py < sh; py++) {
       for (let px = 0; px < sw; px++) {
         const rx = px * scale
         const ry = py * scale
 
-        // Find closest and second-closest point
+        // Grid cell for this pixel
+        const gcol = Math.min(Math.floor(rx / cellSize), gridCols - 1)
+        const grow = Math.min(Math.floor(ry / cellSize), gridRows - 1)
+
+        // Find closest and second-closest point in surrounding cells
         let minDist = Infinity
         let secondDist = Infinity
         let closestIdx = 0
 
-        for (let i = 0; i < this.voPoints.length; i++) {
-          const dx = rx - this.voPoints[i].x
-          const dy = ry - this.voPoints[i].y
-          const dist = dx * dx + dy * dy
-          if (dist < minDist) {
-            secondDist = minDist
-            minDist = dist
-            closestIdx = i
-          } else if (dist < secondDist) {
-            secondDist = dist
+        const rStart = Math.max(0, grow - searchR)
+        const rEnd = Math.min(gridRows - 1, grow + searchR)
+        const cStart = Math.max(0, gcol - searchR)
+        const cEnd = Math.min(gridCols - 1, gcol + searchR)
+
+        for (let gr = rStart; gr <= rEnd; gr++) {
+          const rowOff = gr * gridCols
+          for (let gc = cStart; gc <= cEnd; gc++) {
+            const cell = grid[rowOff + gc]
+            for (let k = 0; k < cell.length; k++) {
+              const idx = cell[k]
+              const dx = rx - this.voPoints[idx].x
+              const dy = ry - this.voPoints[idx].y
+              const dist = dx * dx + dy * dy
+              if (dist < minDist) {
+                secondDist = minDist
+                minDist = dist
+                closestIdx = idx
+              } else if (dist < secondDist) {
+                secondDist = dist
+              }
+            }
+          }
+        }
+
+        // If the neighbourhood was too sparse and we only found one
+        // point (secondDist still Infinity), fall back to a full scan.
+        if (secondDist === Infinity) {
+          minDist = Infinity
+          secondDist = Infinity
+          closestIdx = 0
+          for (let i = 0; i < numPoints; i++) {
+            const dx = rx - this.voPoints[i].x
+            const dy = ry - this.voPoints[i].y
+            const dist = dx * dx + dy * dy
+            if (dist < minDist) {
+              secondDist = minDist
+              minDist = dist
+              closestIdx = i
+            } else if (dist < secondDist) {
+              secondDist = dist
+            }
           }
         }
 
