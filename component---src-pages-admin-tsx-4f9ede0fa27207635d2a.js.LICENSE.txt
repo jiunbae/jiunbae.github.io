@@ -1,0 +1,17 @@
+/* v8 ignore else -- @preserve */
+
+/* v8 ignore else -- @preserve -- Bug with vitest coverage where it sees an else branch that doesn't exist */
+
+/* v8 ignore next -- @preserve */
+
+/**! 
+ * @uiw/copy-to-clipboard v1.0.19 
+ * Copy to clipboard. 
+ * 
+ * Copyright (c) 2025 Kenny Wang 
+ * https://github.com/uiwjs/copy-to-clipboard.git 
+ * 
+ * @website: https://uiwjs.github.io/copy-to-clipboard
+ 
+ * Licensed under the MIT license 
+ */
