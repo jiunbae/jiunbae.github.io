@@ -326,10 +326,9 @@ const ImageConverterPage = () => {
                   Remove
                 </button>
               </div>
-              <div
-                className={styles.previewCanvas}
-                style={{ backgroundImage: `url(${previewUrl})` }}
-              />
+              <div className={styles.previewCanvas}>
+                <img src={previewUrl} alt="Preview" className={styles.previewImage} />
+              </div>
             </div>
           )}
           {error && <div className={styles.error}>{error}</div>}

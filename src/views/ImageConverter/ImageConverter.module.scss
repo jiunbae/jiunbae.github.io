@@ -139,29 +139,25 @@
 .previewCanvas {
   position: relative;
   min-height: 280px;
-  isolation: isolate;
 
   /* Checkerboard for transparency */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: #fff;
-    background-image:
-      linear-gradient(45deg, #e0e0e0 25%, transparent 25%),
-      linear-gradient(-45deg, #e0e0e0 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #e0e0e0 75%),
-      linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
-    background-size: 20px 20px;
-    background-position: 0 0, 0 10px, 10px -10px, -10px 0;
-    z-index: 0;
-  }
+  background-color: #fff;
+  background-image:
+    linear-gradient(45deg, #e0e0e0 25%, transparent 25%),
+    linear-gradient(-45deg, #e0e0e0 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e0e0e0 75%),
+    linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+}
 
-  /* Image preview (set via inline style) */
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  z-index: 1;
+.previewImage {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  max-height: 400px;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
 /* Controls panel */
