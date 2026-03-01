@@ -1,42 +1,22 @@
 ---
 import BaseHead from './BaseHead.astro';
 import SearchModal from '@/components/SearchModal';
-import type { SearchItem } from '@/components/SearchModal';
-import { getCollection } from 'astro:content';
 
 interface Props {
   title: string;
   description?: string;
   image?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  tags?: string[];
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, ogType, publishedTime, tags } = Astro.props;
 const pathname = Astro.url.pathname;
-
-const posts = await getCollection('posts', ({ data }) => data.published !== false);
-const notes = await getCollection('notes', ({ data }) => data.published !== false);
-
-const searchIndex: SearchItem[] = [
-  ...posts.map(p => ({
-    title: p.data.title,
-    description: p.data.description || '',
-    tags: p.data.tags || [],
-    slug: `/posts/${p.data.permalink || p.slug}/`,
-    type: 'post' as const,
-  })),
-  ...notes.map(n => ({
-    title: n.data.title,
-    description: n.data.description || '',
-    tags: n.data.tags || [],
-    slug: `/notes/${n.data.permalink || n.slug}/`,
-    type: 'note' as const,
-  })),
-];
 
 const baseNavLinks = [
   { to: '/', label: 'Posts' },
   { to: '/notes/', label: 'Notes' },
-  { to: '/reviews/', label: 'Reviews' },
   { to: '/playground/', label: 'Playground' },
   { to: '/tools/', label: 'Tools' },
 ];
@@ -52,7 +32,7 @@ const isActivePath = (target: string) => {
 <!doctype html>
 <html lang="ko">
   <head>
-    <BaseHead title={title} description={description} image={image} />
+    <BaseHead title={title} description={description} image={image} ogType={ogType} publishedTime={publishedTime} tags={tags} />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -60,7 +40,7 @@ const isActivePath = (target: string) => {
     <header class="header" id="site-header">
       <div class="wrapper">
         <a href="/" class="heading-link">
-          <h1 class="heading-wrapper">
+          <div class="heading-wrapper">
             <span class="logo-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
@@ -68,7 +48,7 @@ const isActivePath = (target: string) => {
               </svg>
             </span>
             <span class="heading">Jiunbae's</span>
-          </h1>
+          </div>
         </a>
         <div class="header-buttons">
           <!-- Desktop navigation -->
@@ -146,13 +126,14 @@ const isActivePath = (target: string) => {
     <!-- Mobile drawer overlay -->
     <div class="drawer-overlay" id="drawer-overlay"></div>
     <!-- Mobile drawer -->
-    <nav class="drawer" id="drawer" aria-label="Mobile navigation">
+    <nav class="drawer" id="drawer" aria-label="Mobile navigation" aria-hidden="true">
       <div class="drawer-content">
         <div class="drawer-links">
           {baseNavLinks.map(link => (
             <a
               href={link.to}
               class:list={['drawer-link', { 'drawer-active': isActivePath(link.to) }]}
+              aria-current={isActivePath(link.to) ? 'page' : undefined}
             >
               {link.label}
             </a>
@@ -176,7 +157,7 @@ const isActivePath = (target: string) => {
       </div>
     </nav>
 
-    <SearchModal client:idle searchIndex={searchIndex} />
+    <SearchModal client:idle />
 
     <main id="main-content">
       <slot />
@@ -267,6 +248,7 @@ const isActivePath = (target: string) => {
 
       function openDrawer() {
         drawer?.classList.add('open');
+        drawer?.setAttribute('aria-hidden', 'false');
         drawerOverlay?.classList.add('open');
         if (menuIcon) menuIcon.style.display = 'none';
         if (closeIcon) closeIcon.style.display = 'block';
@@ -276,6 +258,7 @@ const isActivePath = (target: string) => {
 
       function closeDrawer() {
         drawer?.classList.remove('open');
+        drawer?.setAttribute('aria-hidden', 'true');
         drawerOverlay?.classList.remove('open');
         if (menuIcon) menuIcon.style.display = 'block';
         if (closeIcon) closeIcon.style.display = 'none';
@@ -310,40 +293,42 @@ const isActivePath = (target: string) => {
       });
     </script>
 
-    <!-- Mermaid support -->
+    <!-- Mermaid support (only loaded when .mermaid elements exist) -->
     <script type="module">
-      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      if (document.querySelectorAll('.mermaid').length > 0) {
+        const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs');
 
-      const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
-      mermaid.initialize({
-        startOnLoad: true,
-        theme: theme,
-        securityLevel: 'loose'
-      });
-
-      // Re-render on theme change
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.attributeName === 'data-theme') {
-            const newTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
-            mermaid.initialize({ theme: newTheme, securityLevel: 'loose' });
-            document.querySelectorAll('.mermaid').forEach((el) => {
-              const code = el.getAttribute('data-mermaid-src');
-              if (code) {
-                el.innerHTML = code;
-                el.removeAttribute('data-processed');
-              }
-            });
-            mermaid.run();
-          }
+        const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: theme,
+          securityLevel: 'loose'
         });
-      });
-      observer.observe(document.documentElement, { attributes: true });
 
-      // Store original source for re-rendering
-      document.querySelectorAll('.mermaid').forEach((el) => {
-        el.setAttribute('data-mermaid-src', el.textContent || '');
-      });
+        // Store original source for re-rendering
+        document.querySelectorAll('.mermaid').forEach((el) => {
+          el.setAttribute('data-mermaid-src', el.textContent || '');
+        });
+
+        // Re-render on theme change
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'data-theme') {
+              const newTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
+              mermaid.initialize({ theme: newTheme, securityLevel: 'loose' });
+              document.querySelectorAll('.mermaid').forEach((el) => {
+                const code = el.getAttribute('data-mermaid-src');
+                if (code) {
+                  el.innerHTML = code;
+                  el.removeAttribute('data-processed');
+                }
+              });
+              mermaid.run();
+            }
+          });
+        });
+        observer.observe(document.documentElement, { attributes: true });
+      }
     </script>
   </body>
 </html>

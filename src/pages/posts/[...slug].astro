@@ -29,6 +29,9 @@ const ogImage = heroImage || `/og/posts/${postSlug}.png`;
   title={post.data.title}
   description={post.data.description}
   image={ogImage}
+  ogType="article"
+  publishedTime={post.data.date.toISOString()}
+  tags={post.data.tags}
 >
   <article class="article">
     {heroImage && (

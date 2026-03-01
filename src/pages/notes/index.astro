@@ -30,7 +30,7 @@ const notesWithContent = await Promise.all(
   title="Notes | Jiunbae"
   description="짧은 생각과 메모들"
 >
-  <main class="main">
+  <div class="main">
     <div class="tag-list">
       <button class="tag-button active" data-tag="all">
         All ({totalCount})
@@ -79,7 +79,7 @@ const notesWithContent = await Promise.all(
         </article>
       ))}
     </div>
-  </main>
+  </div>
 </Layout>
 
 <script>
