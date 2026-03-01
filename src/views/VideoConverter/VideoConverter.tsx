@@ -142,8 +142,10 @@ const VideoConverterPage = () => {
       setIsLoadingFFmpeg(true)
       const { getFFmpeg } = await import('@/utils/ffmpeg')
       const { fetchFile } = await import('@ffmpeg/util')
-      const ffmpeg = await getFFmpeg((p) => setProgress(p))
+      const ffmpeg = await getFFmpeg()
       setIsLoadingFFmpeg(false)
+      const onProgress = ({ progress }: { progress: number }) => setProgress(Math.min(1, Math.max(0, progress)))
+      ffmpeg.on('progress', onProgress)
 
       const inputExt = (file.name.split('.').pop() || 'mp4').replace(/[^a-zA-Z0-9]/g, '')
       const inputName = `input.${inputExt}`
@@ -170,6 +172,7 @@ const VideoConverterPage = () => {
       await ffmpeg.deleteFile(outputName).catch(() => {})
 
       setProgress(1)
+      ffmpeg.off('progress', onProgress)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Conversion failed')
     } finally {
