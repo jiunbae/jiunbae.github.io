@@ -1,0 +1,361 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+const fmtDate = (d: Date) => {
+  const y = String(d.getFullYear()).slice(2);
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}.${m}.${day}`;
+};
+
+const allPosts = await getCollection('posts', ({ data }) => data.published !== false);
+const sortedPosts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Get unique tags with counts
+const tagCounts = sortedPosts.reduce((acc, post) => {
+  post.data.tags.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+const tags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+const visibleTags = tags.slice(0, 10); // Show only top 10 tags
+const hasMoreTags = tags.length > 10;
+const totalCount = sortedPosts.length;
+---
+
+<Layout
+  title="Jiunbae's Blog"
+  description="AI/ML 연구원의 기술 블로그"
+>
+  <div class="main">
+    <section class="wrapper">
+      <div class="tag-list" id="tag-list">
+        <div class="tag-buttons">
+          <button class="tag-button active" data-tag="all" aria-pressed="true">
+            all ({totalCount})
+          </button>
+          {visibleTags.map(([tag, count]) => (
+            <button class="tag-button" data-tag={tag} aria-pressed="false">
+              {tag} ({count})
+            </button>
+          ))}
+          {hasMoreTags && (
+            <button class="tag-button more-tags" id="show-more-tags">
+              +{tags.length - 10} more
+            </button>
+          )}
+          <div class="hidden-tags" id="hidden-tags" style="display: none;">
+            {tags.slice(10).map(([tag, count]) => (
+              <button class="tag-button" data-tag={tag} aria-pressed="false">
+                {tag} ({count})
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <ul class="post-list" id="post-list">
+        {sortedPosts.map((post) => (
+          <li class="post-item" data-tags={JSON.stringify(post.data.tags)}>
+            <a href={`/posts${post.data.permalink}`} class="post-link">
+              <article class="post">
+                <figure class="post-figure">
+                  <div class="post-thumbnail">
+                    {post.data.heroImage ? (
+                      <img src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} loading="lazy" />
+                    ) : (
+                      <img src={`/og/posts${post.data.permalink}.png`} alt={post.data.title} loading="lazy" />
+                    )}
+                  </div>
+                  <figcaption class="post-content">
+                    <h2 class="post-title">{post.data.title}</h2>
+                    {post.data.description && (
+                      <p class="post-description">{post.data.description}</p>
+                    )}
+                    <time class="post-date" datetime={post.data.date.toISOString()}>
+                      {fmtDate(post.data.date)}
+                    </time>
+                    {post.data.tags.length > 0 && (
+                      <div class="post-tags">
+                        {post.data.tags.map(tag => (
+                          <span class="tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                  </figcaption>
+                </figure>
+              </article>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Layout>
+
+<script>
+  const tagList = document.getElementById('tag-list');
+  const postList = document.getElementById('post-list');
+  const showMoreBtn = document.getElementById('show-more-tags');
+  const hiddenTags = document.getElementById('hidden-tags');
+
+  // Show more tags functionality
+  showMoreBtn?.addEventListener('click', () => {
+    if (hiddenTags) {
+      hiddenTags.style.display = 'contents';
+      showMoreBtn.style.display = 'none';
+    }
+  });
+
+  // Pre-parse tags data for filtering
+  const postItems = postList?.querySelectorAll('.post-item');
+  const tagData = new Map();
+  postItems?.forEach(item => {
+    tagData.set(item, JSON.parse((item as HTMLElement).dataset.tags || '[]'));
+  });
+
+  // Tag filtering
+  tagList?.addEventListener('click', (e) => {
+    const button = (e.target as HTMLElement).closest('.tag-button');
+    if (!button || button.id === 'show-more-tags') return;
+
+    const selectedTag = (button as HTMLElement).dataset.tag;
+    if (!selectedTag) return;
+
+    // Update active state and aria-pressed
+    tagList.querySelectorAll('.tag-button').forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+    button.classList.add('active');
+    button.setAttribute('aria-pressed', 'true');
+
+    // Filter posts
+    postItems?.forEach((item) => {
+      const postTags = tagData.get(item);
+      if (selectedTag === 'all' || postTags.includes(selectedTag)) {
+        (item as HTMLElement).style.display = '';
+      } else {
+        (item as HTMLElement).style.display = 'none';
+      }
+    });
+  });
+</script>
+
+<style lang="scss">
+  .main {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 0 20px;
+    max-width: 1400px;
+
+    @media (min-width: 1000px) {
+      flex-direction: row;
+      padding: 0 60px;
+    }
+  }
+
+  .wrapper {
+    flex: 1;
+
+    @media (min-width: 780px) {
+      padding: 0 40px;
+    }
+
+    @media (min-width: 1000px) {
+      padding: 0;
+    }
+  }
+
+  .tag-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .tag-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12.5px 4px;
+    background-color: transparent;
+    color: var(--gray-2);
+    border: 1px solid var(--gray-2);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: 0.1s;
+    margin-top: 4px;
+
+    &:hover {
+      border-color: var(--primary-c1);
+      color: var(--primary-c1);
+    }
+
+    &.active {
+      border-color: var(--primary-c1);
+      color: var(--primary-c1);
+    }
+
+    &.more-tags {
+      background-color: transparent;
+      border: 1px dashed var(--gray-3);
+      color: var(--gray-3);
+
+      &:hover {
+        border-color: var(--primary-c1);
+        color: var(--primary-c1);
+        border-style: solid;
+      }
+    }
+  }
+
+  .hidden-tags {
+    display: contents;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 35px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .post-item {
+    list-style: none;
+  }
+
+  .post-link {
+    text-decoration: none;
+    display: block;
+
+    &:hover,
+    &:focus {
+      .post-title,
+      .post-description,
+      .post-date {
+        text-decoration-color: var(--gray-5);
+      }
+    }
+  }
+
+  .post {
+    position: relative;
+    flex: 1;
+    min-height: 152px;
+    min-width: 300px;
+    padding: 16px;
+    background-color: var(--article-background);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+
+  .post-figure {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .post-content {
+    flex: 1;
+    width: 100%;
+    flex-shrink: 100000;
+    order: -1;
+
+    @media (min-width: 780px) {
+      max-width: calc(100% - 190px);
+    }
+  }
+
+  .post-title {
+    margin-left: 4px;
+    width: 80%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    font-weight: 700;
+    font-size: 1.1875rem;
+    color: var(--gray-1);
+    margin-top: 0;
+    margin-bottom: 0;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: 0.1s;
+  }
+
+  .post-description {
+    margin-top: 1px;
+    margin-left: 4px;
+    width: 80%;
+    height: 2.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--gray-3);
+    overflow: hidden;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: 0.1s;
+  }
+
+  .post-date {
+    margin-left: 4px;
+    font-weight: 500;
+    font-size: 0.8125rem;
+    color: var(--gray-4);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: 0.1s;
+  }
+
+  .post-tags {
+    position: absolute;
+    bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .tag {
+    padding: 0px 12px 2px;
+    border: 1px solid var(--primary-c1);
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--primary-c1);
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+
+  .post-thumbnail {
+    display: none !important;
+    width: 190px;
+    aspect-ratio: 1200 / 630;
+    min-width: 190px;
+    overflow: hidden;
+
+    @media (min-width: 780px) {
+      display: block !important;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+</style>

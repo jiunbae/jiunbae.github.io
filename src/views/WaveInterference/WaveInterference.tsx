@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './WaveInterference.module.scss'
 import type { WaveInterferenceEngine, WavePalette } from './engine'
@@ -244,13 +242,5 @@ const WaveInterferencePage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Wave Interference"
-    description="Interactive wave interference field where you can place and drag wave sources"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default WaveInterferencePage

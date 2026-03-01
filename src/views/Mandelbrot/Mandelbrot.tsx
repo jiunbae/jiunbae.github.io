@@ -1,8 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './Mandelbrot.module.scss'
 
@@ -185,13 +183,5 @@ const MandelbrotPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Mandelbrot Explorer"
-    description="Interactive Mandelbrot set explorer with smooth coloring, multiple palettes, and deep zoom via double-emulated precision"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default MandelbrotPage

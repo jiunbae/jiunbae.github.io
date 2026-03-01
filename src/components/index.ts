@@ -1,6 +1,2 @@
-export * from './FloatingButton'
-export * from './ProfileCard'
-export * from './Seo'
-export * from './Tag'
-export * from './Comments'
-export * from './JsonLd'
+// Components re-exported for convenience
+// Most components are now Astro components directly in layouts/pages

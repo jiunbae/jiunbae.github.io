@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './Raymarching.module.scss'
 import type { RaymarchEngine } from './engine'
@@ -96,13 +94,5 @@ const RaymarchingPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Raymarching Worlds"
-    description="Real-time raymarched 3D worlds rendered with pure WebGL fragment shaders -- alien planets, crystal caves, fractal landscapes"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default RaymarchingPage

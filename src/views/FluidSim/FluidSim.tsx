@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './FluidSim.module.scss'
 import type { FluidConfig } from './fluid'
@@ -153,13 +151,5 @@ const FluidSimPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Fluid Simulation"
-    description="GPU-accelerated fluid dynamics — paint with colorful ink, watch vortices and smoke swirl in real-time"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default FluidSimPage

@@ -167,6 +167,50 @@ const playground: PlaygroundItem[] = [
     date: '2026-02-22',
     tags: ['Canvas', 'Simulation', 'Emergent']
   },
+  {
+    slug: '/sorting-lab/',
+    title: 'Sorting Lab',
+    description: 'Visualize sorting algorithms in action — bubble, quick, merge, heap sort with step-by-step animation',
+    gradient: [
+      'repeating-linear-gradient(90deg, rgba(50,200,100,0.4) 0px, rgba(50,200,100,0.4) 4px, transparent 4px, transparent 8px)',
+      'repeating-linear-gradient(90deg, rgba(255,100,50,0.3) 0px, rgba(255,100,50,0.3) 4px, transparent 4px, transparent 12px)',
+      'linear-gradient(0deg, rgba(50,150,255,0.3) 0%, transparent 60%)',
+      'linear-gradient(180deg, #0a0f15 0%, #0f1520 100%)'
+    ].join(', '),
+    date: '2026-02-22',
+    tags: ['Canvas', 'Algorithm', 'Visualization']
+  },
+  {
+    slug: '/wave-interference/',
+    title: 'Wave Interference',
+    description: 'Interactive wave physics — place sources, observe constructive and destructive interference patterns',
+    gradient: [
+      'radial-gradient(circle at 35% 50%, rgba(0,150,255,0.4) 0%, transparent 30%)',
+      'radial-gradient(circle at 65% 50%, rgba(0,150,255,0.4) 0%, transparent 30%)',
+      'repeating-radial-gradient(circle at 35% 50%, transparent 0px, transparent 15px, rgba(100,200,255,0.1) 16px, transparent 17px)',
+      'repeating-radial-gradient(circle at 65% 50%, transparent 0px, transparent 15px, rgba(100,200,255,0.1) 16px, transparent 17px)',
+      'linear-gradient(180deg, #050a18 0%, #0a1025 100%)'
+    ].join(', '),
+    date: '2026-02-22',
+    tags: ['Canvas', 'Physics', 'Wave']
+  },
+  {
+    slug: '/cellular-automata/',
+    title: 'Cellular Automata',
+    description: "Conway's Game of Life and more — watch emergent patterns evolve from simple rules",
+    gradient: [
+      'radial-gradient(2px 2px at 30% 40%, rgba(0,255,100,0.8) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 32% 42%, rgba(0,255,100,0.8) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 34% 40%, rgba(0,255,100,0.8) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 50% 50%, rgba(0,255,100,0.6) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 52% 48%, rgba(0,255,100,0.6) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 48% 52%, rgba(0,255,100,0.6) 50%, transparent 100%)',
+      'radial-gradient(2px 2px at 70% 60%, rgba(0,255,100,0.4) 50%, transparent 100%)',
+      'linear-gradient(180deg, #050a05 0%, #0a150a 50%, #050a05 100%)'
+    ].join(', '),
+    date: '2026-02-22',
+    tags: ['Canvas', 'Simulation', 'Cellular']
+  },
 ]
 
 export default playground

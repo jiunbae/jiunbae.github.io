@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './AudioVisualizer.module.scss'
 import type { VisualizationMode, AudioVisualizerScene } from './scene'
@@ -279,13 +277,5 @@ const AudioVisualizerPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Audio Visualizer"
-    description="Real-time 3D audio visualization with terrain, radial, and waveform modes - supports file input and microphone"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default AudioVisualizerPage

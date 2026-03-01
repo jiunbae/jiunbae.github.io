@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './ParticleGalaxy.module.scss'
 import type { ParticleGalaxyScene } from './scene'
@@ -153,13 +151,5 @@ const ParticleGalaxyPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Particle Galaxy"
-    description="Interactive galaxy simulation with 80K GPU particles, spiral arms, and gravitational attractors"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default ParticleGalaxyPage

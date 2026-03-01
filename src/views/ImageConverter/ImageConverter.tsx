@@ -1,7 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import type { HeadProps } from 'gatsby'
-import { Link } from 'gatsby'
-import { Seo } from '@/components'
 
 import * as styles from './ImageConverter.module.scss'
 
@@ -280,7 +277,7 @@ const ImageConverterPage = () => {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to="/tools/" className={styles.backLink}>Tools</Link>
+        <a href="/tools/" className={styles.backLink}>Tools</a>
         <h1 className={styles.title}>Image Converter</h1>
         <p className={styles.subtitle}>
           Convert images between PNG, JPG, WebP, and PDF — runs entirely in your browser
@@ -467,13 +464,5 @@ const ImageConverterPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Image Converter"
-    description="Convert images between PNG, JPG, WebP, and PDF — custom dimensions, scale, background, and quality. Runs entirely in your browser."
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default ImageConverterPage

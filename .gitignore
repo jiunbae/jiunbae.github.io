@@ -1,8 +1,23 @@
-.cache/
+# build output
+dist/
 
+# dependencies
 node_modules/
-public/
 
-src/gatsby-types.d.ts
+# astro cache
+.astro/
 
+# environment variables
 .env
+.env.*
+
+# logs
+npm-debug.log*
+pnpm-debug.log*
+
+# editor directories
+.vscode/
+.idea/
+
+# macOS
+.DS_Store

@@ -1,0 +1,115 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+const fmtDateKr = (d: Date) => `${d.getFullYear()}년 ${String(d.getMonth()+1).padStart(2,'0')}월 ${String(d.getDate()).padStart(2,'0')}일`;
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes', ({ data }) => data.published !== false);
+  return notes.map((note) => {
+    // Handle permalink format: /notes/2025-09-22-d-100 -> 2025-09-22-d-100
+    let permalink = note.data.permalink || '';
+    let slug = permalink;
+    if (slug.startsWith('/notes/')) {
+      slug = slug.slice(7);
+    } else if (slug.startsWith('/')) {
+      slug = slug.slice(1);
+    }
+    return {
+      params: { slug },
+      props: { note },
+    };
+  });
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+
+let noteSlug = note.data.permalink || note.slug;
+if (noteSlug.startsWith('/notes/')) noteSlug = noteSlug.slice(7);
+else if (noteSlug.startsWith('/')) noteSlug = noteSlug.slice(1);
+const ogImage = `/og/notes/${noteSlug}.png`;
+---
+
+<Layout
+  title={note.data.title}
+  description={note.data.description}
+  image={ogImage}
+>
+  <article class="article">
+    <header class="article-header">
+      <time datetime={note.data.date.toISOString()}>
+        {fmtDateKr(note.data.date)}
+      </time>
+      <h1 class="article-title">{note.data.title}</h1>
+    </header>
+
+    <div class="article-content">
+      <Content />
+    </div>
+
+    <footer class="article-footer">
+      <a href="/notes/" class="back-link">← 목록으로 돌아가기</a>
+    </footer>
+  </article>
+</Layout>
+
+<style lang="scss">
+  .article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .article-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--gray-5);
+
+    time {
+      color: var(--gray-4);
+      font-size: 0.9375rem;
+    }
+  }
+
+  .article-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--gray-1);
+    line-height: 1.3;
+    margin: 0.5rem 0 0;
+  }
+
+  .article-content {
+    line-height: 1.8;
+    color: var(--gray-2);
+
+    :global(h2) {
+      font-size: 1.375rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      color: var(--gray-1);
+    }
+
+    :global(p) {
+      margin: 1rem 0;
+    }
+
+    :global(blockquote) {
+      margin: 1.5rem 0;
+      padding: 1rem 1.5rem;
+      border-left: 4px solid var(--primary-c1);
+      background: var(--article-background);
+    }
+  }
+
+  .article-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-5);
+  }
+
+  .back-link {
+    color: var(--primary-c1);
+    font-weight: 500;
+  }
+</style>

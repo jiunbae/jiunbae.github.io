@@ -17,9 +17,12 @@
 /*
     3. Allow percentage-based heights in the application
   */
-html,
-body {
+html {
   height: 100%;
+}
+
+body {
+  min-height: 100%;
 }
 
 /*
@@ -70,6 +73,6 @@ h6 {
 /*
     9. Create a root stacking context
   */
-#___gatsby {
+#root, body {
   isolation: isolate;
 }

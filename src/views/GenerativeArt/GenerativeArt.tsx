@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './GenerativeArt.module.scss'
 import type { ArtMode, PaletteInfo, GenerativeArtEngine } from './engine'
@@ -165,13 +163,5 @@ const GenerativeArtPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Generative Art Studio"
-    description="Algorithmic art generator — flow fields, fractals, circle packing, Voronoi. Every click creates unique art"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default GenerativeArtPage

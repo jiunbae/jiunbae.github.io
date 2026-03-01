@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './TerrainGen.module.scss'
 import type { TerrainEngine } from './engine'
@@ -192,13 +190,5 @@ const TerrainGenPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Terrain Generator"
-    description="Procedural 3D terrain with simplex noise, hydraulic erosion simulation, and biome coloring"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default TerrainGenPage

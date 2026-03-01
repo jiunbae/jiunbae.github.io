@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './PhysicsSandbox.module.scss'
 
@@ -158,13 +156,5 @@ const PhysicsSandboxPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Physics Sandbox"
-    description="Interactive 2D rigid body physics with circles, boxes, springs, gravity gun, and explosions"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default PhysicsSandboxPage

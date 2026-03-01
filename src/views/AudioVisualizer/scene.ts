@@ -23,8 +23,8 @@ export class AudioVisualizerScene {
   private analyser: AnalyserNode | null = null
   private sourceNode: AudioBufferSourceNode | MediaStreamAudioSourceNode | null = null
   private mediaStream: MediaStream | null = null
-  private frequencyData: Uint8Array<ArrayBuffer> = new Uint8Array(0)
-  private timeDomainData: Uint8Array<ArrayBuffer> = new Uint8Array(0)
+  private frequencyData: Uint8Array = new Uint8Array(0)
+  private timeDomainData: Uint8Array = new Uint8Array(0)
   private isPlaying = false
 
   // Visualization objects

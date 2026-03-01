@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './Boids.module.scss'
 
@@ -223,13 +221,5 @@ const BoidsPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Boids Flocking"
-    description="Craig Reynolds' Boids algorithm - emergent flocking behavior with separation, alignment, cohesion, predators, and trails"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default BoidsPage

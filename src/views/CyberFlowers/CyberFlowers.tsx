@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './CyberFlowers.module.scss'
 import type { FlowerStyle, CyberFlowerScene } from './scene'
@@ -219,13 +217,5 @@ const CyberFlowersPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="사이버 꽃꽂이"
-    description="Interactive 3D cyber flower arrangement - plant neon, holographic, and retro-futuristic flowers in a cyberpunk garden"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default CyberFlowersPage
