@@ -1,0 +1,193 @@
+.page {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.panelToggle {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(80, 160, 100, 0.25);
+  background: rgba(8, 16, 10, 0.7);
+  backdrop-filter: blur(12px);
+  color: rgba(140, 200, 150, 0.7);
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(80, 160, 100, 0.15);
+    color: #a8e0b0;
+    border-color: rgba(80, 160, 100, 0.5);
+  }
+}
+
+.panel {
+  position: absolute;
+  top: 16px;
+  right: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  min-width: 230px;
+  background: rgba(8, 16, 10, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(80, 160, 100, 0.12);
+  border-radius: 12px;
+  z-index: 10;
+  user-select: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  &.panelClosed {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(10px);
+  }
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.controlLabel {
+  font-size: 11px;
+  color: rgba(140, 200, 150, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 50px;
+  flex-shrink: 0;
+}
+
+.toggleButton {
+  padding: 4px 12px;
+  border: 1px solid rgba(80, 160, 100, 0.2);
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(140, 200, 150, 0.5);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  text-align: center;
+
+  &:hover {
+    background: rgba(80, 160, 100, 0.08);
+  }
+
+  &.toggleOn {
+    color: #70c080;
+    border-color: rgba(112, 192, 128, 0.4);
+    background: rgba(112, 192, 128, 0.08);
+  }
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  max-width: 90px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(80, 160, 100, 0.15);
+  outline: none;
+  cursor: pointer;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #70c080;
+    cursor: pointer;
+    border: none;
+  }
+
+  &::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #70c080;
+    cursor: pointer;
+    border: none;
+  }
+}
+
+.panelDivider {
+  height: 1px;
+  background: rgba(80, 160, 100, 0.1);
+  margin: 2px 0;
+}
+
+.actionButton {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid rgba(80, 160, 100, 0.3);
+  border-radius: 6px;
+  background: rgba(80, 160, 100, 0.08);
+  color: rgba(140, 200, 150, 0.8);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(80, 160, 100, 0.15);
+    color: #a8e0b0;
+  }
+}
+
+.stat {
+  font-size: 10px;
+  color: rgba(140, 200, 150, 0.4);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  min-width: 32px;
+}
+
+.seedDisplay {
+  font-size: 10px;
+  color: rgba(140, 200, 150, 0.3);
+  font-family: monospace;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .panel {
+    top: auto;
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    min-width: unset;
+  }
+
+  .panelToggle {
+    top: auto;
+    bottom: 16px;
+    right: 16px;
+  }
+}

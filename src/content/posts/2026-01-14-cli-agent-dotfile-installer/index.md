@@ -1,15 +1,23 @@
 ---
-title: "CLI 에이전트가 dotfile 설치를 쉽고 재미있게 만들었다"
+title: "개인 환경 설정 (dotfiles) 관리하기"
 description: "한 줄 명령어로 환경 설정 자동화하기"
 date: 2026-01-14
+<<<<<<<< HEAD:src/content/posts/2026-01-14-cli-agent-dotfile-installer/index.md
 permalink: /cli-agent-dotfile-installer
+========
+slug: /dotfiles-settings
+>>>>>>>> origin/main:contents/posts/2026-01-14-dotfiles-settings/index.md
 tags: [dev, dotfiles, automation, cli]
 published: true
 ---
 
 GitHub: <https://github.com/jiunbae/settings>
 
-새 컴퓨터 사면 가장 먼저 하는 일이 dotfile 세팅이다. git clone하고 스크립트 돌리고, 이런 저런 설정 파일 심링크 걸고... 몇 번 반복하다 보면 귀찮음이 몰려온다. 그래서 만들었다. 한 줄 명령어로 끝나는 dotfile 설치기를.
+새 컴퓨터 사면 가장 먼저 하는 일이 dotfile 세팅이다. git clone하고 스크립트 돌리고, 이런 저런 설정 파일 심링크 걸고... 어쩌다 가끔 있는 일이지만 몇 번 반복하다 보면 한번에 모두 설치하고 싶은 생각이 들어 이전에는 dotfiles를 모두 복사하는 식으로 관리했었다.
+
+최근에 agents를 활용해서 개선하고 싶은 부분들을 개선했다. 크게 macOS와 linux (wsl) 등 환경에 따른 특수한 부분들을 처리하고 모듈 구조로 나눠 필요한것만 설치하고 확장성을 고려했다. 또한 너무 무겁던 쉘을 간소화 하고 빠르게 로딩될 수 있도록 최소한의 플러그인들만 설치하고 지연 로딩도 적용했다.
+
+이 설정은 나를 위한 개인화 설정이므로, 사용성에 맞게 수정해서 자신만의 레포로 관리하는 편이 용이할 것이다.
 
 ## 핵심 기능
 

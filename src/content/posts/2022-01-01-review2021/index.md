@@ -2,7 +2,11 @@
 title: Review 2021
 description: 2021년 연구·업무·일상의 변화와 고민을 기록한 연말 회고
 date: 2022-01-01
+<<<<<<<< HEAD:src/content/posts/2022-01-01-review2021/index.md
 permalink: /review2021
+========
+slug: /review-2021
+>>>>>>>> origin/main:contents/posts/2022-01-01-review-2021/index.md
 tags: [review]
 heroImage:
 heroImageAlt:
