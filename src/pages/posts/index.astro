@@ -77,24 +77,23 @@ const totalCount = sortedPosts.length;
   const postsList = document.getElementById('posts-list');
 
   tagsContainer?.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (target.classList.contains('tag-button')) {
-      const selectedTag = target.dataset.tag;
+    const target = (e.target as HTMLElement).closest('.tag-button') as HTMLElement;
+    if (!target) return;
+    const selectedTag = target.dataset.tag;
 
-      // Update active tag
-      tagsContainer.querySelectorAll('.tag-button').forEach(tag => tag.classList.remove('active'));
-      target.classList.add('active');
+    // Update active tag
+    tagsContainer.querySelectorAll('.tag-button').forEach(tag => tag.classList.remove('active'));
+    target.classList.add('active');
 
-      // Filter posts
-      postsList?.querySelectorAll('.post-item').forEach((item) => {
-        const postTags = JSON.parse((item as HTMLElement).dataset.tags || '[]');
-        if (selectedTag === 'all' || postTags.includes(selectedTag)) {
-          (item as HTMLElement).style.display = '';
-        } else {
-          (item as HTMLElement).style.display = 'none';
-        }
-      });
-    }
+    // Filter posts
+    postsList?.querySelectorAll('.post-item').forEach((item) => {
+      const postTags = JSON.parse((item as HTMLElement).dataset.tags || '[]');
+      if (selectedTag === 'all' || postTags.includes(selectedTag)) {
+        (item as HTMLElement).style.display = '';
+      } else {
+        (item as HTMLElement).style.display = 'none';
+      }
+    });
   });
 
   // Handle URL tag parameter

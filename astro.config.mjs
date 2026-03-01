@@ -29,9 +29,6 @@ export default defineConfig({
     sitemap(),
   ],
   markdown: {
-    shikiConfig: {
-      theme: 'github-dark',
-    },
     rehypePlugins: [rehypeMermaid],
   },
   vite: {

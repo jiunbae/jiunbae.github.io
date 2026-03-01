@@ -24,7 +24,7 @@ const sortedReviews = allReviews.sort((a, b) => b.data.date.valueOf() - a.data.d
         <ul class="reviews-list">
           {sortedReviews.map((review) => (
             <li class="review-item">
-              <a href={`/reviews${review.data.slug}`} class="review-link">
+              <a href={`/reviews${review.data.permalink}`} class="review-link">
                 <article class="review-card">
                   <time datetime={review.data.date.toISOString()}>
                     {format(review.data.date, 'yy.MM.dd')}
