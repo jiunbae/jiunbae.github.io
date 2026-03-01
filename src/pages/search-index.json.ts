@@ -12,16 +12,21 @@ export const GET: APIRoute = async () => {
       title: p.data.title,
       description: p.data.description || '',
       tags: p.data.tags || [],
-      slug: `/posts/${p.data.permalink || p.slug}/`,
+      slug: `/posts${p.data.permalink || `/${p.slug}`}`,
       type: 'post' as const,
     })),
-    ...notes.map(n => ({
-      title: n.data.title,
-      description: n.data.description || '',
-      tags: n.data.tags || [],
-      slug: `/notes/${n.data.permalink || n.slug}/`,
-      type: 'note' as const,
-    })),
+    ...notes.map(n => {
+      let slug = n.data.permalink || `/${n.slug}`;
+      if (slug.startsWith('/notes/')) slug = slug.slice(6);
+      else if (!slug.startsWith('/')) slug = `/${slug}`;
+      return {
+        title: n.data.title,
+        description: n.data.description || '',
+        tags: n.data.tags || [],
+        slug: `/notes${slug}`,
+        type: 'note' as const,
+      };
+    }),
     ...playground.map(p => ({
       title: p.title,
       description: p.description,

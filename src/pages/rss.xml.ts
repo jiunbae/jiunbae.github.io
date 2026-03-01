@@ -13,12 +13,17 @@ export async function GET(context: APIContext) {
     link: `/posts${post.data.permalink}`,
   }));
 
-  const noteItems = notes.map((note) => ({
-    title: `[Note] ${note.data.title}`,
-    pubDate: note.data.date,
-    description: note.data.description || '',
-    link: `/notes/${note.data.permalink || note.slug}/`,
-  }));
+  const noteItems = notes.map((note) => {
+    let slug = note.data.permalink || `/${note.slug}`;
+    if (slug.startsWith('/notes/')) slug = slug.slice(6); // keep leading /
+    else if (!slug.startsWith('/')) slug = `/${slug}`;
+    return {
+      title: `[Note] ${note.data.title}`,
+      pubDate: note.data.date,
+      description: note.data.description || '',
+      link: `/notes${slug}`,
+    };
+  });
 
   const allItems = [...postItems, ...noteItems].sort(
     (a, b) => b.pubDate.valueOf() - a.pubDate.valueOf()
