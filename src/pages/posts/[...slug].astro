@@ -19,12 +19,12 @@ const { post } = Astro.props;
 const { Content, headings } = await render(post);
 
 const toc = headings.filter(h => h.depth <= 3);
-const heroImage = post.data.heroImage && post.data.heroImage.trim() ? post.data.heroImage : undefined;
+const rawHeroImage = post.data.heroImage && post.data.heroImage.trim() ? post.data.heroImage : undefined;
+// Only use heroImage if it's an absolute path; relative paths (./img) aren't resolved in frontmatter
+const heroImage = rawHeroImage && (rawHeroImage.startsWith('/') || rawHeroImage.startsWith('http')) ? rawHeroImage : undefined;
 let postSlug = post.data.permalink || post.slug;
 if (postSlug.startsWith('/')) postSlug = postSlug.slice(1);
-const generatedOg = `/og/posts/${postSlug}.png`;
-// Only use heroImage for og:image if it's an absolute path (not a relative ./asset)
-const ogImage = heroImage && (heroImage.startsWith('/') || heroImage.startsWith('http')) ? heroImage : generatedOg;
+const ogImage = heroImage || `/og/posts/${postSlug}.png`;
 ---
 
 <Layout
