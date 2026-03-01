@@ -16,14 +16,15 @@ export const GET: APIRoute = async () => {
       type: 'post' as const,
     })),
     ...notes.map(n => {
-      let slug = n.data.permalink || `/${n.slug}`;
-      if (slug.startsWith('/notes/')) slug = slug.slice(6);
-      else if (!slug.startsWith('/')) slug = `/${slug}`;
+      const permalink = n.data.permalink || `/${n.slug}`;
+      const slug = permalink.startsWith('/notes/')
+        ? permalink
+        : `/notes/${permalink.replace(/^\//, '')}`;
       return {
         title: n.data.title,
         description: n.data.description || '',
         tags: n.data.tags || [],
-        slug: `/notes${slug}`,
+        slug,
         type: 'note' as const,
       };
     }),

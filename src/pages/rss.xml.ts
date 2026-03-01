@@ -14,14 +14,15 @@ export async function GET(context: APIContext) {
   }));
 
   const noteItems = notes.map((note) => {
-    let slug = note.data.permalink || `/${note.slug}`;
-    if (slug.startsWith('/notes/')) slug = slug.slice(6); // keep leading /
-    else if (!slug.startsWith('/')) slug = `/${slug}`;
+    const permalink = note.data.permalink || `/${note.slug}`;
+    const link = permalink.startsWith('/notes/')
+      ? permalink
+      : `/notes/${permalink.replace(/^\//, '')}`;
     return {
       title: `[Note] ${note.data.title}`,
       pubDate: note.data.date,
       description: note.data.description || '',
-      link: `/notes${slug}`,
+      link,
     };
   });
 
