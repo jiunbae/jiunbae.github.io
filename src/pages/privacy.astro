@@ -1,0 +1,165 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="개인정보처리방침" description="Jiunbae's Blog 개인정보처리방침">
+  <div class="page">
+    <h1 class="title">개인정보처리방침</h1>
+    <p class="updated">최종 수정일: 2025년 1월 1일</p>
+
+    <div class="content">
+      <section>
+        <h2>1. 개인정보의 수집 및 이용 목적</h2>
+        <p>본 블로그("jiun.dev", 이하 "사이트")는 다음과 같은 목적으로 개인정보를 처리합니다:</p>
+        <ul>
+          <li>댓글 기능 제공 (GitHub 계정을 통한 Utterances)</li>
+          <li>웹사이트 이용 통계 분석 (Google Analytics)</li>
+          <li>사이트 성능 개선 및 콘텐츠 최적화</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>2. 수집하는 개인정보 항목</h2>
+        <p>사이트는 직접적으로 개인정보를 수집하지 않습니다. 다만, 다음의 제3자 서비스를 통해 간접적으로 정보가 수집될 수 있습니다:</p>
+        <ul>
+          <li><strong>Google Analytics:</strong> 쿠키를 통한 방문 기록, 페이지 조회, 브라우저 정보, 대략적인 위치 정보</li>
+          <li><strong>Utterances (댓글):</strong> GitHub 사용자 이름, 프로필 이미지 (GitHub 인증 기반)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>3. 개인정보의 보유 및 이용 기간</h2>
+        <p>사이트는 별도의 개인정보를 보유하지 않습니다. Google Analytics 데이터는 Google의 데이터 보존 정책에 따르며, 댓글 데이터는 GitHub 리포지토리에 저장됩니다.</p>
+      </section>
+
+      <section>
+        <h2>4. 쿠키(Cookie) 사용</h2>
+        <p>사이트는 다음과 같은 쿠키를 사용합니다:</p>
+        <ul>
+          <li><strong>필수 쿠키:</strong> 테마 설정 (라이트/다크 모드) — localStorage에 저장</li>
+          <li><strong>분석 쿠키:</strong> Google Analytics 쿠키 (_ga, _gid)</li>
+        </ul>
+        <p>브라우저 설정에서 쿠키를 비활성화할 수 있으나, 일부 기능이 제한될 수 있습니다.</p>
+      </section>
+
+      <section>
+        <h2>5. 제3자 서비스</h2>
+        <p>사이트는 다음의 제3자 서비스를 이용합니다:</p>
+        <ul>
+          <li><strong>Google Analytics:</strong> 웹사이트 트래픽 분석 (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google 개인정보처리방침</a>)</li>
+          <li><strong>GitHub / Utterances:</strong> 댓글 시스템 (<a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub 개인정보처리방침</a>)</li>
+          <li><strong>Cloudflare Pages:</strong> 호스팅 서비스</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>6. 개인정보의 파기</h2>
+        <p>사이트 운영자가 직접 보유하는 개인정보는 없습니다. 제3자 서비스에서 수집한 데이터의 삭제는 해당 서비스의 정책을 따릅니다.</p>
+      </section>
+
+      <section>
+        <h2>7. 정보주체의 권리</h2>
+        <p>이용자는 언제든지 다음의 권리를 행사할 수 있습니다:</p>
+        <ul>
+          <li>Google Analytics 추적 거부: <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a></li>
+          <li>댓글 삭제 요청: GitHub 리포지토리 Issues를 통해 요청</li>
+          <li>기타 문의: <a href="mailto:jiunbae.623@gmail.com">jiunbae.623@gmail.com</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>8. 개인정보 보호책임자</h2>
+        <ul>
+          <li><strong>이름:</strong> 배지운</li>
+          <li><strong>이메일:</strong> <a href="mailto:jiunbae.623@gmail.com">jiunbae.623@gmail.com</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>9. 개인정보처리방침의 변경</h2>
+        <p>본 개인정보처리방침은 법령, 정책 또는 보안기술의 변경에 따라 내용이 변경될 수 있습니다. 변경 시 사이트에 공지합니다.</p>
+      </section>
+
+      <section>
+        <h2>10. 기타</h2>
+        <p>본 사이트의 모든 도구(이미지/오디오/비디오 변환기)는 클라이언트 측에서만 작동하며, 업로드된 파일은 서버로 전송되지 않습니다. 모든 처리는 사용자의 브라우저에서 이루어집니다.</p>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--gray-1);
+  }
+
+  .updated {
+    font-size: 0.85rem;
+    color: var(--gray-4);
+    margin-bottom: 2rem;
+  }
+
+  .content {
+    section {
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--gray-1);
+    }
+
+    p {
+      color: var(--gray-3);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin: 0.5rem 0;
+
+      li {
+        color: var(--gray-3);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    a {
+      color: var(--primary-c1);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    strong {
+      color: var(--gray-2);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      padding: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.6rem;
+    }
+  }
+</style>

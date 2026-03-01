@@ -1,7 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import type { HeadProps } from 'gatsby'
-import { Link } from 'gatsby'
-import { Seo } from '@/components'
 import * as styles from './AudioConverter.module.scss'
 
 type OutputFormat = 'mp3' | 'wav' | 'ogg' | 'aac'
@@ -113,8 +110,10 @@ const AudioConverterPage = () => {
       setIsLoadingFFmpeg(true)
       const { getFFmpeg } = await import('@/utils/ffmpeg')
       const { fetchFile } = await import('@ffmpeg/util')
-      const ffmpeg = await getFFmpeg((p) => setProgress(p))
+      const ffmpeg = await getFFmpeg()
       setIsLoadingFFmpeg(false)
+      const onProgress = ({ progress }: { progress: number }) => setProgress(Math.min(1, Math.max(0, progress)))
+      ffmpeg.on('progress', onProgress)
 
       const ext = (file.name.split('.').pop() || 'bin').replace(/[^a-zA-Z0-9]/g, '')
       const inputName = `input.${ext}`
@@ -141,6 +140,7 @@ const AudioConverterPage = () => {
       await ffmpeg.deleteFile(outputName).catch(() => {})
 
       setProgress(1)
+      ffmpeg.off('progress', onProgress)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Conversion failed')
     } finally {
@@ -154,7 +154,7 @@ const AudioConverterPage = () => {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to="/tools/" className={styles.backLink}>Tools</Link>
+        <a href="/tools/" className={styles.backLink}>Tools</a>
         <h1 className={styles.title}>Audio Converter</h1>
         <p className={styles.subtitle}>
           Convert audio files between MP3, WAV, OGG, and AAC — runs entirely in your browser
@@ -301,13 +301,5 @@ const AudioConverterPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Audio Converter"
-    description="Convert audio files between MP3, WAV, OGG, and AAC — custom bitrate and sample rate. Runs entirely in your browser with FFmpeg WASM."
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default AudioConverterPage

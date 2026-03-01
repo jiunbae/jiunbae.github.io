@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /admin/
-
-Sitemap: https://jiun.dev/sitemap.xml

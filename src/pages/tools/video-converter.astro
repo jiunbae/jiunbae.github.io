@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import VideoConverter from '@/views/VideoConverter';
+---
+
+<Layout title="Video Converter" description="Convert video files between MP4, WebM, and GIF — custom resolution and quality. Runs entirely in your browser with FFmpeg WASM.">
+  <VideoConverter client:only="react" />
+</Layout>

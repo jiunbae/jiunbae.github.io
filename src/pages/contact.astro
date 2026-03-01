@@ -1,0 +1,212 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="Contact" description="Get in touch with Jiun Bae">
+  <div class="page">
+    <h1 class="title">Contact</h1>
+    <p class="subtitle">Feel free to reach out for collaboration, questions, or just to say hello.</p>
+
+    <div class="sections">
+      <section class="section">
+        <h2 class="section-title">Get in Touch</h2>
+        <ul class="contact-list">
+          <li>
+            <span class="label">Email</span>
+            <a href="mailto:jiunbae.623@gmail.com">jiunbae.623@gmail.com</a>
+          </li>
+          <li>
+            <span class="label">GitHub</span>
+            <a href="https://github.com/jiunbae" target="_blank" rel="noopener noreferrer">github.com/jiunbae</a>
+          </li>
+          <li>
+            <span class="label">LinkedIn</span>
+            <a href="https://linkedin.com/in/jiunbae" target="_blank" rel="noopener noreferrer">linkedin.com/in/jiunbae</a>
+          </li>
+          <li>
+            <span class="label">X (Twitter)</span>
+            <a href="https://x.com/jiunbae_" target="_blank" rel="noopener noreferrer">@jiunbae_</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Topics I'd love to chat about</h2>
+        <div class="topics">
+          <div class="topic">
+            <span class="topic-icon">🤖</span>
+            <div>
+              <strong>AI / ML</strong>
+              <p>Deep learning, computer vision, speech recognition</p>
+            </div>
+          </div>
+          <div class="topic">
+            <span class="topic-icon">✍️</span>
+            <div>
+              <strong>Blog Content</strong>
+              <p>Feedback, corrections, or topic suggestions</p>
+            </div>
+          </div>
+          <div class="topic">
+            <span class="topic-icon">💻</span>
+            <div>
+              <strong>Dev Collaboration</strong>
+              <p>Open source, side projects, creative coding</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Response Guidelines</h2>
+        <p class="note">I typically respond within 1-2 business days. For urgent matters, email works best. Please include relevant context in your message so I can provide a helpful response.</p>
+      </section>
+
+      <p class="privacy-link">
+        See my <a href="/privacy/">Privacy Policy</a> for how I handle your information.
+      </p>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--gray-1);
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--gray-4);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+
+  .sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .section {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--gray-6);
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--gray-1);
+  }
+
+  .contact-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .label {
+      min-width: 100px;
+      font-weight: 500;
+      color: var(--gray-3);
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: var(--primary-c1);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .topics {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .topic {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    .topic-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    strong {
+      display: block;
+      color: var(--gray-1);
+      margin-bottom: 0.2rem;
+    }
+
+    p {
+      color: var(--gray-4);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  }
+
+  .note {
+    color: var(--gray-4);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .privacy-link {
+    font-size: 0.85rem;
+    color: var(--gray-4);
+
+    a {
+      color: var(--primary-c1);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      padding: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.6rem;
+    }
+
+    .contact-list {
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+      }
+
+      .label {
+        min-width: auto;
+      }
+    }
+  }
+</style>

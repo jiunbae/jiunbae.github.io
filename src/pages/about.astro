@@ -1,0 +1,599 @@
+---
+import Layout from '../layouts/Layout.astro';
+import aboutData from '../data/about.json';
+
+const { experience, education, skills, projects, awards, publications } = aboutData;
+---
+
+<Layout
+  title="About | Jiunbae"
+  description="Jiun Bae (배지운) - AI/ML Engineer"
+>
+  <div class="page">
+    <section class="profile">
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="avatar-container">
+            <img src="/profile.png" alt="Jiun Bae" class="avatar" />
+          </div>
+          <div class="profile-info">
+            <h1 class="name">Jiun Bae <span class="name-kr">· 배지운</span></h1>
+            <div class="links">
+              <a href="mailto:jiunbae.623@gmail.com" aria-label="Email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              </a>
+              <a href="https://www.facebook.com/MayTryArk" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+              </a>
+              <a href="https://linkedin.com/in/jiunbae" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                  <rect width="4" height="12" x="2" y="9"/>
+                  <circle cx="4" cy="4" r="2"/>
+                </svg>
+              </a>
+              <a href="https://github.com/jiunbae" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                  <path d="M9 18c-4.51 2-5-2-7-2"/>
+                </svg>
+              </a>
+              <a href="https://twitter.com/baejiun" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/>
+                </svg>
+              </a>
+              <a href="https://instagram.com/bae.jiun" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        <p class="bio">
+          Drive machine learning-based optimization in the field of speech processing and computer vision, committed to solving real world problems through data-driven innovations.
+        </p>
+      </div>
+    </section>
+
+    <div class="content">
+      <section class="section experience">
+        <h2>Experience</h2>
+        {experience.jobs.map((job) => (
+          <div class="item">
+            <h3>
+              <span class="title">
+                <a href={job.companyUrl} target="_blank" rel="noopener noreferrer">
+                  <strong>{job.company}</strong>
+                </a>
+                {job.team && (
+                  <span class="team">
+                    <a href={job.teamUrl} target="_blank" rel="noopener noreferrer">
+                      {job.team}
+                    </a>
+                  </span>
+                )}
+              </span>
+              <span class="period">{job.period}</span>
+            </h3>
+            <p class="position"><strong>{job.position}</strong></p>
+            {job.description && (
+              <ul>
+                {job.description.map((desc) => (
+                  <li>{desc}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </section>
+
+      <section class="section projects">
+        <h2>Projects</h2>
+        {projects.projects.map((project) => (
+          <div class="item">
+            <h3>
+              <span class="title">
+                {project.url ? (
+                  <a href={project.url} target="_blank" rel="noopener noreferrer">
+                    <strong>{project.title}</strong>
+                  </a>
+                ) : (
+                  <strong>{project.title}</strong>
+                )}
+              </span>
+              <div class="meta">
+                <span class="organization">{project.organization}</span>
+                <span class="period">{project.period}</span>
+              </div>
+            </h3>
+            <ul>
+              {project.description.map((desc) => (
+                <li>{desc}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+
+      <section class="section education">
+        <h2>Education</h2>
+        {education.schools.map((school) => (
+          <div class="item">
+            <h3>
+              <span class="title">
+                <a href={school.url} target="_blank" rel="noopener noreferrer">
+                  <strong>{school.name}</strong>
+                </a>
+              </span>
+              <span class="period">{school.period}</span>
+            </h3>
+            <p class="degree">{school.degree}</p>
+            <p class="location">{school.location}</p>
+            {school.advisor && (
+              <p class="advisor">
+                Advisor: <a href={school.advisor.url} target="_blank" rel="noopener noreferrer">{school.advisor.name}</a>
+              </p>
+            )}
+            {school.description && <p class="description">{school.description}</p>}
+          </div>
+        ))}
+      </section>
+
+      <section class="section awards">
+        <h2>Awards</h2>
+        <ul class="awards-list">
+          {awards.awards.map((award) => (
+            <li>
+              <span class="award-title">{award.title}</span>
+              <span class="award-year">{award.year}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="section publications">
+        <h2>Publications</h2>
+        {publications.papers.map((paper) => (
+          <div class="paper">
+            <h4>
+              {paper.url ? (
+                <a href={paper.url} target="_blank" rel="noopener noreferrer">{paper.title}</a>
+              ) : (
+                paper.title
+              )}
+            </h4>
+            <p class="authors">{paper.authors.join(', ')}</p>
+            <p class="journal">{paper.journal}, {paper.volume}, {paper.year}</p>
+          </div>
+        ))}
+      </section>
+
+      <section class="section skills">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+          <div class="skill-category">
+            <h4>Languages</h4>
+            <div class="skill-tags">
+              {skills.languages.map((lang) => (
+                <span class="skill-tag">{lang}</span>
+              ))}
+            </div>
+          </div>
+          <div class="skill-category">
+            <h4>Frameworks</h4>
+            <div class="skill-tags">
+              {skills.frameworks.map((fw) => (
+                <span class="skill-tag">{fw}</span>
+              ))}
+            </div>
+          </div>
+          <div class="skill-category">
+            <h4>Tools</h4>
+            <div class="skill-tags">
+              {skills.tools.map((tool) => (
+                <span class="skill-tag">{tool}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .page {
+    color: var(--gray-3);
+    font-family: -apple-system, Roboto, sans-serif, serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
+
+    @media (min-width: 500px) {
+      padding: 2rem;
+    }
+  }
+
+  .profile {
+    margin-bottom: 0.5rem;
+  }
+
+  .profile-card {
+    min-width: 260px;
+    max-width: 720px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0.5rem;
+
+    @media (min-width: 780px) {
+      padding: 2rem;
+    }
+  }
+
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+
+    @media (min-width: 780px) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .avatar-container {
+    flex-shrink: 0;
+  }
+
+  .avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 25%;
+    object-fit: cover;
+  }
+
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+
+    @media (min-width: 780px) {
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+
+  .name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-1);
+    margin: 0;
+  }
+
+  .name-kr {
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--gray-3);
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    width: 100%;
+
+    @media (min-width: 780px) {
+      justify-content: flex-start;
+    }
+
+    a {
+      color: var(--gray-4);
+      transition: color 0.2s;
+      padding: 4px;
+
+      svg {
+        stroke: var(--icon-color);
+      }
+
+      &:hover {
+        color: var(--primary-c1);
+      }
+    }
+  }
+
+  .bio {
+    line-height: 1.6;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 100%;
+    color: var(--gray-3);
+    font-size: 0.9375rem;
+    text-align: center;
+  }
+
+  .content {
+    margin-top: 0.5rem;
+
+    :global(section) {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+
+      &:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  .section {
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem;
+      color: var(--primary-c1);
+      letter-spacing: -0.5px;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    h3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--gray-1);
+
+      &:first-of-type {
+        margin-top: 0;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          color: var(--primary-c1);
+        }
+      }
+    }
+  }
+
+  .item {
+    margin-bottom: 1.5rem;
+    padding-left: 0;
+    border-left: none;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .title {
+      a {
+        color: var(--gray-1);
+        text-decoration: none;
+
+        &:hover {
+          color: var(--primary-c1);
+        }
+      }
+    }
+
+    .team {
+      margin-left: 0.5rem;
+      color: var(--gray-4);
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          color: var(--primary-c1);
+        }
+      }
+    }
+
+    .period {
+      color: var(--gray-4);
+      font-size: 0.875rem;
+      font-weight: 400;
+    }
+
+    .meta {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .organization {
+      color: var(--gray-3);
+    }
+
+    .position, .degree {
+      color: var(--primary-c1);
+      margin: 0.25rem 0;
+    }
+
+    .location, .advisor, .description {
+      color: var(--gray-4);
+      font-size: 0.9375rem;
+      margin: 0.25rem 0;
+
+      a {
+        color: var(--primary-c1);
+      }
+    }
+
+    ul {
+      margin-top: 0.5rem;
+      list-style: none;
+      position: relative;
+      padding-left: 2rem;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 2px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: var(--gray-1);
+        border-radius: 1px;
+      }
+
+      li {
+        position: relative;
+        padding-left: 0.25rem;
+        color: var(--gray-3);
+        font-size: 0.9375rem;
+        margin: 0.25rem 0;
+        line-height: 1.6;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: -0.7rem;
+          top: 0.7rem;
+          width: 6px;
+          height: 6px;
+          background-color: var(--gray-2);
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
+  .awards-list {
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--gray-5);
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .award-title {
+      color: var(--gray-2);
+    }
+
+    .award-year {
+      color: var(--gray-4);
+      font-size: 0.875rem;
+    }
+  }
+
+  .paper {
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-1);
+      margin: 0 0 0.25rem;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+          color: var(--primary-c1);
+        }
+      }
+    }
+
+    .authors {
+      color: var(--gray-3);
+      font-size: 0.875rem;
+      margin: 0.25rem 0;
+    }
+
+    .journal {
+      color: var(--gray-4);
+      font-size: 0.875rem;
+      font-style: italic;
+      margin: 0;
+    }
+  }
+
+  .skills-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .skill-category {
+    h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-3);
+      margin: 0 0 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--article-background);
+    border: 1px solid var(--gray-5);
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    color: var(--gray-2);
+  }
+
+  @media (max-width: 768px) {
+    .profile-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .links {
+      justify-content: center;
+    }
+
+    .item h3 {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .item .meta {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+</style>

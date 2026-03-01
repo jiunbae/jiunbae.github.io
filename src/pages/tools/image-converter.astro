@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ImageConverter from '@/views/ImageConverter';
+---
+
+<Layout title="Image Converter" description="Convert images between PNG, JPG, WebP, and PDF — custom dimensions, scale, background, and quality. Runs entirely in your browser.">
+  <ImageConverter client:only="react" />
+</Layout>

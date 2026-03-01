@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import AudioConverter from '@/views/AudioConverter';
+---
+
+<Layout title="Audio Converter" description="Convert audio files between MP3, WAV, OGG, and AAC — custom bitrate and sample rate. Runs entirely in your browser with FFmpeg WASM.">
+  <AudioConverter client:only="react" />
+</Layout>

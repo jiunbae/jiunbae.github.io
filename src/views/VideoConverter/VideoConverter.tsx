@@ -1,7 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import type { HeadProps } from 'gatsby'
-import { Link } from 'gatsby'
-import { Seo } from '@/components'
 import * as styles from './VideoConverter.module.scss'
 
 type OutputFormat = 'mp4' | 'webm' | 'gif'
@@ -145,8 +142,10 @@ const VideoConverterPage = () => {
       setIsLoadingFFmpeg(true)
       const { getFFmpeg } = await import('@/utils/ffmpeg')
       const { fetchFile } = await import('@ffmpeg/util')
-      const ffmpeg = await getFFmpeg((p) => setProgress(p))
+      const ffmpeg = await getFFmpeg()
       setIsLoadingFFmpeg(false)
+      const onProgress = ({ progress }: { progress: number }) => setProgress(Math.min(1, Math.max(0, progress)))
+      ffmpeg.on('progress', onProgress)
 
       const inputExt = (file.name.split('.').pop() || 'mp4').replace(/[^a-zA-Z0-9]/g, '')
       const inputName = `input.${inputExt}`
@@ -173,6 +172,7 @@ const VideoConverterPage = () => {
       await ffmpeg.deleteFile(outputName).catch(() => {})
 
       setProgress(1)
+      ffmpeg.off('progress', onProgress)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Conversion failed')
     } finally {
@@ -186,7 +186,7 @@ const VideoConverterPage = () => {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to="/tools/" className={styles.backLink}>Tools</Link>
+        <a href="/tools/" className={styles.backLink}>Tools</a>
         <h1 className={styles.title}>Video Converter</h1>
         <p className={styles.subtitle}>
           Convert video files between MP4, WebM, and GIF — runs entirely in your browser
@@ -334,13 +334,5 @@ const VideoConverterPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Video Converter"
-    description="Convert video files between MP4, WebM, and GIF — custom resolution and quality. Runs entirely in your browser with FFmpeg WASM."
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default VideoConverterPage

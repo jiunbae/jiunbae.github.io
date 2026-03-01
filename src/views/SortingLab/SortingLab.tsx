@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './SortingLab.module.scss'
 import type {
@@ -258,13 +256,5 @@ const SortingLabPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Sorting Lab"
-    description="Sorting algorithm visualizer with speed, input distribution, and algorithm controls"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default SortingLabPage

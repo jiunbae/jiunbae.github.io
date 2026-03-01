@@ -1,6 +1,0 @@
-export { EducationSection } from './Education/Education'
-export { ExperienceSection } from './Experience/Experience'
-export { ProjectsSection } from './Projects/Projects'
-export { AwardsSection } from './Awards/Awards'
-export { SkillsSection } from './Skills/Skills'
-export { PublicationSection } from './Publication/Publication' 

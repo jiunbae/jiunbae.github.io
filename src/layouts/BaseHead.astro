@@ -1,0 +1,120 @@
+---
+import '@/styles/index.scss';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  tags?: string[];
+}
+
+const {
+  title,
+  description = "AI/ML 연구원의 기술 블로그",
+  image = '/profile.png',
+  canonicalURL,
+  ogType = 'website',
+  publishedTime,
+  tags = [],
+} = Astro.props;
+const siteTitle = "Jiunbae's Blog";
+const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+const resolvedImage = new URL(image, Astro.site).href;
+const resolvedCanonical = canonicalURL || Astro.url.href;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<link rel="canonical" href={resolvedCanonical} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={resolvedCanonical} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={resolvedImage} />
+<meta property="og:site_name" content={siteTitle} />
+{ogType === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
+{ogType === 'article' && tags.map(tag => (
+  <meta property="article:tag" content={tag} />
+))}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@baejiun" />
+<meta name="twitter:creator" content="@baejiun" />
+<meta name="twitter:url" content={resolvedCanonical} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={resolvedImage} />
+
+<!-- JSON-LD Structured Data -->
+{ogType === 'article' ? (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "description": description,
+    "image": resolvedImage,
+    "url": resolvedCanonical,
+    "datePublished": publishedTime,
+    "author": {
+      "@type": "Person",
+      "name": "Jiun Bae",
+      "url": "https://jiun.dev/about/"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Jiun Bae"
+    },
+    "keywords": tags.join(', '),
+  })} />
+) : (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": siteTitle,
+    "url": "https://jiun.dev",
+    "author": {
+      "@type": "Person",
+      "name": "Jiun Bae"
+    }
+  })} />
+)}
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/profile.png" />
+<link rel="apple-touch-icon" href="/profile.png" />
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml" />
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Font Preloads -->
+<link rel="preload" href="/fonts/Pretendard-Regular.subset.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/Pretendard-Bold.subset.woff2" as="font" type="font/woff2" crossorigin />
+
+<!-- Theme Script -->
+<script is:inline>
+  const getThemePreference = () => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme');
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  };
+  const theme = getThemePreference();
+  document.documentElement.dataset.theme = theme;
+</script>

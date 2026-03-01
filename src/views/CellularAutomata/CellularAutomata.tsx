@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './CellularAutomata.module.scss'
 import type { CellularAutomataEngine, RulePreset } from './engine'
@@ -226,13 +224,5 @@ const CellularAutomataPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Cellular Automata Lab"
-    description="Interactive cellular automata playground with Life, HighLife, and Seeds rules"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default CellularAutomataPage

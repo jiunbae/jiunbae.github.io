@@ -1,0 +1,761 @@
+---
+import BaseHead from './BaseHead.astro';
+import SearchModal from '@/components/SearchModal';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  tags?: string[];
+}
+
+const { title, description, image, ogType, publishedTime, tags } = Astro.props;
+const pathname = Astro.url.pathname;
+
+const baseNavLinks = [
+  { to: '/', label: 'Posts' },
+  { to: '/notes/', label: 'Notes' },
+  { to: '/playground/', label: 'Playground' },
+  { to: '/tools/', label: 'Tools' },
+];
+
+const isActivePath = (target: string) => {
+  if (target === '/') {
+    return pathname === '/' || pathname.startsWith('/posts/');
+  }
+  return pathname.startsWith(target);
+};
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <BaseHead title={title} description={description} image={image} ogType={ogType} publishedTime={publishedTime} tags={tags} />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="header" id="site-header">
+      <div class="wrapper">
+        <a href="/" class="heading-link">
+          <div class="heading-wrapper">
+            <span class="logo-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+                <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="14" font-weight="800" fill="currentColor">J</text>
+              </svg>
+            </span>
+            <span class="heading">Jiunbae's</span>
+          </div>
+        </a>
+        <div class="header-buttons">
+          <!-- Desktop navigation -->
+          <nav class="navigation desktop-only" aria-label="Main navigation">
+            {baseNavLinks.map(link => (
+              <a
+                href={link.to}
+                class:list={['link', { 'active-link': isActivePath(link.to) }]}
+                aria-current={isActivePath(link.to) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            ))}
+            <a href="/about/" class:list={['icon-link desktop-only', { 'active-icon': pathname.startsWith('/about') }]} aria-label="About page">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 20a6 6 0 0 0-12 0"/>
+                <circle cx="12" cy="10" r="4"/>
+                <circle cx="12" cy="12" r="10"/>
+              </svg>
+            </a>
+            <a href="/rss.xml" class="icon-link desktop-only" aria-label="RSS feed">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 11a9 9 0 0 1 9 9"/>
+                <path d="M4 4a16 16 0 0 1 16 16"/>
+                <circle cx="5" cy="19" r="1"/>
+              </svg>
+            </a>
+            <button class="icon-button desktop-only" id="search-toggle" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+              </svg>
+            </button>
+            <button class="icon-button desktop-only" id="theme-toggle-desktop" aria-label="Toggle theme">
+              <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="currentColor" stroke="currentColor">
+                <path d="M3.96326 16.1073L2.66133 15.7425L3.41265 16.8666C4.20961 18.059 5.26107 19.0598 6.49131 19.797C7.72155 20.5342 9.09997 20.9895 10.5273 21.1299C11.9546 21.2704 13.3953 21.0926 14.7457 20.6093C16.096 20.126 17.3224 19.3493 18.3365 18.3352C19.3506 17.321 20.1271 16.0945 20.6103 14.7441C21.0934 13.3938 21.2711 11.953 21.1305 10.5257C20.9899 9.09842 20.5346 7.72005 19.7973 6.48987C19.06 5.25969 18.059 4.20833 16.8665 3.41148L15.7424 2.66026L16.1073 3.96216C16.5792 5.64563 16.5944 7.42439 16.1512 9.11566C15.708 10.8069 14.8226 12.3497 13.5857 13.5854L13.5855 13.5857C12.3498 14.8224 10.8072 15.7077 9.11618 16.1509C7.42512 16.594 5.64658 16.579 3.96326 16.1073ZM11.5 22.5C5.42469 22.5 0.5 17.5753 0.5 11.5C0.5 5.42469 5.42469 0.5 11.5 0.5C17.5753 0.5 22.5 5.42469 22.5 11.5C22.5 17.5753 17.5753 22.5 11.5 22.5Z"/>
+              </svg>
+            </button>
+          </nav>
+
+          <!-- Mobile navigation -->
+          <div class="mobile-only" id="mobile-nav">
+            <span class="current-page" id="current-page-label">
+              {(() => {
+                if (pathname.startsWith('/notes')) return 'Notes';
+                if (pathname.startsWith('/reviews')) return 'Reviews';
+                if (pathname.startsWith('/playground')) return 'Playground';
+                if (pathname.startsWith('/tools')) return 'Tools';
+                if (pathname.startsWith('/about')) return 'About';
+                return 'Posts';
+              })()}
+            </span>
+            <button class="mobile-icon-btn" id="search-toggle-mobile" aria-label="Search">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </button>
+            <button class="mobile-icon-btn" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+              <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+              <svg class="close-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="progress-bar" id="progress-bar"></div>
+    </header>
+
+    <!-- Mobile drawer overlay -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <!-- Mobile drawer -->
+    <nav class="drawer" id="drawer" aria-label="Mobile navigation" aria-hidden="true">
+      <div class="drawer-content">
+        <div class="drawer-links">
+          {baseNavLinks.map(link => (
+            <a
+              href={link.to}
+              class:list={['drawer-link', { 'drawer-active': isActivePath(link.to) }]}
+              aria-current={isActivePath(link.to) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+        <hr class="drawer-divider" />
+        <div class="drawer-actions">
+          <a href="/about/" class="drawer-action">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+            <span>About</span>
+          </a>
+          <a href="/rss.xml" class="drawer-action">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+            <span>RSS Feed</span>
+          </a>
+          <button class="drawer-action" id="theme-toggle-drawer" aria-label="Toggle theme">
+            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="currentColor" stroke="currentColor"><path d="M3.96326 16.1073L2.66133 15.7425L3.41265 16.8666C4.20961 18.059 5.26107 19.0598 6.49131 19.797C7.72155 20.5342 9.09997 20.9895 10.5273 21.1299C11.9546 21.2704 13.3953 21.0926 14.7457 20.6093C16.096 20.126 17.3224 19.3493 18.3365 18.3352C19.3506 17.321 20.1271 16.0945 20.6103 14.7441C21.0934 13.3938 21.2711 11.953 21.1305 10.5257C20.9899 9.09842 20.5346 7.72005 19.7973 6.48987C19.06 5.25969 18.059 4.20833 16.8665 3.41148L15.7424 2.66026L16.1073 3.96216C16.5792 5.64563 16.5944 7.42439 16.1512 9.11566C15.708 10.8069 14.8226 12.3497 13.5857 13.5854L13.5855 13.5857C12.3498 14.8224 10.8072 15.7077 9.11618 16.1509C7.42512 16.594 5.64658 16.579 3.96326 16.1073ZM11.5 22.5C5.42469 22.5 0.5 17.5753 0.5 11.5C0.5 5.42469 5.42469 0.5 11.5 0.5C17.5753 0.5 22.5 5.42469 22.5 11.5C22.5 17.5753 17.5753 22.5 11.5 22.5Z"/></svg>
+            <span>Theme</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <SearchModal client:idle />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <span class="copy-right">Copyright © {new Date().getFullYear()}. jiunbae. All rights reserved.</span>
+    </footer>
+
+    <!-- Scroll to top button -->
+    <button class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m18 15-6-6-6 6"/>
+      </svg>
+    </button>
+
+    <script>
+      // Theme toggle helper
+      function doToggleTheme() {
+        const currentTheme = document.documentElement.dataset.theme;
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = newTheme;
+        localStorage.setItem('theme', newTheme);
+        const utterancesFrame = document.querySelector('.utterances-frame') as HTMLIFrameElement;
+        if (utterancesFrame) {
+          utterancesFrame.contentWindow?.postMessage(
+            { type: 'set-theme', theme: newTheme === 'dark' ? 'github-dark' : 'github-light' },
+            'https://utteranc.es'
+          );
+        }
+      }
+
+      // Desktop theme toggle
+      document.getElementById('theme-toggle-desktop')?.addEventListener('click', doToggleTheme);
+      // Drawer theme toggle
+      document.getElementById('theme-toggle-drawer')?.addEventListener('click', () => {
+        doToggleTheme();
+        closeDrawer();
+      });
+
+      // Header shrink effect
+      const header = document.getElementById('site-header');
+      const handleHeaderShrink = () => {
+        if (!header) return;
+        if (window.scrollY > 0) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      };
+      // Progress bar
+      const progressBar = document.getElementById('progress-bar');
+      const updateProgressBar = () => {
+        if (!progressBar) return;
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = `${scrollPercent}%`;
+      };
+
+      // Scroll to top button
+      const scrollToTopBtn = document.getElementById('scroll-to-top');
+      const toggleScrollBtn = () => {
+        if (!scrollToTopBtn) return;
+        if (window.scrollY > 300) {
+          scrollToTopBtn.classList.add('visible');
+        } else {
+          scrollToTopBtn.classList.remove('visible');
+        }
+      };
+
+      // Consolidated rAF-throttled scroll handler
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            handleHeaderShrink();
+            updateProgressBar();
+            toggleScrollBtn();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // Run once on load
+      handleHeaderShrink();
+      updateProgressBar();
+      toggleScrollBtn();
+
+      scrollToTopBtn?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Mobile drawer
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const drawer = document.getElementById('drawer');
+      const drawerOverlay = document.getElementById('drawer-overlay');
+      const menuIcon = hamburgerBtn?.querySelector('.menu-icon') as HTMLElement;
+      const closeIcon = hamburgerBtn?.querySelector('.close-icon') as HTMLElement;
+
+      function openDrawer() {
+        drawer?.classList.add('open');
+        drawer?.setAttribute('aria-hidden', 'false');
+        drawerOverlay?.classList.add('open');
+        if (menuIcon) menuIcon.style.display = 'none';
+        if (closeIcon) closeIcon.style.display = 'block';
+        hamburgerBtn?.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        drawer?.classList.remove('open');
+        drawer?.setAttribute('aria-hidden', 'true');
+        drawerOverlay?.classList.remove('open');
+        if (menuIcon) menuIcon.style.display = 'block';
+        if (closeIcon) closeIcon.style.display = 'none';
+        hamburgerBtn?.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = 'unset';
+      }
+
+      hamburgerBtn?.addEventListener('click', () => {
+        const isOpen = drawer?.classList.contains('open');
+        isOpen ? closeDrawer() : openDrawer();
+      });
+
+      drawerOverlay?.addEventListener('click', closeDrawer);
+
+      drawer?.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeDrawer);
+      });
+
+      // ESC to close drawer
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer?.classList.contains('open')) {
+          closeDrawer();
+        }
+      });
+
+      // Search toggle (desktop + mobile)
+      document.getElementById('search-toggle')?.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('toggle-search'));
+      });
+      document.getElementById('search-toggle-mobile')?.addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('toggle-search'));
+      });
+    </script>
+
+    <!-- Mermaid support (only loaded when .mermaid elements exist) -->
+    <script type="module">
+      if (document.querySelectorAll('.mermaid').length > 0) {
+        const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs');
+
+        const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: theme,
+          securityLevel: 'loose'
+        });
+
+        // Store original source for re-rendering
+        document.querySelectorAll('.mermaid').forEach((el) => {
+          el.setAttribute('data-mermaid-src', el.textContent || '');
+        });
+
+        // Re-render on theme change
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'data-theme') {
+              const newTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
+              mermaid.initialize({ theme: newTheme, securityLevel: 'loose' });
+              document.querySelectorAll('.mermaid').forEach((el) => {
+                const code = el.getAttribute('data-mermaid-src');
+                if (code) {
+                  el.innerHTML = code;
+                  el.removeAttribute('data-processed');
+                }
+              });
+              mermaid.run();
+            }
+          });
+        });
+        observer.observe(document.documentElement, { attributes: true });
+      }
+    </script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8JQSR962RQ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8JQSR962RQ');
+    </script>
+  </body>
+</html>
+
+<style lang="scss">
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    padding: 8px;
+    background: var(--primary-c1);
+    color: white;
+    z-index: 100;
+
+    &:focus {
+      top: 0;
+    }
+  }
+
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background-color: var(--header-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    [data-theme='dark'] & {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    &.scrolled {
+      .heading-wrapper {
+        .logo-icon svg {
+          width: 28px;
+          height: 28px;
+        }
+        .heading {
+          display: none;
+          font-size: 1.25rem;
+        }
+      }
+
+      .wrapper {
+        height: 52px;
+        padding: 10px 20px;
+        transition: height 0.3s;
+      }
+
+      .icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      .link {
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  .progress-bar {
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-c1);
+    transition: width 0.1s ease-out;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+
+    @media (min-width: 769px) {
+      padding: 20px 60px;
+    }
+  }
+
+  .heading-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .heading-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+
+    .logo-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 32px;
+        height: 32px;
+        transition: width 0.3s, height 0.3s;
+      }
+    }
+
+    .heading {
+      display: none;
+      font-weight: 800;
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+      color: var(--icon-color);
+
+      @media (min-width: 769px) {
+        display: inline-block;
+      }
+    }
+  }
+
+  .header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    @media (min-width: 769px) {
+      gap: 1.25rem;
+    }
+  }
+
+  .desktop-only {
+    display: none;
+
+    @media (min-width: 769px) {
+      display: flex;
+    }
+  }
+
+  .mobile-only {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+
+  .navigation {
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .link {
+    text-decoration: none;
+    color: var(--icon-color);
+    font-weight: 600;
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &.active-link {
+      color: var(--primary-c1);
+      opacity: 1;
+    }
+  }
+
+  .icon-link, .icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    opacity: 0.7;
+    color: var(--icon-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      color: var(--icon-color);
+      stroke: var(--icon-color);
+      transition: width 0.3s, height 0.3s;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &.active-icon {
+      opacity: 1;
+
+      svg {
+        color: var(--primary-c1);
+        stroke: var(--primary-c1);
+      }
+    }
+  }
+
+  // Mobile nav elements
+  .current-page {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--icon-color);
+  }
+
+  .mobile-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--icon-color);
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  // Drawer overlay
+  .drawer-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+
+    &.open {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+  }
+
+  // Drawer
+  .drawer {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    height: 100vh;
+    background-color: var(--background);
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+
+    &.open {
+      right: 0;
+    }
+  }
+
+  .drawer-content {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    height: 100%;
+  }
+
+  .drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 40px;
+  }
+
+  .drawer-link {
+    display: block;
+    padding: 16px 12px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-1);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--article-background);
+    }
+
+    &.drawer-active {
+      color: var(--primary-c1);
+      background-color: var(--article-background);
+    }
+  }
+
+  .drawer-divider {
+    margin: 24px 0;
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    height: 0;
+    background: none;
+  }
+
+  .drawer-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .drawer-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--gray-1);
+    text-decoration: none;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--article-background);
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      color: var(--icon-color);
+      stroke: var(--icon-color);
+    }
+  }
+
+  .footer {
+    text-align: center;
+    padding: 50px 20px 20px;
+    margin: 0 auto;
+    max-width: 1400px;
+
+    @media (min-width: 769px) {
+      padding: 50px 60px 20px;
+    }
+  }
+
+  .copy-right {
+    color: var(--gray-3);
+    font-size: 1rem;
+  }
+
+  main {
+    min-height: calc(100vh - 200px);
+  }
+
+  .scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--primary-c1);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.2s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 40;
+
+    &.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    &:hover {
+      background: var(--primary-c2);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @media (max-width: 768px) {
+    .scroll-to-top {
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 40px;
+      height: 40px;
+    }
+
+    .header.scrolled {
+      .wrapper {
+        height: 52px;
+        padding: 10px 20px;
+      }
+
+      .logo-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+</style>
