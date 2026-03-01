@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import FluidSim from '@/views/FluidSim';
+---
+
+<Layout title="Fluid Simulation" description="GPU-accelerated fluid dynamics — paint with colorful ink, watch vortices and smoke swirl in real-time">
+  <FluidSim client:only="react" />
+</Layout>

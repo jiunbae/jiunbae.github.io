@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ShaderArt from '@/views/ShaderArt';
+---
+
+<Layout title="Shader Art Gallery" description="Interactive gallery of GPU fragment shaders -- plasma, kaleidoscope, metaballs, fractals, voronoi, aurora">
+  <ShaderArt client:only="react" />
+</Layout>

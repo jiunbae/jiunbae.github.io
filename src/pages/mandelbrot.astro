@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Mandelbrot from '@/views/Mandelbrot';
+---
+
+<Layout title="Mandelbrot Explorer" description="Interactive Mandelbrot set explorer with smooth coloring, multiple palettes, and deep zoom">
+  <Mandelbrot client:only="react" />
+</Layout>

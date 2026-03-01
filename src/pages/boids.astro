@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Boids from '@/views/Boids';
+---
+
+<Layout title="Boids Flocking" description="Craig Reynolds' Boids algorithm - emergent flocking behavior with separation, alignment, cohesion, predators, and trails">
+  <Boids client:only="react" />
+</Layout>

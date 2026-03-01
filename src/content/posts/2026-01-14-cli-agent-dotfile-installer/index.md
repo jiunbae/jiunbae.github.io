@@ -2,11 +2,7 @@
 title: "개인 환경 설정 (dotfiles) 관리하기"
 description: "한 줄 명령어로 환경 설정 자동화하기"
 date: 2026-01-14
-<<<<<<<< HEAD:src/content/posts/2026-01-14-cli-agent-dotfile-installer/index.md
 permalink: /cli-agent-dotfile-installer
-========
-slug: /dotfiles-settings
->>>>>>>> origin/main:contents/posts/2026-01-14-dotfiles-settings/index.md
 tags: [dev, dotfiles, automation, cli]
 published: true
 ---

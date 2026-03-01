@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import TerrainGen from '@/views/TerrainGen';
+---
+
+<Layout title="Terrain Generator" description="Procedural 3D terrain with simplex noise, hydraulic erosion simulation, and biome coloring">
+  <TerrainGen client:only="react" />
+</Layout>

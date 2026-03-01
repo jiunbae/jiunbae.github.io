@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import AudioVisualizer from '@/views/AudioVisualizer';
+---
+
+<Layout title="Audio Visualizer" description="Real-time 3D audio visualization with terrain, radial, and waveform modes - supports file input and microphone">
+  <AudioVisualizer client:only="react" />
+</Layout>

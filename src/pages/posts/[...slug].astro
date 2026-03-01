@@ -20,7 +20,9 @@ const { Content, headings } = await render(post);
 
 const toc = headings.filter(h => h.depth <= 3);
 const heroImage = post.data.heroImage && post.data.heroImage.trim() ? post.data.heroImage : undefined;
-const ogImage = heroImage || '/profile.png';
+let postSlug = post.data.permalink || post.slug;
+if (postSlug.startsWith('/')) postSlug = postSlug.slice(1);
+const ogImage = heroImage || `/og/posts/${postSlug}.png`;
 ---
 
 <Layout

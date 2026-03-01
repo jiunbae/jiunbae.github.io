@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import PhysicsSandbox from '@/views/PhysicsSandbox';
+---
+
+<Layout title="Physics Sandbox" description="Interactive 2D rigid body physics with circles, boxes, springs, gravity gun, and explosions">
+  <PhysicsSandbox client:only="react" />
+</Layout>

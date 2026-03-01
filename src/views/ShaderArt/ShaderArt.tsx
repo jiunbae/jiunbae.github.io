@@ -1,7 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import type { HeadProps } from 'gatsby'
 import clsx from 'clsx'
-import { Seo } from '@/components'
 
 import * as styles from './ShaderArt.module.scss'
 
@@ -165,13 +163,5 @@ const ShaderArtPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Shader Art Gallery"
-    description="Interactive gallery of GPU fragment shaders -- plasma, kaleidoscope, metaballs, fractals, voronoi, aurora, liquid metal, and neon grid"
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default ShaderArtPage

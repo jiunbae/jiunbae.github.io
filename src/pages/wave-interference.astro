@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import WaveInterference from '@/views/WaveInterference';
+---
+
+<Layout title="Wave Interference" description="Interactive wave interference field where you can place and drag wave sources">
+  <WaveInterference client:only="react" />
+</Layout>

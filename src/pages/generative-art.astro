@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import GenerativeArt from '@/views/GenerativeArt';
+---
+
+<Layout title="Generative Art Studio" description="Algorithmic art generator — flow fields, fractals, circle packing, Voronoi. Every click creates unique art">
+  <GenerativeArt client:only="react" />
+</Layout>

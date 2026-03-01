@@ -1,7 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import type { HeadProps } from 'gatsby'
-import { Link } from 'gatsby'
-import { Seo } from '@/components'
 import * as styles from './VideoConverter.module.scss'
 
 type OutputFormat = 'mp4' | 'webm' | 'gif'
@@ -186,7 +183,7 @@ const VideoConverterPage = () => {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to="/tools/" className={styles.backLink}>Tools</Link>
+        <a href="/tools/" className={styles.backLink}>Tools</a>
         <h1 className={styles.title}>Video Converter</h1>
         <p className={styles.subtitle}>
           Convert video files between MP4, WebM, and GIF — runs entirely in your browser
@@ -334,13 +331,5 @@ const VideoConverterPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Video Converter"
-    description="Convert video files between MP4, WebM, and GIF — custom resolution and quality. Runs entirely in your browser with FFmpeg WASM."
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default VideoConverterPage

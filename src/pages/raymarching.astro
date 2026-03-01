@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Raymarching from '@/views/Raymarching';
+---
+
+<Layout title="Raymarching Worlds" description="Real-time raymarched 3D worlds rendered with pure WebGL fragment shaders">
+  <Raymarching client:only="react" />
+</Layout>

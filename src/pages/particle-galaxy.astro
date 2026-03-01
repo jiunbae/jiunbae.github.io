@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ParticleGalaxy from '@/views/ParticleGalaxy';
+---
+
+<Layout title="Particle Galaxy" description="Interactive galaxy simulation with 80K GPU particles, spiral arms, and gravitational attractors">
+  <ParticleGalaxy client:only="react" />
+</Layout>

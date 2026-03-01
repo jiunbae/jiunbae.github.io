@@ -1,7 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
-import type { HeadProps } from 'gatsby'
-import { Link } from 'gatsby'
-import { Seo } from '@/components'
 import * as styles from './AudioConverter.module.scss'
 
 type OutputFormat = 'mp3' | 'wav' | 'ogg' | 'aac'
@@ -154,7 +151,7 @@ const AudioConverterPage = () => {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Link to="/tools/" className={styles.backLink}>Tools</Link>
+        <a href="/tools/" className={styles.backLink}>Tools</a>
         <h1 className={styles.title}>Audio Converter</h1>
         <p className={styles.subtitle}>
           Convert audio files between MP3, WAV, OGG, and AAC — runs entirely in your browser
@@ -301,13 +298,5 @@ const AudioConverterPage = () => {
   )
 }
 
-export const Head = ({ location: { pathname } }: HeadProps) => (
-  <Seo
-    title="Audio Converter"
-    description="Convert audio files between MP3, WAV, OGG, and AAC — custom bitrate and sample rate. Runs entirely in your browser with FFmpeg WASM."
-    heroImage=""
-    pathname={pathname}
-  />
-)
 
 export default AudioConverterPage

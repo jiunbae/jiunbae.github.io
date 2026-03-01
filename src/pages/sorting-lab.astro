@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import SortingLab from '@/views/SortingLab';
+---
+
+<Layout title="Sorting Lab" description="Sorting algorithm visualizer with speed, input distribution, and algorithm controls">
+  <SortingLab client:only="react" />
+</Layout>

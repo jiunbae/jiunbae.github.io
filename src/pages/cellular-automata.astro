@@ -1,0 +1,8 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import CellularAutomata from '@/views/CellularAutomata';
+---
+
+<Layout title="Cellular Automata Lab" description="Interactive cellular automata playground with Life, HighLife, and Seeds rules">
+  <CellularAutomata client:only="react" />
+</Layout>

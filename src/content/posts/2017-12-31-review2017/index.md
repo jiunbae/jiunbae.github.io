@@ -2,11 +2,7 @@
 title: Review 2017
 description: Review 2017 for next year
 date: 2017-12-31
-<<<<<<<< HEAD:src/content/posts/2017-12-31-review2017/index.md
 permalink: /review2017
-========
-slug: /review-2017
->>>>>>>> origin/main:contents/posts/2017-12-31-review-2017/index.md
 tags: [review]
 heroImage:
 heroImageAlt:
