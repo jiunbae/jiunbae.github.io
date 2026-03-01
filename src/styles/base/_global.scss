@@ -43,7 +43,7 @@ body {
     'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     sans-serif;
   background-color: var(--background);
-  transition: 0.15s;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 hr {
@@ -122,5 +122,14 @@ select {
     outline: 2px solid var(--primary-c1);
     outline-offset: 2px;
     border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

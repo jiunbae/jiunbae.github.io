@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-import { format } from 'date-fns';
+const fmtDateKr = (d: Date) => `${d.getFullYear()}년 ${String(d.getMonth()+1).padStart(2,'0')}월 ${String(d.getDate()).padStart(2,'0')}일`;
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes', ({ data }) => data.published !== false);
@@ -38,7 +38,7 @@ const ogImage = `/og/notes/${noteSlug}.png`;
   <article class="article">
     <header class="article-header">
       <time datetime={note.data.date.toISOString()}>
-        {format(note.data.date, 'yyyy년 MM월 dd일')}
+        {fmtDateKr(note.data.date)}
       </time>
       <h1 class="article-title">{note.data.title}</h1>
     </header>

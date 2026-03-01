@@ -1,7 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-import { format } from 'date-fns';
+const fmtDate = (d: Date) => {
+  const y = String(d.getFullYear()).slice(2);
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}.${m}.${day}`;
+};
 
 const allPosts = await getCollection('posts', ({ data }) => data.published !== false);
 const sortedPosts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -25,11 +30,11 @@ const totalCount = sortedPosts.length;
   <div class="main">
     <section class="wrapper">
       <div class="tag-list" id="tags-container">
-        <button class="tag-button active" data-tag="all">
+        <button class="tag-button active" data-tag="all" aria-pressed="true">
           all ({totalCount})
         </button>
         {tags.map(([tag, count]) => (
-          <button class="tag-button" data-tag={tag}>
+          <button class="tag-button" data-tag={tag} aria-pressed="false">
             {tag} ({count})
           </button>
         ))}
@@ -43,7 +48,7 @@ const totalCount = sortedPosts.length;
                 <div class="post-content">
                   <div class="post-header">
                     <time class="post-date" datetime={post.data.date.toISOString()}>
-                      {format(post.data.date, 'yy.MM.dd')}
+                      {fmtDate(post.data.date)}
                     </time>
                   </div>
                   <h2 class="post-title">{post.data.title}</h2>
@@ -76,18 +81,29 @@ const totalCount = sortedPosts.length;
   const tagsContainer = document.getElementById('tags-container');
   const postsList = document.getElementById('posts-list');
 
+  // Pre-parse tags data for filtering
+  const postItems = postsList?.querySelectorAll('.post-item');
+  const tagData = new Map();
+  postItems?.forEach(item => {
+    tagData.set(item, JSON.parse((item as HTMLElement).dataset.tags || '[]'));
+  });
+
   tagsContainer?.addEventListener('click', (e) => {
     const target = (e.target as HTMLElement).closest('.tag-button') as HTMLElement;
     if (!target) return;
     const selectedTag = target.dataset.tag;
 
-    // Update active tag
-    tagsContainer.querySelectorAll('.tag-button').forEach(tag => tag.classList.remove('active'));
+    // Update active tag and aria-pressed
+    tagsContainer.querySelectorAll('.tag-button').forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-pressed', 'false');
+    });
     target.classList.add('active');
+    target.setAttribute('aria-pressed', 'true');
 
     // Filter posts
-    postsList?.querySelectorAll('.post-item').forEach((item) => {
-      const postTags = JSON.parse((item as HTMLElement).dataset.tags || '[]');
+    postItems?.forEach((item) => {
+      const postTags = tagData.get(item);
       if (selectedTag === 'all' || postTags.includes(selectedTag)) {
         (item as HTMLElement).style.display = '';
       } else {

@@ -1,7 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-import { format } from 'date-fns';
+const fmtDate = (d: Date) => {
+  const y = String(d.getFullYear()).slice(2);
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}.${m}.${day}`;
+};
 
 const allReviews = await getCollection('reviews', ({ data }) => data.published !== false);
 const sortedReviews = allReviews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -27,7 +32,7 @@ const sortedReviews = allReviews.sort((a, b) => b.data.date.valueOf() - a.data.d
               <a href={`/reviews${review.data.permalink}`} class="review-link">
                 <article class="review-card">
                   <time datetime={review.data.date.toISOString()}>
-                    {format(review.data.date, 'yy.MM.dd')}
+                    {fmtDate(review.data.date)}
                   </time>
                   <h2 class="review-title">{review.data.title}</h2>
                   {review.data.description && (

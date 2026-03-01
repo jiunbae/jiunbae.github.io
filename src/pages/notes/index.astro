@@ -1,7 +1,12 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-import { format } from 'date-fns';
+const fmtDate = (d: Date) => {
+  const y = String(d.getFullYear()).slice(2);
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}.${m}.${day}`;
+};
 
 const allNotes = await getCollection('notes', ({ data }) => data.published !== false);
 const sortedNotes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -32,11 +37,11 @@ const notesWithContent = await Promise.all(
 >
   <div class="main">
     <div class="tag-list">
-      <button class="tag-button active" data-tag="all">
+      <button class="tag-button active" data-tag="all" aria-pressed="true">
         All ({totalCount})
       </button>
       {tags.map(([tag, count]) => (
-        <button class="tag-button" data-tag={tag}>
+        <button class="tag-button" data-tag={tag} aria-pressed="false">
           {tag} ({count})
         </button>
       ))}
@@ -52,7 +57,7 @@ const notesWithContent = await Promise.all(
           <header class="note-header">
             <h2 class="note-title">{note.data.title}</h2>
             <time class="note-date" datetime={note.data.date.toISOString()}>
-              {format(note.data.date, 'yy.MM.dd')}
+              {fmtDate(note.data.date)}
             </time>
           </header>
           <div class="note-content prose">
@@ -91,8 +96,12 @@ const notesWithContent = await Promise.all(
     button.addEventListener('click', () => {
       const selectedTag = button.dataset.tag;
 
-      tagButtons.forEach(btn => btn.classList.remove('active'));
+      tagButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      });
       button.classList.add('active');
+      button.setAttribute('aria-pressed', 'true');
 
       noteList?.querySelectorAll('.note-item').forEach((item) => {
         const noteTags = JSON.parse((item as HTMLElement).dataset.tags || '[]');

@@ -4,5 +4,27 @@ import AudioVisualizer from '@/views/AudioVisualizer';
 ---
 
 <Layout title="Audio Visualizer" description="Real-time 3D audio visualization with terrain, radial, and waveform modes - supports file input and microphone">
+  <a href="/playground/" class="back-to-playground" aria-label="Back to playground">&larr; Playground</a>
   <AudioVisualizer client:only="react" />
 </Layout>
+
+<style>
+  .back-to-playground {
+    position: fixed;
+    top: 80px;
+    left: 1rem;
+    z-index: 40;
+    padding: 6px 12px;
+    background: var(--article-background);
+    border-radius: 6px;
+    color: var(--gray-2);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .back-to-playground:hover {
+    opacity: 1;
+  }
+</style>

@@ -4,5 +4,27 @@ import CyberFlowers from '@/views/CyberFlowers';
 ---
 
 <Layout title="사이버 꽃꽂이" description="Interactive 3D cyber flower arrangement - plant neon, holographic, and retro-futuristic flowers in a cyberpunk garden">
+  <a href="/playground/" class="back-to-playground" aria-label="Back to playground">&larr; Playground</a>
   <CyberFlowers client:only="react" />
 </Layout>
+
+<style>
+  .back-to-playground {
+    position: fixed;
+    top: 80px;
+    left: 1rem;
+    z-index: 40;
+    padding: 6px 12px;
+    background: var(--article-background);
+    border-radius: 6px;
+    color: var(--gray-2);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .back-to-playground:hover {
+    opacity: 1;
+  }
+</style>

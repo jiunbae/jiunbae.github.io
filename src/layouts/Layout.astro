@@ -208,9 +208,6 @@ const isActivePath = (target: string) => {
           header.classList.remove('scrolled');
         }
       };
-      window.addEventListener('scroll', handleHeaderShrink, { passive: true });
-      handleHeaderShrink();
-
       // Progress bar
       const progressBar = document.getElementById('progress-bar');
       const updateProgressBar = () => {
@@ -220,8 +217,6 @@ const isActivePath = (target: string) => {
         const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
         progressBar.style.width = `${scrollPercent}%`;
       };
-      window.addEventListener('scroll', updateProgressBar, { passive: true });
-      updateProgressBar();
 
       // Scroll to top button
       const scrollToTopBtn = document.getElementById('scroll-to-top');
@@ -233,11 +228,29 @@ const isActivePath = (target: string) => {
           scrollToTopBtn.classList.remove('visible');
         }
       };
-      window.addEventListener('scroll', toggleScrollBtn, { passive: true });
+
+      // Consolidated rAF-throttled scroll handler
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            handleHeaderShrink();
+            updateProgressBar();
+            toggleScrollBtn();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // Run once on load
+      handleHeaderShrink();
+      updateProgressBar();
+      toggleScrollBtn();
+
       scrollToTopBtn?.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
-      toggleScrollBtn();
 
       // Mobile drawer
       const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -329,6 +342,15 @@ const isActivePath = (target: string) => {
         });
         observer.observe(document.documentElement, { attributes: true });
       }
+    </script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8JQSR962RQ"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8JQSR962RQ');
     </script>
   </body>
 </html>

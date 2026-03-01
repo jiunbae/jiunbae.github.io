@@ -7,7 +7,7 @@ export interface SearchItem {
   description: string
   tags: string[]
   slug: string
-  type: 'post' | 'note'
+  type: 'post' | 'note' | 'playground' | 'tool'
 }
 
 export default function SearchModal() {

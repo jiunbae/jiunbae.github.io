@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-import { format } from 'date-fns';
+const fmtDateKr = (d: Date) => `${d.getFullYear()}년 ${String(d.getMonth()+1).padStart(2,'0')}월 ${String(d.getDate()).padStart(2,'0')}일`;
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => data.published !== false);
@@ -53,7 +53,7 @@ const ogImage = heroImage || `/og/posts/${postSlug}.png`;
 
       <div class="article-meta">
         <time datetime={post.data.date.toISOString()}>
-          {format(post.data.date, 'yyyy년 MM월 dd일')}
+          {fmtDateKr(post.data.date)}
         </time>
       </div>
 
@@ -82,7 +82,7 @@ const ogImage = heroImage || `/og/posts/${postSlug}.png`;
     </div>
 
     <footer class="article-footer">
-      <a href="/posts/" class="back-link">← 목록으로 돌아가기</a>
+      <a href="/" class="back-link">← 목록으로 돌아가기</a>
     </footer>
 
     <!-- Comments (utterances) -->

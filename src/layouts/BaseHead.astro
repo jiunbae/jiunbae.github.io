@@ -107,15 +107,6 @@ const resolvedCanonical = canonicalURL || Astro.url.href;
 <link rel="preload" href="/fonts/Pretendard-Regular.subset.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/fonts/Pretendard-Bold.subset.woff2" as="font" type="font/woff2" crossorigin />
 
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8JQSR962RQ"></script>
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8JQSR962RQ');
-</script>
-
 <!-- Theme Script -->
 <script is:inline>
   const getThemePreference = () => {
