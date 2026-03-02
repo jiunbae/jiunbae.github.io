@@ -43,7 +43,7 @@ const totalCount = sortedPosts.length;
       <ul class="post-list" id="posts-list">
         {sortedPosts.map((post) => (
           <li class="post-item" data-tags={JSON.stringify(post.data.tags)}>
-            <a href={`/posts${post.data.permalink}`} class="post-link">
+            <a href={`/posts${post.data.permalink || `/${post.slug}`}`} class="post-link">
               <article class="post">
                 <div class="post-content">
                   <div class="post-header">
@@ -63,7 +63,7 @@ const totalCount = sortedPosts.length;
                     </div>
                   )}
                 </div>
-                {post.data.heroImage && (
+                {post.data.heroImage && !post.data.heroImage.startsWith('./') && (
                   <div class="post-thumbnail">
                     <img src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} loading="lazy" />
                   </div>
@@ -116,7 +116,9 @@ const totalCount = sortedPosts.length;
   const urlParams = new URLSearchParams(window.location.search);
   const tagParam = urlParams.get('tag');
   if (tagParam) {
-    const tagButton = tagsContainer?.querySelector(`[data-tag="${tagParam}"]`) as HTMLElement;
+    const tagButton = Array.from(
+      tagsContainer?.querySelectorAll('.tag-button') ?? []
+    ).find(btn => (btn as HTMLElement).dataset.tag === tagParam) as HTMLElement;
     tagButton?.click();
   }
 </script>
