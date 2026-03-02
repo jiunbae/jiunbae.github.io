@@ -20,8 +20,28 @@ const { Content, headings } = await render(post);
 
 const toc = headings.filter(h => h.depth <= 3);
 const rawHeroImage = post.data.heroImage && post.data.heroImage.trim() ? post.data.heroImage : undefined;
-// Only use heroImage if it's an absolute path; relative paths (./img) aren't resolved in frontmatter
-const heroImage = rawHeroImage && (rawHeroImage.startsWith('/') || rawHeroImage.startsWith('http')) ? rawHeroImage : undefined;
+
+// Resolve heroImage: absolute paths/URLs used directly, relative paths resolved via glob
+const contentImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/posts/**/*.{png,jpg,jpeg,gif,webp}',
+  { eager: true }
+);
+
+let heroImage: string | undefined;
+if (rawHeroImage) {
+  if (rawHeroImage.startsWith('/') || rawHeroImage.startsWith('http')) {
+    heroImage = rawHeroImage;
+  } else if (rawHeroImage.startsWith('./')) {
+    const postDir = post.id.includes('/') ? post.id.split('/')[0] : post.id;
+    const imageName = rawHeroImage.slice(2);
+    const key = `/src/content/posts/${postDir}/${imageName}`;
+    const mod = contentImages[key];
+    if (mod) {
+      heroImage = mod.default.src;
+    }
+  }
+}
+
 let postSlug = post.data.permalink || post.slug;
 if (postSlug.startsWith('/')) postSlug = postSlug.slice(1);
 const ogImage = heroImage || `/og/posts/${postSlug}.png`;
