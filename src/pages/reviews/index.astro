@@ -1,12 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-const fmtDate = (d: Date) => {
-  const y = String(d.getFullYear()).slice(2);
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}.${m}.${day}`;
-};
+import { fmtDate } from '@/utils/date';
 
 const allReviews = await getCollection('reviews', ({ data }) => data.published !== false);
 const sortedReviews = allReviews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());

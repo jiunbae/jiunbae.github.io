@@ -1,12 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-const fmtDate = (d: Date) => {
-  const y = String(d.getFullYear()).slice(2);
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}.${m}.${day}`;
-};
+import { fmtDate } from '@/utils/date';
 
 const allPosts = await getCollection('posts', ({ data }) => data.published !== false);
 const sortedPosts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -29,7 +24,7 @@ const totalCount = sortedPosts.length;
 >
   <div class="main">
     <section class="wrapper">
-      <div class="tag-list" id="tags-container">
+      <div class="tag-list" id="tags-container" role="group" aria-label="Filter by tag">
         <button class="tag-button active" data-tag="all" aria-pressed="true">
           all ({totalCount})
         </button>

@@ -1,12 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-const fmtDate = (d: Date) => {
-  const y = String(d.getFullYear()).slice(2);
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}.${m}.${day}`;
-};
+import { fmtDate } from '@/utils/date';
 
 const allNotes = await getCollection('notes', ({ data }) => data.published !== false);
 const sortedNotes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -36,7 +31,7 @@ const notesWithContent = await Promise.all(
   description="짧은 생각과 메모들"
 >
   <div class="main">
-    <div class="tag-list">
+    <div class="tag-list" role="group" aria-label="Filter by tag">
       <button class="tag-button active" data-tag="all" aria-pressed="true">
         All ({totalCount})
       </button>
@@ -91,10 +86,17 @@ const notesWithContent = await Promise.all(
   // Tag filtering
   const tagButtons = document.querySelectorAll('.tag-button');
   const noteList = document.getElementById('note-list');
+  const noteItems = noteList?.querySelectorAll('.note-item');
+
+  // Pre-parse tags data for filtering
+  const tagData = new Map();
+  noteItems?.forEach(item => {
+    tagData.set(item, JSON.parse((item as HTMLElement).dataset.tags || '[]'));
+  });
 
   tagButtons.forEach(button => {
     button.addEventListener('click', () => {
-      const selectedTag = button.dataset.tag;
+      const selectedTag = (button as HTMLElement).dataset.tag;
 
       tagButtons.forEach(btn => {
         btn.classList.remove('active');
@@ -103,8 +105,8 @@ const notesWithContent = await Promise.all(
       button.classList.add('active');
       button.setAttribute('aria-pressed', 'true');
 
-      noteList?.querySelectorAll('.note-item').forEach((item) => {
-        const noteTags = JSON.parse((item as HTMLElement).dataset.tags || '[]');
+      noteItems?.forEach((item) => {
+        const noteTags = tagData.get(item);
         if (selectedTag === 'all' || noteTags.includes(selectedTag)) {
           (item as HTMLElement).style.display = '';
         } else {

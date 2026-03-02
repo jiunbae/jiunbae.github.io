@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-const fmtDateKr = (d: Date) => `${d.getFullYear()}년 ${String(d.getMonth()+1).padStart(2,'0')}월 ${String(d.getDate()).padStart(2,'0')}일`;
+import { fmtDateKr } from '@/utils/date';
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes', ({ data }) => data.published !== false);

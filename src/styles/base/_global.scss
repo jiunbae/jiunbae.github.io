@@ -17,7 +17,7 @@
 }
 
 [data-theme='dark'] {
-  --primary-c1: #1976D2;
+  --primary-c1: #42A5F5;
   --primary-c2: #7ea1e2;
   --background: #2f2f2f;
   --article-background: #232323;
@@ -123,6 +123,18 @@ select {
     outline-offset: 2px;
     border-radius: 2px;
   }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

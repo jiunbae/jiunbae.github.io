@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
-const fmtDateKr = (d: Date) => `${d.getFullYear()}년 ${String(d.getMonth()+1).padStart(2,'0')}월 ${String(d.getDate()).padStart(2,'0')}일`;
+import { fmtDateKr } from '@/utils/date';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts', ({ data }) => data.published !== false);
@@ -119,7 +119,7 @@ const ogImage = heroImage || `/og/posts/${postSlug}.png`;
           script.setAttribute('theme', theme);
           script.setAttribute('crossorigin', 'anonymous');
           script.async = true;
-          document.getElementById('comments-section').appendChild(script);
+          document.getElementById('comments-section')?.appendChild(script);
         })();
       </script>
     </section>
