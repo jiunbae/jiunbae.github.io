@@ -71,7 +71,7 @@ const wrapText = (text: string, maxCharsPerLine: number, maxLines: number) => {
 const truncateSummary = (text: string, maxChars = 180, maxLines = 3) => {
   const normalized = text.replace(/\s+/g, ' ').trim();
   const truncated = normalized.length > maxChars ? `${normalized.slice(0, maxChars - 1).trim()}…` : normalized;
-  return wrapText(truncated, 28, maxLines);
+  return wrapText(truncated, 24, maxLines);
 };
 
 const fontFamily = "'Noto Sans KR', 'Noto Sans CJK KR', sans-serif";
@@ -82,9 +82,9 @@ const createOgSvg = (
   date: string,
   siteName: string,
 ) => {
-  const titleLines = wrapText(title, 15, 2);
+  const titleLines = wrapText(title, 13, 2);
   const summaryLines = truncateSummary(summary);
-  const padding = 96;
+  const padding = 120;
 
   const titleSpans = titleLines
     .map((line, i) => `<tspan x="${padding}" dy="${i === 0 ? 0 : 76}">${escapeXml(line)}</tspan>`)
