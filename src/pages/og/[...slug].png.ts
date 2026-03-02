@@ -44,6 +44,7 @@ const wrapText = (text: string, maxCharsPerLine: number, maxLines: number) => {
   const words = text.replace(/\s+/g, ' ').trim().split(' ');
   const lines: string[] = [];
   let currentLine = '';
+  let remaining = false;
 
   for (const word of words) {
     const nextLine = currentLine.length === 0 ? word : `${currentLine} ${word}`;
@@ -53,16 +54,25 @@ const wrapText = (text: string, maxCharsPerLine: number, maxLines: number) => {
     } else {
       currentLine = nextLine;
     }
-    if (lines.length === maxLines) break;
+    if (lines.length === maxLines) {
+      remaining = true;
+      break;
+    }
   }
 
   if (lines.length < maxLines && currentLine) {
     lines.push(currentLine);
   }
 
-  if (lines.length > maxLines) {
-    lines.length = maxLines;
-    lines[maxLines - 1] = `${lines[maxLines - 1].slice(0, maxCharsPerLine - 1).trim()}…`;
+  // Add ellipsis if text was truncated
+  if (remaining || lines.length > maxLines) {
+    lines.length = Math.min(lines.length, maxLines);
+    const lastLine = lines[maxLines - 1];
+    if (lastLine.length > maxCharsPerLine - 1) {
+      lines[maxLines - 1] = `${lastLine.slice(0, maxCharsPerLine - 1).trim()}…`;
+    } else {
+      lines[maxLines - 1] = `${lastLine}…`;
+    }
   }
 
   return lines;
@@ -71,7 +81,7 @@ const wrapText = (text: string, maxCharsPerLine: number, maxLines: number) => {
 const truncateSummary = (text: string, maxChars = 180, maxLines = 3) => {
   const normalized = text.replace(/\s+/g, ' ').trim();
   const truncated = normalized.length > maxChars ? `${normalized.slice(0, maxChars - 1).trim()}…` : normalized;
-  return wrapText(truncated, 24, maxLines);
+  return wrapText(truncated, 28, maxLines);
 };
 
 const fontFamily = "'Noto Sans KR', 'Noto Sans CJK KR', sans-serif";
@@ -82,16 +92,23 @@ const createOgSvg = (
   date: string,
   siteName: string,
 ) => {
-  const titleLines = wrapText(title, 13, 2);
+  const titleLines = wrapText(title, 18, 3);
   const summaryLines = truncateSummary(summary);
   const padding = 120;
+  const titleFontSize = 52;
+  const titleLineHeight = 66;
+  const summaryFontSize = 36;
+  const summaryLineHeight = 50;
+
+  const titleStartY = 130;
+  const summaryStartY = titleStartY + titleLines.length * titleLineHeight + 48;
 
   const titleSpans = titleLines
-    .map((line, i) => `<tspan x="${padding}" dy="${i === 0 ? 0 : 76}">${escapeXml(line)}</tspan>`)
+    .map((line, i) => `<tspan x="${padding}" dy="${i === 0 ? 0 : titleLineHeight}">${escapeXml(line)}</tspan>`)
     .join('');
 
   const summarySpans = summaryLines
-    .map((line, i) => `<tspan x="${padding}" dy="${i === 0 ? 0 : 56}">${escapeXml(line)}</tspan>`)
+    .map((line, i) => `<tspan x="${padding}" dy="${i === 0 ? 0 : summaryLineHeight}">${escapeXml(line)}</tspan>`)
     .join('');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -103,15 +120,15 @@ const createOgSvg = (
     </linearGradient>
   </defs>
   <rect fill="url(#og-bg)" width="${OG_WIDTH}" height="${OG_HEIGHT}" rx="32" />
-  <text x="${padding}" y="168" fill="#f8fafc" font-family="${fontFamily}" font-size="66" font-weight="700">
+  <text x="${padding}" y="${titleStartY}" fill="#f8fafc" font-family="${fontFamily}" font-size="${titleFontSize}" font-weight="700">
     ${titleSpans}
   </text>
-  <text x="${padding}" y="340" fill="rgba(248, 250, 252, 0.9)" font-family="${fontFamily}" font-size="40" font-weight="400">
+  <text x="${padding}" y="${summaryStartY}" fill="rgba(248, 250, 252, 0.9)" font-family="${fontFamily}" font-size="${summaryFontSize}" font-weight="400">
     ${summarySpans}
   </text>
-  <g font-family="${fontFamily}" font-size="36" font-weight="400" fill="rgba(248, 250, 252, 0.68)">
-    <text x="${padding}" y="550">${escapeXml(siteName)}</text>
-    <text x="${OG_WIDTH - padding}" y="550" text-anchor="end">${escapeXml(date)}</text>
+  <g font-family="${fontFamily}" font-size="32" font-weight="400" fill="rgba(248, 250, 252, 0.68)">
+    <text x="${padding}" y="555">${escapeXml(siteName)}</text>
+    <text x="${OG_WIDTH - padding}" y="555" text-anchor="end">${escapeXml(date)}</text>
   </g>
 </svg>`;
 };
