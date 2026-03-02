@@ -79,6 +79,7 @@ const notesWithContent = await Promise.all(
         </article>
       ))}
     </div>
+    <p class="empty-filter-message" id="empty-filter-msg" style="display:none">선택한 태그에 해당하는 노트가 없습니다.</p>
   </div>
 </Layout>
 
@@ -105,14 +106,19 @@ const notesWithContent = await Promise.all(
       button.classList.add('active');
       button.setAttribute('aria-pressed', 'true');
 
+      let visibleCount = 0;
       noteItems?.forEach((item) => {
         const noteTags = tagData.get(item);
         if (selectedTag === 'all' || noteTags.includes(selectedTag)) {
           (item as HTMLElement).style.display = '';
+          visibleCount++;
         } else {
           (item as HTMLElement).style.display = 'none';
         }
       });
+
+      const emptyMsg = document.getElementById('empty-filter-msg');
+      if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? '' : 'none';
     });
   });
 
@@ -132,7 +138,9 @@ const notesWithContent = await Promise.all(
   // Handle URL hash for direct note linking
   const hash = window.location.hash.slice(1);
   if (hash) {
-    const target = document.querySelector(`[data-note-slug="${hash}"]`);
+    const target = Array.from(
+      document.querySelectorAll('[data-note-slug]')
+    ).find(el => (el as HTMLElement).dataset.noteSlug === hash);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       target.setAttribute('data-highlighted', 'true');
@@ -289,6 +297,13 @@ const notesWithContent = await Promise.all(
       border-color: var(--primary-c1);
       color: var(--primary-c1);
     }
+  }
+
+  .empty-filter-message {
+    text-align: center;
+    color: var(--gray-4);
+    padding: 3rem 1rem;
+    font-size: 0.9375rem;
   }
 
   @media (max-width: 640px) {

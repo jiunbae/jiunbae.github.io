@@ -180,7 +180,15 @@ export const GET: APIRoute = async ({ props }) => {
 
   const svg = createOgSvg(title, description, date, siteName);
 
-  const fontOptions: Record<string, unknown> = {
+  interface ResvgFontOptions {
+    loadSystemFonts: boolean;
+    defaultFontFamily: string;
+    sansSerifFamily: string;
+    fontBuffers?: Buffer[];
+    fontFiles?: string[];
+  }
+
+  const fontOptions: ResvgFontOptions = {
     loadSystemFonts: false,
     defaultFontFamily: 'Noto Sans KR',
     sansSerifFamily: 'Noto Sans KR',
@@ -194,7 +202,7 @@ export const GET: APIRoute = async ({ props }) => {
 
   const resvg = new Resvg(svg, {
     fitTo: { mode: 'width', value: OG_WIDTH },
-    font: fontOptions as any,
+    font: fontOptions as Record<string, unknown>,
     languages: ['en', 'ko'],
   });
   const png = resvg.render().asPng();

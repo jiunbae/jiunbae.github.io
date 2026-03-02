@@ -68,6 +68,7 @@ const totalCount = sortedPosts.length;
           </li>
         ))}
       </ul>
+      <p class="empty-filter-message" id="empty-filter-msg" style="display:none">선택한 태그에 해당하는 포스트가 없습니다.</p>
     </section>
   </div>
 </Layout>
@@ -97,14 +98,19 @@ const totalCount = sortedPosts.length;
     target.setAttribute('aria-pressed', 'true');
 
     // Filter posts
+    let visibleCount = 0;
     postItems?.forEach((item) => {
       const postTags = tagData.get(item);
       if (selectedTag === 'all' || postTags.includes(selectedTag)) {
         (item as HTMLElement).style.display = '';
+        visibleCount++;
       } else {
         (item as HTMLElement).style.display = 'none';
       }
     });
+
+    const emptyMsg = document.getElementById('empty-filter-msg');
+    if (emptyMsg) emptyMsg.style.display = visibleCount === 0 ? '' : 'none';
   });
 
   // Handle URL tag parameter
@@ -253,6 +259,13 @@ const totalCount = sortedPosts.length;
       height: 100%;
       object-fit: cover;
     }
+  }
+
+  .empty-filter-message {
+    text-align: center;
+    color: var(--gray-4);
+    padding: 3rem 1rem;
+    font-size: 0.9375rem;
   }
 
   @media (max-width: 640px) {

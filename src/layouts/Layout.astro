@@ -267,6 +267,9 @@ const isActivePath = (target: string) => {
         if (closeIcon) closeIcon.style.display = 'block';
         hamburgerBtn?.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
+        // Focus first link in drawer
+        const firstLink = drawer?.querySelector('a, button') as HTMLElement;
+        firstLink?.focus();
       }
 
       function closeDrawer() {
@@ -277,6 +280,8 @@ const isActivePath = (target: string) => {
         if (closeIcon) closeIcon.style.display = 'none';
         hamburgerBtn?.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = 'unset';
+        // Return focus to hamburger button
+        hamburgerBtn?.focus();
       }
 
       hamburgerBtn?.addEventListener('click', () => {
@@ -290,10 +295,24 @@ const isActivePath = (target: string) => {
         link.addEventListener('click', closeDrawer);
       });
 
-      // ESC to close drawer
+      // ESC to close drawer + focus trap
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && drawer?.classList.contains('open')) {
+        if (!drawer?.classList.contains('open')) return;
+        if (e.key === 'Escape') {
           closeDrawer();
+          return;
+        }
+        if (e.key === 'Tab') {
+          const focusable = drawer.querySelectorAll<HTMLElement>('a, button');
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last?.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first?.focus();
+          }
         }
       });
 
@@ -309,7 +328,7 @@ const isActivePath = (target: string) => {
     <!-- Mermaid support (only loaded when .mermaid elements exist) -->
     <script type="module">
       if (document.querySelectorAll('.mermaid').length > 0) {
-        const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs');
+        const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs');
 
         const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
         mermaid.initialize({
