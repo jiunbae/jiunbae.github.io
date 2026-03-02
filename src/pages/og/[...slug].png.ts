@@ -136,6 +136,7 @@ const createOgSvg = (
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection('posts', ({ data }) => data.published !== false);
   const notes = await getCollection('notes', ({ data }) => data.published !== false);
+  const reviews = await getCollection('reviews', ({ data }) => data.published !== false);
 
   const paths = [
     ...posts.map(p => {
@@ -162,6 +163,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
           description: n.data.description || '',
           date: n.data.date.toISOString().split('T')[0].replace(/-/g, '.'),
           siteName: 'notes.jiun.dev',
+        },
+      };
+    }),
+    ...reviews.map(r => {
+      let reviewSlug = r.data.permalink || r.slug;
+      if (reviewSlug.startsWith('/reviews/')) reviewSlug = reviewSlug.slice(9);
+      else if (reviewSlug.startsWith('/')) reviewSlug = reviewSlug.slice(1);
+      return {
+        params: { slug: `reviews/${reviewSlug}` },
+        props: {
+          title: r.data.title,
+          description: r.data.description || '',
+          date: r.data.date.toISOString().split('T')[0].replace(/-/g, '.'),
+          siteName: 'jiun.dev',
         },
       };
     }),

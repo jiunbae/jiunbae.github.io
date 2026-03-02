@@ -1,0 +1,210 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import { fmtDateKr } from '@/utils/date';
+
+export async function getStaticPaths() {
+  const reviews = await getCollection('reviews', ({ data }) => data.published !== false);
+  const normalizeReviewSlug = (permalink: string | undefined, fallbackSlug: string) => {
+    if (!permalink || !permalink.trim()) return fallbackSlug;
+
+    let slug = permalink.trim();
+    if (slug.startsWith('/reviews/')) {
+      slug = slug.slice('/reviews/'.length);
+    } else if (slug.startsWith('/')) {
+      slug = slug.slice(1);
+    }
+
+    return slug.replace(/^\/+|\/+$/g, '') || fallbackSlug;
+  };
+
+  return reviews.map((review) => ({
+    params: { slug: normalizeReviewSlug(review.data.permalink, review.slug) },
+    props: { review },
+  }));
+}
+
+const { review } = Astro.props;
+const { Content } = await render(review);
+
+const rawHeroImage = review.data.heroImage && review.data.heroImage.trim() ? review.data.heroImage : undefined;
+const contentImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/reviews/**/*.{png,jpg,jpeg,gif,webp,avif}',
+  { eager: true }
+);
+
+let heroImage: string | undefined;
+if (rawHeroImage) {
+  if (rawHeroImage.startsWith('/') || rawHeroImage.startsWith('http')) {
+    heroImage = rawHeroImage;
+  } else if (rawHeroImage.startsWith('./')) {
+    const reviewDir = review.id.includes('/') ? review.id.split('/')[0] : review.id;
+    const imageName = rawHeroImage.slice(2);
+    const key = `/src/content/reviews/${reviewDir}/${imageName}`;
+    const mod = contentImages[key];
+    if (mod) {
+      heroImage = mod.default.src;
+    }
+  }
+}
+
+const ogImage = heroImage || '/profile.png';
+---
+
+<Layout
+  title={review.data.title}
+  description={review.data.description}
+  image={ogImage}
+  ogType="article"
+  publishedTime={review.data.date.toISOString()}
+  tags={review.data.tags}
+>
+  <article class="article">
+    {heroImage && (
+      <div class="hero-image">
+        <img src={heroImage} alt={review.data.heroImageAlt || review.data.title} />
+      </div>
+    )}
+
+    <header class="article-header">
+      <time datetime={review.data.date.toISOString()}>
+        {fmtDateKr(review.data.date)}
+      </time>
+      <h1 class="article-title">{review.data.title}</h1>
+      {typeof review.data.rating === 'number' && (
+        <p class="rating" aria-label={`평점 ${review.data.rating.toFixed(1)}점`}>
+          ★ {review.data.rating.toFixed(1)} / 5
+        </p>
+      )}
+      {review.data.description && (
+        <p class="article-description">{review.data.description}</p>
+      )}
+    </header>
+
+    <div class="article-content">
+      <Content />
+    </div>
+
+    <footer class="article-footer">
+      <a href="/reviews/" class="back-link">← 리뷰 목록으로 돌아가기</a>
+    </footer>
+  </article>
+</Layout>
+
+<style lang="scss">
+  .article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .hero-image {
+    margin: 0 -1.5rem 2rem;
+
+    img {
+      width: 100%;
+      height: auto;
+      max-height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .article-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--gray-5);
+
+    time {
+      color: var(--gray-4);
+      font-size: 0.9375rem;
+    }
+  }
+
+  .article-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--gray-1);
+    line-height: 1.3;
+    margin: 0.5rem 0 0;
+  }
+
+  .rating {
+    margin: 0.75rem 0 0;
+    font-size: 1rem;
+    color: var(--primary-c1);
+    font-weight: 600;
+  }
+
+  .article-description {
+    font-size: 1rem;
+    color: var(--gray-3);
+    line-height: 1.7;
+    margin: 0.75rem 0 0;
+  }
+
+  .article-content {
+    line-height: 1.8;
+    color: var(--gray-2);
+
+    :global(h2) {
+      font-size: 1.375rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      color: var(--gray-1);
+    }
+
+    :global(h3) {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.75rem;
+      color: var(--gray-1);
+    }
+
+    :global(p) {
+      margin: 1rem 0;
+    }
+
+    :global(blockquote) {
+      margin: 1.5rem 0;
+      padding: 1rem 1.5rem;
+      border-left: 4px solid var(--primary-c1);
+      background: var(--article-background);
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    :global(img) {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      margin: 1.5rem auto;
+      display: block;
+    }
+  }
+
+  .article-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-5);
+  }
+
+  .back-link {
+    color: var(--primary-c1);
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .article-title {
+      font-size: 1.5rem;
+    }
+
+    .hero-image {
+      margin: 0 -1.5rem 1.5rem;
+    }
+  }
+</style>
