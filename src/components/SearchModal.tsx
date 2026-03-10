@@ -15,6 +15,8 @@ export default function SearchModal() {
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
   const [searchIndex, setSearchIndex] = useState<SearchItem[]>([])
+  const [indexLoading, setIndexLoading] = useState(false)
+  const [indexError, setIndexError] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const resultsRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDivElement>(null)
@@ -22,9 +24,12 @@ export default function SearchModal() {
 
   // Load search index lazily on first open
   const loadIndex = useCallback(async () => {
-    if (searchIndex.length > 0) return
+    if (searchIndex.length > 0 || indexLoading) return
+    setIndexLoading(true)
+    setIndexError(false)
     try {
       const res = await fetch('/search-index.json')
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data: SearchItem[] = await res.json()
       setSearchIndex(data)
       fuseRef.current = new Fuse(data, {
@@ -36,8 +41,12 @@ export default function SearchModal() {
         threshold: 0.4,
         includeScore: true,
       })
-    } catch { /* silently fail */ }
-  }, [searchIndex.length])
+    } catch {
+      setIndexError(true)
+    } finally {
+      setIndexLoading(false)
+    }
+  }, [searchIndex.length, indexLoading])
 
   const results = query.trim() && fuseRef.current
     ? fuseRef.current.search(query).slice(0, 10).map(r => r.item)
@@ -119,7 +128,7 @@ export default function SearchModal() {
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       setActiveIndex(i => Math.max(i - 1, 0))
-    } else if (e.key === 'Enter' && results[activeIndex]) {
+    } else if (e.key === 'Enter' && activeIndex >= 0 && activeIndex < results.length && results[activeIndex]?.slug) {
       window.location.href = results[activeIndex].slug
     }
   }
@@ -160,7 +169,13 @@ export default function SearchModal() {
         </div>
 
         <div className={styles.results} ref={resultsRef} role="listbox">
-          {query.trim() && results.length === 0 && (
+          {indexLoading && (
+            <div className={styles.empty}>Loading search index...</div>
+          )}
+          {indexError && (
+            <div className={styles.empty}>Failed to load search index. Please try again.</div>
+          )}
+          {!indexLoading && !indexError && query.trim() && results.length === 0 && (
             <div className={styles.empty}>No results found for &ldquo;{query}&rdquo;</div>
           )}
           {results.map((item, i) => (

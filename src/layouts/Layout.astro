@@ -335,7 +335,7 @@ const isActivePath = (target: string) => {
         mermaid.initialize({
           startOnLoad: true,
           theme: theme,
-          securityLevel: 'loose'
+          securityLevel: 'strict'
         });
 
         // Store original source for re-rendering
@@ -348,11 +348,11 @@ const isActivePath = (target: string) => {
           mutations.forEach((mutation) => {
             if (mutation.attributeName === 'data-theme') {
               const newTheme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
-              mermaid.initialize({ theme: newTheme, securityLevel: 'loose' });
+              mermaid.initialize({ theme: newTheme, securityLevel: 'strict' });
               document.querySelectorAll('.mermaid').forEach((el) => {
                 const code = el.getAttribute('data-mermaid-src');
                 if (code) {
-                  el.innerHTML = code;
+                  el.textContent = code;
                   el.removeAttribute('data-processed');
                 }
               });
@@ -580,7 +580,9 @@ const isActivePath = (target: string) => {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
     background: none;
     border: none;
     cursor: pointer;
