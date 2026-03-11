@@ -1,0 +1,42 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="96" fill="url(#iconGrad)"/>
+
+  <!-- Open Book Base -->
+  <path d="M128 160 Q256 128 384 160 L384 352 Q256 384 128 352 Z" fill="white" opacity="0.15"/>
+  <path d="M128 160 Q256 128 384 160 L384 180 Q256 148 128 180 Z" fill="white" opacity="0.25"/>
+
+  <!-- Left Page -->
+  <path d="M140 200 L246 200 L246 340 Q193 350 140 340 Z" fill="white" stroke="white" stroke-width="4" opacity="0.9"/>
+
+  <!-- Right Page -->
+  <path d="M266 200 L372 200 L372 340 Q319 350 266 340 Z" fill="white" stroke="white" stroke-width="4" opacity="0.9"/>
+
+  <!-- Center Binding -->
+  <line x1="256" y1="160" x2="256" y2="352" stroke="white" stroke-width="8" opacity="0.7"/>
+
+  <!-- Left Bracket { -->
+  <path d="M180 220 Q165 220 165 235 L165 255 Q165 270 150 270 Q165 270 165 285 L165 305 Q165 320 180 320"
+        stroke="#1e40af" stroke-width="12" fill="none" stroke-linecap="round"/>
+
+  <!-- Right Bracket } -->
+  <path d="M332 220 Q347 220 347 235 L347 255 Q347 270 362 270 Q347 270 347 285 L347 305 Q347 320 332 320"
+        stroke="#6d28d9" stroke-width="12" fill="none" stroke-linecap="round"/>
+
+  <!-- Code Lines Decoration -->
+  <line x1="170" y1="240" x2="210" y2="240" stroke="#2563eb" stroke-width="5" opacity="0.5"/>
+  <line x1="170" y1="260" x2="200" y2="260" stroke="#2563eb" stroke-width="5" opacity="0.5"/>
+  <line x1="302" y1="240" x2="342" y2="240" stroke="#7c3aed" stroke-width="5" opacity="0.5"/>
+  <line x1="312" y1="260" x2="342" y2="260" stroke="#7c3aed" stroke-width="5" opacity="0.5"/>
+
+  <!-- Decorative Dots -->
+  <circle cx="175" cy="230" r="6" fill="#2563eb"/>
+  <circle cx="337" cy="230" r="6" fill="#7c3aed"/>
+</svg>

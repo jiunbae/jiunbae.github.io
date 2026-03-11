@@ -18,13 +18,15 @@ const baseNavLinks = [
   { to: '/', label: 'Posts' },
   { to: '/notes/', label: 'Notes' },
   { to: '/reviews/', label: 'Reviews' },
-  { to: '/playground/', label: 'Playground' },
-  { to: '/tools/', label: 'Tools' },
+  { to: '/projects/', label: 'Projects' },
 ];
 
 const isActivePath = (target: string) => {
   if (target === '/') {
     return pathname === '/' || pathname.startsWith('/posts/');
+  }
+  if (target === '/projects/') {
+    return pathname.startsWith('/projects') || pathname.startsWith('/playground') || pathname.startsWith('/tools') || pathname.startsWith('/services');
   }
   return pathname.startsWith(target);
 };
@@ -95,6 +97,7 @@ const isActivePath = (target: string) => {
               {(() => {
                 if (pathname.startsWith('/notes')) return 'Notes';
                 if (pathname.startsWith('/reviews')) return 'Reviews';
+                if (pathname.startsWith('/projects')) return 'Projects';
                 if (pathname.startsWith('/playground')) return 'Playground';
                 if (pathname.startsWith('/tools')) return 'Tools';
                 if (pathname.startsWith('/about')) return 'About';

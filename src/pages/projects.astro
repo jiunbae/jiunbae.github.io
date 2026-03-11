@@ -1,0 +1,616 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import services, { categories } from '@/data/services';
+import playgroundItems from '@/data/playground';
+import toolItems from '@/data/tools';
+
+type Tab = 'services' | 'playground' | 'tools';
+const tabs: { key: Tab; label: string; count: number }[] = [
+  { key: 'services', label: 'Services', count: services.length },
+  { key: 'playground', label: 'Playground', count: playgroundItems.length },
+  { key: 'tools', label: 'Tools', count: toolItems.length },
+];
+---
+
+<Layout title="Projects" description="Services, interactive experiments, and browser-based tools by Jiun Bae">
+  <div class="page">
+    <div class="header">
+      <h1 class="title">Projects</h1>
+      <p class="subtitle">Services deployed on Kubernetes, interactive experiments, and browser-based utilities</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Project categories">
+      {tabs.map((tab, i) => (
+        <button
+          class:list={['tab-btn', { active: i === 0 }]}
+          data-tab={tab.key}
+          role="tab"
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`panel-${tab.key}`}
+        >
+          {tab.label}
+          <span class="tab-count">{tab.count}</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- Services Panel -->
+    <div class="tab-panel active" id="panel-services" role="tabpanel">
+      <div class="category-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        {Object.entries(categories).map(([key, cat]) => (
+          <button class="filter-btn" data-filter={key} style={`--cat-color: ${cat.color}`}>
+            {cat.label}
+          </button>
+        ))}
+      </div>
+      <div class="grid">
+        {services.map(item => {
+          const cat = categories[item.category];
+          return (
+            <div
+              class="service-card"
+              data-category={item.category}
+            >
+              <div class="service-header">
+                <div class="icon-badge" style={`--badge-color: ${cat.color}`}>
+                  {item.iconType === 'image' ? (
+                    <img src={item.icon} alt={item.title} class="icon-img" width="32" height="32" />
+                  ) : (
+                    <span class="icon-letter">{item.icon}</span>
+                  )}
+                </div>
+                <div class="service-meta">
+                  <span class="category-label" style={`--cat-color: ${cat.color}`}>{cat.label}</span>
+                  <span class:list={['status-dot', item.status]}>{item.status}</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h2 class="card-title">{item.title}</h2>
+                <p class="card-description">{item.description}</p>
+                <div class="tags">
+                  {item.tags.map(tag => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <div class="card-footer">
+                {item.slug ? (
+                  <a href={item.slug} class="card-link" target="_blank" rel="noopener noreferrer">
+                    Visit
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 17L17 7"/><path d="M7 7h10v10"/>
+                    </svg>
+                  </a>
+                ) : (
+                  <span class="card-link-disabled">Private</span>
+                )}
+                <div class="footer-links">
+                  {item.post && (
+                    <a href={item.post} class="post-link">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                      </svg>
+                      Post
+                    </a>
+                  )}
+                  {item.github && (
+                    <a href={item.github} class="github-link" target="_blank" rel="noopener noreferrer">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                      Source
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Playground Panel -->
+    <div class="tab-panel" id="panel-playground" role="tabpanel">
+      <div class="grid">
+        {playgroundItems.map(item => (
+          <a href={item.slug} class="playground-card">
+            <div class="thumbnail" style={`background: ${item.gradient}`} />
+            <div class="card-body">
+              <h2 class="card-title">{item.title}</h2>
+              <p class="card-description">{item.description}</p>
+              <div class="card-meta">
+                <div class="tags">
+                  {item.tags.map(tag => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+                <span class="date">{item.date}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Tools Panel -->
+    <div class="tab-panel" id="panel-tools" role="tabpanel">
+      <div class="grid">
+        {toolItems.map(item => (
+          <a href={item.slug} class="tool-card">
+            <div class="icon-area">
+              <span class="tool-icon">{item.icon}</span>
+            </div>
+            <div class="card-body">
+              <h2 class="card-title">{item.title}</h2>
+              <p class="card-description">{item.description}</p>
+              <div class="tags">
+                {item.tags.map(tag => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Tab switching
+  const tabBtns = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+  const panels = document.querySelectorAll<HTMLDivElement>('.tab-panel');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab;
+
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+
+      panels.forEach(p => {
+        if (p.id === `panel-${tab}`) {
+          p.classList.add('active');
+          p.querySelectorAll('.grid > *').forEach((card, i) => {
+            (card as HTMLElement).animate(
+              [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }],
+              { duration: 200, delay: i * 30, easing: 'ease-out', fill: 'forwards' }
+            );
+          });
+        } else {
+          p.classList.remove('active');
+        }
+      });
+    });
+  });
+
+  // Category filters for services
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const serviceCards = document.querySelectorAll<HTMLDivElement>('.service-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      serviceCards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = '';
+          card.animate(
+            [{ opacity: 0, transform: 'scale(0.95)' }, { opacity: 1, transform: 'scale(1)' }],
+            { duration: 250, easing: 'ease-out' }
+          );
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Handle hash-based navigation
+  function activateTabFromHash() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['services', 'playground', 'tools'].includes(hash)) {
+      const btn = document.querySelector<HTMLButtonElement>(`.tab-btn[data-tab="${hash}"]`);
+      btn?.click();
+    }
+  }
+  activateTabFromHash();
+  window.addEventListener('hashchange', activateTabFromHash);
+</script>
+
+<style lang="scss">
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .header {
+    margin-bottom: 2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--gray-1);
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--gray-5);
+    line-height: 1.6;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--gray-6);
+    margin-bottom: 1.5rem;
+  }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    color: var(--gray-5);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover {
+      color: var(--gray-2);
+    }
+
+    &.active {
+      color: var(--primary-c1);
+      border-bottom-color: var(--primary-c1);
+    }
+  }
+
+  .tab-count {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 1px 6px;
+    border-radius: 10px;
+    background: var(--gray-6);
+    color: var(--gray-3);
+
+    .active & {
+      background: color-mix(in srgb, var(--primary-c1) 15%, transparent);
+      color: var(--primary-c1);
+    }
+  }
+
+  .tab-panel {
+    display: none;
+
+    &.active {
+      display: block;
+    }
+  }
+
+  /* Category filters */
+  .category-filters {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-6);
+    background: var(--article-background);
+    color: var(--gray-3);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--gray-5);
+      color: var(--gray-1);
+    }
+
+    &.active {
+      background: var(--gray-1);
+      color: var(--background);
+      border-color: var(--gray-1);
+    }
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* Shared card styles */
+  .card-body {
+    padding: 1rem 1.25rem;
+    flex: 1;
+  }
+
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--gray-1);
+  }
+
+  .card-description {
+    font-size: 0.875rem;
+    color: var(--gray-5);
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--gray-6);
+    color: var(--gray-2);
+  }
+
+  /* Service cards */
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--article-background);
+    border: 1px solid var(--gray-6);
+    color: var(--gray-1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .service-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.25rem 0;
+  }
+
+  .icon-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--badge-color) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--badge-color) 30%, transparent);
+  }
+
+  .icon-letter {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--badge-color);
+    font-family: 'Fira Code', monospace;
+  }
+
+  .icon-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    object-fit: contain;
+  }
+
+  .service-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .category-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--cat-color);
+  }
+
+  .status-dot {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+    text-transform: capitalize;
+
+    &.live {
+      background: color-mix(in srgb, #22c55e 15%, transparent);
+      color: #22c55e;
+    }
+
+    &.beta {
+      background: color-mix(in srgb, #eab308 15%, transparent);
+      color: #eab308;
+    }
+
+    &.internal {
+      background: color-mix(in srgb, #6b7280 15%, transparent);
+      color: #6b7280;
+    }
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid var(--gray-6);
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--primary-c1);
+    text-decoration: none;
+
+    &:hover svg {
+      transform: translate(2px, -2px);
+    }
+
+    svg {
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .card-link-disabled {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gray-5);
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .github-link,
+  .post-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--gray-3);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--gray-1);
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  /* Playground cards */
+  .playground-card {
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--article-background);
+    border: 1px solid var(--gray-6);
+    text-decoration: none;
+    color: var(--gray-1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      color: var(--gray-1);
+
+      .thumbnail {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .thumbnail {
+    height: 160px;
+    overflow: hidden;
+    background-size: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .date {
+    font-size: 0.75rem;
+    color: var(--gray-5);
+    white-space: nowrap;
+  }
+
+  /* Tool cards */
+  .tool-card {
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--article-background);
+    border: 1px solid var(--gray-6);
+    text-decoration: none;
+    color: var(--gray-1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      color: var(--gray-1);
+    }
+  }
+
+  .icon-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    background: var(--gray-6);
+    font-size: 3rem;
+    user-select: none;
+  }
+
+  .tool-icon {
+    line-height: 1;
+  }
+
+  @media (max-width: 640px) {
+    .page {
+      padding: 1.25rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .title {
+      font-size: 1.6rem;
+    }
+
+    .tab-btn {
+      padding: 10px 14px;
+      font-size: 0.875rem;
+    }
+  }
+</style>
