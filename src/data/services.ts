@@ -13,23 +13,21 @@ export interface ServiceItem {
 
 const services: ServiceItem[] = [
   {
-    slug: 'https://kurim.jiun.dev',
     title: 'Kurim',
     description: 'AI-powered branding for developers. Generate logos, landing pages, and brand identity from idea to deployed site.',
     icon: '/images/services/kurim.ico',
     iconType: 'image',
     tags: ['Next.js', 'FastAPI', 'OpenAI', 'PostgreSQL'],
-    status: 'live',
+    status: 'beta',
     category: 'ai',
   },
   {
-    slug: 'https://kongbu.jiun.dev',
     title: 'Kongbu',
     description: 'AI code learning platform. Converts GitHub repos into interactive quizzes to help engineers understand codebases faster.',
     icon: '/images/services/kongbu.svg',
     iconType: 'image',
     tags: ['Next.js', 'Express', 'Azure OpenAI', 'PostgreSQL'],
-    status: 'live',
+    status: 'beta',
     category: 'ai',
   },
   {
