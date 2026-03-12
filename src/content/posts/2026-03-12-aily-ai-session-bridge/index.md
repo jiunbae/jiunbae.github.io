@@ -2,7 +2,7 @@
 title: "aily: AI 에이전트 세션을 폰에서 관리하기까지"
 description: "금요일 밤 5줄짜리 bash 훅에서 시작해, 33일 만에 프로덕션 배포까지. Claude Code, Codex, Gemini 에이전트의 알림을 Discord/Slack으로 받고, 폰에서 답장까지 보내는 도구를 만든 여정입니다."
 date: 2026-03-12
-slug: /aily-ai-session-bridge
+permalink: /aily-ai-session-bridge
 tags: [AI, Claude, Discord, Slack, tmux, CLI, OpenSource, DevOps, Security, K8s]
 published: true
 ---
