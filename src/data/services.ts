@@ -40,7 +40,7 @@ const services: ServiceItem[] = [
     status: 'beta',
     category: 'dev-tools',
     github: 'https://github.com/jiunbae/claude-code-cloud',
-    post: '/claude-code-cloud',
+    post: '/posts/claude-code-cloud/',
   },
   {
     slug: 'https://issue.jiun.dev',
@@ -91,6 +91,7 @@ const services: ServiceItem[] = [
     status: 'beta',
     category: 'infra',
     github: 'https://github.com/jiunbae/aily',
+    post: '/posts/aily-ai-session-bridge/',
   },
   {
     slug: 'https://tokka.jiun.dev',
