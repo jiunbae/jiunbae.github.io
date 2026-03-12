@@ -1,10 +1,10 @@
 ---
 title: "aily: AI 에이전트 세션을 폰에서 관리하기까지"
-description: "금요일 밤 5줄짜리 bash 훅에서 시작해, 22일 만에 양방향 세션 브릿지가 되기까지. Claude Code, Codex, Gemini 에이전트의 알림을 Discord/Slack으로 받고, 폰에서 답장까지 보내는 도구를 만든 여정입니다."
-date: 2026-03-01
+description: "금요일 밤 5줄짜리 bash 훅에서 시작해, 33일 만에 프로덕션 배포까지. Claude Code, Codex, Gemini 에이전트의 알림을 Discord/Slack으로 받고, 폰에서 답장까지 보내는 도구를 만든 여정입니다."
+date: 2026-03-12
 slug: /aily-ai-session-bridge
-tags: [AI, Claude, Discord, Slack, tmux, CLI, OpenSource, DevOps]
-published: false
+tags: [AI, Claude, Discord, Slack, tmux, CLI, OpenSource, DevOps, Security, K8s]
+published: true
 ---
 
 # aily: AI 에이전트 세션을 폰에서 관리하기까지
@@ -268,6 +268,146 @@ aily/
 | 대시보드 | 실시간 세션 모니터링, 메시지 히스토리 |
 | 사용량 모니터링 | API 사용량 추적, 리밋 리셋 시 자동 실행 |
 
+## 프로덕션에 올리기: K8s + GitOps
+
+로컬에서 돌리는 건 잘 됐지만, 집을 비워도 24시간 돌아가게 하고 싶었습니다. K8s 클러스터에 올리기로 했습니다.
+
+```mermaid
+flowchart LR
+    A["GitHub"] -->|mirror 8h| B["Gitea"]
+    B -->|push event| C["Gitea Actions CI"]
+    C -->|build & push| D["Container Registry"]
+    C -->|update image tag| E["IaC repo (release branch)"]
+    E -->|watch| F["ArgoCD"]
+    F -->|deploy| G["K8s Pod"]
+```
+
+Docker 이미지 하나에 `BRIDGE_MODE` 환경변수로 모드를 선택합니다:
+
+```yaml
+# discord 브릿지 모드
+- name: BRIDGE_MODE
+  value: "discord"
+
+# 또는 대시보드 모드
+- name: BRIDGE_MODE
+  value: "dashboard"
+```
+
+컨테이너에서 돌리면서 몇 가지 삽질이 있었습니다:
+
+| 문제 | 원인 | 해결 |
+|------|------|------|
+| liveness probe 실패 | 기본 바인딩이 `127.0.0.1` | `0.0.0.0`으로 변경 |
+| SSH 실패 | `~/.ssh/` 읽기 전용 | control socket을 `/tmp`로 이동 |
+| 인증 토큰 누락 | 환경변수명 불일치 | config 파일에서도 `DASHBOARD_TOKEN` 읽도록 수정 |
+
+## 보안 하드닝: 배포 전 19개 취약점 수정
+
+프로덕션에 올리기 전, 전체 코드베이스를 보안 관점에서 점검했습니다. 결과는 솔직히 놀라웠습니다 — CRITICAL 3개, HIGH 9개를 포함해 총 19개의 이슈가 나왔습니다.
+
+### CRITICAL: 즉시 수정
+
+**1. XSS via 마크다운 렌더링**
+
+대시보드에서 에이전트 메시지를 `marked.js`로 HTML 변환 후 `x-html`로 DOM에 직접 삽입하고 있었습니다. AI 세션 트랜스크립트에 악성 스크립트가 포함되면 대시보드 사용자 브라우저에서 실행됩니다.
+
+더 심각한 건, 인증 토큰이 `<meta>` 태그에 그대로 노출되어 있어서 XSS → 토큰 탈취 → 전체 API 접근이 가능했습니다.
+
+```javascript
+// Before: 직접 HTML 삽입
+x-html="renderMarkdown(item.msg.content)"
+
+// After: DOMPurify로 sanitize
+x-html="DOMPurify.sanitize(renderMarkdown(item.msg.content))"
+```
+
+토큰은 60초짜리 일회용 nonce로 교체했습니다.
+
+**2. 임의 명령 실행**
+
+대시보드의 command queue 엔드포인트가 SSH 호스트에서 **아무 명령이나** 실행할 수 있었습니다. `tmux` 명령어만 허용하는 화이트리스트를 적용했습니다.
+
+**3. 경로 주입**
+
+Discord에서 `!new` 명령으로 세션을 만들 때, `working_dir` 파라미터에 쉘 메타문자를 넣으면 명령 주입이 가능했습니다. 경로 문자를 정규식으로 검증하도록 수정했습니다.
+
+### HIGH: 놓치기 쉬운 것들
+
+| 이슈 | 수정 |
+|------|------|
+| 대시보드가 `0.0.0.0`에 바인딩 | 기본값 `127.0.0.1`로 변경 |
+| 자동생성 토큰이 로그에 전문 노출 | 앞 8자만 표시 |
+| 로그인 brute force 가능 | IP당 5회/분 rate limiting |
+| CSP 헤더 없음 | 미들웨어로 추가 |
+| CDN 스크립트 무결성 검증 없음 | SRI 해시 추가 |
+| 사용자 메시지가 로그에 기록 | 길이만 표시 |
+| X-Forwarded 헤더 무조건 신뢰 | `TRUST_PROXY` 설정 시에만 |
+| SSH 첫 연결 시 호스트키 자동 수락 | `StrictHostKeyChecking=yes` |
+
+### MEDIUM: 방어 깊이
+
+- `source`로 config 실행 → 안전한 key=value 파서로 교체
+- `eval` 사용 → `printf -v`로 교체
+- FTS5 쿼리 sanitization 강화
+- 오픈 리다이렉트 검증 강화 (`urlparse` 사용)
+- Shell hook의 JSON 직접 보간 → `python3 json.dumps`
+
+### 이미 잘 되어 있던 것들
+
+점검하면서 발견한 건, 이미 상당한 보안 기반이 있었다는 점입니다:
+
+- `shlex.quote()` 일관 사용
+- 파라미터화된 SQL + 테이블 화이트리스트
+- `hmac.compare_digest()` 타이밍 안전 비교
+- 비밀 정보 자동 마스킹 (`_redact_secrets()`)
+- Dockerfile 비루트 사용자 (uid 1000)
+
+**교훈**: "나만 쓰니까 괜찮겠지"는 위험합니다. 특히 SSH와 웹소켓이 연결된 시스템에서는 한 지점이 뚫리면 연쇄적으로 무너집니다.
+
+## AI로 AI 도구를 만든다는 것
+
+aily 자체가 메타적인 프로젝트입니다. **AI 에이전트 세션을 관리하는 도구를, AI 에이전트 세션으로 만들었습니다.**
+
+33일 동안의 개발 과정:
+
+- **133개의 커밋**, 18개 파일 수정 (보안 하드닝만)
+- **멀티 에이전트 기획**: Claude, Gemini, Codex가 동시에 설계 문서 작성
+- **백그라운드 구현**: git worktree에서 각각의 에이전트가 병렬로 코드 작성
+- **보안 리뷰**: 병렬 에이전트가 CRITICAL 3개, HIGH 9개, MEDIUM 7개 발견 및 수정
+
+아이러니하게도, aily를 개발하는 동안 aily가 가장 필요했습니다. "Claude가 끝났나?" 확인하려고 터미널을 왔다갔다 하면서, 바로 그 문제를 해결하는 도구를 만들고 있었거든요.
+
+## 현재 구조
+
+297줄에서 시작한 프로젝트의 현재 모습:
+
+```
+aily/
+├── hooks/              # 에이전트별 알림 훅 (bash/python)
+│   ├── post.sh         # 멀티 플랫폼 디스패처
+│   ├── notify-claude.sh
+│   ├── notify-codex.py
+│   └── notify-gemini.sh
+├── agent-bridge.py     # Discord ↔ tmux 양방향 브릿지
+├── slack-bridge.py     # Slack ↔ tmux 양방향 브릿지
+├── dashboard/          # 웹 대시보드 (aiohttp + Alpine.js)
+├── aily                # CLI (setup, status, doctor, sessions)
+├── Dockerfile          # 멀티 모드 컨테이너
+└── install.sh          # 원클릭 설치
+```
+
+| 기능 | 설명 |
+|------|------|
+| 에이전트 알림 | Claude, Codex, Gemini, OpenCode 작업 완료 시 알림 |
+| 양방향 채팅 | Discord/Slack 스레드에서 답장 → 에이전트에 입력 전달 |
+| 세션 라이프사이클 | tmux 세션 생성/종료 시 스레드 자동 관리 |
+| 멀티 호스트 | SSH로 여러 대의 개발 머신 관리 |
+| 대시보드 | 실시간 세션 모니터링, 메시지 히스토리, 전문 검색 |
+| 사용량 모니터링 | API 사용량 추적, 리밋 리셋 시 자동 실행 |
+| 보안 | DOMPurify, CSP, rate limiting, nonce 인증, 입력 검증 |
+| K8s 배포 | Docker + ArgoCD GitOps 파이프라인 |
+
 ## 설치
 
 ```bash
@@ -279,4 +419,4 @@ cd aily && ./aily init
 
 ---
 
-**TL;DR**: 금요일 밤 "에이전트 끝나면 알림 좀 받자"로 시작한 프로젝트가, 22일 뒤에는 멀티 에이전트, 멀티 플랫폼, 양방향 세션 브릿지가 됐습니다. 직접 쓰면서 만들었기 때문에, 모든 기능이 실제 필요에서 나왔습니다.
+**TL;DR**: 금요일 밤 "에이전트 끝나면 알림 좀 받자"로 시작한 프로젝트가, 33일 뒤에는 19개 보안 이슈를 수정하고 K8s에 배포되는 프로덕션 시스템이 됐습니다. 직접 쓰면서 만들었기 때문에, 모든 기능이 실제 필요에서 나왔습니다. 보안 점검도 마찬가지 — "나만 쓰니까"로 넘길 뻔한 취약점들이 배포 직전에 잡혔습니다.
