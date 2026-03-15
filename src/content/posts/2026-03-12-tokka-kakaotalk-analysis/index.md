@@ -284,11 +284,13 @@ _key_cycle = itertools.cycle(_FREE_KEYS)
 - ~~**Sealed Secrets dev/prod 불일치**~~ → dev/prod 모두 SealedSecret 사용으로 통일
 - ~~**이메일 실패 시 어떤 파일인지 모름**~~ → 에러 메일에 파일명 포함 (XSS 방지 처리)
 - ~~**공개설정 변경 불가 (내 분석)**~~ → JWT 소유자 인증 시 비밀번호 없이 토글 가능
+- ~~**Graceful shutdown 미구현**~~ → non-daemon worker threads + `threading.Event` 시그널 + sentinel 패턴 + SIGTERM 안전망 핸들러로 구현. `terminationGracePeriodSeconds: 600` 설정으로 K8s와 연동. 배포 시 진행 중 분석을 안전하게 완료하거나 에러 처리
+- ~~**OG 이미지 성능/보안**~~ → Pillow 기반 동적 OG 이미지 생성, 폰트 캐싱(`lru_cache`), 서버사이드 이미지 캐싱, `is_public` 접근 제어, gradient 최적화
+- ~~**데모 페이지 불완전**~~ → 샘플 데이터를 실제 분석 결과 포맷에 맞춰 전면 재작성. 페르소나/관계/SNS 탭 모두 fallback 없이 정상 렌더링
 
 ### 아직 남은 과제
 
 - **싱글 팟 문제**: nginx, uvicorn, email_worker가 하나의 팟에서 동작. 하나가 죽으면 전부 죽음
-- **Graceful shutdown 미구현**: 배포 시 daemon worker thread가 즉시 종료, 진행 중 분석 유실
 - **레이트 리미터 상태**: 인메모리 레이트 리미터는 팟 재시작 시 초기화됨
 - **Prometheus 모니터링 고도화**: LLM 호출 성공/실패/쿼타 메트릭은 수집 중이나, 대시보드와 알럿은 미구성
 
