@@ -37,7 +37,7 @@ interface Frontmatter {
   [key: string]: any;
 }
 
-const DEFAULT_FRONTMATTER: Frontmatter = {
+const createDefaultFrontmatter = (): Frontmatter => ({
   title: "",
   description: "",
   date: new Date().toISOString().slice(0, 10),
@@ -46,7 +46,7 @@ const DEFAULT_FRONTMATTER: Frontmatter = {
   published: true,
   heroImage: "",
   heroImageAlt: "",
-};
+});
 
 const typeToSingular = (t: ContentType) =>
   t === "posts" ? "post" : t === "notes" ? "note" : "review";
@@ -55,9 +55,7 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
   const { fetchContent, saveContent, deleteContent } = useGitHubAPI();
   const draftIdRef = useRef(path ?? `new-${Date.now()}`);
 
-  const [frontmatter, setFrontmatter] = useState<Frontmatter>({
-    ...DEFAULT_FRONTMATTER,
-  });
+  const [frontmatter, setFrontmatter] = useState<Frontmatter>(createDefaultFrontmatter);
   const [body, setBody] = useState("");
   const [isNew, setIsNew] = useState(!path);
   const [sha, setSha] = useState<string | undefined>(undefined);
@@ -188,7 +186,7 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
 
   const handleLoadDraft = useCallback((draft: Draft) => {
     setFrontmatter({
-      ...DEFAULT_FRONTMATTER,
+      ...createDefaultFrontmatter(),
       ...draft.frontmatter,
     } as Frontmatter);
     setBody(draft.content);

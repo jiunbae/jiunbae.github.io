@@ -1,9 +1,40 @@
-import React, { useState, useCallback } from 'react';
+import React, { Component, useState, useCallback, type ReactNode } from 'react';
 import { GitHubProvider, useGitHub } from './context/GitHubContext';
 import AuthView from './views/AuthView';
 import ListView from './views/ListView';
 import EditorView from './views/EditorView';
 import { parseContentPath, type ContentType } from './lib/content-paths';
+
+class ErrorBoundary extends Component<
+  { children: ReactNode },
+  { error: Error | null }
+> {
+  state = { error: null as Error | null };
+
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="auth-container">
+          <div className="auth-card">
+            <h2>Something went wrong</h2>
+            <p className="auth-description">{this.state.error.message}</p>
+            <button
+              className="btn-login"
+              onClick={() => this.setState({ error: null })}
+            >
+              Try again
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 type View =
   | { name: 'auth' }
@@ -64,10 +95,12 @@ function AdminRouter() {
 
 export default function AdminApp() {
   return (
-    <GitHubProvider>
-      <div className="admin-container">
-        <AdminRouter />
-      </div>
-    </GitHubProvider>
+    <ErrorBoundary>
+      <GitHubProvider>
+        <div className="admin-container">
+          <AdminRouter />
+        </div>
+      </GitHubProvider>
+    </ErrorBoundary>
   );
 }

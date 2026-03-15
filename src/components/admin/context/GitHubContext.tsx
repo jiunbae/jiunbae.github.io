@@ -5,6 +5,7 @@ import {
   useEffect,
   useRef,
   useCallback,
+  useMemo,
   type ReactNode,
 } from "react";
 import { Octokit } from "@octokit/rest";
@@ -108,7 +109,7 @@ export function GitHubProvider({ children }: { children: ReactNode }) {
     removeGitHubToken();
   }, []);
 
-  const value: GitHubState = {
+  const value = useMemo<GitHubState>(() => ({
     octokit,
     user,
     isAuthenticated,
@@ -116,7 +117,7 @@ export function GitHubProvider({ children }: { children: ReactNode }) {
     error,
     login,
     logout,
-  };
+  }), [octokit, user, isAuthenticated, isLoading, error, login, logout]);
 
   return (
     <GitHubContext.Provider value={value}>{children}</GitHubContext.Provider>
