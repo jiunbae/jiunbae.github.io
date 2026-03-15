@@ -3,7 +3,7 @@ import { GitHubProvider, useGitHub } from './context/GitHubContext';
 import AuthView from './views/AuthView';
 import ListView from './views/ListView';
 import EditorView from './views/EditorView';
-import type { ContentType } from './lib/content-paths';
+import { parseContentPath, type ContentType } from './lib/content-paths';
 
 type View =
   | { name: 'auth' }
@@ -15,10 +15,7 @@ function AdminRouter() {
   const [view, setView] = useState<View>({ name: 'list' });
 
   const handleEdit = useCallback((path: string) => {
-    // Determine content type from path
-    let contentType: ContentType = 'posts';
-    if (path.includes('/notes/')) contentType = 'notes';
-    else if (path.includes('/reviews/')) contentType = 'reviews';
+    const contentType = parseContentPath(path)?.type ?? 'posts';
     setView({ name: 'editor', path, contentType });
   }, []);
 

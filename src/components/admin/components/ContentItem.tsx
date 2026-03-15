@@ -59,7 +59,7 @@ export default function ContentItem({ path, onClick }: ContentItemProps) {
     return () => {
       cancelled = true;
     };
-  }, [path]);
+  }, [path, fetchContent]);
 
   if (loading) {
     return (

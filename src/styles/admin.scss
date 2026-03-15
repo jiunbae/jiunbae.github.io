@@ -924,4 +924,20 @@ button {
   }
 }
 
+/* 에디터 경고 배너 */
+.editor-warning {
+  margin: 0;
+  border-radius: 0;
+}
+
+/* 에디터 에러 메시지 */
+.editor-error {
+  margin: 1rem;
+}
+
+/* 드래프트 저장 시간 표시 */
+.save-status-dim {
+  opacity: 0.6;
+}
+
 /* 모바일 스타일은 기본, 태블릿 이상에서 조정 */

@@ -192,7 +192,7 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
           <button className="btn-cancel" onClick={onBack}>
             Back
           </button>
-          <DraftManager onLoad={handleLoadDraft} />
+          <DraftManager onLoad={handleLoadDraft} currentDraftId={draftIdRef.current} />
           {!isNew && path && sha && (
             <button
               className="btn-delete"
@@ -203,7 +203,7 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
           )}
           {saveStatus && <span className="save-status">{saveStatus}</span>}
           {lastSaved && (
-            <span className="save-status" style={{ opacity: 0.6 }}>
+            <span className="save-status save-status-dim">
               Draft: {lastSaved.toLocaleTimeString()}
             </span>
           )}
@@ -217,11 +217,11 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
         </div>
       </div>
 
-      <div className="auth-warning" style={{ margin: "0", borderRadius: 0 }}>
+      <div className="auth-warning editor-warning">
         main branch commit
       </div>
 
-      {error && <div className="auth-error" style={{ margin: "1rem" }}><p>{error}</p></div>}
+      {error && <div className="auth-error editor-error"><p>{error}</p></div>}
 
       <div className="editor-content">
         <div className="editor-section">

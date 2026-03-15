@@ -131,9 +131,9 @@ export function useGitHubAPI(): UseGitHubAPI {
         // Update cache with new sha
         contentCacheRef.current.set(path, { content, sha: result.sha });
       } catch (err) {
-        const message_ =
+        const errorMessage =
           err instanceof Error ? err.message : "Failed to save content";
-        setError(message_);
+        setError(errorMessage);
         throw err;
       } finally {
         setLoading(false);
