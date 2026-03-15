@@ -96,12 +96,13 @@ const services: ServiceItem[] = [
   {
     slug: 'https://tokka.jiun.dev',
     title: 'Tokka',
-    description: 'Token analytics and monitoring service. Track and visualize token usage across AI-powered applications.',
+    description: 'KakaoTalk chat analysis service. AI-powered persona profiling, relationship dynamics, and conversation statistics from chat exports.',
     icon: 'T',
     iconType: 'letter',
-    tags: ['Docker', 'Kubernetes'],
-    status: 'beta',
-    category: 'infra',
+    tags: ['React', 'FastAPI', 'Gemini AI', 'Kubernetes'],
+    status: 'live',
+    category: 'ai',
+    post: '/posts/tokka-kakaotalk-analysis/',
   },
 ]
 
