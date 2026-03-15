@@ -36,8 +36,8 @@ export function generateImagePath(
   const dir = CONTENT_DIRS[type];
 
   if (type === "notes") {
-    // Notes are flat files, images go in the notes directory
-    return `${dir}/${filename}`;
+    // Notes are flat files, prefix image with date-slug to avoid collisions
+    return `${dir}/${dateStr}-${slug}-${filename}`;
   }
 
   return `${dir}/${dateStr}-${slug}/${filename}`;
@@ -81,6 +81,11 @@ function formatDate(date: string): string {
 
   // Parse and format
   const d = new Date(date);
+  if (isNaN(d.getTime())) {
+    // Fallback to today if date is invalid
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  }
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");

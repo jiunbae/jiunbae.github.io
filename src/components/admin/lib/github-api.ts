@@ -150,16 +150,20 @@ export async function uploadImage(
 }
 
 function encodeBase64(str: string): string {
-  if (typeof btoa === "function") {
-    return btoa(unescape(encodeURIComponent(str)));
+  const bytes = new TextEncoder().encode(str);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
   }
-  return Buffer.from(str, "utf-8").toString("base64");
+  return btoa(binary);
 }
 
 function decodeBase64(encoded: string): string {
   const cleaned = encoded.replace(/\n/g, "");
-  if (typeof atob === "function") {
-    return decodeURIComponent(escape(atob(cleaned)));
+  const binary = atob(cleaned);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
   }
-  return Buffer.from(cleaned, "base64").toString("utf-8");
+  return new TextDecoder().decode(bytes);
 }

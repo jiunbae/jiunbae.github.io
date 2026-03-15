@@ -2,35 +2,25 @@ import { useState } from "react";
 import { useGitHub } from "../context/GitHubContext";
 
 export default function AuthView() {
-  const { login, error: contextError } = useGitHub();
+  const { login, error: contextError, isLoading: contextLoading } = useGitHub();
 
   const [token, setToken] = useState("");
   const [passphrase, setPassphrase] = useState("");
   const [showToken, setShowToken] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [localError, setLocalError] = useState<string | null>(null);
 
-  const displayError = error || contextError;
+  const displayError = localError || contextError;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setLocalError(null);
 
     if (!token.trim()) {
-      setError("GitHub token is required");
+      setLocalError("GitHub token is required");
       return;
     }
 
-    setIsLoading(true);
-    try {
-      await login(token.trim(), passphrase);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Authentication failed",
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    await login(token.trim(), passphrase);
   };
 
   return (
@@ -82,9 +72,9 @@ export default function AuthView() {
           <button
             type="submit"
             className="btn-login"
-            disabled={isLoading || !token.trim()}
+            disabled={contextLoading || !token.trim()}
           >
-            {isLoading ? "Logging in..." : "Login"}
+            {contextLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 

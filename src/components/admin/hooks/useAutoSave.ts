@@ -54,7 +54,8 @@ export function useAutoSave(
     }
   }, [saveDraft]);
 
-  // Debounced auto-save effect
+  // Debounced auto-save — only trigger on title/content changes (primitives)
+  // Frontmatter changes are captured via the ref on next save cycle
   useEffect(() => {
     if (!enabled) return;
 
@@ -71,7 +72,7 @@ export function useAutoSave(
         clearTimeout(timerRef.current);
       }
     };
-  }, [data.title, data.content, data.frontmatter, data.type, enabled, delay, performSave]);
+  }, [data.title, data.content, data.type, enabled, delay, performSave]);
 
   return { lastSaved, isSaving };
 }

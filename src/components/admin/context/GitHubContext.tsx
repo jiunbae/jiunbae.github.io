@@ -38,6 +38,10 @@ export function GitHubProvider({ children }: { children: ReactNode }) {
   const isAuthenticated = octokit !== null && user !== null;
 
   // Restore token from storage on mount
+  // Note: if token was encrypted with a passphrase, decryption will fail
+  // because passphrase is in-memory only. User will need to re-login.
+  // We don't delete the token in that case — it may still be valid
+  // once the user provides the passphrase again.
   useEffect(() => {
     let cancelled = false;
 
@@ -57,8 +61,8 @@ export function GitHubProvider({ children }: { children: ReactNode }) {
           setUser({ login: userData.login, avatar_url: userData.avatarUrl });
         }
       } catch {
-        // Token expired or invalid — silently clear it
-        removeGitHubToken();
+        // Decryption failed (passphrase needed) or token invalid
+        // Don't remove token — user may re-enter passphrase
       } finally {
         if (!cancelled) {
           setIsLoading(false);
@@ -90,7 +94,6 @@ export function GitHubProvider({ children }: { children: ReactNode }) {
       const message =
         err instanceof Error ? err.message : "Authentication failed";
       setError(message);
-      throw err;
     } finally {
       setIsLoading(false);
     }

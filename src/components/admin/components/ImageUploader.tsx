@@ -27,16 +27,21 @@ export default function ImageUploader({
       setUploading(true);
       try {
         const base64 = await fileToBase64(file);
+        // Sanitize filename: lowercase, replace unsafe chars
+        const safeName = file.name
+          .toLowerCase()
+          .replace(/[^a-z0-9._-]/g, "-")
+          .replace(/-+/g, "-");
         const path = generateImagePath(
           contentType as ContentType,
           slug,
           date,
-          file.name,
+          safeName,
         );
-        await uploadImage(path, base64, `Upload image: ${file.name}`);
+        await uploadImage(path, base64, `Upload image: ${safeName}`);
 
-        const relativePath = `./${file.name}`;
-        const altText = file.name.replace(/\.[^.]+$/, "");
+        const relativePath = `./${safeName}`;
+        const altText = safeName.replace(/\.[^.]+$/, "");
         onUpload(`![${altText}](${relativePath})`);
       } catch (err) {
         console.error("Image upload failed:", err);

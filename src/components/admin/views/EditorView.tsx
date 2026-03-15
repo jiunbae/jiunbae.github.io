@@ -147,7 +147,8 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
       const action = isNew ? "Create" : "Update";
       const message = `${action} ${contentType}: ${frontmatter.title}`;
 
-      await saveContent(targetPath, content, message, sha);
+      const result = await saveContent(targetPath, content, message, sha);
+      setSha(result.sha);
       setIsNew(false);
       setSaveStatus("Saved successfully");
     } catch (err) {

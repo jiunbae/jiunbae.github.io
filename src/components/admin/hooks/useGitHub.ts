@@ -29,7 +29,7 @@ export interface UseGitHubAPI {
     content: string,
     message: string,
     sha?: string,
-  ) => Promise<void>;
+  ) => Promise<{ sha: string }>;
   deleteContent: (
     path: string,
     sha: string,
@@ -130,6 +130,7 @@ export function useGitHubAPI(): UseGitHubAPI {
         );
         // Update cache with new sha
         contentCacheRef.current.set(path, { content, sha: result.sha });
+        return { sha: result.sha };
       } catch (err) {
         const errorMessage =
           err instanceof Error ? err.message : "Failed to save content";
