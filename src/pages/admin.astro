@@ -4,6 +4,7 @@ import AdminApp from '@/components/admin/AdminApp';
 ---
 
 <Layout title="Admin" description="Blog Admin CMS">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
   <div class="admin-page">
     <AdminApp client:only="react" />
   </div>

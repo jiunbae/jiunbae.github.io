@@ -14,15 +14,26 @@ export function createOctokit(token: string): Octokit {
   return new Octokit({ auth: token });
 }
 
+const ALLOWED_USERS = ["jiunbae"];
+
 export async function validateToken(
   octokit: Octokit,
 ): Promise<{ login: string; name: string | null; avatarUrl: string }> {
   const { data } = await octokit.rest.users.getAuthenticated();
+
+  if (!ALLOWED_USERS.includes(data.login)) {
+    throw new Error(`User "${data.login}" is not authorized to access this CMS.`);
+  }
+
   return {
     login: data.login,
     name: data.name,
     avatarUrl: data.avatar_url,
   };
+}
+
+export function isContentPath(path: string): boolean {
+  return CONTENT_PREFIXES.some((prefix) => path.startsWith(prefix));
 }
 
 export interface TreeFile {

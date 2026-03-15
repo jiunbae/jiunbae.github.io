@@ -1,4 +1,5 @@
 import MDEditor from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
 
 interface MarkdownEditorProps {
   value: string;
@@ -12,6 +13,9 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
         value={value}
         onChange={(val) => onChange(val ?? "")}
         height={500}
+        previewOptions={{
+          rehypePlugins: [[rehypeSanitize]],
+        }}
       />
     </div>
   );

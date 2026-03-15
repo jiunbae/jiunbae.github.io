@@ -11,8 +11,10 @@ import { parseFrontmatter, serializeFrontmatter } from "../lib/frontmatter";
 import {
   generateContentPath,
   parseContentPath,
+  CONTENT_DIRS,
   type ContentType,
 } from "../lib/content-paths";
+import { isContentPath } from "../lib/github-api";
 import { sanitizeSlug } from "@/utils/slug";
 import type { Draft } from "@/utils/storage";
 
@@ -134,6 +136,13 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
 
       const targetPath =
         path && !isNew ? path : generateContentPath(contentType, slug, date);
+
+      // H1: Validate path stays within content directories
+      if (!isContentPath(targetPath) || targetPath.includes("..")) {
+        setError("Invalid content path. Path must be within content directories.");
+        setSaving(false);
+        return;
+      }
 
       const fmToSerialize: Record<string, any> = { ...frontmatter, slug };
       if (contentType !== "reviews") {

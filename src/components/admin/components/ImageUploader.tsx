@@ -20,9 +20,15 @@ export default function ImageUploader({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { uploadImage } = useGitHubAPI();
 
+  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
+
   const processFile = useCallback(
     async (file: File) => {
       if (!file.type.startsWith("image/")) return;
+      if (file.size > MAX_IMAGE_SIZE) {
+        alert(`Image too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Maximum is 5MB.`);
+        return;
+      }
 
       setUploading(true);
       try {

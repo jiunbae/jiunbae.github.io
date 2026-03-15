@@ -131,10 +131,15 @@ export function useGitHubAPI(): UseGitHubAPI {
         // Update cache with new sha
         contentCacheRef.current.set(path, { content, sha: result.sha });
         return { sha: result.sha };
-      } catch (err) {
+      } catch (err: any) {
+        const status = err?.status ?? err?.response?.status;
         const errorMessage =
-          err instanceof Error ? err.message : "Failed to save content";
+          status === 409
+            ? "Conflict: this file was modified elsewhere. Please go back and re-open to get the latest version."
+            : err instanceof Error ? err.message : "Failed to save content";
         setError(errorMessage);
+        // Invalidate cache on conflict so re-fetch gets fresh data
+        if (status === 409) contentCacheRef.current.delete(path);
         throw err;
       } finally {
         setLoading(false);
