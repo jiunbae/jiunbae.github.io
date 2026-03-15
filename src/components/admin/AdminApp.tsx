@@ -37,7 +37,7 @@ function AdminRouter() {
 
   const header = (
     <div className="admin-header-actions">
-      <span style={{ marginRight: 'auto', color: 'var(--gray-3)' }}>
+      <span className="admin-user-login">
         {user?.login}
       </span>
       <button className="btn-logout" onClick={logout}>

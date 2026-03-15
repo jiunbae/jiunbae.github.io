@@ -78,6 +78,11 @@ body.admin-page-body {
   margin: 0 auto 1rem;
   display: flex;
   justify-content: flex-end;
+
+  .admin-user-login {
+    margin-right: auto;
+    color: var(--gray-3);
+  }
 }
 
 .admin-container {
