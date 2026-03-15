@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6C5CE7"/>
+      <stop offset="100%" stop-color="#5B4DFF"/>
+    </linearGradient>
+    <linearGradient id="bar-glow" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.7)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,1)"/>
+    </linearGradient>
+    <linearGradient id="bar-accent" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#FFD43B"/>
+      <stop offset="100%" stop-color="#FEE500"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#bg)"/>
+
+  <!-- Chat bubble shape -->
+  <path d="M136 144 h240 a48 48 0 0 1 48 48 v144 a48 48 0 0 1-48 48 h-56 l-40 48 -40-48 h-104 a48 48 0 0 1-48-48 v-144 a48 48 0 0 1 48-48z" fill="rgba(255,255,255,0.12)"/>
+
+  <!-- Analysis bars — first 3 white, tallest bar in kakao yellow -->
+  <rect x="176" y="296" width="32" height="48" rx="8" fill="url(#bar-glow)" opacity="0.45"/>
+  <rect x="224" y="264" width="32" height="80" rx="8" fill="url(#bar-glow)" opacity="0.6"/>
+  <rect x="272" y="232" width="32" height="112" rx="8" fill="url(#bar-glow)" opacity="0.8"/>
+  <rect x="320" y="200" width="32" height="144" rx="8" fill="url(#bar-accent)"/>
+
+  <!-- Kakao yellow sparkle dot -->
+  <circle cx="348" cy="188" r="8" fill="#FEE500"/>
+  <circle cx="348" cy="188" r="14" fill="none" stroke="#FEE500" stroke-width="2" opacity="0.4"/>
+</svg>

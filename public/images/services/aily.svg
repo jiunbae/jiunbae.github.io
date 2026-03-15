@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6D28D9"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+    <clipPath id="bg-clip">
+      <rect width="512" height="512" rx="112"/>
+    </clipPath>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#g)"/>
+  <!-- Stylized "a" with forward-pointing tail, clipped to background -->
+  <g clip-path="url(#bg-clip)">
+    <g transform="translate(240,258) scale(1.25)">
+      <circle cx="-15" cy="-20" r="68" fill="none" stroke="white" stroke-width="28" opacity="0.95"/>
+      <path d="M 53,-20 L 53,50 Q 53,70 73,70 L 110,70"
+            fill="none" stroke="white" stroke-width="28"
+            stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+      <path d="M 85,45 L 115,70 L 85,95"
+            fill="none" stroke="white" stroke-width="22"
+            stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+    </g>
+  </g>
+</svg>
