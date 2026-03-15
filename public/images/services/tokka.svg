@@ -1,32 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#6C5CE7"/>
-      <stop offset="100%" stop-color="#5B4DFF"/>
-    </linearGradient>
-    <linearGradient id="bar-glow" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.7)"/>
-      <stop offset="100%" stop-color="rgba(255,255,255,1)"/>
-    </linearGradient>
-    <linearGradient id="bar-accent" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0%" stop-color="#FFD43B"/>
-      <stop offset="100%" stop-color="#FEE500"/>
-    </linearGradient>
-  </defs>
+  <!-- Circle background — kakao yellow -->
+  <circle cx="256" cy="256" r="256" fill="#FEE500"/>
 
-  <!-- Rounded square background -->
-  <rect x="32" y="32" width="448" height="448" rx="96" fill="url(#bg)"/>
+  <!-- KakaoTalk bubble shape — kakao dark brown, exact path scaled 22x -->
+  <g transform="translate(50, 58) scale(22)">
+    <path d="M9.375 1.5C5.025 1.5 1.5 4.393 1.5 7.962c0 2.718 1.151 3.858 2.949 5.042l.01 3.315c0 .149.178.234.303.145L7.827 14.3c.5.082 1.018.125 1.548.125 4.35 0 7.875-2.893 7.875-6.463 0-3.569-3.526-6.462-7.875-6.462" fill="#3A1D1D"/>
+  </g>
 
-  <!-- Chat bubble shape -->
-  <path d="M136 144 h240 a48 48 0 0 1 48 48 v144 a48 48 0 0 1-48 48 h-56 l-40 48 -40-48 h-104 a48 48 0 0 1-48-48 v-144 a48 48 0 0 1 48-48z" fill="rgba(255,255,255,0.12)"/>
-
-  <!-- Analysis bars — first 3 white, tallest bar in kakao yellow -->
-  <rect x="176" y="296" width="32" height="48" rx="8" fill="url(#bar-glow)" opacity="0.45"/>
-  <rect x="224" y="264" width="32" height="80" rx="8" fill="url(#bar-glow)" opacity="0.6"/>
-  <rect x="272" y="232" width="32" height="112" rx="8" fill="url(#bar-glow)" opacity="0.8"/>
-  <rect x="320" y="200" width="32" height="144" rx="8" fill="url(#bar-accent)"/>
-
-  <!-- Kakao yellow sparkle dot -->
-  <circle cx="348" cy="188" r="8" fill="#FEE500"/>
-  <circle cx="348" cy="188" r="14" fill="none" stroke="#FEE500" stroke-width="2" opacity="0.4"/>
+  <!-- "까" text in kakao yellow, contrasts against dark bubble -->
+  <text x="256" y="233" text-anchor="middle" dominant-baseline="central" font-family="'Pretendard Variable', Pretendard, -apple-system, sans-serif" font-weight="900" font-size="180" fill="#FEE500">까</text>
 </svg>
