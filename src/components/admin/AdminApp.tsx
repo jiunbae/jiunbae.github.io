@@ -23,7 +23,7 @@ class ErrorBoundary extends Component<
             <h2>Something went wrong</h2>
             <p className="auth-description">{this.state.error.message}</p>
             <button
-              className="btn-login"
+              className="btn-github"
               onClick={() => this.setState({ error: null })}
             >
               Try again
@@ -59,7 +59,14 @@ function AdminRouter() {
   }, []);
 
   if (isLoading) {
-    return <div className="auth-loading">Loading...</div>;
+    return (
+      <div className="auth-container">
+        <div className="auth-loading">
+          <div className="auth-spinner" />
+          <span>Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
@@ -67,13 +74,19 @@ function AdminRouter() {
   }
 
   const header = (
-    <div className="admin-header-actions">
-      <span className="admin-user-login">
-        {user?.login}
-      </span>
-      <button className="btn-logout" onClick={logout}>
-        Logout
-      </button>
+    <div className="admin-toolbar">
+      <div className="admin-toolbar-left">
+        <span className="admin-toolbar-title">Admin</span>
+      </div>
+      <div className="admin-toolbar-right">
+        {user?.avatar_url && (
+          <img className="admin-avatar" src={user.avatar_url} alt={user.login} />
+        )}
+        <span className="admin-username">{user?.login}</span>
+        <button className="btn-logout" onClick={logout}>
+          Sign out
+        </button>
+      </div>
     </div>
   );
 

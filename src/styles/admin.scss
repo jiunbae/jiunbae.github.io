@@ -73,16 +73,48 @@ body.admin-page-body {
   }
 }
 
-.admin-header-actions {
+/* 관리자 툴바 */
+.admin-toolbar {
   max-width: 1200px;
-  margin: 0 auto 1rem;
+  margin: 0 auto 1.5rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--article-background);
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
 
-  .admin-user-login {
-    margin-right: auto;
-    color: var(--gray-3);
-  }
+.admin-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-toolbar-title {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--gray-2);
+  letter-spacing: -0.01em;
+}
+
+.admin-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.admin-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.admin-username {
+  font-size: 0.875rem;
+  color: var(--gray-3);
+  font-weight: 500;
 }
 
 .admin-container {
@@ -100,28 +132,178 @@ body.admin-page-body {
 
 .auth-card {
   background: var(--article-background);
-  border-radius: 12px;
-  padding: 1.5rem;
-  max-width: 600px;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 420px;
   width: 100%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--gray-4);
 
   @include tabletAndUp {
     padding: 2.5rem;
   }
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
 
   h2 {
     margin: 0 0 0.5rem;
     color: var(--gray-1);
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   .auth-description {
     color: var(--gray-5);
-    margin-bottom: 2rem;
+    margin: 0;
     line-height: 1.6;
+    font-size: 0.9375rem;
   }
+}
+
+.auth-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--background);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  color: var(--gray-2);
+  border: 1px solid var(--gray-4);
+}
+
+.auth-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* GitHub 공식 브랜드 버튼 */
+.btn-github {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: #24292f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #1b1f23;
+  }
+
+  &:active {
+    background: #0d1117;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-c1);
+    outline-offset: 2px;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.25rem 0;
+  color: var(--gray-5);
+  font-size: 0.8125rem;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gray-4);
+  }
+}
+
+.btn-pat-toggle {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--gray-3);
+  border: 1px solid var(--gray-4);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    background: var(--background);
+    border-color: var(--gray-3);
+    color: var(--gray-2);
+  }
+}
+
+.pat-form {
+  .btn-pat-submit {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-c1);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover:not(:disabled) {
+      background: var(--primary-c2);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.auth-footer {
+  text-align: center;
+  margin: 1.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--gray-4);
+  font-size: 0.8125rem;
+  color: var(--gray-5);
+
+  strong {
+    font-weight: 600;
+    color: var(--gray-4);
+  }
+}
+
+.auth-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gray-4);
+  border-top-color: var(--primary-c1);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .auth-error {
@@ -149,9 +331,13 @@ body.admin-page-body {
 }
 
 .auth-loading {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
   padding: 2rem;
   color: var(--gray-4);
+  font-size: 0.875rem;
 }
 
 .form-group {
@@ -259,13 +445,14 @@ body.admin-page-body {
 }
 
 .auth-warning {
-  background: #fef3c7;
-  border: 1px solid #fbbf24;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.25);
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.875rem 1rem;
   margin-top: 1.5rem;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: #92400e;
+  line-height: 1.5;
 }
 
 /* 버튼 스타일 */
@@ -309,7 +496,20 @@ button {
   }
 }
 
-.btn-logout,
+.btn-logout {
+  background: transparent;
+  color: var(--gray-4);
+  border: none;
+  font-size: 0.8125rem;
+  padding: 0.375rem 0.75rem;
+
+  &:hover {
+    color: var(--gray-2);
+    background: var(--background);
+    border-radius: 6px;
+  }
+}
+
 .btn-cancel {
   background: var(--article-background);
   color: var(--gray-2);
