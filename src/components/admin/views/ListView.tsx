@@ -4,9 +4,15 @@ import { parseContentPath, CONTENT_DIRS, type ContentType } from "../lib/content
 import { parseFrontmatter } from "../lib/frontmatter";
 import ContentItem from "../components/ContentItem";
 
+interface UserInfo {
+  user: { login: string; avatar_url: string } | null;
+  logout: () => void;
+}
+
 interface ListViewProps {
   onEdit: (path: string) => void;
   onNew: (type: ContentType) => void;
+  userInfo?: UserInfo;
 }
 
 interface ContentMeta {
@@ -23,7 +29,7 @@ const TABS: { key: ContentType; label: string }[] = [
   { key: "reviews", label: "Reviews" },
 ];
 
-export default function ListView({ onEdit, onNew }: ListViewProps) {
+export default function ListView({ onEdit, onNew, userInfo }: ListViewProps) {
   const { fetchTree, fetchContent, tree, loading, error } = useGitHubAPI();
   const [activeTab, setActiveTab] = useState<ContentType>("posts");
   const [metaMap, setMetaMap] = useState<Map<string, ContentMeta>>(new Map());
@@ -134,6 +140,19 @@ export default function ListView({ onEdit, onNew }: ListViewProps) {
           <button className="btn-refresh" onClick={handleRefresh} disabled={loading}>
             Refresh
           </button>
+          {userInfo?.user && (
+            <>
+              <span className="admin-user-badge">
+                {userInfo.user.avatar_url && (
+                  <img src={userInfo.user.avatar_url} alt="" className="admin-avatar" />
+                )}
+                {userInfo.user.login}
+              </span>
+              <button className="btn-logout" onClick={userInfo.logout}>
+                Sign out
+              </button>
+            </>
+          )}
         </div>
       </div>
 

@@ -73,33 +73,18 @@ function AdminRouter() {
     return <AuthView />;
   }
 
-  const header = (
-    <div className="admin-toolbar">
-      <div className="admin-toolbar-left">
-        <span className="admin-toolbar-title">Admin</span>
-      </div>
-      <div className="admin-toolbar-right">
-        {user?.avatar_url && (
-          <img className="admin-avatar" src={user.avatar_url} alt={user.login} />
-        )}
-        <span className="admin-username">{user?.login}</span>
-        <button className="btn-logout" onClick={logout}>
-          Sign out
-        </button>
-      </div>
-    </div>
-  );
+  const userInfo = { user, logout };
 
   switch (view.name) {
     case 'list':
-      return <>{header}<ListView onEdit={handleEdit} onNew={handleNew} /></>;
+      return <ListView onEdit={handleEdit} onNew={handleNew} userInfo={userInfo} />;
     case 'editor':
       return (
-        <>{header}<EditorView
+        <EditorView
           path={view.path}
           contentType={view.contentType}
           onBack={handleBack}
-        /></>
+        />
       );
     case 'auth':
       return null;
