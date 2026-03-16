@@ -102,6 +102,26 @@ const getBrowserFingerprint = (): string => {
   return fingerprint
 }
 
+// Passphrase storage (in-memory only, never persisted)
+let _passphrase: string | null = null
+
+export const setPassphrase = (passphrase: string): void => {
+  _passphrase = passphrase
+}
+
+export const clearPassphrase = (): void => {
+  _passphrase = null
+}
+
+export const hasPassphrase = (): boolean => {
+  return _passphrase !== null
+}
+
+const getEncryptionKey = (): string => {
+  if (_passphrase) return _passphrase
+  return getBrowserFingerprint()
+}
+
 /**
  * 텍스트 암호화
  * @param plaintext 암호화할 평문
@@ -109,8 +129,7 @@ const getBrowserFingerprint = (): string => {
  */
 export const encrypt = async (plaintext: string): Promise<string> => {
   try {
-    const fingerprint = getBrowserFingerprint()
-    const key = await deriveKey(fingerprint)
+    const key = await deriveKey(getEncryptionKey())
 
     // 랜덤 IV 생성
     const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH)) as StrictUint8Array
@@ -145,8 +164,7 @@ export const encrypt = async (plaintext: string): Promise<string> => {
  */
 export const decrypt = async (ciphertext: string): Promise<string> => {
   try {
-    const fingerprint = getBrowserFingerprint()
-    const key = await deriveKey(fingerprint)
+    const key = await deriveKey(getEncryptionKey())
 
     // Base64 디코딩
     const combined = base64ToBuffer(ciphertext)

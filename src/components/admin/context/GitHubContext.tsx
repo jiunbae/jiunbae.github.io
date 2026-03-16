@@ -1,0 +1,133 @@
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+  type ReactNode,
+} from "react";
+import { Octokit } from "@octokit/rest";
+import { createOctokit, validateToken } from "../lib/github-api";
+import {
+  saveGitHubToken,
+  getGitHubToken,
+  removeGitHubToken,
+} from "@/utils/storage";
+import { setPassphrase, clearPassphrase } from "@/utils/crypto";
+
+interface GitHubState {
+  octokit: Octokit | null;
+  user: { login: string; avatar_url: string } | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+  login: (token: string, passphrase: string) => Promise<void>;
+  logout: () => void;
+}
+
+const GitHubContext = createContext<GitHubState | undefined>(undefined);
+
+export function GitHubProvider({ children }: { children: ReactNode }) {
+  const [octokit, setOctokit] = useState<Octokit | null>(null);
+  const [user, setUser] = useState<{ login: string; avatar_url: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const passphraseRef = useRef<string>("");
+
+  const isAuthenticated = octokit !== null && user !== null;
+
+  // Restore token from storage on mount
+  // Note: if token was encrypted with a passphrase, decryption will fail
+  // because passphrase is in-memory only. User will need to re-login.
+  // We don't delete the token in that case — it may still be valid
+  // once the user provides the passphrase again.
+  useEffect(() => {
+    let cancelled = false;
+
+    const restore = async () => {
+      try {
+        const token = await getGitHubToken();
+        if (!token || cancelled) {
+          setIsLoading(false);
+          return;
+        }
+
+        const kit = createOctokit(token);
+        const userData = await validateToken(kit);
+
+        if (!cancelled) {
+          setOctokit(kit);
+          setUser({ login: userData.login, avatar_url: userData.avatarUrl });
+        }
+      } catch {
+        // Decryption failed (passphrase needed) or token invalid
+        // Don't remove token — user may re-enter passphrase
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    restore();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const login = useCallback(async (token: string, passphrase: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const kit = createOctokit(token);
+      const userData = await validateToken(kit);
+
+      passphraseRef.current = passphrase;
+      if (passphrase) setPassphrase(passphrase);
+      await saveGitHubToken(token);
+
+      setOctokit(kit);
+      setUser({ login: userData.login, avatar_url: userData.avatarUrl });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Authentication failed";
+      setError(message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const logout = useCallback(() => {
+    setOctokit(null);
+    setUser(null);
+    setError(null);
+    passphraseRef.current = "";
+    clearPassphrase();
+    removeGitHubToken();
+  }, []);
+
+  const value = useMemo<GitHubState>(() => ({
+    octokit,
+    user,
+    isAuthenticated,
+    isLoading,
+    error,
+    login,
+    logout,
+  }), [octokit, user, isAuthenticated, isLoading, error, login, logout]);
+
+  return (
+    <GitHubContext.Provider value={value}>{children}</GitHubContext.Provider>
+  );
+}
+
+export function useGitHub(): GitHubState {
+  const context = useContext(GitHubContext);
+  if (context === undefined) {
+    throw new Error("useGitHub must be used within a GitHubProvider");
+  }
+  return context;
+}

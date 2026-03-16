@@ -1,0 +1,19 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import AdminApp from '@/components/admin/AdminApp';
+---
+
+<Layout title="Admin" description="Blog Admin CMS">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+  <div class="admin-page">
+    <AdminApp client:only="react" />
+  </div>
+</Layout>
+
+<script>
+  document.body.classList.add('admin-page-body');
+</script>
+
+<style lang="scss">
+  @use '@/styles/admin.scss';
+</style>
