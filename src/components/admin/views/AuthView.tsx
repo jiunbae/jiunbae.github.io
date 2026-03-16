@@ -1,26 +1,28 @@
 import { useState } from "react";
 import { useGitHub } from "../context/GitHubContext";
+import { getOAuthLoginUrl } from "../lib/jiun-api";
 
 export default function AuthView() {
-  const { login, error: contextError, isLoading: contextLoading } = useGitHub();
-
+  const { loginWithToken, error: contextError, isLoading } = useGitHub();
+  const [showPat, setShowPat] = useState(false);
   const [token, setToken] = useState("");
-  const [passphrase, setPassphrase] = useState("");
   const [showToken, setShowToken] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
   const displayError = localError || contextError;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleOAuthLogin = () => {
+    window.location.href = getOAuthLoginUrl();
+  };
+
+  const handlePatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLocalError(null);
-
     if (!token.trim()) {
       setLocalError("GitHub token is required");
       return;
     }
-
-    await login(token.trim(), passphrase);
+    await loginWithToken(token.trim());
   };
 
   return (
@@ -28,76 +30,75 @@ export default function AuthView() {
       <div className="auth-card">
         <h2>Admin Login</h2>
         <p className="auth-description">
-          Enter your GitHub Personal Access Token to manage content.
+          Sign in with GitHub to manage blog content.
         </p>
 
         {displayError && (
-          <div className="auth-error">{displayError}</div>
+          <div className="auth-error"><p>{displayError}</p></div>
         )}
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="token">GitHub Token</label>
-            <div className="token-input-wrapper">
-              <input
-                id="token"
-                type={showToken ? "text" : "password"}
-                value={token}
-                onChange={(e) => setToken(e.target.value)}
-                placeholder="github_pat_..."
-                autoComplete="off"
-              />
+        {isLoading ? (
+          <div className="auth-loading">Authenticating...</div>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="btn-login"
+              onClick={handleOAuthLogin}
+              style={{ marginBottom: "1rem" }}
+            >
+              Login with GitHub
+            </button>
+
+            <div style={{ textAlign: "center", margin: "1rem 0", color: "var(--gray-5)", fontSize: "0.875rem" }}>
+              <span>or</span>
+            </div>
+
+            {!showPat ? (
               <button
                 type="button"
-                className="btn-toggle-visibility"
-                onClick={() => setShowToken(!showToken)}
+                className="btn-cancel"
+                onClick={() => setShowPat(true)}
+                style={{ width: "100%" }}
               >
-                {showToken ? "Hide" : "Show"}
+                Use Personal Access Token
               </button>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="passphrase">Passphrase</label>
-            <input
-              id="passphrase"
-              type="password"
-              value={passphrase}
-              onChange={(e) => setPassphrase(e.target.value)}
-              placeholder="Encryption passphrase (optional)"
-              autoComplete="off"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="btn-login"
-            disabled={contextLoading || !token.trim()}
-          >
-            {contextLoading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-
-        <div className="auth-help">
-          <h3>How to create a Fine-grained PAT</h3>
-          <ol>
-            <li>
-              Go to <strong>GitHub Settings</strong> &rarr;{" "}
-              <strong>Developer settings</strong> &rarr;{" "}
-              <strong>Fine-grained tokens</strong>
-            </li>
-            <li>
-              Select repository:{" "}
-              <code>jiunbae/jiunbae.github.io</code>
-            </li>
-            <li>
-              Permission: <strong>Contents</strong> (Read and write)
-            </li>
-          </ol>
-        </div>
+            ) : (
+              <form onSubmit={handlePatSubmit}>
+                <div className="form-group">
+                  <label htmlFor="token">GitHub Token</label>
+                  <div className="token-input-wrapper">
+                    <input
+                      id="token"
+                      type={showToken ? "text" : "password"}
+                      value={token}
+                      onChange={(e) => setToken(e.target.value)}
+                      placeholder="github_pat_..."
+                      autoComplete="off"
+                    />
+                    <button
+                      type="button"
+                      className="btn-toggle-visibility"
+                      onClick={() => setShowToken(!showToken)}
+                    >
+                      {showToken ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="btn-save"
+                  disabled={isLoading || !token.trim()}
+                >
+                  {isLoading ? "Logging in..." : "Login with PAT"}
+                </button>
+              </form>
+            )}
+          </>
+        )}
 
         <div className="auth-warning">
-          Warning: All changes will be committed directly to the{" "}
+          All changes will be committed directly to the{" "}
           <strong>main</strong> branch.
         </div>
       </div>
