@@ -1,8 +1,8 @@
 import { Octokit } from "@octokit/rest";
 
-export const OWNER = (import.meta as any).env?.PUBLIC_GITHUB_OWNER ?? "jiunbae";
-export const REPO = (import.meta as any).env?.PUBLIC_GITHUB_REPO ?? "jiunbae.github.io";
-export const BRANCH = (import.meta as any).env?.PUBLIC_GITHUB_BRANCH ?? "main";
+export const OWNER = import.meta.env.PUBLIC_GITHUB_OWNER ?? "jiunbae";
+export const REPO = import.meta.env.PUBLIC_GITHUB_REPO ?? "jiunbae.github.io";
+export const BRANCH = import.meta.env.PUBLIC_GITHUB_BRANCH ?? "main";
 
 const CONTENT_PREFIXES = [
   "src/content/posts/",

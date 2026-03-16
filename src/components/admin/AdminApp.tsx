@@ -88,8 +88,8 @@ function AdminRouter() {
           onBack={handleBack}
         /></>
       );
-    default:
-      return <>{header}<ListView onEdit={handleEdit} onNew={handleNew} /></>;
+    case 'auth':
+      return null;
   }
 }
 

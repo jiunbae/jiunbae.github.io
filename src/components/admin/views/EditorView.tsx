@@ -34,7 +34,6 @@ interface Frontmatter {
   heroImage?: string;
   heroImageAlt?: string;
   rating?: number;
-  [key: string]: any;
 }
 
 const createDefaultFrontmatter = (): Frontmatter => ({
@@ -142,13 +141,15 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
         return;
       }
 
-      const fmToSerialize: Record<string, any> = { ...frontmatter, slug };
-      if (contentType !== "reviews") {
-        delete fmToSerialize.rating;
+      const { rating, heroImage, heroImageAlt, ...baseFm } = { ...frontmatter, slug };
+      const fmToSerialize: Record<string, unknown> = { ...baseFm };
+      if (contentType === "reviews" && rating != null) {
+        fmToSerialize.rating = rating;
       }
-      // Clean empty optional fields
-      if (!fmToSerialize.heroImage) delete fmToSerialize.heroImage;
-      if (!fmToSerialize.heroImageAlt) delete fmToSerialize.heroImageAlt;
+      if (heroImage) {
+        fmToSerialize.heroImage = heroImage;
+        if (heroImageAlt) fmToSerialize.heroImageAlt = heroImageAlt;
+      }
 
       const content = serializeFrontmatter(fmToSerialize, body);
       const action = isNew ? "Create" : "Update";
@@ -185,10 +186,19 @@ export default function EditorView({ path, contentType, onBack }: EditorViewProp
   }, []);
 
   const handleLoadDraft = useCallback((draft: Draft) => {
+    const defaults = createDefaultFrontmatter();
+    const fm = draft.frontmatter;
     setFrontmatter({
-      ...createDefaultFrontmatter(),
-      ...draft.frontmatter,
-    } as Frontmatter);
+      ...defaults,
+      title: fm.title ?? defaults.title,
+      description: fm.description ?? defaults.description,
+      date: fm.date ?? defaults.date,
+      slug: fm.slug ?? defaults.slug,
+      tags: fm.tags ?? defaults.tags,
+      published: fm.heroImage !== undefined ? true : defaults.published,
+      heroImage: fm.heroImage,
+      heroImageAlt: fm.heroImageAlt,
+    });
     setBody(draft.content);
   }, []);
 
