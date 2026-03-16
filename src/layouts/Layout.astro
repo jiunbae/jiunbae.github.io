@@ -185,13 +185,6 @@ const isActivePath = (target: string) => {
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.dataset.theme = newTheme;
         localStorage.setItem('theme', newTheme);
-        const utterancesFrame = document.querySelector('.utterances-frame') as HTMLIFrameElement;
-        if (utterancesFrame) {
-          utterancesFrame.contentWindow?.postMessage(
-            { type: 'set-theme', theme: newTheme === 'dark' ? 'github-dark' : 'github-light' },
-            'https://utteranc.es'
-          );
-        }
       }
 
       // Desktop theme toggle

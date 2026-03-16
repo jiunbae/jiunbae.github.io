@@ -1,0 +1,65 @@
+---
+/**
+ * Fetches comment counts for all [data-comment-slug] elements on the page
+ * and injects a badge showing the count (only for non-zero counts).
+ *
+ * Usage: Add `data-comment-slug="the-slug"` and `data-comment-type="posts"`
+ * to any element, then include this component once on the page.
+ */
+---
+
+<script>
+  const API_BASE = 'https://api.jiun.dev';
+
+  async function loadCommentCounts() {
+    const elements = document.querySelectorAll<HTMLElement>('[data-comment-slug]');
+    if (elements.length === 0) return;
+
+    // Group by postType
+    const byType = new Map<string, { slug: string; el: HTMLElement }[]>();
+    elements.forEach((el) => {
+      const slug = el.dataset.commentSlug!;
+      const type = el.dataset.commentType || 'posts';
+      if (!byType.has(type)) byType.set(type, []);
+      byType.get(type)!.push({ slug, el });
+    });
+
+    for (const [postType, items] of byType) {
+      const slugs = items.map((i) => i.slug);
+      try {
+        const res = await fetch(
+          `${API_BASE}/comments/counts?slugs=${encodeURIComponent(slugs.join(','))}&postType=${postType}`,
+        );
+        if (!res.ok) continue;
+        const data = await res.json();
+        const counts: Record<string, number> = data.counts || {};
+
+        for (const { slug, el } of items) {
+          const count = counts[slug];
+          if (count && count > 0) {
+            const badge = document.createElement('span');
+            badge.className = 'comment-count-badge';
+            badge.textContent = `💬 ${count}`;
+            el.appendChild(badge);
+          }
+        }
+      } catch {
+        // silently fail
+      }
+    }
+  }
+
+  loadCommentCounts();
+</script>
+
+<style is:global>
+  .comment-count-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--gray-4);
+    font-weight: 500;
+    white-space: nowrap;
+    margin-left: 0.5rem;
+  }
+</style>

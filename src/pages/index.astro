@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import CommentCountLoader from '@/components/CommentCountLoader.astro';
 import { fmtDate } from '@/utils/date';
 
 const allPosts = await getCollection('posts', ({ data }) => data.published !== false);
@@ -70,9 +71,11 @@ const totalCount = sortedPosts.length;
                     {post.data.description && (
                       <p class="post-description">{post.data.description}</p>
                     )}
-                    <time class="post-date" datetime={post.data.date.toISOString()}>
-                      {fmtDate(post.data.date)}
-                    </time>
+                    <div class="post-meta" data-comment-slug={(post.data.permalink || `/${post.slug}`).replace(/^\//, '')} data-comment-type="posts">
+                      <time class="post-date" datetime={post.data.date.toISOString()}>
+                        {fmtDate(post.data.date)}
+                      </time>
+                    </div>
                     {post.data.tags.length > 0 && (
                       <div class="post-tags">
                         {post.data.tags.map(tag => (
@@ -90,6 +93,7 @@ const totalCount = sortedPosts.length;
       <p class="empty-filter-message" id="empty-filter-msg" style="display:none">선택한 태그에 해당하는 포스트가 없습니다.</p>
     </section>
   </div>
+  <CommentCountLoader />
 </Layout>
 
 <script>
@@ -317,8 +321,13 @@ const totalCount = sortedPosts.length;
     transition: 0.1s;
   }
 
-  .post-date {
+  .post-meta {
+    display: flex;
+    align-items: center;
     margin-left: 4px;
+  }
+
+  .post-date {
     font-weight: 500;
     font-size: 0.8125rem;
     color: var(--gray-4);

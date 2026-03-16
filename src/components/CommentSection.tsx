@@ -73,6 +73,10 @@ async function fetchCurrentUser(): Promise<CommentUser | null> {
   }
 }
 
+function clearTokenCookie() {
+  document.cookie = 'access_token=; path=/; max-age=0; SameSite=Lax';
+}
+
 export default function CommentSection({ postSlug, postType = 'posts' }: Props) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [total, setTotal] = useState(0);
@@ -98,9 +102,52 @@ export default function CommentSection({ postSlug, postType = 'posts' }: Props) 
   }, [postSlug, postType]);
 
   useEffect(() => {
+    // Handle OAuth callback: exchange code for token
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if (code) {
+      params.delete('code');
+      const cleanUrl = window.location.pathname + (params.toString() ? `?${params}` : '');
+      history.replaceState(null, '', cleanUrl);
+
+      fetch(`${API_BASE}/auth/exchange`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ code }),
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data?.accessToken) {
+            document.cookie = `access_token=${encodeURIComponent(data.accessToken)}; path=/; max-age=604800; SameSite=Lax`;
+            fetchCurrentUser().then(setCurrentUser);
+          }
+        })
+        .catch(() => {});
+    } else {
+      fetchCurrentUser().then(setCurrentUser);
+    }
+
     loadComments();
-    fetchCurrentUser().then(setCurrentUser);
   }, [loadComments]);
+
+  const handleLogin = () => {
+    const redirectUri = window.location.href.split('?')[0];
+    window.location.href = `${API_BASE}/auth/github?redirect_uri=${encodeURIComponent(redirectUri)}`;
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_BASE}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch {
+      // continue with local cleanup
+    }
+    clearTokenCookie();
+    setCurrentUser(null);
+  };
 
   const handleSubmit = async (content: string, anonName: string, parentId?: string) => {
     const body: Record<string, string> = { postSlug, postType, content };
@@ -169,6 +216,8 @@ export default function CommentSection({ postSlug, postType = 'posts' }: Props) 
       <CommentForm
         currentUser={currentUser}
         onSubmit={(content, anonName) => handleSubmit(content, anonName)}
+        onLogin={handleLogin}
+        onLogout={handleLogout}
       />
 
       {loading ? (
@@ -247,11 +296,15 @@ export default function CommentSection({ postSlug, postType = 'posts' }: Props) 
 function CommentForm({
   currentUser,
   onSubmit,
+  onLogin,
+  onLogout,
   placeholder = 'Write a comment...',
   compact = false,
 }: {
   currentUser: CommentUser | null;
   onSubmit: (content: string, anonName: string) => Promise<boolean>;
+  onLogin?: () => void;
+  onLogout?: () => void;
   placeholder?: string;
   compact?: boolean;
 }) {
@@ -273,16 +326,39 @@ function CommentForm({
 
   return (
     <form onSubmit={handleSubmit} style={{ ...styles.form, ...(compact ? styles.formCompact : {}) }}>
-      {!currentUser && (
-        <input
-          type="text"
-          value={anonName}
-          onChange={(e) => setAnonName(e.target.value)}
-          placeholder="Name"
-          maxLength={50}
-          required
-          style={styles.input}
-        />
+      {!currentUser ? (
+        <div style={styles.formHeader}>
+          <input
+            type="text"
+            value={anonName}
+            onChange={(e) => setAnonName(e.target.value)}
+            placeholder="Name"
+            maxLength={50}
+            required
+            style={styles.input}
+          />
+          {onLogin && (
+            <button type="button" onClick={onLogin} style={styles.loginBtn}>
+              Login with GitHub &rarr;
+            </button>
+          )}
+        </div>
+      ) : (
+        <div style={styles.formHeader}>
+          <span style={styles.userInfo}>
+            {currentUser.avatarUrl && (
+              <img src={currentUser.avatarUrl} alt="" style={styles.avatar} />
+            )}
+            <span style={styles.loggedInAs}>
+              {currentUser.displayName || currentUser.username}
+            </span>
+          </span>
+          {onLogout && (
+            <button type="button" onClick={onLogout} style={styles.loginBtn}>
+              Logout
+            </button>
+          )}
+        </div>
       )}
       <textarea
         value={content}
@@ -294,11 +370,6 @@ function CommentForm({
         style={styles.textarea}
       />
       <div style={styles.formActions}>
-        {currentUser && (
-          <span style={styles.loggedInAs}>
-            {currentUser.displayName || currentUser.username}
-          </span>
-        )}
         <button type="submit" disabled={submitting || !content.trim()} style={styles.submitBtn}>
           {submitting ? 'Posting...' : 'Post'}
         </button>
@@ -454,14 +525,41 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: 'inherit',
     minHeight: '60px',
   },
+  formHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '0.75rem',
+  },
+  userInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+  },
+  avatar: {
+    width: '24px',
+    height: '24px',
+    borderRadius: '50%',
+  },
+  loginBtn: {
+    background: 'none',
+    border: 'none',
+    color: 'var(--gray-4)',
+    fontSize: '0.8125rem',
+    cursor: 'pointer',
+    padding: 0,
+    fontFamily: 'inherit',
+    whiteSpace: 'nowrap' as const,
+  },
   formActions: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   loggedInAs: {
     fontSize: '0.8125rem',
     color: 'var(--gray-4)',
+    fontWeight: 500,
   },
   submitBtn: {
     padding: '0.5rem 1.25rem',

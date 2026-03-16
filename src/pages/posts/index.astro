@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import CommentCountLoader from '@/components/CommentCountLoader.astro';
 import { fmtDate } from '@/utils/date';
 
 const allPosts = await getCollection('posts', ({ data }) => data.published !== false);
@@ -42,7 +43,7 @@ const totalCount = sortedPosts.length;
             <a href={`/posts${post.data.permalink || `/${post.slug}`}`} class="post-link">
               <article class="post">
                 <div class="post-content">
-                  <div class="post-header">
+                  <div class="post-header" data-comment-slug={(post.data.permalink || `/${post.slug}`).replace(/^\//, '')} data-comment-type="posts">
                     <time class="post-date" datetime={post.data.date.toISOString()}>
                       {fmtDate(post.data.date)}
                     </time>
@@ -72,6 +73,7 @@ const totalCount = sortedPosts.length;
       <p class="empty-filter-message" id="empty-filter-msg" style="display:none">선택한 태그에 해당하는 포스트가 없습니다.</p>
     </section>
   </div>
+  <CommentCountLoader />
 </Layout>
 
 <script>
@@ -203,6 +205,8 @@ const totalCount = sortedPosts.length;
   }
 
   .post-header {
+    display: flex;
+    align-items: center;
     margin-bottom: 0.5rem;
   }
 
