@@ -72,6 +72,11 @@ const isActivePath = (target: string) => {
                 <circle cx="12" cy="12" r="10"/>
               </svg>
             </a>
+            <a href="/status/" class:list={['icon-link desktop-only', { 'active-icon': pathname.startsWith('/status') }]} aria-label="Status">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </a>
             <a href="/rss.xml" class="icon-link desktop-only" aria-label="RSS feed">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 11a9 9 0 0 1 9 9"/>
@@ -100,6 +105,7 @@ const isActivePath = (target: string) => {
                 if (pathname.startsWith('/projects')) return 'Projects';
                 if (pathname.startsWith('/playground')) return 'Playground';
                 if (pathname.startsWith('/tools')) return 'Tools';
+                if (pathname.startsWith('/status')) return 'Status';
                 if (pathname.startsWith('/about')) return 'About';
                 return 'Posts';
               })()}
@@ -148,6 +154,10 @@ const isActivePath = (target: string) => {
           <a href="/about/" class="drawer-action">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
             <span>About</span>
+          </a>
+          <a href="/status/" class="drawer-action">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <span>Status</span>
           </a>
           <a href="/rss.xml" class="drawer-action">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>

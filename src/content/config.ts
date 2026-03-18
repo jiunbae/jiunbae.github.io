@@ -31,4 +31,22 @@ const reviews = defineCollection({
   }),
 });
 
-export const collections = { posts, notes, reviews };
+const incidents = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    resolvedDate: z.coerce.date().optional(),
+    severity: z.enum(['critical', 'major', 'minor', 'maintenance']),
+    status: z.enum(['investigating', 'identified', 'monitoring', 'resolved', 'scheduled']),
+    affectedServices: z.array(z.string()),
+    published: z.boolean().default(true),
+    timeline: z.array(z.object({
+      time: z.coerce.date(),
+      status: z.string(),
+      message: z.string(),
+    })).default([]),
+  }),
+});
+
+export const collections = { posts, notes, reviews, incidents };

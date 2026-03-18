@@ -1,0 +1,551 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const incidents = await getCollection('incidents', ({ data }) => data.published !== false);
+  return incidents.map((incident) => ({
+    params: { slug: incident.slug },
+    props: { incident },
+  }));
+}
+
+const { incident } = Astro.props;
+const { Content } = await render(incident);
+
+const severityLabels: Record<string, string> = {
+  critical: 'Critical',
+  major: 'Major',
+  minor: 'Minor',
+  maintenance: 'Maintenance',
+};
+
+function formatDateTime(d: Date) {
+  return d.toLocaleString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+}
+
+function formatTime(d: Date) {
+  return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// Duration calculation
+function getDuration(start: Date, end?: Date) {
+  const ms = (end || new Date()).getTime() - start.getTime();
+  const mins = Math.round(ms / 60000);
+  if (mins < 60) return `${mins}m`;
+  const hours = Math.floor(mins / 60);
+  const remainMins = mins % 60;
+  return remainMins > 0 ? `${hours}h ${remainMins}m` : `${hours}h`;
+}
+
+const timelineStatusColors: Record<string, string> = {
+  investigating: '#f59e0b',
+  identified: '#f59e0b',
+  monitoring: '#60a5fa',
+  resolved: '#22c55e',
+  scheduled: '#a78bfa',
+};
+---
+
+<Layout title={`${incident.data.title} — Status`} description={`Incident: ${incident.data.title}`}>
+  <article class="incident-page">
+    <nav class="breadcrumb">
+      <a href="/status/">Status</a>
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+      <span>Incident</span>
+    </nav>
+
+    <header class="incident-header">
+      <div class="header-top">
+        <span class:list={['severity-badge', `severity-${incident.data.severity}`]}>
+          {severityLabels[incident.data.severity]}
+        </span>
+        <span class:list={['status-pill', `pill-${incident.data.status}`]}>
+          {incident.data.status}
+        </span>
+      </div>
+      <h1>{incident.data.title}</h1>
+      <div class="header-meta">
+        <span class="meta-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+          {formatDate(incident.data.date)}
+        </span>
+        {incident.data.resolvedDate && (
+          <span class="meta-item meta-duration">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Duration: {getDuration(incident.data.date, incident.data.resolvedDate)}
+          </span>
+        )}
+      </div>
+    </header>
+
+    <div class="content-grid">
+      <div class="main-content">
+        {incident.data.timeline.length > 0 && (
+          <section class="timeline-section">
+            <h2>Timeline</h2>
+            <div class="timeline">
+              {incident.data.timeline.map((entry, i) => (
+                <div class:list={['timeline-entry', { 'timeline-last': i === incident.data.timeline.length - 1 }]}>
+                  <div class="timeline-marker">
+                    <span
+                      class="timeline-dot"
+                      style={`background: ${timelineStatusColors[entry.status] || 'var(--primary-c1)'};
+                              box-shadow: 0 0 0 4px ${timelineStatusColors[entry.status] || 'var(--primary-c1)'}20`}
+                    ></span>
+                    {i < incident.data.timeline.length - 1 && <span class="timeline-line"></span>}
+                  </div>
+                  <div class="timeline-content">
+                    <div class="timeline-meta">
+                      <span class="timeline-time">{formatTime(entry.time)}</span>
+                      <span
+                        class="timeline-status"
+                        style={`color: ${timelineStatusColors[entry.status] || 'var(--primary-c1)'}`}
+                      >
+                        {entry.status}
+                      </span>
+                    </div>
+                    <p class="timeline-message">{entry.message}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section class="incident-body">
+          <Content />
+        </section>
+      </div>
+
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h3>Affected Services</h3>
+          <div class="service-tags">
+            {incident.data.affectedServices.map(s => (
+              <span class="service-tag">
+                <span class="tag-dot"></span>
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>Details</h3>
+          <dl class="details-list">
+            <dt>Severity</dt>
+            <dd>
+              <span class:list={['severity-badge', 'badge-sm', `severity-${incident.data.severity}`]}>
+                {severityLabels[incident.data.severity]}
+              </span>
+            </dd>
+            <dt>Status</dt>
+            <dd class="detail-status">{incident.data.status}</dd>
+            <dt>Reported</dt>
+            <dd>{formatDateTime(incident.data.date)}</dd>
+            {incident.data.resolvedDate && (
+              <>
+                <dt>Resolved</dt>
+                <dd>{formatDateTime(incident.data.resolvedDate)}</dd>
+              </>
+            )}
+          </dl>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="incident-footer">
+      <a href="/status/" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Status
+      </a>
+    </footer>
+  </article>
+</Layout>
+
+<style lang="scss">
+  .incident-page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  // Breadcrumb
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+
+    a {
+      color: var(--primary-c1);
+      text-decoration: none;
+      font-weight: 500;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    svg {
+      color: var(--gray-5);
+    }
+
+    span {
+      color: var(--gray-4);
+    }
+  }
+
+  // Header
+  .incident-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--gray-6);
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gray-1);
+      margin: 0.75rem 0 0.75rem;
+      line-height: 1.3;
+    }
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .severity-badge {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.2rem 0.625rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-sm {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.5rem;
+  }
+
+  .severity-critical {
+    background: color-mix(in srgb, #ef4444 15%, transparent);
+    color: #ef4444;
+  }
+
+  .severity-major {
+    background: color-mix(in srgb, #f59e0b 15%, transparent);
+    color: #f59e0b;
+  }
+
+  .severity-minor {
+    background: color-mix(in srgb, #d97706 12%, transparent);
+    color: #d97706;
+  }
+
+  .severity-maintenance {
+    background: color-mix(in srgb, #60a5fa 15%, transparent);
+    color: #60a5fa;
+  }
+
+  .status-pill {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.2rem 0.625rem;
+    border-radius: 10px;
+    text-transform: capitalize;
+  }
+
+  .pill-resolved {
+    background: color-mix(in srgb, #22c55e 12%, transparent);
+    color: #22c55e;
+  }
+
+  .pill-investigating, .pill-identified {
+    background: color-mix(in srgb, #f59e0b 12%, transparent);
+    color: #f59e0b;
+  }
+
+  .pill-monitoring {
+    background: color-mix(in srgb, #60a5fa 12%, transparent);
+    color: #60a5fa;
+  }
+
+  .pill-scheduled {
+    background: color-mix(in srgb, #a78bfa 12%, transparent);
+    color: #a78bfa;
+  }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--gray-4);
+    font-size: 0.875rem;
+
+    svg { flex-shrink: 0; }
+  }
+
+  // Content grid
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  // Timeline
+  .timeline-section {
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--gray-1);
+      margin: 0 0 1.25rem;
+    }
+  }
+
+  .timeline-entry {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .timeline-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+  }
+
+  .timeline-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .timeline-line {
+    width: 2px;
+    flex: 1;
+    background: var(--gray-6);
+    margin: 4px 0;
+  }
+
+  .timeline-content {
+    padding-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .timeline-last .timeline-content {
+    padding-bottom: 0;
+  }
+
+  .timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .timeline-time {
+    font-size: 0.8125rem;
+    color: var(--gray-4);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .timeline-status {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .timeline-message {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--gray-2);
+    line-height: 1.6;
+  }
+
+  // Sidebar
+  .sidebar-card {
+    padding: 1.25rem;
+    border-radius: 12px;
+    background: var(--article-background);
+    border: 1px solid var(--gray-6);
+    margin-bottom: 1rem;
+
+    h3 {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray-4);
+      margin: 0 0 0.75rem;
+    }
+  }
+
+  .service-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .service-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-2);
+  }
+
+  .tag-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-c1);
+    flex-shrink: 0;
+  }
+
+  .details-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 0.75rem;
+    margin: 0;
+
+    dt {
+      font-size: 0.8125rem;
+      color: var(--gray-4);
+      font-weight: 500;
+    }
+
+    dd {
+      font-size: 0.8125rem;
+      color: var(--gray-2);
+      margin: 0;
+      text-align: right;
+    }
+  }
+
+  .detail-status {
+    text-transform: capitalize;
+  }
+
+  // Body content
+  .incident-body {
+    line-height: 1.8;
+    color: var(--gray-2);
+
+    :global(h2) {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 2rem 0 0.75rem;
+      color: var(--gray-1);
+    }
+
+    :global(h3) {
+      font-size: 1.0625rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.5rem;
+      color: var(--gray-1);
+    }
+
+    :global(p) {
+      margin: 0.75rem 0;
+      font-size: 0.9375rem;
+    }
+
+    :global(ul), :global(ol) {
+      padding-left: 1.5rem;
+      margin: 0.75rem 0;
+    }
+
+    :global(li) {
+      margin: 0.375rem 0;
+      font-size: 0.9375rem;
+    }
+  }
+
+  // Footer
+  .incident-footer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-6);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--primary-c1);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background 0.15s;
+
+    &:hover {
+      background: color-mix(in srgb, var(--primary-c1) 8%, transparent);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      order: -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .sidebar-card {
+      margin-bottom: 0;
+    }
+
+    .incident-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .header-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .sidebar {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

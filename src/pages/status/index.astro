@@ -1,0 +1,599 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import services from '@/data/services';
+
+const allIncidents = await getCollection('incidents', ({ data }) => data.published !== false);
+const incidents = allIncidents.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const activeIncidents = incidents.filter(i => i.data.status !== 'resolved');
+
+type ServiceStatus = 'operational' | 'maintenance' | 'degraded' | 'major-outage';
+
+function getServiceStatus(serviceName: string): ServiceStatus {
+  const affecting = activeIncidents.filter(i => i.data.affectedServices.includes(serviceName));
+  if (affecting.length === 0) return 'operational';
+  const severities = affecting.map(i => i.data.severity);
+  if (severities.includes('critical')) return 'major-outage';
+  if (severities.includes('major')) return 'degraded';
+  if (severities.includes('maintenance')) return 'maintenance';
+  return 'degraded';
+}
+
+const serviceStatuses = services.map(s => ({
+  ...s,
+  opStatus: getServiceStatus(s.title),
+}));
+
+const hasIssues = serviceStatuses.some(s => s.opStatus !== 'operational');
+
+const statusLabels: Record<ServiceStatus, string> = {
+  'operational': 'Operational',
+  'maintenance': 'Maintenance',
+  'degraded': 'Degraded',
+  'major-outage': 'Major Outage',
+};
+
+const severityLabels: Record<string, string> = {
+  critical: 'Critical',
+  major: 'Major',
+  minor: 'Minor',
+  maintenance: 'Maintenance',
+};
+
+// Group incidents by date
+const groupedIncidents: { date: string; items: typeof incidents }[] = [];
+const dateMap = new Map<string, typeof incidents>();
+
+for (const incident of incidents) {
+  const dateKey = incident.data.date.toISOString().split('T')[0];
+  if (!dateMap.has(dateKey)) {
+    dateMap.set(dateKey, []);
+  }
+  dateMap.get(dateKey)!.push(incident);
+}
+
+for (const [date, items] of dateMap) {
+  groupedIncidents.push({ date, items });
+}
+
+function formatGroupDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function formatTime(d: Date) {
+  return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+---
+
+<Layout title="Status" description="Service status and incident history for jiun.dev services.">
+  <div class="status-page">
+    <header class="status-header">
+      <div>
+        <h1>Status</h1>
+        <p class="subtitle">Real-time operational status for all jiun.dev services</p>
+      </div>
+      <a href="/status-rss.xml" class="rss-link" aria-label="Status RSS Feed">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 11a9 9 0 0 1 9 9"/>
+          <path d="M4 4a16 16 0 0 1 16 16"/>
+          <circle cx="5" cy="19" r="1"/>
+        </svg>
+      </a>
+    </header>
+
+    <div class:list={['banner', hasIssues ? 'banner-warning' : 'banner-ok']}>
+      <span class="banner-dot"></span>
+      <span class="banner-text">{hasIssues ? 'Some systems are experiencing issues' : 'All Systems Operational'}</span>
+      <span class="banner-time">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+    </div>
+
+    <section class="services-section">
+      <div class="section-header">
+        <h2>Services</h2>
+        <span class="service-count">{services.length}</span>
+      </div>
+      <div class="services-grid">
+        {serviceStatuses.map(s => (
+          <div class:list={['service-card', `status-${s.opStatus}`]}>
+            <div class="service-info">
+              <span class="service-dot-wrap">
+                <span class="service-dot"></span>
+              </span>
+              <span class="service-name">{s.title}</span>
+            </div>
+            <span class="service-status">{statusLabels[s.opStatus]}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="incidents-section">
+      <div class="section-header">
+        <h2>Incident History</h2>
+      </div>
+      {groupedIncidents.length === 0 ? (
+        <div class="no-incidents">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <p>No incidents reported. All systems running smoothly.</p>
+        </div>
+      ) : (
+        groupedIncidents.map(group => (
+          <div class="incident-group">
+            <div class="incident-date-row">
+              <span class="incident-date">{formatGroupDate(group.date)}</span>
+              <span class="incident-date-line"></span>
+            </div>
+            {group.items.map(incident => (
+              <a href={`/status/${incident.slug}/`} class="incident-card">
+                <div class="incident-left">
+                  <span class:list={['severity-indicator', `sev-${incident.data.severity}`]}></span>
+                  <div class="incident-info">
+                    <span class="incident-title">{incident.data.title}</span>
+                    <span class="incident-meta">
+                      <span class:list={['severity-badge', `severity-${incident.data.severity}`]}>
+                        {severityLabels[incident.data.severity]}
+                      </span>
+                      <span class="incident-services">
+                        {incident.data.affectedServices.join(', ')}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div class="incident-right">
+                  <span class:list={['status-pill', `pill-${incident.data.status}`]}>
+                    {incident.data.status}
+                  </span>
+                  <span class="incident-time">{formatTime(incident.data.date)}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        ))
+      )}
+    </section>
+  </div>
+</Layout>
+
+<style lang="scss">
+  .status-page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .status-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gray-1);
+      margin: 0;
+    }
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--gray-5);
+    margin: 0.25rem 0 0;
+    line-height: 1.6;
+  }
+
+  .rss-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    color: var(--gray-4);
+    transition: all 0.2s;
+    margin-top: 0.25rem;
+
+    &:hover {
+      color: var(--primary-c1);
+      background: color-mix(in srgb, var(--primary-c1) 10%, transparent);
+    }
+  }
+
+  // Banner
+  .banner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+    border: 1px solid transparent;
+  }
+
+  .banner-ok {
+    background: color-mix(in srgb, #22c55e 8%, transparent);
+    border-color: color-mix(in srgb, #22c55e 20%, transparent);
+    color: #22c55e;
+
+    .banner-dot {
+      background: #22c55e;
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+      animation: pulse-green 2s infinite;
+    }
+  }
+
+  .banner-warning {
+    background: color-mix(in srgb, #f59e0b 8%, transparent);
+    border-color: color-mix(in srgb, #f59e0b 20%, transparent);
+    color: #f59e0b;
+
+    .banner-dot {
+      background: #f59e0b;
+      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+      animation: pulse-amber 2s infinite;
+    }
+  }
+
+  .banner-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .banner-text {
+    flex: 1;
+  }
+
+  .banner-time {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    opacity: 0.7;
+  }
+
+  @keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+  }
+
+  @keyframes pulse-amber {
+    0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+  }
+
+  // Section headers
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gray-1);
+      margin: 0;
+    }
+  }
+
+  .service-count {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 1px 6px;
+    border-radius: 10px;
+    background: var(--gray-6);
+    color: var(--gray-3);
+  }
+
+  // Services grid
+  .services-section {
+    margin-bottom: 3rem;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.625rem;
+  }
+
+  .service-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1rem;
+    border-radius: 10px;
+    background: var(--article-background);
+    border: 1px solid var(--gray-6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  .service-info {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .service-dot-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+  }
+
+  .service-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .service-name {
+    font-weight: 500;
+    font-size: 0.9375rem;
+    color: var(--gray-1);
+  }
+
+  .service-status {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--gray-4);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .status-operational {
+    .service-dot { background: #22c55e; }
+    .service-status { color: #22c55e; }
+  }
+  .status-maintenance {
+    .service-dot { background: #60a5fa; }
+    .service-status { color: #60a5fa; }
+  }
+  .status-degraded {
+    .service-dot { background: #f59e0b; }
+    .service-status { color: #f59e0b; }
+  }
+  .status-major-outage {
+    .service-dot { background: #ef4444; }
+    .service-status { color: #ef4444; }
+  }
+
+  // Incidents
+  .incidents-section {
+    margin-bottom: 2rem;
+  }
+
+  .no-incidents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    background: var(--article-background);
+    border: 1px solid var(--gray-6);
+    text-align: center;
+
+    svg {
+      color: #22c55e;
+      opacity: 0.6;
+    }
+
+    p {
+      color: var(--gray-4);
+      font-size: 0.9375rem;
+      margin: 0;
+    }
+  }
+
+  .incident-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .incident-date-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .incident-date {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--gray-4);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .incident-date-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gray-6);
+  }
+
+  .incident-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    background: var(--article-background);
+    border: 1px solid var(--gray-6);
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-color: var(--gray-5);
+    }
+  }
+
+  .incident-left {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .severity-indicator {
+    width: 4px;
+    height: 36px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .sev-critical { background: #ef4444; }
+  .sev-major { background: #f59e0b; }
+  .sev-minor { background: #d97706; }
+  .sev-maintenance { background: #60a5fa; }
+
+  .incident-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .incident-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--gray-1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .incident-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+  }
+
+  .severity-badge {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.125rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .severity-critical {
+    background: color-mix(in srgb, #ef4444 15%, transparent);
+    color: #ef4444;
+  }
+
+  .severity-major {
+    background: color-mix(in srgb, #f59e0b 15%, transparent);
+    color: #f59e0b;
+  }
+
+  .severity-minor {
+    background: color-mix(in srgb, #d97706 12%, transparent);
+    color: #d97706;
+  }
+
+  .severity-maintenance {
+    background: color-mix(in srgb, #60a5fa 15%, transparent);
+    color: #60a5fa;
+  }
+
+  .incident-services {
+    color: var(--gray-4);
+    font-size: 0.8125rem;
+  }
+
+  .incident-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .status-pill {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.2rem 0.625rem;
+    border-radius: 10px;
+    text-transform: capitalize;
+  }
+
+  .pill-resolved {
+    background: color-mix(in srgb, #22c55e 12%, transparent);
+    color: #22c55e;
+  }
+
+  .pill-investigating, .pill-identified {
+    background: color-mix(in srgb, #f59e0b 12%, transparent);
+    color: #f59e0b;
+  }
+
+  .pill-monitoring {
+    background: color-mix(in srgb, #60a5fa 12%, transparent);
+    color: #60a5fa;
+  }
+
+  .pill-scheduled {
+    background: color-mix(in srgb, var(--gray-4) 12%, transparent);
+    color: var(--gray-4);
+  }
+
+  .incident-time {
+    font-size: 0.75rem;
+    color: var(--gray-5);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 768px) {
+    .status-header h1 {
+      font-size: 1.6rem;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .incident-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .incident-right {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .incident-time {
+      margin-left: auto;
+    }
+
+    .banner-time {
+      display: none;
+    }
+  }
+</style>
