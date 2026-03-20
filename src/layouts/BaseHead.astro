@@ -20,7 +20,7 @@ const {
   publishedTime,
   tags = [],
 } = Astro.props;
-const siteTitle = "Jiunbae's Blog";
+const siteTitle = "Jiun's Blog";
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 const resolvedImage = new URL(image, Astro.site).href;
 const resolvedCanonical = canonicalURL || Astro.url.href;
@@ -94,7 +94,7 @@ const resolvedCanonical = canonicalURL || Astro.url.href;
 )}
 
 <!-- Favicon -->
-<link rel="icon" type="image/png" href="/profile.png" />
+<link rel="icon" type="image/svg+xml" href="/logo-icon.svg" />
 <link rel="apple-touch-icon" href="/profile.png" />
 
 <!-- RSS -->

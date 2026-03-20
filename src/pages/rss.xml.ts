@@ -31,7 +31,7 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: "Jiunbae's Blog",
+    title: "Jiun's Blog",
     description: "AI/ML 연구원의 기술 블로그. 딥러닝, DevOps, Home Lab 실전 경험을 공유합니다.",
     site: context.site!,
     items: allItems,
