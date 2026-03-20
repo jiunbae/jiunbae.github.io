@@ -137,6 +137,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection('posts', ({ data }) => data.published !== false);
   const notes = await getCollection('notes', ({ data }) => data.published !== false);
   const reviews = await getCollection('reviews', ({ data }) => data.published !== false);
+  const incidents = await getCollection('incidents', ({ data }) => data.published !== false);
 
   const paths = [
     ...posts.map(p => {
@@ -180,6 +181,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
         },
       };
     }),
+    ...incidents.map(i => ({
+      params: { slug: `status/${i.slug}` },
+      props: {
+        title: i.data.title,
+        description: `[${i.data.severity.toUpperCase()}] ${i.data.status} — ${i.data.affectedServices.join(', ')}`,
+        date: i.data.date.toISOString().split('T')[0].replace(/-/g, '.'),
+        siteName: 'status.jiun.dev',
+      },
+    })),
   ];
 
   return paths;
