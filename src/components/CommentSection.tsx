@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const API_BASE = 'https://api.jiun.dev';
+const GITHUB_REPO = 'jiunbae/jiunbae.github.io';
 
 type CommentUser = {
   id: string;
@@ -22,6 +23,7 @@ type Comment = {
   createdAt: string;
   updatedAt: string | null;
   replies?: Comment[];
+  isLegacy?: boolean;
 };
 
 type Props = {
@@ -77,6 +79,65 @@ function clearTokenCookie() {
   document.cookie = 'access_token=; path=/; max-age=0; SameSite=Lax';
 }
 
+const utterancesCache = new Map<string, Comment[]>();
+
+async function fetchUtterancesComments(postSlug: string, postType: string): Promise<Comment[]> {
+  if (postType !== 'posts') return [];
+
+  const cacheKey = `${postType}/${postSlug}`;
+  if (utterancesCache.has(cacheKey)) return utterancesCache.get(cacheKey)!;
+
+  try {
+    const issueTitle = `posts/${postSlug}/`;
+    const searchUrl = `https://api.github.com/search/issues?q=${encodeURIComponent(`repo:${GITHUB_REPO} "${issueTitle}" in:title is:issue`)}`;
+    const res = await fetch(searchUrl);
+    if (!res.ok) return [];
+
+    const searchResult = await res.json();
+    const issue = (searchResult.items || []).find(
+      (i: { title: string }) => i.title === issueTitle,
+    );
+    if (!issue || issue.comments === 0) {
+      utterancesCache.set(cacheKey, []);
+      return [];
+    }
+
+    const commentsRes = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/issues/${issue.number}/comments`,
+    );
+    if (!commentsRes.ok) return [];
+
+    const ghComments = await commentsRes.json();
+    const mapped: Comment[] = ghComments.map(
+      (c: { id: number; user: { login: string; avatar_url: string }; body: string; created_at: string; updated_at: string }) => ({
+        id: `utterances-${c.id}`,
+        postSlug,
+        postType: 'posts',
+        parentId: null,
+        userId: null,
+        user: {
+          id: `gh-${c.user.login}`,
+          username: c.user.login,
+          displayName: c.user.login,
+          avatarUrl: c.user.avatar_url,
+        },
+        anonName: null,
+        content: c.body,
+        isDeleted: false,
+        createdAt: c.created_at,
+        updatedAt: c.updated_at !== c.created_at ? c.updated_at : null,
+        replies: [],
+        isLegacy: true,
+      }),
+    );
+
+    utterancesCache.set(cacheKey, mapped);
+    return mapped;
+  } catch {
+    return [];
+  }
+}
+
 export default function CommentSection({ postSlug, postType = 'posts' }: Props) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [total, setTotal] = useState(0);
@@ -88,12 +149,19 @@ export default function CommentSection({ postSlug, postType = 'posts' }: Props) 
 
   const loadComments = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${API_BASE}/comments?postSlug=${encodeURIComponent(postSlug)}&postType=${postType}`,
-      );
-      const data = await res.json();
-      setComments(data.comments || []);
-      setTotal(data.total || 0);
+      const [apiComments, legacyComments] = await Promise.all([
+        fetch(
+          `${API_BASE}/comments?postSlug=${encodeURIComponent(postSlug)}&postType=${postType}`,
+        )
+          .then((res) => res.json())
+          .then((data) => ({ comments: data.comments || [] as Comment[], total: data.total || 0 }))
+          .catch(() => ({ comments: [] as Comment[], total: 0 })),
+        fetchUtterancesComments(postSlug, postType),
+      ]);
+
+      const allComments = [...legacyComments, ...apiComments.comments];
+      setComments(allComments);
+      setTotal(apiComments.total + legacyComments.length);
     } catch {
       // silently fail
     } finally {
@@ -233,7 +301,7 @@ export default function CommentSection({ postSlug, postType = 'posts' }: Props) 
                 currentUser={currentUser}
                 editingId={editingId}
                 editContent={editContent}
-                onReply={() => setReplyTo(replyTo === comment.id ? null : comment.id)}
+                onReply={comment.isLegacy ? undefined : () => setReplyTo(replyTo === comment.id ? null : comment.id)}
                 onEdit={() => {
                   setEditingId(comment.id);
                   setEditContent(comment.content);
@@ -403,7 +471,7 @@ function CommentItem({
   onEditChange: (v: string) => void;
   onDelete: () => void;
 }) {
-  const isOwner = currentUser && comment.userId === currentUser.id;
+  const isOwner = !comment.isLegacy && currentUser && comment.userId === currentUser.id;
   const isEditing = editingId === comment.id;
   const displayName = comment.user?.displayName || comment.user?.username || comment.anonName || 'Anonymous';
 
@@ -419,8 +487,15 @@ function CommentItem({
     <div style={{ ...styles.comment, ...(isReply ? styles.commentReply : {}) }}>
       <div style={styles.commentHeader}>
         <span style={styles.author}>
+          {comment.user?.avatarUrl && (
+            <img src={comment.user.avatarUrl} alt="" style={styles.commentAvatar} />
+          )}
           {displayName}
-          {comment.user && <span style={styles.badge}>user</span>}
+          {comment.isLegacy ? (
+            <span style={styles.legacyBadge}>legacy</span>
+          ) : (
+            comment.user && <span style={styles.badge}>user</span>
+          )}
         </span>
         <span style={styles.time}>
           {timeAgo(comment.createdAt)}
@@ -603,6 +678,19 @@ const styles: Record<string, React.CSSProperties> = {
     background: 'var(--primary-c1)',
     color: '#fff',
     fontWeight: 500,
+  },
+  legacyBadge: {
+    fontSize: '0.6875rem',
+    padding: '0.1rem 0.375rem',
+    borderRadius: '0.25rem',
+    background: 'var(--gray-4)',
+    color: '#fff',
+    fontWeight: 500,
+  },
+  commentAvatar: {
+    width: '20px',
+    height: '20px',
+    borderRadius: '50%',
   },
   time: {
     fontSize: '0.8125rem',
