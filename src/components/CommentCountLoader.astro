@@ -12,24 +12,27 @@
   const API_BASE = 'https://api.jiun.dev';
   const GITHUB_REPO = 'jiunbae/jiunbae.github.io';
 
+  let legacyCountsCache: Record<string, number> | null = null;
+
   async function fetchLegacyCounts(slugs: string[]): Promise<Record<string, number>> {
+    if (legacyCountsCache) return legacyCountsCache;
     const counts: Record<string, number> = {};
     try {
-      const queries = slugs.map((slug) => `"posts/${slug}/"`).join('+');
       const res = await fetch(
-        `https://api.github.com/search/issues?q=${encodeURIComponent(`repo:${GITHUB_REPO} ${queries} in:title is:issue`)}`,
+        `https://api.github.com/search/issues?q=${encodeURIComponent(`repo:${GITHUB_REPO} "posts/" in:title is:issue`)}&per_page=50`,
       );
       if (!res.ok) return counts;
       const data = await res.json();
       for (const issue of data.items || []) {
         const match = issue.title.match(/^posts\/(.+)\/$/);
-        if (match && issue.comments > 0) {
+        if (match && issue.comments > 0 && slugs.includes(match[1])) {
           counts[match[1]] = issue.comments;
         }
       }
     } catch {
       // silently fail
     }
+    legacyCountsCache = counts;
     return counts;
   }
 
