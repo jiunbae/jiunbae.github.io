@@ -10,6 +10,28 @@
 
 <script>
   const API_BASE = 'https://api.jiun.dev';
+  const GITHUB_REPO = 'jiunbae/jiunbae.github.io';
+
+  async function fetchLegacyCounts(slugs: string[]): Promise<Record<string, number>> {
+    const counts: Record<string, number> = {};
+    try {
+      const queries = slugs.map((slug) => `"posts/${slug}/"`).join('+');
+      const res = await fetch(
+        `https://api.github.com/search/issues?q=${encodeURIComponent(`repo:${GITHUB_REPO} ${queries} in:title is:issue`)}`,
+      );
+      if (!res.ok) return counts;
+      const data = await res.json();
+      for (const issue of data.items || []) {
+        const match = issue.title.match(/^posts\/(.+)\/$/);
+        if (match && issue.comments > 0) {
+          counts[match[1]] = issue.comments;
+        }
+      }
+    } catch {
+      // silently fail
+    }
+    return counts;
+  }
 
   async function loadCommentCounts() {
     const elements = document.querySelectorAll<HTMLElement>('[data-comment-slug]');
@@ -27,16 +49,17 @@
     for (const [postType, items] of byType) {
       const slugs = items.map((i) => i.slug);
       try {
-        const res = await fetch(
-          `${API_BASE}/comments/counts?slugs=${encodeURIComponent(slugs.join(','))}&postType=${postType}`,
-        );
-        if (!res.ok) continue;
-        const data = await res.json();
-        const counts: Record<string, number> = data.counts || {};
+        const [apiRes, legacyCounts] = await Promise.all([
+          fetch(
+            `${API_BASE}/comments/counts?slugs=${encodeURIComponent(slugs.join(','))}&postType=${postType}`,
+          ).then((r) => (r.ok ? r.json() : { counts: {} })).catch(() => ({ counts: {} })),
+          postType === 'posts' ? fetchLegacyCounts(slugs) : Promise.resolve({} as Record<string, number>),
+        ]);
+        const apiCounts: Record<string, number> = apiRes.counts || {};
 
         for (const { slug, el } of items) {
-          const count = counts[slug];
-          if (count && count > 0) {
+          const count = (apiCounts[slug] || 0) + (legacyCounts[slug] || 0);
+          if (count > 0) {
             const badge = document.createElement('span');
             badge.className = 'comment-count-badge';
             badge.textContent = `💬 ${count}`;
