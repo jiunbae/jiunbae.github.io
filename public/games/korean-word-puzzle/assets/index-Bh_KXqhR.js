@@ -43,23 +43,24 @@
         <p class="help-footer">매일 새로운 퍼즐이 출제됩니다!</p>
         <button class="modal-close-btn" onclick="this.closest('.modal-overlay').classList.add('hidden')">닫기</button>
       </div>
-    `)}showStats(){let e=this.game.getStats(),t=this.game.getWinPercentage();this.game.getAverageGuesses();let n=Math.max(...e.guessDistribution,1),r=e.guessDistribution.map((e,t)=>{let r=Math.max(e/n*100,e>0?8:0),i=this.game.state.won&&this.game.state.guesses.length===t+1;return`
+    `)}showStats(){let e=this.game.getStats(),t=this.game.getWinPercentage();this.game.getAverageGuesses();let n=Math.max(...e.guessDistribution,1),r=e.guessDistribution.reduce((e,t)=>e+t,0),i=e.guessDistribution.map((e,t)=>{let i=Math.max(e/n*100,e>0?8:0),a=this.game.state.won&&this.game.state.guesses.length===t+1,o=r>0?Math.round(e/r*100):0;return`
         <div class="dist-row">
           <span class="dist-label">${t+1}</span>
           <div class="dist-bar-container">
-            <div class="dist-bar ${i?`dist-highlight`:``}" style="width: ${r}%">
+            <div class="dist-bar ${a?`dist-highlight`:``}" style="width: ${i}%; animation-delay: ${t*.1}s;">
               <span class="dist-count">${e}</span>
+              ${r>0?`<span class="dist-pct">${o}%</span>`:``}
             </div>
           </div>
         </div>
-      `}).join(``),i=this.game.state.gameOver?`
+      `}).join(``),a=this.game.state.gameOver?`
       <button class="share-btn" id="share-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16,6 12,2 8,6"/><line x1="12" y1="2" x2="12" y2="15"/>
         </svg>
         결과 공유하기
       </button>
-    `:``,a=e.currentStreak>7?`
+    `:``,o=e.currentStreak>7?`
       <div class="streak-celebration">
         🔥 ${e.currentStreak}연승 달성! 대단해요! 🔥
       </div>
@@ -85,14 +86,14 @@
           </div>
         </div>
 
-        ${a}
+        ${o}
 
         <h3>추측 분포</h3>
         <div class="dist-chart">
-          ${r}
+          ${i}
         </div>
 
-        ${i}
+        ${a}
         <button class="modal-close-btn" onclick="this.closest('.modal-overlay').classList.add('hidden')">닫기</button>
       </div>
     `),this.game.state.gameOver){let e=document.getElementById(`share-btn`);e&&e.addEventListener(`click`,()=>this.shareResult())}}shareResult(){let e=this.game.getShareText();navigator.clipboard?navigator.clipboard.writeText(e).then(()=>{this.showCopyToast()}).catch(()=>{this.fallbackCopy(e)}):this.fallbackCopy(e)}fallbackCopy(e){let t=document.createElement(`textarea`);t.value=e,t.style.position=`fixed`,t.style.left=`-9999px`,document.body.appendChild(t),t.select(),document.execCommand(`copy`),document.body.removeChild(t),this.showCopyToast()}showCopyToast(){this.game.showMessage(`클립보드에 복사되었습니다! 📋`)}showModal(e){this.modalOverlay.innerHTML=e,this.modalOverlay.classList.remove(`hidden`)}closeModal(){this.modalOverlay.classList.add(`hidden`)}};function Q(e){switch(e){case x.Correct:return`correct`;case x.Present:return`present`;case x.Absent:return`absent`;case x.Misplaced:return`misplaced`}}var $={q:`ㅂ`,w:`ㅈ`,e:`ㄷ`,r:`ㄱ`,t:`ㅅ`,y:`ㅛ`,u:`ㅕ`,i:`ㅑ`,o:`ㅐ`,p:`ㅔ`,a:`ㅁ`,s:`ㄴ`,d:`ㅇ`,f:`ㄹ`,g:`ㅎ`,h:`ㅗ`,j:`ㅓ`,k:`ㅏ`,l:`ㅣ`,z:`ㅋ`,x:`ㅌ`,c:`ㅊ`,v:`ㅍ`,b:`ㅠ`,n:`ㅜ`,m:`ㅡ`,Q:`ㅃ`,W:`ㅉ`,E:`ㄸ`,R:`ㄲ`,T:`ㅆ`,O:`ㅒ`,P:`ㅖ`},ae=new Set([...c,...l,`ㅃ`,`ㅉ`,`ㄸ`,`ㄲ`,`ㅆ`,`ㅒ`,`ㅖ`]);function oe(e,t){if(ae.has(e))return e;if(t){let t=e.toUpperCase();if($[t])return $[t]}let n=e.toLowerCase();return $[n]?$[n]:null}new ie;
