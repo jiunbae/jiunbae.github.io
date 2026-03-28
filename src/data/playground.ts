@@ -9,6 +9,86 @@ export interface PlaygroundItem {
 
 const playground: PlaygroundItem[] = [
   {
+    slug: '/games/korean-word-puzzle/',
+    title: '한끝차이',
+    description: '한글 자모 분리 피드백 워드 퍼즐 — 매일 새로운 2글자 단어를 6회 이내에 맞히세요',
+    gradient: 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f97316 100%)',
+    date: '2026-03-28',
+    tags: ['TypeScript', '한글', '퍼즐']
+  },
+  {
+    slug: '/games/beat-drop/',
+    title: '비트 드롭',
+    description: 'Web Audio 기반 리듬 액션 게임 — 4레인 노트를 비트에 맞춰 치세요',
+    gradient: 'radial-gradient(circle at 40% 50%, rgba(255,0,255,0.4) 0%, transparent 50%), radial-gradient(circle at 60% 50%, rgba(0,255,255,0.4) 0%, transparent 50%), linear-gradient(180deg, #0a0a2e 0%, #1a0a3e 100%)',
+    date: '2026-03-28',
+    tags: ['Web Audio', 'Canvas', '리듬']
+  },
+  {
+    slug: '/games/bluff-party/',
+    title: '블러프 파티',
+    description: '2-8인 로컬 멀티 파티 게임 — 블러퍼를 찾아내세요!',
+    gradient: 'linear-gradient(135deg, #6b21a8 0%, #ec4899 50%, #f59e0b 100%)',
+    date: '2026-03-28',
+    tags: ['TypeScript', '파티', '멀티플레이']
+  },
+  {
+    slug: '/games/infinite-mosaic/',
+    title: '인피니트 모자이크',
+    description: '프로시저럴 모자이크 퍼즐 — 색상 조화를 만들어 아름다운 작품을 완성하세요',
+    gradient: 'conic-gradient(from 45deg, rgba(255,100,50,0.4), rgba(50,200,100,0.4), rgba(50,100,255,0.4), rgba(200,50,200,0.4), rgba(255,100,50,0.4)), linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%)',
+    date: '2026-03-28',
+    tags: ['Canvas', '아트', '퍼즐']
+  },
+  {
+    slug: '/games/draw-alive/',
+    title: '그려서 살려내기',
+    description: '그림을 그리면 물리 객체가 되는 퍼즐 게임 — Matter.js 물리 엔진',
+    gradient: 'radial-gradient(circle at 50% 50%, rgba(255,107,107,0.3) 0%, transparent 50%), linear-gradient(180deg, #FFF8F0 0%, #FFE8D0 100%)',
+    date: '2026-03-28',
+    tags: ['Phaser 3', 'Matter.js', '물리']
+  },
+  {
+    slug: '/games/one-hand-fortress/',
+    title: '한 손의 요새',
+    description: '한 손으로 타워를 배치하여 마을을 지키는 타워 디펜스',
+    gradient: 'linear-gradient(180deg, rgba(188,170,164,0.3) 0%, rgba(74,60,49,0.3) 100%), linear-gradient(180deg, #e8e0f0 0%, #d0c0e0 100%)',
+    date: '2026-03-28',
+    tags: ['Phaser 3', 'TypeScript', '전략']
+  },
+  {
+    slug: '/games/destruction-sandbox/',
+    title: '부숴볼래?',
+    description: '물리 기반 파괴 샌드박스 — 건물을 부수고 슬로모션 리플레이를 감상하세요',
+    gradient: 'radial-gradient(circle at 50% 80%, rgba(249,115,22,0.5) 0%, transparent 50%), linear-gradient(180deg, #0a0e27 0%, #1a1040 100%)',
+    date: '2026-03-28',
+    tags: ['Matter.js', '물리', '샌드박스']
+  },
+  {
+    slug: '/games/roguelike-deckbuilder/',
+    title: '카드의 탑',
+    description: '턴제 로그라이크 카드 RPG — 덱을 빌드하며 던전을 탐험하세요',
+    gradient: 'linear-gradient(135deg, rgba(251,191,36,0.3) 0%, rgba(239,68,68,0.3) 100%), linear-gradient(180deg, #1A1A2E 0%, #16213e 100%)',
+    date: '2026-03-28',
+    tags: ['Phaser 3', '카드', 'RPG']
+  },
+  {
+    slug: '/games/whisper-garden/',
+    title: '속삭이는 정원',
+    description: 'L-System 식물 생성, 사계절 변화가 있는 힐링 정원 시뮬레이션',
+    gradient: 'radial-gradient(circle at 50% 30%, rgba(251,191,36,0.3) 0%, transparent 40%), linear-gradient(180deg, #87ceeb 0%, #22c55e 60%, #166534 100%)',
+    date: '2026-03-28',
+    tags: ['Canvas', 'L-System', '시뮬레이션']
+  },
+  {
+    slug: '/games/pocket-biome/',
+    title: '포켓 바이옴',
+    description: 'AI 생물이 자율 진화하는 생태계 시뮬레이션 — 관찰하고 발견하세요',
+    gradient: 'radial-gradient(circle at 30% 60%, rgba(34,197,94,0.4) 0%, transparent 40%), radial-gradient(circle at 70% 40%, rgba(6,182,212,0.3) 0%, transparent 40%), linear-gradient(180deg, #0a1a10 0%, #1a3a2a 100%)',
+    date: '2026-03-28',
+    tags: ['Canvas', 'AI', '생태계']
+  },
+  {
     slug: '/cyber-flowers/',
     title: '사이버 꽃꽂이',
     description: 'Interactive 3D cyber flower arrangement with neon, holographic, and retro-futuristic styles',
