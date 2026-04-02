@@ -24,7 +24,7 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         \uB3CC\uC544\uAC00\uAE30
       </button>
     </div>
-  `,document.getElementById(`btn-lb-back`).addEventListener(`click`,()=>{_=`title`,R()})}var s=[{normal:`고양이`,bluffer:`강아지`,category:`동물`},{normal:`피자`,bluffer:`햄버거`,category:`음식`},{normal:`비행기`,bluffer:`헬리콥터`,category:`탈것`},{normal:`해`,bluffer:`달`,category:`자연`},{normal:`기타`,bluffer:`바이올린`,category:`악기`},{normal:`사과`,bluffer:`딸기`,category:`과일`},{normal:`축구공`,bluffer:`농구공`,category:`스포츠`},{normal:`우산`,bluffer:`모자`,category:`소품`},{normal:`로봇`,bluffer:`외계인`,category:`캐릭터`},{normal:`성`,bluffer:`탑`,category:`건물`},{normal:`나무`,bluffer:`꽃`,category:`자연`},{normal:`자전거`,bluffer:`오토바이`,category:`탈것`},{normal:`펭귄`,bluffer:`오리`,category:`동물`},{normal:`케이크`,bluffer:`아이스크림`,category:`디저트`},{normal:`집`,bluffer:`텐트`,category:`건물`}],c=[{question:`지구에서 가장 높은 산은?`,correctAnswer:`에베레스트`,blufferAnswer:`K2`,category:`지리`},{question:`물의 화학식은?`,correctAnswer:`H2O`,blufferAnswer:`CO2`,category:`과학`},{question:`한국의 수도는?`,correctAnswer:`서울`,blufferAnswer:`부산`,category:`상식`},{question:`태양계에서 가장 큰 행성은?`,correctAnswer:`목성`,blufferAnswer:`토성`,category:`과학`},{question:`"로미오와 줄리엣"의 작가는?`,correctAnswer:`셰익스피어`,blufferAnswer:`괴테`,category:`문학`},{question:`올림픽은 몇 년마다 열리나?`,correctAnswer:`4년`,blufferAnswer:`2년`,category:`스포츠`},{question:`빛의 속도에 가장 가까운 것은?`,correctAnswer:`초속 30만 km`,blufferAnswer:`초속 15만 km`,category:`과학`},{question:`피카소의 국적은?`,correctAnswer:`스페인`,blufferAnswer:`프랑스`,category:`예술`},{question:`인체에서 가장 큰 장기는?`,correctAnswer:`피부`,blufferAnswer:`간`,category:`과학`},{question:`BTS의 데뷔곡은?`,correctAnswer:`No More Dream`,blufferAnswer:`Danger`,category:`음악`},{question:`일본의 수도는?`,correctAnswer:`도쿄`,blufferAnswer:`오사카`,category:`지리`},{question:`1 + 1 = ?`,correctAnswer:`2`,blufferAnswer:`11 (이진법)`,category:`수학`}],l=[{normal:`김치찌개`,bluffer:`된장찌개`,category:`한식`},{normal:`여름`,bluffer:`겨울`,category:`계절`},{normal:`학교`,bluffer:`회사`,category:`장소`},{normal:`결혼식`,bluffer:`장례식`,category:`행사`},{normal:`영화관`,bluffer:`놀이공원`,category:`장소`},{normal:`크리스마스`,bluffer:`할로윈`,category:`명절`},{normal:`아기`,bluffer:`할아버지`,category:`사람`},{normal:`바다`,bluffer:`산`,category:`자연`},{normal:`라면`,bluffer:`떡볶이`,category:`음식`},{normal:`지하철`,bluffer:`버스`,category:`교통`},{normal:`도서관`,bluffer:`카페`,category:`장소`},{normal:`생일`,bluffer:`졸업식`,category:`행사`},{normal:`강아지`,bluffer:`고양이`,category:`동물`},{normal:`운동회`,bluffer:`소풍`,category:`학교행사`},{normal:`비 오는 날`,bluffer:`눈 오는 날`,category:`날씨`}],u={bg:`#1a1a2e`,bgLight:`#16213e`,primary:`#e94560`,secondary:`#0f3460`,accent:`#533483`,yellow:`#f5c542`,green:`#27ae60`,blue:`#3498db`,orange:`#e67e22`,white:`#ecf0f1`,gray:`#7f8c8d`,darkGray:`#2c3e50`},d=[`#e94560`,`#3498db`,`#27ae60`,`#f5c542`,`#e67e22`,`#9b59b6`,`#1abc9c`,`#e74c3c`],m=[],h=0,g=5,_=`title`,v=null,y=0,b=[],x=[],S=[],C=[],w=[],T=[],E=[],D=document.getElementById(`app`),O=document.createElement(`style`);O.textContent=`
+  `,document.getElementById(`btn-lb-back`).addEventListener(`click`,()=>{_=`title`,K()})}var s=[{normal:`고양이`,bluffer:`강아지`,category:`동물`},{normal:`피자`,bluffer:`햄버거`,category:`음식`},{normal:`비행기`,bluffer:`헬리콥터`,category:`탈것`},{normal:`해`,bluffer:`달`,category:`자연`},{normal:`기타`,bluffer:`바이올린`,category:`악기`},{normal:`사과`,bluffer:`딸기`,category:`과일`},{normal:`축구공`,bluffer:`농구공`,category:`스포츠`},{normal:`우산`,bluffer:`모자`,category:`소품`},{normal:`로봇`,bluffer:`외계인`,category:`캐릭터`},{normal:`성`,bluffer:`탑`,category:`건물`},{normal:`나무`,bluffer:`꽃`,category:`자연`},{normal:`자전거`,bluffer:`오토바이`,category:`탈것`},{normal:`펭귄`,bluffer:`오리`,category:`동물`},{normal:`케이크`,bluffer:`아이스크림`,category:`디저트`},{normal:`집`,bluffer:`텐트`,category:`건물`}],c=[{question:`지구에서 가장 높은 산은?`,correctAnswer:`에베레스트`,blufferAnswer:`K2`,category:`지리`},{question:`물의 화학식은?`,correctAnswer:`H2O`,blufferAnswer:`CO2`,category:`과학`},{question:`한국의 수도는?`,correctAnswer:`서울`,blufferAnswer:`부산`,category:`상식`},{question:`태양계에서 가장 큰 행성은?`,correctAnswer:`목성`,blufferAnswer:`토성`,category:`과학`},{question:`"로미오와 줄리엣"의 작가는?`,correctAnswer:`셰익스피어`,blufferAnswer:`괴테`,category:`문학`},{question:`올림픽은 몇 년마다 열리나?`,correctAnswer:`4년`,blufferAnswer:`2년`,category:`스포츠`},{question:`빛의 속도에 가장 가까운 것은?`,correctAnswer:`초속 30만 km`,blufferAnswer:`초속 15만 km`,category:`과학`},{question:`피카소의 국적은?`,correctAnswer:`스페인`,blufferAnswer:`프랑스`,category:`예술`},{question:`인체에서 가장 큰 장기는?`,correctAnswer:`피부`,blufferAnswer:`간`,category:`과학`},{question:`BTS의 데뷔곡은?`,correctAnswer:`No More Dream`,blufferAnswer:`Danger`,category:`음악`},{question:`일본의 수도는?`,correctAnswer:`도쿄`,blufferAnswer:`오사카`,category:`지리`},{question:`1 + 1 = ?`,correctAnswer:`2`,blufferAnswer:`11 (이진법)`,category:`수학`}],l=[{normal:`김치찌개`,bluffer:`된장찌개`,category:`한식`},{normal:`여름`,bluffer:`겨울`,category:`계절`},{normal:`학교`,bluffer:`회사`,category:`장소`},{normal:`결혼식`,bluffer:`장례식`,category:`행사`},{normal:`영화관`,bluffer:`놀이공원`,category:`장소`},{normal:`크리스마스`,bluffer:`할로윈`,category:`명절`},{normal:`아기`,bluffer:`할아버지`,category:`사람`},{normal:`바다`,bluffer:`산`,category:`자연`},{normal:`라면`,bluffer:`떡볶이`,category:`음식`},{normal:`지하철`,bluffer:`버스`,category:`교통`},{normal:`도서관`,bluffer:`카페`,category:`장소`},{normal:`생일`,bluffer:`졸업식`,category:`행사`},{normal:`강아지`,bluffer:`고양이`,category:`동물`},{normal:`운동회`,bluffer:`소풍`,category:`학교행사`},{normal:`비 오는 날`,bluffer:`눈 오는 날`,category:`날씨`}],u={bg:`#1a1a2e`,bgLight:`#16213e`,primary:`#e94560`,secondary:`#0f3460`,accent:`#533483`,yellow:`#f5c542`,green:`#27ae60`,blue:`#3498db`,orange:`#e67e22`,white:`#ecf0f1`,gray:`#7f8c8d`,darkGray:`#2c3e50`},d=[`#e94560`,`#3498db`,`#27ae60`,`#f5c542`,`#e67e22`,`#9b59b6`,`#1abc9c`,`#e74c3c`],m=[],h=0,g=5,_=`title`,v=null,y=0,b=[],x=[],S=[],C=[],w=[],T=[],E=[],D=document.getElementById(`app`),O=null;function k(){return O||=new AudioContext,O}function A(){try{let e=k(),t=e.currentTime,n=e.sampleRate*.06,r=e.createBuffer(1,n,e.sampleRate),i=r.getChannelData(0);for(let e=0;e<n;e++)i[e]=(Math.random()*2-1)*(1-e/n);let a=e.createBufferSource();a.buffer=r;let o=e.createBiquadFilter();o.type=`bandpass`,o.frequency.value=1200,o.Q.value=2;let s=e.createGain();s.gain.setValueAtTime(.3,t),s.gain.exponentialRampToValueAtTime(.001,t+.06),a.connect(o),o.connect(s),s.connect(e.destination),a.start(t),a.stop(t+.06)}catch{}}function j(){try{let e=k(),t=e.currentTime,n=e.createOscillator();n.type=`sine`,n.frequency.setValueAtTime(300,t),n.frequency.exponentialRampToValueAtTime(1200,t+.4);let r=e.createGain();r.gain.setValueAtTime(.2,t),r.gain.exponentialRampToValueAtTime(.001,t+.5),n.connect(r),r.connect(e.destination),n.start(t),n.stop(t+.5)}catch{}}function M(){try{let e=k(),t=e.currentTime;[523,659,784,1047].forEach((n,r)=>{let i=e.createOscillator();i.type=`sine`,i.frequency.value=n;let a=e.createGain();a.gain.setValueAtTime(0,t+r*.1),a.gain.linearRampToValueAtTime(.2,t+r*.1+.05),a.gain.exponentialRampToValueAtTime(.001,t+r*.1+.3),i.connect(a),a.connect(e.destination),i.start(t+r*.1),i.stop(t+r*.1+.3)})}catch{}}function N(){try{let e=k(),t=e.currentTime,n=e.createOscillator();n.type=`sawtooth`,n.frequency.value=150;let r=e.createGain();r.gain.setValueAtTime(.2,t),r.gain.exponentialRampToValueAtTime(.001,t+.4),n.connect(r),r.connect(e.destination),n.start(t),n.stop(t+.4)}catch{}}function P(){try{let e=k(),t=e.currentTime;[800,1e3,1200,1400,1600].forEach((n,r)=>{let i=e.createOscillator();i.type=`sine`,i.frequency.value=n;let a=e.createGain();a.gain.setValueAtTime(0,t+r*.06),a.gain.linearRampToValueAtTime(.15,t+r*.06+.03),a.gain.exponentialRampToValueAtTime(.001,t+r*.06+.2),i.connect(a),a.connect(e.destination),i.start(t+r*.06),i.stop(t+r*.06+.2)})}catch{}}function F(e){D.style.transition=`opacity 0.2s ease`,D.style.opacity=`0`,setTimeout(()=>{e(),D.style.opacity=`1`},200)}var I=document.createElement(`style`);I.textContent=`
   /* Animated background gradient for title */
   @keyframes bgShift {
     0% { background-position: 0% 50%; }
@@ -188,7 +188,15 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
     filter: brightness(1.1);
     transform: scale(0.97);
   }
-`,document.head.appendChild(O);function k(e,t=[]){let n=e.map((e,t)=>({item:e,i:t})).filter(e=>!t.includes(e.i));if(n.length===0){let t=Math.floor(Math.random()*e.length);return{item:e[t],index:t}}let r=n[Math.floor(Math.random()*n.length)];return{item:r.item,index:r.i}}function A(e){switch(e){case`drawing`:return`그림 그리기`;case`quiz`:return`퀴즈 대결`;case`describe`:return`설명하기`}}function j(e){switch(e){case`drawing`:return`🎨`;case`quiz`:return`🧠`;case`describe`:return`💬`}}function M(){m.forEach(e=>{e.isBluffer=!1,e.votedFor=-1});let e=E.slice(-2).map(e=>e.blufferIndex),t=m.map((e,t)=>t).filter(t=>!e.includes(t)),n=t.length>0?t:m.map((e,t)=>t),r=n[Math.floor(Math.random()*n.length)];m[r].isBluffer=!0}function N(){let e=[`drawing`,`quiz`,`describe`],t=e.filter(e=>!b.includes(e)),n=t.length>0?t[Math.floor(Math.random()*t.length)]:e[Math.floor(Math.random()*e.length)];switch(b.push(n),n){case`drawing`:{let{item:e,index:t}=k(s,x);return x.push(t),{type:`drawing`,normalPrompt:e.normal,blufferPrompt:e.bluffer,category:e.category}}case`quiz`:{let{item:e,index:t}=k(c,S);return S.push(t),{type:`quiz`,normalPrompt:e.correctAnswer,blufferPrompt:e.blufferAnswer,category:`${e.category}: ${e.question}`}}case`describe`:{let{item:e,index:t}=k(l,C);return C.push(t),{type:`describe`,normalPrompt:e.normal,blufferPrompt:e.bluffer,category:e.category}}}}function P(){let e=[{key:`role`,label:`역할 확인`},{key:`game`,label:`미니게임`},{key:`vote`,label:`투표`},{key:`result`,label:`결과`}],t=``;if(_===`roundIntro`||_===`roleReveal`||_===`passPhone`)t=`role`;else if(_===`miniGame`)t=`game`;else if(_===`discussion`||_===`voting`||_===`votePassPhone`)t=`vote`;else if(_===`results`)t=`result`;else return``;return`<div style="display:flex;align-items:center;justify-content:center;padding:8px 0;width:100%;flex-wrap:wrap;">${e.map((n,r)=>{let i=n.key===t,a=e.findIndex(e=>e.key===t)>r,o=i?u.yellow:a?u.green:u.gray,s=i?`700`:`400`,c=i?`phase-active`:``,l=i?`<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${u.yellow};margin-right:4px;vertical-align:middle;box-shadow:0 0 8px ${u.yellow};" class="${c}"></span>`:``,d=r<e.length-1?`<span style="color:${u.gray};margin:0 4px;font-size:10px;">▸</span>`:``;return`<span style="color:${o};font-weight:${s};font-size:11px;" class="${c}">${l}${n.label}</span>${d}`}).join(``)}</div>`}function F(e=`뒤로`){return`<button id="btn-back" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.1);color:${u.gray};border:1px solid rgba(255,255,255,0.15);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;z-index:10;">${e}</button>`}function I(){let e=[`#e94560`,`#f5c542`,`#27ae60`,`#3498db`,`#9b59b6`,`#e67e22`,`#1abc9c`,`#ff6b9d`],t=``;for(let n=0;n<30;n++){let r=e[n%e.length],i=Math.random()*100,a=60+Math.random()*40,o=1.5+Math.random()*2,s=Math.random()*2,c=6+Math.random()*6;t+=`<div class="confetti-dot" style="left:${i}%;top:${a}%;width:${c}px;height:${c}px;background:${r};--dur:${o}s;--delay:${s}s;"></div>`}return`<div class="confetti-container">${t}</div>`}function L(){return h<=0||g<=0?``:`<div class="round-progress" style="max-width:300px;margin:4px auto 8px;"><div class="round-progress-fill" style="width:${h/g*100}%"></div></div>`}function R(){switch(_){case`title`:z();break;case`setup`:B();break;case`roundIntro`:H();break;case`roleReveal`:W();break;case`passPhone`:U();break;case`miniGame`:G();break;case`discussion`:X();break;case`voting`:Q();break;case`votePassPhone`:Z();break;case`results`:$();break;case`finalResults`:ee();break}}function z(){D.innerHTML=`
+
+  /* Button press feedback */
+  button {
+    transition: transform 0.1s ease;
+  }
+  button:active {
+    transform: scale(0.95) !important;
+  }
+`,document.head.appendChild(I);function L(e,t=[]){let n=e.map((e,t)=>({item:e,i:t})).filter(e=>!t.includes(e.i));if(n.length===0){let t=Math.floor(Math.random()*e.length);return{item:e[t],index:t}}let r=n[Math.floor(Math.random()*n.length)];return{item:r.item,index:r.i}}function ee(e){switch(e){case`drawing`:return`그림 그리기`;case`quiz`:return`퀴즈 대결`;case`describe`:return`설명하기`}}function R(e){switch(e){case`drawing`:return`🎨`;case`quiz`:return`🧠`;case`describe`:return`💬`}}function z(){m.forEach(e=>{e.isBluffer=!1,e.votedFor=-1});let e=E.slice(-2).map(e=>e.blufferIndex),t=m.map((e,t)=>t).filter(t=>!e.includes(t)),n=t.length>0?t:m.map((e,t)=>t),r=n[Math.floor(Math.random()*n.length)];m[r].isBluffer=!0}function B(){let e=[`drawing`,`quiz`,`describe`],t=e.filter(e=>!b.includes(e)),n=t.length>0?t[Math.floor(Math.random()*t.length)]:e[Math.floor(Math.random()*e.length)];switch(b.push(n),n){case`drawing`:{let{item:e,index:t}=L(s,x);return x.push(t),{type:`drawing`,normalPrompt:e.normal,blufferPrompt:e.bluffer,category:e.category}}case`quiz`:{let{item:e,index:t}=L(c,S);return S.push(t),{type:`quiz`,normalPrompt:e.correctAnswer,blufferPrompt:e.blufferAnswer,category:`${e.category}: ${e.question}`}}case`describe`:{let{item:e,index:t}=L(l,C);return C.push(t),{type:`describe`,normalPrompt:e.normal,blufferPrompt:e.bluffer,category:e.category}}}}function V(){let e=[{key:`role`,label:`역할 확인`},{key:`game`,label:`미니게임`},{key:`vote`,label:`투표`},{key:`result`,label:`결과`}],t=``;if(_===`roundIntro`||_===`roleReveal`||_===`passPhone`)t=`role`;else if(_===`miniGame`)t=`game`;else if(_===`discussion`||_===`voting`||_===`votePassPhone`)t=`vote`;else if(_===`results`)t=`result`;else return``;return`<div style="display:flex;align-items:center;justify-content:center;padding:8px 0;width:100%;flex-wrap:wrap;">${e.map((n,r)=>{let i=n.key===t,a=e.findIndex(e=>e.key===t)>r,o=i?u.yellow:a?u.green:u.gray,s=i?`700`:`400`,c=i?`phase-active`:``,l=i?`<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${u.yellow};margin-right:4px;vertical-align:middle;box-shadow:0 0 8px ${u.yellow};" class="${c}"></span>`:``,d=r<e.length-1?`<span style="color:${u.gray};margin:0 4px;font-size:10px;">▸</span>`:``;return`<span style="color:${o};font-weight:${s};font-size:11px;" class="${c}">${l}${n.label}</span>${d}`}).join(``)}</div>`}function H(e=`뒤로`){return`<button id="btn-back" style="position:absolute;top:12px;left:12px;background:rgba(255,255,255,0.1);color:${u.gray};border:1px solid rgba(255,255,255,0.15);padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;z-index:10;">${e}</button>`}function U(){let e=[`#e94560`,`#f5c542`,`#27ae60`,`#3498db`,`#9b59b6`,`#e67e22`,`#1abc9c`,`#ff6b9d`],t=``;for(let n=0;n<30;n++){let r=e[n%e.length],i=Math.random()*100,a=60+Math.random()*40,o=1.5+Math.random()*2,s=Math.random()*2,c=6+Math.random()*6;t+=`<div class="confetti-dot" style="left:${i}%;top:${a}%;width:${c}px;height:${c}px;background:${r};--dur:${o}s;--delay:${s}s;"></div>`}return`<div class="confetti-container">${t}</div>`}function W(){return h<=0||g<=0?``:`<div class="round-progress" style="max-width:300px;margin:4px auto 8px;"><div class="round-progress-fill" style="width:${h/g*100}%"></div></div>`}var G=null;function K(){let e=()=>{switch(_){case`title`:q();break;case`setup`:J();break;case`roundIntro`:X();break;case`roleReveal`:Q();break;case`passPhone`:Z();break;case`miniGame`:te();break;case`discussion`:oe();break;case`voting`:se();break;case`votePassPhone`:$();break;case`results`:ce();break;case`finalResults`:le();break}};G!==null&&G!==_?F(e):e(),G=_}function q(){D.innerHTML=`
     <div class="title-bg" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;position:relative;">
       <div style="position:absolute;top:12px;right:12px;display:flex;gap:8px;">
         <button id="btn-leaderboard" style="background:rgba(255,255,255,0.1);border:none;border-radius:50%;width:36px;height:36px;font-size:16px;cursor:pointer;opacity:0.8;">\u{1F3C6}</button>
@@ -223,9 +231,9 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         </button>
       </div>
     </div>
-  `,document.getElementById(`btn-sdk-login`).addEventListener(`click`,()=>n()),document.getElementById(`btn-leaderboard`).addEventListener(`click`,()=>{o()}),document.getElementById(`btn-start`).addEventListener(`click`,()=>{_=`setup`,R()}),document.getElementById(`btn-rules`).addEventListener(`click`,()=>{let e=document.getElementById(`rules-modal`);e.style.display=`flex`}),document.getElementById(`btn-close-rules`).addEventListener(`click`,()=>{let e=document.getElementById(`rules-modal`);e.style.display=`none`})}function B(){let e=m.map(e=>e.name),t=Math.max(m.length,2);D.innerHTML=`
+  `,document.getElementById(`btn-sdk-login`).addEventListener(`click`,()=>n()),document.getElementById(`btn-leaderboard`).addEventListener(`click`,()=>{o()}),document.getElementById(`btn-start`).addEventListener(`click`,()=>{_=`setup`,K()}),document.getElementById(`btn-rules`).addEventListener(`click`,()=>{let e=document.getElementById(`rules-modal`);e.style.display=`flex`}),document.getElementById(`btn-close-rules`).addEventListener(`click`,()=>{let e=document.getElementById(`rules-modal`);e.style.display=`none`})}function J(){let e=m.map(e=>e.name),t=Math.max(m.length,2);D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;height:100%;padding:20px;width:100%;max-width:400px;overflow-y:auto;position:relative;">
-      ${F(`처음으로`)}
+      ${H(`처음으로`)}
       <h2 style="font-size:24px;font-weight:900;margin:20px 0 5px;color:${u.yellow};">\uD83D\uDC65 플레이어 설정</h2>
       <p style="font-size:13px;color:${u.gray};margin-bottom:20px;">이름을 입력하고 게임을 시작하세요</p>
       <div id="name-error" style="color:${u.primary};font-size:13px;font-weight:700;margin-bottom:8px;display:none;"></div>
@@ -257,12 +265,12 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
             style="flex:1;padding:12px 16px;border-radius:12px;border:2px solid ${u.secondary};background:${u.bgLight};color:white;font-size:16px;font-family:'Noto Sans KR',sans-serif;outline:none;--player-color:${n};"
             maxlength="10" />
         </div>
-      `}document.getElementById(`player-count`).textContent=`${n}명`}r(),document.getElementById(`btn-minus`).addEventListener(`click`,()=>{n>2&&(n--,r())}),document.getElementById(`btn-plus`).addEventListener(`click`,()=>{n<8&&(n++,r())}),document.getElementById(`btn-rounds-minus`).addEventListener(`click`,()=>{g>3&&(g--,document.getElementById(`rounds-count`).textContent=`${g}`)}),document.getElementById(`btn-rounds-plus`).addEventListener(`click`,()=>{g<7&&(g++,document.getElementById(`rounds-count`).textContent=`${g}`)}),document.getElementById(`btn-back`).addEventListener(`click`,()=>{_=`title`,R()}),document.getElementById(`btn-go`).addEventListener(`click`,()=>{let e=!1;for(let t=0;t<n;t++){let n=document.getElementById(`name-${t}`);n.value.trim()?n.style.borderColor=u.secondary:(e=!0,n.style.borderColor=u.primary)}if(e){let e=document.getElementById(`name-error`);e.textContent=`모든 플레이어의 이름을 입력해주세요!`,e.style.display=`block`;return}m=[];for(let e=0;e<n;e++){let t=document.getElementById(`name-${e}`).value.trim();m.push({name:t,score:0,isBluffer:!1,votedFor:-1})}h=0,b=[],x=[],S=[],C=[],E=[],V()})}function V(){if(h++,h>g){_=`finalResults`,R();return}v=N(),M(),w=[],T=Array(m.length).fill(0),y=0,_=`roundIntro`,R()}function H(){let e=v;D.innerHTML=`
+      `}document.getElementById(`player-count`).textContent=`${n}명`}r(),document.getElementById(`btn-minus`).addEventListener(`click`,()=>{n>2&&(n--,r())}),document.getElementById(`btn-plus`).addEventListener(`click`,()=>{n<8&&(n++,r())}),document.getElementById(`btn-rounds-minus`).addEventListener(`click`,()=>{g>3&&(g--,document.getElementById(`rounds-count`).textContent=`${g}`)}),document.getElementById(`btn-rounds-plus`).addEventListener(`click`,()=>{g<7&&(g++,document.getElementById(`rounds-count`).textContent=`${g}`)}),document.getElementById(`btn-back`).addEventListener(`click`,()=>{_=`title`,K()}),document.getElementById(`btn-go`).addEventListener(`click`,()=>{let e=!1;for(let t=0;t<n;t++){let n=document.getElementById(`name-${t}`);n.value.trim()?n.style.borderColor=u.secondary:(e=!0,n.style.borderColor=u.primary)}if(e){let e=document.getElementById(`name-error`);e.textContent=`모든 플레이어의 이름을 입력해주세요!`,e.style.display=`block`;return}m=[];for(let e=0;e<n;e++){let t=document.getElementById(`name-${e}`).value.trim();m.push({name:t,score:0,isBluffer:!1,votedFor:-1})}h=0,b=[],x=[],S=[],C=[],E=[],Y()})}function Y(){if(h++,h>g){_=`finalResults`,K();return}v=B(),z(),w=[],T=Array(m.length).fill(0),y=0,_=`roundIntro`,K()}function X(){let e=v;D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;background:linear-gradient(135deg,${u.bg},${u.secondary});position:relative;">
-      ${P()}
+      ${V()}
       <div style="font-size:16px;color:${u.yellow};font-weight:700;margin-bottom:8px;">라운드 ${h} / ${g}</div>
-      <div style="font-size:64px;margin:20px 0;">${j(e.type)}</div>
-      <h2 style="font-size:28px;font-weight:900;margin-bottom:10px;">${A(e.type)}</h2>
+      <div style="font-size:64px;margin:20px 0;">${R(e.type)}</div>
+      <h2 style="font-size:28px;font-weight:900;margin-bottom:10px;">${ee(e.type)}</h2>
       <p style="font-size:14px;color:${u.gray};margin-bottom:8px;">카테고리: ${e.category}</p>
       <div style="background:${u.darkGray};padding:16px 24px;border-radius:16px;margin:20px 0;max-width:320px;">
         <p style="font-size:14px;color:${u.gray};line-height:1.6;">
@@ -275,9 +283,9 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         역할 확인 시작
       </button>
     </div>
-  `,document.getElementById(`btn-next`).addEventListener(`click`,()=>{y=0,_=`passPhone`,R()})}function U(){let e=m[y],t=d[y%d.length];D.innerHTML=`
+  `,document.getElementById(`btn-next`).addEventListener(`click`,()=>{y=0,_=`passPhone`,K()})}function Z(){let e=m[y],t=d[y%d.length];D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;background:linear-gradient(135deg,${u.bg},${u.bgLight});">
-      ${P()}
+      ${V()}
       <div style="font-size:64px;margin-bottom:20px;">\uD83D\uDCF1</div>
       <h2 style="font-size:22px;font-weight:700;margin-bottom:10px;">폰을 넘겨주세요!</h2>
       <div style="background:${t};width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;margin:20px 0;">${y+1}</div>
@@ -287,9 +295,9 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         내 역할 보기 \uD83D\uDC40
       </button>
     </div>
-  `,document.getElementById(`btn-reveal`).addEventListener(`click`,()=>{_=`roleReveal`,R()})}function W(){let e=m[y],t=v,n=e.isBluffer,r=n?t.blufferPrompt:t.normalPrompt;d[y%d.length];let i=``,a=``;t.type===`drawing`?(i=n?`🕵️ 블러퍼!`:`👤 시민`,a=n?`당신은 블러퍼입니다!<br>다른 사람과 <b>다른 제시어</b>를 받았어요.<br>들키지 않게 비슷하게 그리세요!`:`당신은 시민입니다.<br>제시어를 보고 그림을 그려주세요.`):t.type===`quiz`?(i=n?`🕵️ 블러퍼!`:`👤 시민`,a=n?`당신은 블러퍼입니다!<br><b>틀린 답</b>을 받았어요.<br>자신있게 방어하세요!`:`당신은 시민입니다.<br>정답을 기억하세요.`):(i=n?`🕵️ 블러퍼!`:`👤 시민`,a=n?`당신은 블러퍼입니다!<br><b>다른 단어</b>를 받았어요.<br>들키지 않게 설명하세요!`:`당신은 시민입니다.<br>단어를 기억하고 설명해주세요.`),D.innerHTML=`
+  `,document.getElementById(`btn-reveal`).addEventListener(`click`,()=>{_=`roleReveal`,K()})}function Q(){let e=m[y],t=v,n=e.isBluffer,r=n?t.blufferPrompt:t.normalPrompt;d[y%d.length];let i=``,a=``;t.type===`drawing`?(i=n?`🕵️ 블러퍼!`:`👤 시민`,a=n?`당신은 블러퍼입니다!<br>다른 사람과 <b>다른 제시어</b>를 받았어요.<br>들키지 않게 비슷하게 그리세요!`:`당신은 시민입니다.<br>제시어를 보고 그림을 그려주세요.`):t.type===`quiz`?(i=n?`🕵️ 블러퍼!`:`👤 시민`,a=n?`당신은 블러퍼입니다!<br><b>틀린 답</b>을 받았어요.<br>자신있게 방어하세요!`:`당신은 시민입니다.<br>정답을 기억하세요.`):(i=n?`🕵️ 블러퍼!`:`👤 시민`,a=n?`당신은 블러퍼입니다!<br><b>다른 단어</b>를 받았어요.<br>들키지 않게 설명하세요!`:`당신은 시민입니다.<br>단어를 기억하고 설명해주세요.`),D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;background:${n?`linear-gradient(135deg, #c0392b, ${u.primary})`:`linear-gradient(135deg, ${u.secondary}, ${u.accent})`};">
-      ${P()}
+      ${V()}
       <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:5px;">${e.name}</p>
       <div style="font-size:24px;font-weight:900;margin-bottom:20px;">${i}</div>
       <div class="role-card ${n?`pulse-bluffer`:`pulse-citizen`}" style="background:rgba(0,0,0,0.3);padding:20px 30px;border-radius:20px;margin-bottom:20px;max-width:300px;border:2px solid ${n?`rgba(233,69,96,0.4)`:`rgba(39,174,96,0.4)`};">
@@ -301,9 +309,9 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         확인했어요
       </button>
     </div>
-  `,document.getElementById(`btn-confirm`).addEventListener(`click`,()=>{y++,y<m.length?(_=`passPhone`,R()):(y=0,_=`miniGame`,R())})}function G(){switch(v.type){case`drawing`:K();break;case`quiz`:J();break;case`describe`:Y();break}}function K(){if(y>=m.length){_=`discussion`,R();return}let e=m[y],t=d[y%d.length];D.innerHTML=`
+  `,j(),document.getElementById(`btn-confirm`).addEventListener(`click`,()=>{y++,y<m.length?(_=`passPhone`,K()):(y=0,_=`miniGame`,K())})}function te(){switch(v.type){case`drawing`:ne();break;case`quiz`:ie();break;case`describe`:ae();break}}function ne(){if(y>=m.length){_=`discussion`,K();return}let e=m[y],t=d[y%d.length];D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;height:100%;padding:15px;width:100%;background:${u.bg};">
-      ${P()}
+      ${V()}
       <div style="display:flex;justify-content:space-between;width:100%;align-items:center;margin-bottom:6px;">
         <span style="font-size:13px;color:${u.gray};">라운드 ${h}/${g}</span>
         <span style="font-size:13px;color:${t};font-weight:700;">${e.name}의 차례</span>
@@ -325,7 +333,7 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         완료
       </button>
     </div>
-  `;let n=document.getElementById(`draw-canvas`),r=n.getContext(`2d`),i=window.devicePixelRatio||1;n.width=340*i,n.height=340*i,r.scale(i,i);let a=!1,o=`#000000`,s=0,c=0;r.lineCap=`round`,r.lineJoin=`round`,r.lineWidth=4;function l(e){let t=n.getBoundingClientRect(),r=n.width/t.width,i=n.height/t.height;return`touches`in e?{x:(e.touches[0].clientX-t.left)*r,y:(e.touches[0].clientY-t.top)*i}:{x:(e.clientX-t.left)*r,y:(e.clientY-t.top)*i}}n.addEventListener(`mousedown`,e=>{a=!0;let t=l(e);s=t.x,c=t.y}),n.addEventListener(`mousemove`,e=>{if(!a)return;let t=l(e);r.strokeStyle=o,r.beginPath(),r.moveTo(s,c),r.lineTo(t.x,t.y),r.stroke(),s=t.x,c=t.y}),n.addEventListener(`mouseup`,()=>{a=!1}),n.addEventListener(`mouseleave`,()=>{a=!1}),n.addEventListener(`touchstart`,e=>{if(e.preventDefault(),e.touches.length>1){a=!1;return}a=!0;let t=l(e);s=t.x,c=t.y},{passive:!1}),n.addEventListener(`touchmove`,e=>{if(e.preventDefault(),!a)return;let t=l(e);r.strokeStyle=o,r.beginPath(),r.moveTo(s,c),r.lineTo(t.x,t.y),r.stroke(),s=t.x,c=t.y},{passive:!1}),n.addEventListener(`touchend`,()=>{a=!1}),document.querySelectorAll(`.color-btn`).forEach(e=>{e.addEventListener(`click`,()=>{o=e.dataset.color,document.querySelectorAll(`.color-btn`).forEach(e=>e.style.borderColor=`transparent`),e.style.borderColor=u.yellow})}),document.getElementById(`btn-clear`).addEventListener(`click`,()=>{r.clearRect(0,0,n.width,n.height)});let f=30,p=document.getElementById(`timer`),v=setInterval(()=>{f--,p.textContent=`${f}`,f<=10&&f>5?(p.style.color=u.primary,p.classList.add(`timer-urgent`)):f<=5&&(p.style.color=`#ff3333`),f<=0&&(clearInterval(v),b())},1e3);function b(){clearInterval(v),w.push({playerIndex:y,dataUrl:n.toDataURL()}),y++,y<m.length?q():(_=`discussion`,R())}document.getElementById(`btn-done`).addEventListener(`click`,b)}function q(){let e=m[y],t=d[y%d.length];D.innerHTML=`
+  `;let n=document.getElementById(`draw-canvas`),r=n.getContext(`2d`),i=window.devicePixelRatio||1;n.width=340*i,n.height=340*i,r.scale(i,i);let a=!1,o=`#000000`,s=0,c=0;r.lineCap=`round`,r.lineJoin=`round`,r.lineWidth=4;function l(e){let t=n.getBoundingClientRect(),r=n.width/t.width,i=n.height/t.height;return`touches`in e?{x:(e.touches[0].clientX-t.left)*r,y:(e.touches[0].clientY-t.top)*i}:{x:(e.clientX-t.left)*r,y:(e.clientY-t.top)*i}}n.addEventListener(`mousedown`,e=>{a=!0;let t=l(e);s=t.x,c=t.y}),n.addEventListener(`mousemove`,e=>{if(!a)return;let t=l(e);r.strokeStyle=o,r.beginPath(),r.moveTo(s,c),r.lineTo(t.x,t.y),r.stroke(),s=t.x,c=t.y}),n.addEventListener(`mouseup`,()=>{a=!1}),n.addEventListener(`mouseleave`,()=>{a=!1}),n.addEventListener(`touchstart`,e=>{if(e.preventDefault(),e.touches.length>1){a=!1;return}a=!0;let t=l(e);s=t.x,c=t.y},{passive:!1}),n.addEventListener(`touchmove`,e=>{if(e.preventDefault(),!a)return;let t=l(e);r.strokeStyle=o,r.beginPath(),r.moveTo(s,c),r.lineTo(t.x,t.y),r.stroke(),s=t.x,c=t.y},{passive:!1}),n.addEventListener(`touchend`,()=>{a=!1}),document.querySelectorAll(`.color-btn`).forEach(e=>{e.addEventListener(`click`,()=>{o=e.dataset.color,document.querySelectorAll(`.color-btn`).forEach(e=>e.style.borderColor=`transparent`),e.style.borderColor=u.yellow})}),document.getElementById(`btn-clear`).addEventListener(`click`,()=>{r.clearRect(0,0,n.width,n.height)});let f=30,p=document.getElementById(`timer`),v=setInterval(()=>{f--,p.textContent=`${f}`,f<=10&&f>5?(p.style.color=u.primary,p.classList.add(`timer-urgent`)):f<=5&&(p.style.color=`#ff3333`),f<=0&&(clearInterval(v),b())},1e3);function b(){clearInterval(v),w.push({playerIndex:y,dataUrl:n.toDataURL()}),y++,y<m.length?re():(_=`discussion`,K())}document.getElementById(`btn-done`).addEventListener(`click`,b)}function re(){let e=m[y],t=d[y%d.length];D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;background:${u.bg};">
       <div style="font-size:48px;margin-bottom:20px;">\uD83D\uDCF1</div>
       <p style="font-size:18px;color:${u.gray};margin-bottom:10px;">다음 플레이어에게 넘겨주세요</p>
@@ -335,11 +343,11 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         준비 완료
       </button>
     </div>
-  `,document.getElementById(`btn-ready`).addEventListener(`click`,()=>{_=`miniGame`,R()})}function J(){let e=v.category;D.innerHTML=`
+  `,document.getElementById(`btn-ready`).addEventListener(`click`,()=>{_=`miniGame`,K()})}function ie(){let e=v.category;D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;background:linear-gradient(135deg,${u.bg},${u.secondary});">
-      ${P()}
+      ${V()}
       <div style="font-size:14px;color:${u.yellow};margin-bottom:5px;">라운드 ${h}/${g}</div>
-      ${L()}
+      ${W()}
       <div style="font-size:48px;margin-bottom:15px;">\uD83E\uDDE0</div>
       <h2 style="font-size:20px;font-weight:700;margin-bottom:20px;">퀴즈 대결</h2>
       <div style="background:${u.darkGray};padding:20px 24px;border-radius:16px;margin-bottom:20px;max-width:340px;">
@@ -358,11 +366,11 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         투표하기
       </button>
     </div>
-  `,document.getElementById(`btn-vote`).addEventListener(`click`,()=>{y=0,_=`votePassPhone`,R()})}function Y(){let e=v;D.innerHTML=`
+  `,document.getElementById(`btn-vote`).addEventListener(`click`,()=>{y=0,_=`votePassPhone`,K()})}function ae(){let e=v;D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;background:linear-gradient(135deg,${u.bg},${u.accent});">
-      ${P()}
+      ${V()}
       <div style="font-size:14px;color:${u.yellow};margin-bottom:5px;">라운드 ${h}/${g}</div>
-      ${L()}
+      ${W()}
       <div style="font-size:48px;margin-bottom:15px;">\uD83D\uDCAC</div>
       <h2 style="font-size:20px;font-weight:700;margin-bottom:20px;">설명하기</h2>
       <div style="background:rgba(0,0,0,0.3);padding:20px 24px;border-radius:16px;margin-bottom:20px;max-width:340px;">
@@ -383,7 +391,7 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         투표하기
       </button>
     </div>
-  `,document.getElementById(`btn-vote`).addEventListener(`click`,()=>{y=0,_=`votePassPhone`,R()})}function X(){let e=v,t=``;e.type===`drawing`&&w.length>0&&(t=`
+  `,document.getElementById(`btn-vote`).addEventListener(`click`,()=>{y=0,_=`votePassPhone`,K()})}function oe(){let e=v,t=``;e.type===`drawing`&&w.length>0&&(t=`
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;width:100%;max-width:360px;margin-bottom:20px;">
         ${w.map(e=>{let t=m[e.playerIndex],n=d[e.playerIndex%d.length];return`
             <div style="text-align:center;">
@@ -394,7 +402,7 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
       </div>
     `),D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;height:100%;padding:20px;width:100%;overflow-y:auto;background:${u.bg};">
-      ${P()}
+      ${V()}
       <div style="font-size:14px;color:${u.yellow};margin-bottom:5px;">라운드 ${h}/${g}</div>
       <h2 style="font-size:22px;font-weight:900;margin-bottom:5px;">\uD83D\uDD0D 토론 시간!</h2>
       <p style="font-size:13px;color:${u.gray};margin-bottom:15px;">누가 블러퍼인지 이야기해보세요</p>
@@ -403,9 +411,9 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         투표하기
       </button>
     </div>
-  `,document.getElementById(`btn-vote`).addEventListener(`click`,()=>{y=0,_=`votePassPhone`,R()})}function Z(){if(y>=m.length){_=`results`,R();return}let e=m[y],t=d[y%d.length];D.innerHTML=`
+  `,document.getElementById(`btn-vote`).addEventListener(`click`,()=>{y=0,_=`votePassPhone`,K()})}function $(){if(y>=m.length){_=`results`,K();return}let e=m[y],t=d[y%d.length];D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;background:${u.bg};">
-      ${P()}
+      ${V()}
       <div style="font-size:48px;margin-bottom:20px;">\uD83D\uDDF3\uFE0F</div>
       <p style="font-size:16px;color:${u.gray};margin-bottom:10px;">투표할 차례입니다</p>
       <div style="background:${t};width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;margin:15px 0;">${y+1}</div>
@@ -415,9 +423,9 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         투표하기
       </button>
     </div>
-  `,document.getElementById(`btn-vote-ready`).addEventListener(`click`,()=>{_=`voting`,R()})}function Q(){let e=m[y],t=d[y%d.length],n=m.map((e,t)=>({name:e.name,index:t})).filter(e=>e.index!==y);D.innerHTML=`
+  `,document.getElementById(`btn-vote-ready`).addEventListener(`click`,()=>{_=`voting`,K()})}function se(){let e=m[y],t=d[y%d.length],n=m.map((e,t)=>({name:e.name,index:t})).filter(e=>e.index!==y);D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;text-align:center;width:100%;background:linear-gradient(135deg,${u.bg},${u.secondary});">
-      ${P()}
+      ${V()}
       <p style="font-size:14px;color:${t};font-weight:700;margin-bottom:5px;">${e.name}의 투표</p>
       <h2 style="font-size:22px;font-weight:900;margin-bottom:20px;">누가 블러퍼일까요?</h2>
       <div style="display:flex;flex-direction:column;gap:12px;width:100%;max-width:300px;">
@@ -429,13 +437,13 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
           `}).join(``)}
       </div>
     </div>
-  `,document.querySelectorAll(`.vote-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=parseInt(e.dataset.idx);e.classList.add(`vote-selected`),e.style.background=d[t%d.length]+`33`,m[y].votedFor=t,T[t]++,setTimeout(()=>{y++,_=`votePassPhone`,R()},400)})})}function $(){let e=m.findIndex(e=>e.isBluffer),t=m[e],n=d[e%d.length],r=v,i=Math.max(...T),a=T.indexOf(i)===e&&i>0;a?m.forEach((t,n)=>{n!==e&&(t.score+=10)}):t.score+=15,m.forEach(t=>{t.votedFor===e&&!t.isBluffer&&(t.score+=5)}),E.push({round:h,type:r.type,blufferIndex:e,caught:a});let o=m.map((t,n)=>{if(t.votedFor===-1)return``;let r=m[t.votedFor].name,i=t.votedFor===e;return`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.1);">
+  `,document.querySelectorAll(`.vote-btn`).forEach(e=>{e.addEventListener(`click`,()=>{A();let t=parseInt(e.dataset.idx);e.classList.add(`vote-selected`),e.style.background=d[t%d.length]+`33`,m[y].votedFor=t,T[t]++,setTimeout(()=>{y++,_=`votePassPhone`,K()},400)})})}function ce(){let e=m.findIndex(e=>e.isBluffer),t=m[e],n=d[e%d.length],r=v,i=Math.max(...T),a=T.indexOf(i)===e&&i>0;a?m.forEach((t,n)=>{n!==e&&(t.score+=10)}):t.score+=15,m.forEach(t=>{t.votedFor===e&&!t.isBluffer&&(t.score+=5)}),a?M():N(),E.push({round:h,type:r.type,blufferIndex:e,caught:a});let o=m.map((t,n)=>{if(t.votedFor===-1)return``;let r=m[t.votedFor].name,i=t.votedFor===e;return`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.1);">
       <span style="color:${d[n]};font-weight:700;">${t.name}</span>
       <span>${r} ${i?`<span style="color:#27ae60;">✓</span>`:`<span style="color:#e74c3c;">✗</span>`}</span>
     </div>`}).join(``);D.innerHTML=`
     <div style="display:flex;flex-direction:column;align-items:center;height:100%;padding:20px;width:100%;overflow-y:auto;background:linear-gradient(135deg,${u.bg},${a?`#1a4a2e`:`#4a1a1a`});position:relative;">
-      ${a?I():``}
-      ${P()}
+      ${a?U():``}
+      ${V()}
       <div style="font-size:14px;color:${u.yellow};margin-bottom:8px;">라운드 ${h} 결과</div>
       <div class="winner-announce" style="font-size:56px;margin-bottom:10px;">${a?`🎉`:`😈`}</div>
       <h2 class="slide-up" style="font-size:24px;font-weight:900;margin-bottom:5px;color:${a?u.green:u.primary};">
@@ -465,9 +473,9 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         ${h<g?`다음 라운드`:`최종 결과 보기`}
       </button>
     </div>
-  `,document.getElementById(`btn-next-round`).addEventListener(`click`,()=>{V()})}function ee(){let t=m.map((e,t)=>({...e,originalIndex:t})).sort((e,t)=>t.score-e.score),n=t[0],r=[`🥇`,`🥈`,`🥉`],i=[`파티 킹`,`명탐정`,`뛰어난 추리꾼`,`예리한 관찰자`,`참여상`,`참여상`,`참여상`,`참여상`],o=E.filter(e=>e.caught).length,s=E.filter(e=>!e.caught).length;if(t.forEach((e,t)=>{a(e.name,t===0)}),e)try{e.scores.submit({score:n.score,meta:{rounds:g,players:m.length,wins:o,blufferWins:s}})}catch{}D.innerHTML=`
+  `,document.getElementById(`btn-next-round`).addEventListener(`click`,()=>{Y()})}function le(){let t=m.map((e,t)=>({...e,originalIndex:t})).sort((e,t)=>t.score-e.score),n=t[0],r=[`🥇`,`🥈`,`🥉`],i=[`파티 킹`,`명탐정`,`뛰어난 추리꾼`,`예리한 관찰자`,`참여상`,`참여상`,`참여상`,`참여상`],o=E.filter(e=>e.caught).length,s=E.filter(e=>!e.caught).length;if(P(),t.forEach((e,t)=>{a(e.name,t===0)}),e)try{e.scores.submit({score:n.score,meta:{rounds:g,players:m.length,wins:o,blufferWins:s}})}catch{}D.innerHTML=`
     <div class="title-bg" style="display:flex;flex-direction:column;align-items:center;height:100%;padding:20px;width:100%;overflow-y:auto;position:relative;">
-      ${I()}
+      ${U()}
       <div class="winner-announce" style="font-size:56px;margin:15px 0;">\uD83C\uDFC6</div>
       <h1 class="slide-up" style="font-size:28px;font-weight:900;margin-bottom:5px;background:linear-gradient(to right,${u.yellow},${u.orange});-webkit-background-clip:text;-webkit-text-fill-color:transparent;">최종 결과</h1>
       <p style="font-size:14px;color:${u.gray};margin-bottom:20px;">${g}라운드 완료!</p>
@@ -505,4 +513,4 @@ var e=(e,t)=>()=>(e&&(t=e(e=0)),t),t=(e,t)=>()=>(t||e((t={exports:{}}).exports,t
         </button>
       </div>
     </div>
-  `,document.getElementById(`btn-again`).addEventListener(`click`,()=>{m.forEach(e=>{e.score=0,e.isBluffer=!1,e.votedFor=-1}),h=0,b=[],x=[],S=[],C=[],E=[],V()}),document.getElementById(`btn-home`).addEventListener(`click`,()=>{m=[],h=0,_=`title`,R()})}R()}))();
+  `,document.getElementById(`btn-again`).addEventListener(`click`,()=>{m.forEach(e=>{e.score=0,e.isBluffer=!1,e.votedFor=-1}),h=0,b=[],x=[],S=[],C=[],E=[],Y()}),document.getElementById(`btn-home`).addEventListener(`click`,()=>{m=[],h=0,_=`title`,K()})}K()}))();
