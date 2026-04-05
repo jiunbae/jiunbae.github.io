@@ -105,6 +105,17 @@ const services: ServiceItem[] = [
     post: '/posts/tokka-kakaotalk-analysis/',
   },
   {
+    slug: 'https://domidman.jiun.dev',
+    title: '도믿맨: 퇴근길 생존기',
+    description: 'Satirical Korean street survival game. Encounter random NPCs on your commute home — dodge proselytizers, help citizens, and survive the walk home.',
+    icon: '道',
+    iconType: 'letter',
+    tags: ['Vanilla JS', 'Canvas', 'Hono API', 'MongoDB'],
+    status: 'beta',
+    category: 'lifestyle',
+    github: 'https://github.com/jiunbae/domidman',
+  },
+  {
     slug: 'https://jiun.dev/ai-horoscope/',
     title: 'AI 운세 (제피로스)',
     description: '매일 아침 AI 모델들의 운세를 전하는 디지털 무당 제피로스',
