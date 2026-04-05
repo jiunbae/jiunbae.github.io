@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Tuned: 0 moved closer, slightly bigger, slightly thinner wall
+       3-3 gap (curve tips): -46 - (-88) = 42px
+       3-0 gap should match: 0 left edge = 24 + 42 = 66 → center = 66 + r
+       0: r_outer=54, r_inner=34 → wall=20px (vs bar 20px, slightly thinner optically)
+       center = 66 + 54 = 120 → BUT we want equal visual gap
+       Actually: second 3 curve tip is at x=24, so 0 left edge at 24+42=66
+       center_x = 66 + 54 = 120
+  -->
+  <g transform="translate(256,256)" fill="currentColor">
+    <!-- First 3 -->
+    <path d="
+      M-158,-50 L-108,-50
+      C-38,-50 -38,-5 -88,-5
+      L-88,5
+      C-38,5 -38,50 -108,50
+      L-158,50
+      L-158,30
+      L-108,30
+      C-62,30 -62,5 -108,5
+      L-108,-5
+      C-62,-5 -62,-30 -108,-30
+      L-158,-30
+      Z
+    "/>
+    <!-- Second 3 -->
+    <path d="
+      M-46,-50 L4,-50
+      C74,-50 74,-5 24,-5
+      L24,5
+      C74,5 74,50 4,50
+      L-46,50
+      L-46,30
+      L4,30
+      C50,30 50,5 4,5
+      L4,-5
+      C50,-5 50,-30 4,-30
+      L-46,-30
+      Z
+    "/>
+    <!-- 0: r_outer=54, r_inner=34, center=120 -->
+    <path fill-rule="evenodd" d="
+      M120,0 m-54,0 a54,54 0 1,0 108,0 a54,54 0 1,0 -108,0 Z
+      M120,0 m-34,0 a34,34 0 1,1 68,0 a34,34 0 1,1 -68,0 Z
+    "/>
+  </g>
+</svg>

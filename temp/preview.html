@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>330 — Logo System</title>
+<style>
+  * { box-sizing: border-box; }
+  body { background: #0f1419; color: #e8ecf0; font-family: system-ui; padding: 32px 24px; margin: 0; }
+  .grid { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: end; margin-top: 12px; }
+  .card { text-align: center; }
+  .frame { border-radius: 10px; border: 1px solid #1e252e; display: flex; align-items: center; justify-content: center; }
+  .dark { background: #0f1419; color: #e8ecf0; }
+  .light { background: #ffffff; color: #1a1a2e; border-color: #e0e0e0; }
+  .card p { margin: 5px 0 0; font-size: 10px; color: #888; }
+  h1 { text-align: center; font-weight: 200; color: #eee; font-size: 18px; letter-spacing: 4px; }
+  .section { text-align: center; margin-top: 28px; padding-top: 14px; border-top: 1px solid #1a1f26; }
+  .section h3 { font-weight: 400; color: #555; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+
+  .header-sim { display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px; border: 1px solid #1e252e; }
+  .header-sim.dark { background: #0f1419; color: #e8ecf0; }
+  .header-sim.light { background: #ffffff; color: #1a1a2e; }
+  .header-sim .title { font-size: 16px; font-weight: 600; }
+</style></head><body>
+
+<h1>330 Logo System</h1>
+
+<div class="section"><h3>Horizontal (wordmark) — for headers</h3></div>
+<div class="grid">
+  <div class="card">
+    <div class="frame dark" style="width:240px;height:120px;"><img src="../public/logo.svg" width="200" height="80"></div>
+    <p>Dark</p>
+  </div>
+  <div class="card">
+    <div class="frame light" style="width:240px;height:120px;"><img src="../public/logo.svg" width="200" height="80"></div>
+    <p>Light</p>
+  </div>
+</div>
+
+<div class="section"><h3>Square (icon) — for favicon / avatar</h3></div>
+<div class="grid">
+  <div class="card">
+    <div class="frame dark" style="width:160px;height:160px;"><img src="../public/logo-icon.svg" width="140" height="140"></div>
+    <p>Dark 160px</p>
+  </div>
+  <div class="card">
+    <div class="frame light" style="width:160px;height:160px;"><img src="../public/logo-icon.svg" width="140" height="140"></div>
+    <p>Light 160px</p>
+  </div>
+  <div class="card">
+    <div class="frame dark" style="width:48px;height:48px;"><img src="../public/logo-icon.svg" width="40" height="40"></div>
+    <p>48px</p>
+  </div>
+  <div class="card">
+    <div class="frame light" style="width:48px;height:48px;"><img src="../public/logo-icon.svg" width="40" height="40"></div>
+    <p>48px</p>
+  </div>
+  <div class="card">
+    <div class="frame dark" style="width:24px;height:24px;"><img src="../public/logo-icon.svg" width="20" height="20"></div>
+    <p>24px</p>
+  </div>
+  <div class="card">
+    <div class="frame light" style="width:24px;height:24px;"><img src="../public/logo-icon.svg" width="20" height="20"></div>
+    <p>24px</p>
+  </div>
+</div>
+
+<div class="section"><h3>Header Simulation</h3></div>
+<div class="grid" style="flex-direction:column; align-items:center;">
+  <div class="header-sim dark">
+    <img src="../public/logo-icon.svg" width="28" height="28">
+    <span class="title">Jiun's</span>
+  </div>
+  <div class="header-sim light">
+    <img src="../public/logo-icon.svg" width="28" height="28">
+    <span class="title">Jiun's</span>
+  </div>
+</div>
+
+</body></html>

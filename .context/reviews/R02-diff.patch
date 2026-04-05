@@ -1,0 +1,2966 @@
+diff --git a/package.json b/package.json
+index 97939d8..a47447e 100644
+--- a/package.json
++++ b/package.json
+@@ -18,7 +18,9 @@
+     "@ffmpeg/ffmpeg": "^0.12.15",
+     "@ffmpeg/util": "^0.12.2",
+     "@fontsource/noto-sans-kr": "^5.2.9",
++    "@octokit/rest": "^22.0.1",
+     "@resvg/resvg-js": "^2.6.2",
++    "@uiw/react-md-editor": "^4.0.11",
+     "astro": "^5.18.1",
+     "astro-expressive-code": "^0.40.2",
+     "clsx": "^2.1.1",
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 6738522..91e6534 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -29,9 +29,15 @@ importers:
+       '@fontsource/noto-sans-kr':
+         specifier: ^5.2.9
+         version: 5.2.9
++      '@octokit/rest':
++        specifier: ^22.0.1
++        version: 22.0.1
+       '@resvg/resvg-js':
+         specifier: ^2.6.2
+         version: 2.6.2
++      '@uiw/react-md-editor':
++        specifier: ^4.0.11
++        version: 4.0.11(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+       astro:
+         specifier: ^5.18.1
+         version: 5.18.1(@types/node@22.19.15)(rollup@4.59.0)(sass@1.98.0)(typescript@5.9.3)
+@@ -823,6 +829,58 @@ packages:
+   '@mdx-js/mdx@3.1.1':
+     resolution: {integrity: sha512-f6ZO2ifpwAQIpzGWaBQT2TXxPv6z3RBzQKpVftEWN78Vl/YweF1uwussDx8ECAXVtr3Rs89fKyG9YlzUs9DyGQ==}
+ 
++  '@octokit/auth-token@6.0.0':
++    resolution: {integrity: sha512-P4YJBPdPSpWTQ1NU4XYdvHvXJJDxM6YwpS0FZHRgP7YFkdVxsWcpWGy/NVqlAA7PcPCnMacXlRm1y2PFZRWL/w==}
++    engines: {node: '>= 20'}
++
++  '@octokit/core@7.0.6':
++    resolution: {integrity: sha512-DhGl4xMVFGVIyMwswXeyzdL4uXD5OGILGX5N8Y+f6W7LhC1Ze2poSNrkF/fedpVDHEEZ+PHFW0vL14I+mm8K3Q==}
++    engines: {node: '>= 20'}
++
++  '@octokit/endpoint@11.0.3':
++    resolution: {integrity: sha512-FWFlNxghg4HrXkD3ifYbS/IdL/mDHjh9QcsNyhQjN8dplUoZbejsdpmuqdA76nxj2xoWPs7p8uX2SNr9rYu0Ag==}
++    engines: {node: '>= 20'}
++
++  '@octokit/graphql@9.0.3':
++    resolution: {integrity: sha512-grAEuupr/C1rALFnXTv6ZQhFuL1D8G5y8CN04RgrO4FIPMrtm+mcZzFG7dcBm+nq+1ppNixu+Jd78aeJOYxlGA==}
++    engines: {node: '>= 20'}
++
++  '@octokit/openapi-types@27.0.0':
++    resolution: {integrity: sha512-whrdktVs1h6gtR+09+QsNk2+FO+49j6ga1c55YZudfEG+oKJVvJLQi3zkOm5JjiUXAagWK2tI2kTGKJ2Ys7MGA==}
++
++  '@octokit/plugin-paginate-rest@14.0.0':
++    resolution: {integrity: sha512-fNVRE7ufJiAA3XUrha2omTA39M6IXIc6GIZLvlbsm8QOQCYvpq/LkMNGyFlB1d8hTDzsAXa3OKtybdMAYsV/fw==}
++    engines: {node: '>= 20'}
++    peerDependencies:
++      '@octokit/core': '>=6'
++
++  '@octokit/plugin-request-log@6.0.0':
++    resolution: {integrity: sha512-UkOzeEN3W91/eBq9sPZNQ7sUBvYCqYbrrD8gTbBuGtHEuycE4/awMXcYvx6sVYo7LypPhmQwwpUe4Yyu4QZN5Q==}
++    engines: {node: '>= 20'}
++    peerDependencies:
++      '@octokit/core': '>=6'
++
++  '@octokit/plugin-rest-endpoint-methods@17.0.0':
++    resolution: {integrity: sha512-B5yCyIlOJFPqUUeiD0cnBJwWJO8lkJs5d8+ze9QDP6SvfiXSz1BF+91+0MeI1d2yxgOhU/O+CvtiZ9jSkHhFAw==}
++    engines: {node: '>= 20'}
++    peerDependencies:
++      '@octokit/core': '>=6'
++
++  '@octokit/request-error@7.1.0':
++    resolution: {integrity: sha512-KMQIfq5sOPpkQYajXHwnhjCC0slzCNScLHs9JafXc4RAJI+9f+jNDlBNaIMTvazOPLgb4BnlhGJOTbnN0wIjPw==}
++    engines: {node: '>= 20'}
++
++  '@octokit/request@10.0.8':
++    resolution: {integrity: sha512-SJZNwY9pur9Agf7l87ywFi14W+Hd9Jg6Ifivsd33+/bGUQIjNujdFiXII2/qSlN2ybqUHfp5xpekMEjIBTjlSw==}
++    engines: {node: '>= 20'}
++
++  '@octokit/rest@22.0.1':
++    resolution: {integrity: sha512-Jzbhzl3CEexhnivb1iQ0KJ7s5vvjMWcmRtq5aUsKmKDrRW6z3r84ngmiFKFvpZjpiU/9/S6ITPFRpn5s/3uQJw==}
++    engines: {node: '>= 20'}
++
++  '@octokit/types@16.0.0':
++    resolution: {integrity: sha512-sKq+9r1Mm4efXW1FCk7hFSeJo4QKreL/tTbR0rz/qx/r1Oa2VV83LTA/H/MuCOX7uCIJmQVRKBcbmWoySjAnSg==}
++
+   '@oslojs/encoding@1.1.0':
+     resolution: {integrity: sha512-70wQhgYmndg4GCPxPPxPGevRKqTIJ2Nh4OkiMWmDAVYsTQ+Ta7Sq+rPevXyXGdzr30/qZBnyOalCszoMxlyldQ==}
+ 
+@@ -1184,6 +1242,9 @@ packages:
+   '@types/estree@1.0.8':
+     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
+ 
++  '@types/hast@2.3.10':
++    resolution: {integrity: sha512-McWspRw8xx8J9HurkVBfYj0xKoE25tOFlHGdx4MJ5xORQrMGZNqJhVQWaIbm6Oyla5kYOXtDiopzKRJzEOkwJw==}
++
+   '@types/hast@3.0.4':
+     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
+ 
+@@ -1208,6 +1269,9 @@ packages:
+   '@types/pako@2.0.4':
+     resolution: {integrity: sha512-VWDCbrLeVXJM9fihYodcLiIv0ku+AlOa/TQ1SvYOaBuyrSKgEcro95LJyIsJ4vSo6BXIxOKxiJAat04CmST9Fw==}
+ 
++  '@types/prismjs@1.26.6':
++    resolution: {integrity: sha512-vqlvI7qlMvcCBbVe0AKAb4f97//Hy0EBTaiW8AalRnG/xAN5zOiWWyrNqNXeq8+KAuvRewjCVY1+IPxk4RdNYw==}
++
+   '@types/prop-types@15.7.15':
+     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
+ 
+@@ -1243,6 +1307,21 @@ packages:
+   '@types/webxr@0.5.24':
+     resolution: {integrity: sha512-h8fgEd/DpoS9CBrjEQXR+dIDraopAEfu4wYVNY2tEPwk60stPWhvZMf4Foo5FakuQ7HFZoa8WceaWFervK2Ovg==}
+ 
++  '@uiw/copy-to-clipboard@1.0.20':
++    resolution: {integrity: sha512-IFQhS62CLNon1YgYJTEzXR2N3WVXg7V1FaBRDLMlzU6JY5X6Hr3OPAcw4WNoKcz2XcFD6XCgwEjlsmj+JA0mWA==}
++
++  '@uiw/react-markdown-preview@5.1.5':
++    resolution: {integrity: sha512-DNOqx1a6gJR7Btt57zpGEKTfHRlb7rWbtctMRO2f82wWcuoJsxPBrM+JWebDdOD0LfD8oe2CQvW2ICQJKHQhZg==}
++    peerDependencies:
++      react: '>=16.8.0'
++      react-dom: '>=16.8.0'
++
++  '@uiw/react-md-editor@4.0.11':
++    resolution: {integrity: sha512-F0OR5O1v54EkZYvJj3ew0I7UqLiPeU34hMAY4MdXS3hI86rruYi5DHVkG/VuvLkUZW7wIETM2QFtZ459gKIjQA==}
++    peerDependencies:
++      react: '>=16.8.0'
++      react-dom: '>=16.8.0'
++
+   '@ungap/structured-clone@1.3.0':
+     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
+ 
+@@ -1333,6 +1412,9 @@ packages:
+   bcp-47-match@2.0.3:
+     resolution: {integrity: sha512-JtTezzbAibu8G0R9op9zb3vcWZd9JF6M0xOYGPn0fNCd7wOpRB1mU2mH9T8gaBGbAAyIIVgB2G7xG0GP98zMAQ==}
+ 
++  before-after-hook@4.0.0:
++    resolution: {integrity: sha512-q6tR3RPqIB1pMiTRMFcZwuG5T8vwp+vUvEG0vuI6B+Rikh5BfPp2fQ82c925FOs+b0lcFQ8CFrL+KbilfZFhOQ==}
++
+   boolbase@1.0.0:
+     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
+ 
+@@ -1618,6 +1700,9 @@ packages:
+   extend@3.0.2:
+     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
+ 
++  fast-content-type-parse@3.0.0:
++    resolution: {integrity: sha512-ZvLdcY8P+N8mGQJahJV5G4U88CSvT1rP8ApL6uETe88MBXrBHAkZlSEySdUlyztF7ccb+Znos3TFqaepHxdhBg==}
++
+   fast-png@6.4.0:
+     resolution: {integrity: sha512-kAqZq1TlgBjZcLr5mcN6NP5Rv4V2f22z00c3g8vRrwkcqjerx7BEhPbOnWCPqaHUl2XWQBJQvOT/FQhdMT7X/Q==}
+ 
+@@ -1683,9 +1768,15 @@ packages:
+   hast-util-has-property@3.0.0:
+     resolution: {integrity: sha512-MNilsvEKLFpV604hwfhVStK0usFY/QmM5zX16bo7EjnAEGofr5YyI37kzopBlZJkHD4t887i+q/C8/tr5Q94cA==}
+ 
++  hast-util-heading-rank@3.0.0:
++    resolution: {integrity: sha512-EJKb8oMUXVHcWZTDepnr+WNbfnXKFNf9duMesmr4S8SXTJBJ9M4Yok08pu9vxdJwdlGRhVumk9mEhkEvKGifwA==}
++
+   hast-util-is-element@3.0.0:
+     resolution: {integrity: sha512-Val9mnv2IWpLbNPqc/pUem+a7Ipj2aHacCwgNfTiK0vJKl0LF+4Ba4+v1oPHFpf3bLYmreq0/l3Gud9S5OH42g==}
+ 
++  hast-util-parse-selector@3.1.1:
++    resolution: {integrity: sha512-jdlwBjEexy1oGz0aJ2f4GKMaVKkA9jwjr4MjAAI22E5fM/TXVZHuS5OpONtdeIkRKqAaryQ2E9xNQxijoThSZA==}
++
+   hast-util-parse-selector@4.0.0:
+     resolution: {integrity: sha512-wkQCkSYoOGCRKERFWcxMVMOcYE2K1AaNLU8DXS9arxnLOUEWbOXKXiJUNzEpqZ3JOKpnha3jkFrumEjVliDe7A==}
+ 
+@@ -1716,12 +1807,18 @@ packages:
+   hast-util-whitespace@3.0.0:
+     resolution: {integrity: sha512-88JUN06ipLwsnv+dVn+OIYOvAuvBMy/Qoi6O7mQHxdPXpjy+Cd6xRkWwux7DKO+4sYILtLBRIKgsdpS2gQc7qw==}
+ 
++  hastscript@7.2.0:
++    resolution: {integrity: sha512-TtYPq24IldU8iKoJQqvZOuhi5CyCQRAbvDOX0x1eW6rsHSxa/1i2CCiptNTotGHJ3VoHRGmqiv6/D3q113ikkw==}
++
+   hastscript@9.0.1:
+     resolution: {integrity: sha512-g7df9rMFX/SPi34tyGCyUBREQoKkapwdY/T04Qn9TDWfHhAYt4/I0gMVirzK5wEzeUqIjEB+LXC/ypb7Aqno5w==}
+ 
+   html-escaper@3.0.3:
+     resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
+ 
++  html-url-attributes@3.0.1:
++    resolution: {integrity: sha512-ol6UPyBWqsrO6EJySPz2O7ZSr856WDrEzM5zMqp+FJJLGMW35cLYmmZnl0vztAZxRUoNZJFTCohfjuIJ8I4QBQ==}
++
+   html-void-elements@3.0.0:
+     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
+ 
+@@ -1804,6 +1901,9 @@ packages:
+     engines: {node: '>=6'}
+     hasBin: true
+ 
++  json-with-bigint@3.5.7:
++    resolution: {integrity: sha512-7ei3MdAI5+fJPVnKlW77TKNKwQ5ppSzWvhPuSuINT/GYW9ZOC1eRKOuhV9yHG5aEsUPj9BBx5JIekkmoLHxZOw==}
++
+   json5@2.2.3:
+     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
+     engines: {node: '>=6'}
+@@ -2085,6 +2185,9 @@ packages:
+   parse-latin@7.0.0:
+     resolution: {integrity: sha512-mhHgobPPua5kZ98EF4HWiH167JWBfl4pvAIXXdbaVohtK7a6YBOy56kvhCqduqyo/f3yrHFWmqmiMg/BkBkYYQ==}
+ 
++  parse-numeric-range@1.3.0:
++    resolution: {integrity: sha512-twN+njEipszzlMJd4ONUYgSfZPDxgHhT9Ahed5uTigpQn90FggW4SA/AIPq/6a149fTbE9qBEcSwE3FAEp6wQQ==}
++
+   parse5@7.3.0:
+     resolution: {integrity: sha512-IInvU7fabl34qmi9gY8XOVxhYyMyuH2xUNpb2q8/Y+7552KlejkRvqvD19nMoUW/uQGGbqNpA6Tufu5FL5BZgw==}
+ 
+@@ -2131,6 +2234,9 @@ packages:
+     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
+     engines: {node: '>= 6'}
+ 
++  property-information@6.5.0:
++    resolution: {integrity: sha512-PgTgs/BlvHxOu8QuEN7wi5A0OmXaBcHpmCSTehcs6Uuu9IkDIEo13Hy7n898RHfrQ49vKCoGeWZSaAK01nwVig==}
++
+   property-information@7.1.0:
+     resolution: {integrity: sha512-TwEZ+X+yCJmYfL7TPUOcvBZ4QfoT5YenQiJuX//0th53DE6w0xxLEtfK3iyryQFddXuvkIk51EEgrJQ0WJkOmQ==}
+ 
+@@ -2145,6 +2251,12 @@ packages:
+     peerDependencies:
+       react: ^18.3.1
+ 
++  react-markdown@9.0.3:
++    resolution: {integrity: sha512-Yk7Z94dbgYTOrdk41Z74GoKA7rThnsbbqBTRYuxoe08qvfQ9tJVhmAKw6BJS/ZORG7kTy/s1QvYzSuaoBA1qfw==}
++    peerDependencies:
++      '@types/react': '>=18'
++      react: '>=18'
++
+   react-refresh@0.17.0:
+     resolution: {integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==}
+     engines: {node: '>=0.10.0'}
+@@ -2175,6 +2287,12 @@ packages:
+   recma-stringify@1.0.0:
+     resolution: {integrity: sha512-cjwII1MdIIVloKvC9ErQ+OgAtwHBmcZ0Bg4ciz78FtbT8In39aAYbaA7zvxQ61xVMSPE8WxhLwLbhif4Js2C+g==}
+ 
++  refractor@4.9.0:
++    resolution: {integrity: sha512-nEG1SPXFoGGx+dcjftjv8cAjEusIh6ED1xhf5DG3C0x/k+rmZ2duKnc3QLpt6qeHv5fPb8uwN3VWN2BT7fr3Og==}
++
++  refractor@5.0.0:
++    resolution: {integrity: sha512-QXOrHQF5jOpjjLfiNk5GFnWhRXvxjUVnlFxkeDmewR5sXkr3iM46Zo+CnRR8B+MDVqkULW4EcLVcRBNOPXHosw==}
++
+   regenerator-runtime@0.13.11:
+     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
+ 
+@@ -2193,18 +2311,42 @@ packages:
+   regex@6.1.0:
+     resolution: {integrity: sha512-6VwtthbV4o/7+OaAF9I5L5V3llLEsoPyq9P1JVXkedTP33c7MfCG0/5NOPcSJn0TzXcG9YUrR0gQSWioew3LDg==}
+ 
++  rehype-attr@3.0.3:
++    resolution: {integrity: sha512-Up50Xfra8tyxnkJdCzLBIBtxOcB2M1xdeKe1324U06RAvSjYm7ULSeoM+b/nYPQPVd7jsXJ9+39IG1WAJPXONw==}
++    engines: {node: '>=16'}
++
++  rehype-autolink-headings@7.1.0:
++    resolution: {integrity: sha512-rItO/pSdvnvsP4QRB1pmPiNHUskikqtPojZKJPPPAVx9Hj8i8TwMBhofrrAYRhYOOBZH9tgmG5lPqDLuIWPWmw==}
++
+   rehype-expressive-code@0.40.2:
+     resolution: {integrity: sha512-+kn+AMGCrGzvtH8Q5lC6Y5lnmTV/r33fdmi5QU/IH1KPHKobKr5UnLwJuqHv5jBTSN/0v2wLDS7RTM73FVzqmQ==}
+ 
++  rehype-ignore@2.0.3:
++    resolution: {integrity: sha512-IzhP6/u/6sm49sdktuYSmeIuObWB+5yC/5eqVws8BhuGA9kY25/byz6uCy/Ravj6lXUShEd2ofHM5MyAIj86Sg==}
++    engines: {node: '>=16'}
++
+   rehype-parse@9.0.1:
+     resolution: {integrity: sha512-ksCzCD0Fgfh7trPDxr2rSylbwq9iYDkSn8TCDmEJ49ljEUBxDVCzCHv7QNzZOfODanX4+bWQ4WZqLCRWYLfhag==}
+ 
++  rehype-prism-plus@2.0.0:
++    resolution: {integrity: sha512-FeM/9V2N7EvDZVdR2dqhAzlw5YI49m9Tgn7ZrYJeYHIahM6gcXpH0K1y2gNnKanZCydOMluJvX2cB9z3lhY8XQ==}
++
++  rehype-prism-plus@2.0.2:
++    resolution: {integrity: sha512-jTHb8ZtQHd2VWAAKeCINgv/8zNEF0+LesmwJak69GemoPVN9/8fGEARTvqOpKqmN57HwaM9z8UKBVNVJe8zggw==}
++
+   rehype-raw@7.0.0:
+     resolution: {integrity: sha512-/aE8hCfKlQeA8LmyeyQvQF3eBiLRGNlfBJEvWH7ivp9sBqs7TNqBL5X3v157rM4IFETqDnIOO+z5M/biZbo9Ww==}
+ 
+   rehype-recma@1.0.0:
+     resolution: {integrity: sha512-lqA4rGUf1JmacCNWWZx0Wv1dHqMwxzsDWYMTowuplHF3xH0N/MmrZ/G3BDZnzAkRmxDadujCjaKM2hqYdCBOGw==}
+ 
++  rehype-rewrite@4.0.4:
++    resolution: {integrity: sha512-L/FO96EOzSA6bzOam4DVu61/PB3AGKcSPXpa53yMIozoxH4qg1+bVZDF8zh1EsuxtSauAhzt5cCnvoplAaSLrw==}
++    engines: {node: '>=16.0.0'}
++
++  rehype-slug@6.0.0:
++    resolution: {integrity: sha512-lWyvf/jwu+oS5+hL5eClVd3hNdmwM1kAC0BUvEGD19pajQMIzcNUd/k9GsfQ+FfECvX+JE+e9/btsKH0EjJT6A==}
++
+   rehype-stringify@10.0.1:
+     resolution: {integrity: sha512-k9ecfXHmIPuFVI61B9DeLPN0qFHfawM6RsuX48hoqlaKSF61RskNjSm1lI8PhBEM0MRdLxVVm4WmTqJQccH9mA==}
+ 
+@@ -2214,6 +2356,10 @@ packages:
+   remark-gfm@4.0.1:
+     resolution: {integrity: sha512-1quofZ2RQ9EWdeN34S79+KExV1764+wCUGop5CPL1WGdD0ocPpu91lzPGbwWMECpEpd42kJGQwzRfyov9j4yNg==}
+ 
++  remark-github-blockquote-alert@1.3.1:
++    resolution: {integrity: sha512-OPNnimcKeozWN1w8KVQEuHOxgN3L4rah8geMOLhA5vN9wITqU4FWD+G26tkEsCGHiOVDbISx+Se5rGZ+D1p0Jg==}
++    engines: {node: '>=16'}
++
+   remark-mdx@3.1.1:
+     resolution: {integrity: sha512-Pjj2IYlUY3+D8x00UJsIOg5BEvfMyeI+2uLPn9VO9Wg4MEtN/VTIq2NEJQfde9PnX15KgtHyl9S0BcTnWrIuWg==}
+ 
+@@ -2422,6 +2568,9 @@ packages:
+   unifont@0.7.4:
+     resolution: {integrity: sha512-oHeis4/xl42HUIeHuNZRGEvxj5AaIKR+bHPNegRq5LV1gdc3jundpONbjglKpihmJf+dswygdMJn3eftGIMemg==}
+ 
++  unist-util-filter@5.0.1:
++    resolution: {integrity: sha512-pHx7D4Zt6+TsfwylH9+lYhBhzyhEnCXs/lbq/Hstxno5z4gVdyc2WEW0asfjGKPyG4pEKrnBv5hdkO6+aRnQJw==}
++
+   unist-util-find-after@5.0.0:
+     resolution: {integrity: sha512-amQa0Ep2m6hE2g72AugUItjbuM8X8cGQnFoHk0pGfrFeT9GZhzN5SW8nRsiGKK7Aif4CrACPENkA6P/Lw6fHGQ==}
+ 
+@@ -2449,9 +2598,15 @@ packages:
+   unist-util-visit-parents@6.0.2:
+     resolution: {integrity: sha512-goh1s1TBrqSqukSc8wrjwWhL0hiJxgA8m4kFxGlQ+8FYQ3C/m11FcTs4YYem7V664AhHVvgoQLk890Ssdsr2IQ==}
+ 
++  unist-util-visit@5.0.0:
++    resolution: {integrity: sha512-MR04uvD+07cwl/yhVuVWAtw+3GOR/knlL55Nd/wAdblk27GCVt3lqpTivy/tkJcZoNPzTwS1Y+KMojlLDhoTzg==}
++
+   unist-util-visit@5.1.0:
+     resolution: {integrity: sha512-m+vIdyeCOpdr/QeQCu2EzxX/ohgS8KbnPDgFni4dQsfSCtpz8UqDyY5GjRru8PDKuYn7Fq19j1CQ+nJSsGKOzg==}
+ 
++  universal-user-agent@7.0.3:
++    resolution: {integrity: sha512-TmnEAEAsBJVZM/AADELsK76llnwcf9vMKuPz8JflO1frO8Lchitr0fNaN9d+Ap0BjKtqWqd/J17qeDnXh8CL2A==}
++
+   unstorage@1.17.4:
+     resolution: {integrity: sha512-fHK0yNg38tBiJKp/Vgsq4j0JEsCmgqH58HAn707S7zGkArbZsVr/CwINoi+nh3h98BRCwKvx1K3Xg9u3VV83sw==}
+     peerDependencies:
+@@ -3281,6 +3436,69 @@ snapshots:
+     transitivePeerDependencies:
+       - supports-color
+ 
++  '@octokit/auth-token@6.0.0': {}
++
++  '@octokit/core@7.0.6':
++    dependencies:
++      '@octokit/auth-token': 6.0.0
++      '@octokit/graphql': 9.0.3
++      '@octokit/request': 10.0.8
++      '@octokit/request-error': 7.1.0
++      '@octokit/types': 16.0.0
++      before-after-hook: 4.0.0
++      universal-user-agent: 7.0.3
++
++  '@octokit/endpoint@11.0.3':
++    dependencies:
++      '@octokit/types': 16.0.0
++      universal-user-agent: 7.0.3
++
++  '@octokit/graphql@9.0.3':
++    dependencies:
++      '@octokit/request': 10.0.8
++      '@octokit/types': 16.0.0
++      universal-user-agent: 7.0.3
++
++  '@octokit/openapi-types@27.0.0': {}
++
++  '@octokit/plugin-paginate-rest@14.0.0(@octokit/core@7.0.6)':
++    dependencies:
++      '@octokit/core': 7.0.6
++      '@octokit/types': 16.0.0
++
++  '@octokit/plugin-request-log@6.0.0(@octokit/core@7.0.6)':
++    dependencies:
++      '@octokit/core': 7.0.6
++
++  '@octokit/plugin-rest-endpoint-methods@17.0.0(@octokit/core@7.0.6)':
++    dependencies:
++      '@octokit/core': 7.0.6
++      '@octokit/types': 16.0.0
++
++  '@octokit/request-error@7.1.0':
++    dependencies:
++      '@octokit/types': 16.0.0
++
++  '@octokit/request@10.0.8':
++    dependencies:
++      '@octokit/endpoint': 11.0.3
++      '@octokit/request-error': 7.1.0
++      '@octokit/types': 16.0.0
++      fast-content-type-parse: 3.0.0
++      json-with-bigint: 3.5.7
++      universal-user-agent: 7.0.3
++
++  '@octokit/rest@22.0.1':
++    dependencies:
++      '@octokit/core': 7.0.6
++      '@octokit/plugin-paginate-rest': 14.0.0(@octokit/core@7.0.6)
++      '@octokit/plugin-request-log': 6.0.0(@octokit/core@7.0.6)
++      '@octokit/plugin-rest-endpoint-methods': 17.0.0(@octokit/core@7.0.6)
++
++  '@octokit/types@16.0.0':
++    dependencies:
++      '@octokit/openapi-types': 27.0.0
++
+   '@oslojs/encoding@1.1.0': {}
+ 
+   '@parcel/watcher-android-arm64@2.5.6':
+@@ -3579,6 +3797,10 @@ snapshots:
+ 
+   '@types/estree@1.0.8': {}
+ 
++  '@types/hast@2.3.10':
++    dependencies:
++      '@types/unist': 2.0.11
++
+   '@types/hast@3.0.4':
+     dependencies:
+       '@types/unist': 3.0.3
+@@ -3605,6 +3827,8 @@ snapshots:
+ 
+   '@types/pako@2.0.4': {}
+ 
++  '@types/prismjs@1.26.6': {}
++
+   '@types/prop-types@15.7.15': {}
+ 
+   '@types/raf@3.4.3':
+@@ -3644,6 +3868,41 @@ snapshots:
+ 
+   '@types/webxr@0.5.24': {}
+ 
++  '@uiw/copy-to-clipboard@1.0.20': {}
++
++  '@uiw/react-markdown-preview@5.1.5(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
++    dependencies:
++      '@babel/runtime': 7.28.6
++      '@uiw/copy-to-clipboard': 1.0.20
++      react: 18.3.1
++      react-dom: 18.3.1(react@18.3.1)
++      react-markdown: 9.0.3(@types/react@18.3.28)(react@18.3.1)
++      rehype-attr: 3.0.3
++      rehype-autolink-headings: 7.1.0
++      rehype-ignore: 2.0.3
++      rehype-prism-plus: 2.0.0
++      rehype-raw: 7.0.0
++      rehype-rewrite: 4.0.4
++      rehype-slug: 6.0.0
++      remark-gfm: 4.0.1
++      remark-github-blockquote-alert: 1.3.1
++      unist-util-visit: 5.1.0
++    transitivePeerDependencies:
++      - '@types/react'
++      - supports-color
++
++  '@uiw/react-md-editor@4.0.11(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
++    dependencies:
++      '@babel/runtime': 7.28.6
++      '@uiw/react-markdown-preview': 5.1.5(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
++      react: 18.3.1
++      react-dom: 18.3.1(react@18.3.1)
++      rehype: 13.0.2
++      rehype-prism-plus: 2.0.2
++    transitivePeerDependencies:
++      - '@types/react'
++      - supports-color
++
+   '@ungap/structured-clone@1.3.0': {}
+ 
+   '@vitejs/plugin-react@4.7.0(vite@6.4.1(@types/node@22.19.15)(sass@1.98.0))':
+@@ -3811,6 +4070,8 @@ snapshots:
+ 
+   bcp-47-match@2.0.3: {}
+ 
++  before-after-hook@4.0.0: {}
++
+   boolbase@1.0.0: {}
+ 
+   boxen@8.0.1:
+@@ -4139,6 +4400,8 @@ snapshots:
+ 
+   extend@3.0.2: {}
+ 
++  fast-content-type-parse@3.0.0: {}
++
+   fast-png@6.4.0:
+     dependencies:
+       '@types/pako': 2.0.4
+@@ -4217,10 +4480,18 @@ snapshots:
+     dependencies:
+       '@types/hast': 3.0.4
+ 
++  hast-util-heading-rank@3.0.0:
++    dependencies:
++      '@types/hast': 3.0.4
++
+   hast-util-is-element@3.0.0:
+     dependencies:
+       '@types/hast': 3.0.4
+ 
++  hast-util-parse-selector@3.1.1:
++    dependencies:
++      '@types/hast': 2.3.10
++
+   hast-util-parse-selector@4.0.0:
+     dependencies:
+       '@types/hast': 3.0.4
+@@ -4339,6 +4610,14 @@ snapshots:
+     dependencies:
+       '@types/hast': 3.0.4
+ 
++  hastscript@7.2.0:
++    dependencies:
++      '@types/hast': 2.3.10
++      comma-separated-tokens: 2.0.3
++      hast-util-parse-selector: 3.1.1
++      property-information: 6.5.0
++      space-separated-tokens: 2.0.2
++
+   hastscript@9.0.1:
+     dependencies:
+       '@types/hast': 3.0.4
+@@ -4349,6 +4628,8 @@ snapshots:
+ 
+   html-escaper@3.0.3: {}
+ 
++  html-url-attributes@3.0.1: {}
++
+   html-void-elements@3.0.0: {}
+ 
+   html2canvas@1.4.1:
+@@ -4412,6 +4693,8 @@ snapshots:
+ 
+   jsesc@3.1.0: {}
+ 
++  json-with-bigint@3.5.7: {}
++
+   json5@2.2.3: {}
+ 
+   jspdf@4.2.0:
+@@ -4975,6 +5258,8 @@ snapshots:
+       unist-util-visit-children: 3.0.0
+       vfile: 6.0.3
+ 
++  parse-numeric-range@1.3.0: {}
++
+   parse5@7.3.0:
+     dependencies:
+       entities: 6.0.1
+@@ -5015,6 +5300,8 @@ snapshots:
+       kleur: 3.0.3
+       sisteransi: 1.0.5
+ 
++  property-information@6.5.0: {}
++
+   property-information@7.1.0: {}
+ 
+   radix3@1.1.2: {}
+@@ -5030,6 +5317,23 @@ snapshots:
+       react: 18.3.1
+       scheduler: 0.23.2
+ 
++  react-markdown@9.0.3(@types/react@18.3.28)(react@18.3.1):
++    dependencies:
++      '@types/hast': 3.0.4
++      '@types/react': 18.3.28
++      devlop: 1.1.0
++      hast-util-to-jsx-runtime: 2.3.6
++      html-url-attributes: 3.0.1
++      mdast-util-to-hast: 13.2.1
++      react: 18.3.1
++      remark-parse: 11.0.0
++      remark-rehype: 11.1.2
++      unified: 11.0.5
++      unist-util-visit: 5.1.0
++      vfile: 6.0.3
++    transitivePeerDependencies:
++      - supports-color
++
+   react-refresh@0.17.0: {}
+ 
+   react@18.3.1:
+@@ -5069,6 +5373,20 @@ snapshots:
+       unified: 11.0.5
+       vfile: 6.0.3
+ 
++  refractor@4.9.0:
++    dependencies:
++      '@types/hast': 2.3.10
++      '@types/prismjs': 1.26.6
++      hastscript: 7.2.0
++      parse-entities: 4.0.2
++
++  refractor@5.0.0:
++    dependencies:
++      '@types/hast': 3.0.4
++      '@types/prismjs': 1.26.6
++      hastscript: 9.0.1
++      parse-entities: 4.0.2
++
+   regenerator-runtime@0.13.11:
+     optional: true
+ 
+@@ -5091,16 +5409,54 @@ snapshots:
+     dependencies:
+       regex-utilities: 2.3.0
+ 
++  rehype-attr@3.0.3:
++    dependencies:
++      unified: 11.0.5
++      unist-util-visit: 5.0.0
++
++  rehype-autolink-headings@7.1.0:
++    dependencies:
++      '@types/hast': 3.0.4
++      '@ungap/structured-clone': 1.3.0
++      hast-util-heading-rank: 3.0.0
++      hast-util-is-element: 3.0.0
++      unified: 11.0.5
++      unist-util-visit: 5.1.0
++
+   rehype-expressive-code@0.40.2:
+     dependencies:
+       expressive-code: 0.40.2
+ 
++  rehype-ignore@2.0.3:
++    dependencies:
++      hast-util-select: 6.0.4
++      unified: 11.0.5
++      unist-util-visit: 5.1.0
++
+   rehype-parse@9.0.1:
+     dependencies:
+       '@types/hast': 3.0.4
+       hast-util-from-html: 2.0.3
+       unified: 11.0.5
+ 
++  rehype-prism-plus@2.0.0:
++    dependencies:
++      hast-util-to-string: 3.0.1
++      parse-numeric-range: 1.3.0
++      refractor: 4.9.0
++      rehype-parse: 9.0.1
++      unist-util-filter: 5.0.1
++      unist-util-visit: 5.1.0
++
++  rehype-prism-plus@2.0.2:
++    dependencies:
++      hast-util-to-string: 3.0.1
++      parse-numeric-range: 1.3.0
++      refractor: 5.0.0
++      rehype-parse: 9.0.1
++      unist-util-filter: 5.0.1
++      unist-util-visit: 5.1.0
++
+   rehype-raw@7.0.0:
+     dependencies:
+       '@types/hast': 3.0.4
+@@ -5115,6 +5471,20 @@ snapshots:
+     transitivePeerDependencies:
+       - supports-color
+ 
++  rehype-rewrite@4.0.4:
++    dependencies:
++      hast-util-select: 6.0.4
++      unified: 11.0.5
++      unist-util-visit: 5.1.0
++
++  rehype-slug@6.0.0:
++    dependencies:
++      '@types/hast': 3.0.4
++      github-slugger: 2.0.0
++      hast-util-heading-rank: 3.0.0
++      hast-util-to-string: 3.0.1
++      unist-util-visit: 5.1.0
++
+   rehype-stringify@10.0.1:
+     dependencies:
+       '@types/hast': 3.0.4
+@@ -5139,6 +5509,10 @@ snapshots:
+     transitivePeerDependencies:
+       - supports-color
+ 
++  remark-github-blockquote-alert@1.3.1:
++    dependencies:
++      unist-util-visit: 5.1.0
++
+   remark-mdx@3.1.1:
+     dependencies:
+       mdast-util-mdx: 3.0.0
+@@ -5464,6 +5838,12 @@ snapshots:
+       ofetch: 1.5.1
+       ohash: 2.0.11
+ 
++  unist-util-filter@5.0.1:
++    dependencies:
++      '@types/unist': 3.0.3
++      unist-util-is: 6.0.1
++      unist-util-visit-parents: 6.0.2
++
+   unist-util-find-after@5.0.0:
+     dependencies:
+       '@types/unist': 3.0.3
+@@ -5504,12 +5884,20 @@ snapshots:
+       '@types/unist': 3.0.3
+       unist-util-is: 6.0.1
+ 
++  unist-util-visit@5.0.0:
++    dependencies:
++      '@types/unist': 3.0.3
++      unist-util-is: 6.0.1
++      unist-util-visit-parents: 6.0.2
++
+   unist-util-visit@5.1.0:
+     dependencies:
+       '@types/unist': 3.0.3
+       unist-util-is: 6.0.1
+       unist-util-visit-parents: 6.0.2
+ 
++  universal-user-agent@7.0.3: {}
++
+   unstorage@1.17.4:
+     dependencies:
+       anymatch: 3.1.3
+diff --git a/src/components/admin/AdminApp.tsx b/src/components/admin/AdminApp.tsx
+new file mode 100644
+index 0000000..80218d1
+--- /dev/null
++++ b/src/components/admin/AdminApp.tsx
+@@ -0,0 +1,76 @@
++import React, { useState, useCallback } from 'react';
++import { GitHubProvider, useGitHub } from './context/GitHubContext';
++import AuthView from './views/AuthView';
++import ListView from './views/ListView';
++import EditorView from './views/EditorView';
++import type { ContentType } from './lib/content-paths';
++
++type View =
++  | { name: 'auth' }
++  | { name: 'list' }
++  | { name: 'editor'; path?: string; contentType: ContentType };
++
++function AdminRouter() {
++  const { isAuthenticated, isLoading, user, logout } = useGitHub();
++  const [view, setView] = useState<View>({ name: 'list' });
++
++  const handleEdit = useCallback((path: string) => {
++    // Determine content type from path
++    let contentType: ContentType = 'posts';
++    if (path.includes('/notes/')) contentType = 'notes';
++    else if (path.includes('/reviews/')) contentType = 'reviews';
++    setView({ name: 'editor', path, contentType });
++  }, []);
++
++  const handleNew = useCallback((type: ContentType) => {
++    setView({ name: 'editor', contentType: type });
++  }, []);
++
++  const handleBack = useCallback(() => {
++    setView({ name: 'list' });
++  }, []);
++
++  if (isLoading) {
++    return <div className="auth-loading">Loading...</div>;
++  }
++
++  if (!isAuthenticated) {
++    return <AuthView />;
++  }
++
++  const header = (
++    <div className="admin-header-actions">
++      <span style={{ marginRight: 'auto', color: 'var(--gray-3)' }}>
++        {user?.login}
++      </span>
++      <button className="btn-logout" onClick={logout}>
++        Logout
++      </button>
++    </div>
++  );
++
++  switch (view.name) {
++    case 'list':
++      return <>{header}<ListView onEdit={handleEdit} onNew={handleNew} /></>;
++    case 'editor':
++      return (
++        <>{header}<EditorView
++          path={view.path}
++          contentType={view.contentType}
++          onBack={handleBack}
++        /></>
++      );
++    default:
++      return <>{header}<ListView onEdit={handleEdit} onNew={handleNew} /></>;
++  }
++}
++
++export default function AdminApp() {
++  return (
++    <GitHubProvider>
++      <div className="admin-container">
++        <AdminRouter />
++      </div>
++    </GitHubProvider>
++  );
++}
+diff --git a/src/components/admin/components/ConfirmDialog.tsx b/src/components/admin/components/ConfirmDialog.tsx
+new file mode 100644
+index 0000000..631ed36
+--- /dev/null
++++ b/src/components/admin/components/ConfirmDialog.tsx
+@@ -0,0 +1,50 @@
++interface ConfirmDialogProps {
++  isOpen: boolean;
++  title: string;
++  message: string;
++  confirmLabel?: string;
++  cancelLabel?: string;
++  onConfirm: () => void;
++  onCancel: () => void;
++  danger?: boolean;
++}
++
++export default function ConfirmDialog({
++  isOpen,
++  title,
++  message,
++  confirmLabel = "Confirm",
++  cancelLabel = "Cancel",
++  onConfirm,
++  onCancel,
++  danger = false,
++}: ConfirmDialogProps) {
++  if (!isOpen) return null;
++
++  return (
++    <div className="draft-modal" onClick={onCancel}>
++      <div
++        className="draft-modal-content"
++        onClick={(e) => e.stopPropagation()}
++        style={{ maxWidth: 400 }}
++      >
++        <div className="draft-modal-header">
++          <h3>{title}</h3>
++        </div>
++        <p style={{ margin: "1rem 0" }}>{message}</p>
++        <div style={{ display: "flex", gap: "0.5rem", justifyContent: "flex-end" }}>
++          <button type="button" className="btn-load" onClick={onCancel}>
++            {cancelLabel}
++          </button>
++          <button
++            type="button"
++            className={danger ? "btn-delete" : "btn-load"}
++            onClick={onConfirm}
++          >
++            {confirmLabel}
++          </button>
++        </div>
++      </div>
++    </div>
++  );
++}
+diff --git a/src/components/admin/components/ContentItem.tsx b/src/components/admin/components/ContentItem.tsx
+new file mode 100644
+index 0000000..b0d0b2b
+--- /dev/null
++++ b/src/components/admin/components/ContentItem.tsx
+@@ -0,0 +1,101 @@
++import { useState, useEffect } from "react";
++import { parseContentPath } from "../lib/content-paths";
++import { parseFrontmatter } from "../lib/frontmatter";
++import { useGitHubAPI } from "../hooks/useGitHub";
++
++interface ContentItemProps {
++  path: string;
++  onClick: () => void;
++}
++
++interface ContentMeta {
++  title: string;
++  description?: string;
++  date?: string;
++  tags?: string[];
++  published?: boolean;
++}
++
++export default function ContentItem({ path, onClick }: ContentItemProps) {
++  const [meta, setMeta] = useState<ContentMeta | null>(null);
++  const [loading, setLoading] = useState(true);
++  const { fetchContent } = useGitHubAPI();
++
++  const parsed = parseContentPath(path);
++
++  useEffect(() => {
++    let cancelled = false;
++
++    async function load() {
++      setLoading(true);
++      try {
++        const { content } = await fetchContent(path);
++        const { frontmatter } = parseFrontmatter(content);
++
++        if (!cancelled) {
++          setMeta({
++            title: frontmatter.title ?? parsed?.slug ?? "Untitled",
++            description: frontmatter.description,
++            date: frontmatter.date ?? parsed?.date,
++            tags: Array.isArray(frontmatter.tags) ? frontmatter.tags : [],
++            published: frontmatter.published !== false,
++          });
++        }
++      } catch {
++        if (!cancelled) {
++          setMeta({
++            title: parsed?.slug ?? path.split("/").pop() ?? "Unknown",
++            date: parsed?.date,
++          });
++        }
++      } finally {
++        if (!cancelled) {
++          setLoading(false);
++        }
++      }
++    }
++
++    load();
++    return () => {
++      cancelled = true;
++    };
++  }, [path]);
++
++  if (loading) {
++    return (
++      <div className="post-list-item" onClick={onClick}>
++        <div className="post-item-header">
++          <span className="post-item-title" style={{ opacity: 0.5 }}>
++            Loading...
++          </span>
++        </div>
++      </div>
++    );
++  }
++
++  return (
++    <div className="post-list-item" onClick={onClick}>
++      <div className="post-item-header">
++        <span className="post-item-title">{meta?.title ?? "Untitled"}</span>
++        {meta?.published === false && (
++          <span className="unpublished-badge">Unpublished</span>
++        )}
++      </div>
++      {meta?.description && (
++        <p className="post-item-description">{meta.description}</p>
++      )}
++      <div className="post-item-meta">
++        {meta?.date && <span>{meta.date}</span>}
++        {meta?.tags && meta.tags.length > 0 && (
++          <div className="post-item-tags">
++            {meta.tags.map((tag) => (
++              <span key={tag} className="tag">
++                {tag}
++              </span>
++            ))}
++          </div>
++        )}
++      </div>
++    </div>
++  );
++}
+diff --git a/src/components/admin/components/DraftManager.tsx b/src/components/admin/components/DraftManager.tsx
+new file mode 100644
+index 0000000..6d0bcd6
+--- /dev/null
++++ b/src/components/admin/components/DraftManager.tsx
+@@ -0,0 +1,119 @@
++import { useState, useCallback } from "react";
++import type { Draft } from "@/utils/storage";
++import { useDrafts } from "../hooks/useDrafts";
++
++interface DraftManagerProps {
++  onLoad: (draft: Draft) => void;
++  currentDraftId?: string;
++}
++
++export default function DraftManager({ onLoad, currentDraftId }: DraftManagerProps) {
++  const [isOpen, setIsOpen] = useState(false);
++  const { drafts, deleteDraft, deleteAllDrafts, refreshDrafts } = useDrafts();
++
++  const handleOpen = useCallback(() => {
++    refreshDrafts();
++    setIsOpen(true);
++  }, [refreshDrafts]);
++
++  const handleClose = useCallback(() => {
++    setIsOpen(false);
++  }, []);
++
++  const handleLoad = useCallback(
++    (draft: Draft) => {
++      onLoad(draft);
++      setIsOpen(false);
++    },
++    [onLoad],
++  );
++
++  const handleDelete = useCallback(
++    (id: string) => {
++      deleteDraft(id);
++    },
++    [deleteDraft],
++  );
++
++  const handleDeleteAll = useCallback(() => {
++    deleteAllDrafts();
++  }, [deleteAllDrafts]);
++
++  return (
++    <div className="draft-manager">
++      <button type="button" className="btn-drafts" onClick={handleOpen}>
++        Drafts{drafts.length > 0 && <span> ({drafts.length})</span>}
++      </button>
++
++      {isOpen && (
++        <div className="draft-modal" onClick={handleClose}>
++          <div
++            className="draft-modal-content"
++            onClick={(e) => e.stopPropagation()}
++          >
++            <div className="draft-modal-header">
++              <h3>Saved Drafts</h3>
++              <div>
++                {drafts.length > 0 && (
++                  <button
++                    type="button"
++                    className="btn-delete-all"
++                    onClick={handleDeleteAll}
++                  >
++                    Delete All
++                  </button>
++                )}
++                <button
++                  type="button"
++                  className="btn-close"
++                  onClick={handleClose}
++                >
++                  Close
++                </button>
++              </div>
++            </div>
++
++            <div className="draft-list">
++              {drafts.length === 0 ? (
++                <p>No saved drafts.</p>
++              ) : (
++                drafts.map((draft) => (
++                  <div
++                    key={draft.id}
++                    className={`draft-item${draft.id === currentDraftId ? " active" : ""}`}
++                  >
++                    <div className="draft-item-content">
++                      <strong>{draft.title || "Untitled"}</strong>
++                      <div className="draft-item-meta">
++                        <span>{draft.type}</span>
++                        <span>
++                          {new Date(draft.savedAt).toLocaleDateString()}
++                        </span>
++                      </div>
++                    </div>
++                    <div className="draft-item-actions">
++                      <button
++                        type="button"
++                        className="btn-load"
++                        onClick={() => handleLoad(draft)}
++                      >
++                        Load
++                      </button>
++                      <button
++                        type="button"
++                        className="btn-delete"
++                        onClick={() => handleDelete(draft.id)}
++                      >
++                        Delete
++                      </button>
++                    </div>
++                  </div>
++                ))
++              )}
++            </div>
++          </div>
++        </div>
++      )}
++    </div>
++  );
++}
+diff --git a/src/components/admin/components/FrontmatterForm.tsx b/src/components/admin/components/FrontmatterForm.tsx
+new file mode 100644
+index 0000000..80a0b9c
+--- /dev/null
++++ b/src/components/admin/components/FrontmatterForm.tsx
+@@ -0,0 +1,156 @@
++import { useCallback } from "react";
++import { sanitizeSlug } from "@/utils/slug";
++
++interface Frontmatter {
++  title: string;
++  description: string;
++  date: string;
++  slug: string;
++  tags: string[];
++  published: boolean;
++  heroImage?: string;
++  heroImageAlt?: string;
++}
++
++interface FrontmatterFormProps {
++  frontmatter: Frontmatter;
++  onChange: (fm: Frontmatter) => void;
++  contentType: "posts" | "notes" | "reviews";
++}
++
++export default function FrontmatterForm({
++  frontmatter,
++  onChange,
++  contentType,
++}: FrontmatterFormProps) {
++  const update = useCallback(
++    (partial: Partial<Frontmatter>) => {
++      onChange({ ...frontmatter, ...partial });
++    },
++    [frontmatter, onChange],
++  );
++
++  const handleTagsChange = useCallback(
++    (value: string) => {
++      const tags = value
++        .split(",")
++        .map((t) => t.trim())
++        .filter(Boolean);
++      update({ tags });
++    },
++    [update],
++  );
++
++  const handleGenerateSlug = useCallback(() => {
++    update({ slug: sanitizeSlug(frontmatter.title) });
++  }, [frontmatter.title, update]);
++
++  return (
++    <div className="frontmatter-form">
++      <div className="form-group">
++        <label htmlFor="fm-title">Title</label>
++        <input
++          id="fm-title"
++          type="text"
++          value={frontmatter.title}
++          onChange={(e) => update({ title: e.target.value })}
++          placeholder="Post title"
++        />
++      </div>
++
++      <div className="form-group">
++        <label htmlFor="fm-description">Description</label>
++        <textarea
++          id="fm-description"
++          value={frontmatter.description}
++          onChange={(e) => update({ description: e.target.value })}
++          placeholder="Brief description"
++          rows={3}
++        />
++      </div>
++
++      <div className="form-row">
++        <div className="form-group">
++          <label htmlFor="fm-date">Date</label>
++          <input
++            id="fm-date"
++            type="date"
++            value={frontmatter.date}
++            onChange={(e) => update({ date: e.target.value })}
++          />
++        </div>
++
++        <div className="form-group">
++          <label htmlFor="fm-slug">Slug</label>
++          <div className="slug-input-wrapper">
++            <input
++              id="fm-slug"
++              type="text"
++              value={frontmatter.slug}
++              onChange={(e) => update({ slug: e.target.value })}
++              placeholder="url-friendly-slug"
++            />
++            <button
++              type="button"
++              className="btn-generate-slug"
++              onClick={handleGenerateSlug}
++              title="Generate slug from title"
++            >
++              Generate
++            </button>
++          </div>
++        </div>
++      </div>
++
++      <div className="form-group">
++        <label htmlFor="fm-tags">Tags</label>
++        <input
++          id="fm-tags"
++          type="text"
++          value={frontmatter.tags.join(", ")}
++          onChange={(e) => handleTagsChange(e.target.value)}
++          placeholder="tag1, tag2, tag3"
++        />
++      </div>
++
++      <div className="form-group">
++        <label>
++          <input
++            type="checkbox"
++            checked={frontmatter.published}
++            onChange={(e) => update({ published: e.target.checked })}
++          />
++          {" "}Published
++        </label>
++      </div>
++
++      <div className="form-group">
++        <label htmlFor="fm-hero-image">Hero Image URL</label>
++        <input
++          id="fm-hero-image"
++          type="text"
++          value={frontmatter.heroImage ?? ""}
++          onChange={(e) =>
++            update({ heroImage: e.target.value || undefined })
++          }
++          placeholder="https://example.com/image.jpg (optional)"
++        />
++      </div>
++
++      {frontmatter.heroImage && (
++        <div className="form-group">
++          <label htmlFor="fm-hero-image-alt">Hero Image Alt Text</label>
++          <input
++            id="fm-hero-image-alt"
++            type="text"
++            value={frontmatter.heroImageAlt ?? ""}
++            onChange={(e) =>
++              update({ heroImageAlt: e.target.value || undefined })
++            }
++            placeholder="Image description"
++          />
++        </div>
++      )}
++    </div>
++  );
++}
+diff --git a/src/components/admin/components/ImageUploader.tsx b/src/components/admin/components/ImageUploader.tsx
+new file mode 100644
+index 0000000..f24adad
+--- /dev/null
++++ b/src/components/admin/components/ImageUploader.tsx
+@@ -0,0 +1,133 @@
++import { useState, useCallback, useRef, type DragEvent, type ChangeEvent } from "react";
++import { generateImagePath, type ContentType } from "../lib/content-paths";
++import { useGitHubAPI } from "../hooks/useGitHub";
++
++interface ImageUploaderProps {
++  onUpload: (markdownImage: string) => void;
++  contentType: "posts" | "notes" | "reviews";
++  slug: string;
++  date: string;
++}
++
++export default function ImageUploader({
++  onUpload,
++  contentType,
++  slug,
++  date,
++}: ImageUploaderProps) {
++  const [uploading, setUploading] = useState(false);
++  const [dragActive, setDragActive] = useState(false);
++  const fileInputRef = useRef<HTMLInputElement>(null);
++  const { uploadImage } = useGitHubAPI();
++
++  const processFile = useCallback(
++    async (file: File) => {
++      if (!file.type.startsWith("image/")) return;
++
++      setUploading(true);
++      try {
++        const base64 = await fileToBase64(file);
++        const path = generateImagePath(
++          contentType as ContentType,
++          slug,
++          date,
++          file.name,
++        );
++        await uploadImage(path, base64, `Upload image: ${file.name}`);
++
++        const relativePath = `./${file.name}`;
++        const altText = file.name.replace(/\.[^.]+$/, "");
++        onUpload(`![${altText}](${relativePath})`);
++      } catch (err) {
++        console.error("Image upload failed:", err);
++      } finally {
++        setUploading(false);
++      }
++    },
++    [contentType, slug, date, uploadImage, onUpload],
++  );
++
++  const handleDragOver = useCallback((e: DragEvent) => {
++    e.preventDefault();
++    e.stopPropagation();
++    setDragActive(true);
++  }, []);
++
++  const handleDragLeave = useCallback((e: DragEvent) => {
++    e.preventDefault();
++    e.stopPropagation();
++    setDragActive(false);
++  }, []);
++
++  const handleDrop = useCallback(
++    (e: DragEvent) => {
++      e.preventDefault();
++      e.stopPropagation();
++      setDragActive(false);
++
++      const files = e.dataTransfer.files;
++      if (files.length > 0) {
++        processFile(files[0]);
++      }
++    },
++    [processFile],
++  );
++
++  const handleFileSelect = useCallback(
++    (e: ChangeEvent<HTMLInputElement>) => {
++      const files = e.target.files;
++      if (files && files.length > 0) {
++        processFile(files[0]);
++      }
++      if (fileInputRef.current) {
++        fileInputRef.current.value = "";
++      }
++    },
++    [processFile],
++  );
++
++  const handleClick = useCallback(() => {
++    fileInputRef.current?.click();
++  }, []);
++
++  return (
++    <div className="image-uploader">
++      <div
++        className={`dropzone${dragActive ? " active" : ""}${uploading ? " uploading" : ""}`}
++        onDragOver={handleDragOver}
++        onDragLeave={handleDragLeave}
++        onDrop={handleDrop}
++        onClick={handleClick}
++      >
++        {uploading ? (
++          <div className="dropzone-uploading">Uploading...</div>
++        ) : (
++          <div className="dropzone-content">
++            Drop an image here or click to select
++          </div>
++        )}
++      </div>
++      <input
++        ref={fileInputRef}
++        type="file"
++        accept="image/*"
++        style={{ display: "none" }}
++        onChange={handleFileSelect}
++      />
++    </div>
++  );
++}
++
++function fileToBase64(file: File): Promise<string> {
++  return new Promise((resolve, reject) => {
++    const reader = new FileReader();
++    reader.onload = () => {
++      const result = reader.result as string;
++      // Strip the data URL prefix (e.g., "data:image/png;base64,")
++      const base64 = result.split(",")[1];
++      resolve(base64);
++    };
++    reader.onerror = reject;
++    reader.readAsDataURL(file);
++  });
++}
+diff --git a/src/components/admin/components/MarkdownEditor.tsx b/src/components/admin/components/MarkdownEditor.tsx
+new file mode 100644
+index 0000000..1515b30
+--- /dev/null
++++ b/src/components/admin/components/MarkdownEditor.tsx
+@@ -0,0 +1,18 @@
++import MDEditor from "@uiw/react-md-editor";
++
++interface MarkdownEditorProps {
++  value: string;
++  onChange: (value: string) => void;
++}
++
++export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps) {
++  return (
++    <div className="editor-main">
++      <MDEditor
++        value={value}
++        onChange={(val) => onChange(val ?? "")}
++        height={500}
++      />
++    </div>
++  );
++}
+diff --git a/src/components/admin/components/ReviewFields.tsx b/src/components/admin/components/ReviewFields.tsx
+new file mode 100644
+index 0000000..de26cdd
+--- /dev/null
++++ b/src/components/admin/components/ReviewFields.tsx
+@@ -0,0 +1,39 @@
++interface ReviewFieldsProps {
++  rating: number;
++  onChange: (rating: number) => void;
++}
++
++function renderStars(rating: number): string {
++  const fullStars = Math.floor(rating);
++  const halfStar = rating % 1 >= 0.5 ? 1 : 0;
++  const emptyStars = 5 - fullStars - halfStar;
++  return (
++    "\u2605".repeat(fullStars) +
++    (halfStar ? "\u00BD" : "") +
++    "\u2606".repeat(emptyStars)
++  );
++}
++
++export default function ReviewFields({ rating, onChange }: ReviewFieldsProps) {
++  return (
++    <div className="form-group">
++      <label htmlFor="rf-rating">
++        Rating: {renderStars(rating)} ({rating}/5)
++      </label>
++      <input
++        id="rf-rating"
++        type="number"
++        min={0}
++        max={5}
++        step={0.5}
++        value={rating}
++        onChange={(e) => {
++          const value = parseFloat(e.target.value);
++          if (!isNaN(value) && value >= 0 && value <= 5) {
++            onChange(value);
++          }
++        }}
++      />
++    </div>
++  );
++}
+diff --git a/src/components/admin/context/GitHubContext.tsx b/src/components/admin/context/GitHubContext.tsx
+new file mode 100644
+index 0000000..a208bee
+--- /dev/null
++++ b/src/components/admin/context/GitHubContext.tsx
+@@ -0,0 +1,129 @@
++import {
++  createContext,
++  useContext,
++  useState,
++  useEffect,
++  useRef,
++  useCallback,
++  type ReactNode,
++} from "react";
++import { Octokit } from "@octokit/rest";
++import { createOctokit, validateToken } from "../lib/github-api";
++import {
++  saveGitHubToken,
++  getGitHubToken,
++  removeGitHubToken,
++} from "@/utils/storage";
++import { setPassphrase, clearPassphrase } from "@/utils/crypto";
++
++interface GitHubState {
++  octokit: Octokit | null;
++  user: { login: string; avatar_url: string } | null;
++  isAuthenticated: boolean;
++  isLoading: boolean;
++  error: string | null;
++  login: (token: string, passphrase: string) => Promise<void>;
++  logout: () => void;
++}
++
++const GitHubContext = createContext<GitHubState | undefined>(undefined);
++
++export function GitHubProvider({ children }: { children: ReactNode }) {
++  const [octokit, setOctokit] = useState<Octokit | null>(null);
++  const [user, setUser] = useState<{ login: string; avatar_url: string } | null>(null);
++  const [isLoading, setIsLoading] = useState(true);
++  const [error, setError] = useState<string | null>(null);
++  const passphraseRef = useRef<string>("");
++
++  const isAuthenticated = octokit !== null && user !== null;
++
++  // Restore token from storage on mount
++  useEffect(() => {
++    let cancelled = false;
++
++    const restore = async () => {
++      try {
++        const token = await getGitHubToken();
++        if (!token || cancelled) {
++          setIsLoading(false);
++          return;
++        }
++
++        const kit = createOctokit(token);
++        const userData = await validateToken(kit);
++
++        if (!cancelled) {
++          setOctokit(kit);
++          setUser({ login: userData.login, avatar_url: userData.avatarUrl });
++        }
++      } catch {
++        // Token expired or invalid — silently clear it
++        removeGitHubToken();
++      } finally {
++        if (!cancelled) {
++          setIsLoading(false);
++        }
++      }
++    };
++
++    restore();
++    return () => {
++      cancelled = true;
++    };
++  }, []);
++
++  const login = useCallback(async (token: string, passphrase: string) => {
++    setIsLoading(true);
++    setError(null);
++
++    try {
++      const kit = createOctokit(token);
++      const userData = await validateToken(kit);
++
++      passphraseRef.current = passphrase;
++      if (passphrase) setPassphrase(passphrase);
++      await saveGitHubToken(token);
++
++      setOctokit(kit);
++      setUser({ login: userData.login, avatar_url: userData.avatarUrl });
++    } catch (err) {
++      const message =
++        err instanceof Error ? err.message : "Authentication failed";
++      setError(message);
++      throw err;
++    } finally {
++      setIsLoading(false);
++    }
++  }, []);
++
++  const logout = useCallback(() => {
++    setOctokit(null);
++    setUser(null);
++    setError(null);
++    passphraseRef.current = "";
++    clearPassphrase();
++    removeGitHubToken();
++  }, []);
++
++  const value: GitHubState = {
++    octokit,
++    user,
++    isAuthenticated,
++    isLoading,
++    error,
++    login,
++    logout,
++  };
++
++  return (
++    <GitHubContext.Provider value={value}>{children}</GitHubContext.Provider>
++  );
++}
++
++export function useGitHub(): GitHubState {
++  const context = useContext(GitHubContext);
++  if (context === undefined) {
++    throw new Error("useGitHub must be used within a GitHubProvider");
++  }
++  return context;
++}
+diff --git a/src/components/admin/hooks/useAutoSave.ts b/src/components/admin/hooks/useAutoSave.ts
+new file mode 100644
+index 0000000..117ab95
+--- /dev/null
++++ b/src/components/admin/hooks/useAutoSave.ts
+@@ -0,0 +1,77 @@
++import { useState, useEffect, useRef, useCallback } from "react";
++import { useDrafts } from "./useDrafts";
++
++interface AutoSaveData {
++  title: string;
++  content: string;
++  frontmatter: any;
++  type: "post" | "note" | "review";
++}
++
++interface AutoSaveResult {
++  lastSaved: Date | null;
++  isSaving: boolean;
++}
++
++export function useAutoSave(
++  data: AutoSaveData,
++  draftId: string,
++  enabled: boolean,
++  delay: number = 5000,
++): AutoSaveResult {
++  const { saveDraft } = useDrafts();
++  const [lastSaved, setLastSaved] = useState<Date | null>(null);
++  const [isSaving, setIsSaving] = useState(false);
++  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
++  const dataRef = useRef(data);
++  const draftIdRef = useRef(draftId);
++
++  // Keep refs up to date
++  dataRef.current = data;
++  draftIdRef.current = draftId;
++
++  const performSave = useCallback(() => {
++    const current = dataRef.current;
++    const id = draftIdRef.current;
++
++    // Skip saving if there is no meaningful content
++    if (!current.title && !current.content) return;
++
++    setIsSaving(true);
++
++    try {
++      saveDraft({
++        id,
++        title: current.title,
++        content: current.content,
++        frontmatter: current.frontmatter,
++        type: current.type,
++        savedAt: new Date().toISOString(),
++      });
++      setLastSaved(new Date());
++    } finally {
++      setIsSaving(false);
++    }
++  }, [saveDraft]);
++
++  // Debounced auto-save effect
++  useEffect(() => {
++    if (!enabled) return;
++
++    if (timerRef.current) {
++      clearTimeout(timerRef.current);
++    }
++
++    timerRef.current = setTimeout(() => {
++      performSave();
++    }, delay);
++
++    return () => {
++      if (timerRef.current) {
++        clearTimeout(timerRef.current);
++      }
++    };
++  }, [data.title, data.content, data.frontmatter, data.type, enabled, delay, performSave]);
++
++  return { lastSaved, isSaving };
++}
+diff --git a/src/components/admin/hooks/useDrafts.ts b/src/components/admin/hooks/useDrafts.ts
+new file mode 100644
+index 0000000..67df60e
+--- /dev/null
++++ b/src/components/admin/hooks/useDrafts.ts
+@@ -0,0 +1,56 @@
++import { useState, useCallback } from "react";
++import {
++  type Draft,
++  getDrafts,
++  saveDraft as storageSaveDraft,
++  deleteDraft as storageDeleteDraft,
++  getDraft as storageGetDraft,
++  deleteAllDrafts as storageDeleteAllDrafts,
++} from "@/utils/storage";
++
++export type { Draft };
++
++export interface UseDrafts {
++  drafts: Draft[];
++  saveDraft: (draft: Draft) => void;
++  deleteDraft: (id: string) => void;
++  getDraft: (id: string) => Draft | null;
++  deleteAllDrafts: () => void;
++  refreshDrafts: () => void;
++}
++
++export function useDrafts(): UseDrafts {
++  const [drafts, setDrafts] = useState<Draft[]>(() => getDrafts());
++
++  const refreshDrafts = useCallback(() => {
++    setDrafts(getDrafts());
++  }, []);
++
++  const saveDraft = useCallback((draft: Draft) => {
++    storageSaveDraft(draft);
++    setDrafts(getDrafts());
++  }, []);
++
++  const deleteDraft = useCallback((id: string) => {
++    storageDeleteDraft(id);
++    setDrafts(getDrafts());
++  }, []);
++
++  const getDraftById = useCallback((id: string): Draft | null => {
++    return storageGetDraft(id);
++  }, []);
++
++  const deleteAllDrafts = useCallback(() => {
++    storageDeleteAllDrafts();
++    setDrafts([]);
++  }, []);
++
++  return {
++    drafts,
++    saveDraft,
++    deleteDraft,
++    getDraft: getDraftById,
++    deleteAllDrafts,
++    refreshDrafts,
++  };
++}
+diff --git a/src/components/admin/hooks/useGitHub.ts b/src/components/admin/hooks/useGitHub.ts
+new file mode 100644
+index 0000000..386d0b3
+--- /dev/null
++++ b/src/components/admin/hooks/useGitHub.ts
+@@ -0,0 +1,205 @@
++import { useState, useRef, useCallback } from "react";
++import { useGitHub as useGitHubContext } from "../context/GitHubContext";
++import {
++  OWNER,
++  REPO,
++  BRANCH,
++  fetchRepoTree,
++  fetchFileContent,
++  createOrUpdateFile,
++  deleteFile,
++  uploadImage as uploadImageAPI,
++} from "../lib/github-api";
++
++export interface TreeEntry {
++  path: string;
++  type: string;
++  sha: string;
++}
++
++export interface UseGitHubAPI {
++  loading: boolean;
++  error: string | null;
++  tree: TreeEntry[] | null;
++  contentCache: Map<string, { content: string; sha: string }>;
++  fetchTree: () => Promise<void>;
++  fetchContent: (path: string) => Promise<{ content: string; sha: string }>;
++  saveContent: (
++    path: string,
++    content: string,
++    message: string,
++    sha?: string,
++  ) => Promise<void>;
++  deleteContent: (
++    path: string,
++    sha: string,
++    message: string,
++  ) => Promise<void>;
++  uploadImage: (
++    path: string,
++    base64: string,
++    message: string,
++  ) => Promise<string>;
++}
++
++export function useGitHubAPI(): UseGitHubAPI {
++  const { octokit } = useGitHubContext();
++  const [loading, setLoading] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++  const [tree, setTree] = useState<TreeEntry[] | null>(null);
++  const contentCacheRef = useRef<Map<string, { content: string; sha: string }>>(
++    new Map(),
++  );
++
++  const ensureOctokit = useCallback(() => {
++    if (!octokit) {
++      throw new Error("Not authenticated. Please log in first.");
++    }
++    return octokit;
++  }, [octokit]);
++
++  const fetchTree = useCallback(async () => {
++    const kit = ensureOctokit();
++    setLoading(true);
++    setError(null);
++
++    try {
++      const files = await fetchRepoTree(kit, OWNER, REPO, BRANCH);
++      const entries: TreeEntry[] = files.map((f) => ({
++        path: f.path,
++        type: "blob",
++        sha: f.sha,
++      }));
++      setTree(entries);
++    } catch (err) {
++      const message =
++        err instanceof Error ? err.message : "Failed to fetch tree";
++      setError(message);
++      throw err;
++    } finally {
++      setLoading(false);
++    }
++  }, [ensureOctokit]);
++
++  const fetchContent = useCallback(
++    async (path: string) => {
++      const cached = contentCacheRef.current.get(path);
++      if (cached) return cached;
++
++      const kit = ensureOctokit();
++      setLoading(true);
++      setError(null);
++
++      try {
++        const result = await fetchFileContent(kit, OWNER, REPO, path, BRANCH);
++        const entry = { content: result.content, sha: result.sha };
++        contentCacheRef.current.set(path, entry);
++        return entry;
++      } catch (err) {
++        const message =
++          err instanceof Error ? err.message : "Failed to fetch content";
++        setError(message);
++        throw err;
++      } finally {
++        setLoading(false);
++      }
++    },
++    [ensureOctokit],
++  );
++
++  const saveContent = useCallback(
++    async (
++      path: string,
++      content: string,
++      message: string,
++      sha?: string,
++    ) => {
++      const kit = ensureOctokit();
++      setLoading(true);
++      setError(null);
++
++      try {
++        const result = await createOrUpdateFile(
++          kit,
++          OWNER,
++          REPO,
++          path,
++          content,
++          message,
++          sha,
++        );
++        // Update cache with new sha
++        contentCacheRef.current.set(path, { content, sha: result.sha });
++      } catch (err) {
++        const message_ =
++          err instanceof Error ? err.message : "Failed to save content";
++        setError(message_);
++        throw err;
++      } finally {
++        setLoading(false);
++      }
++    },
++    [ensureOctokit],
++  );
++
++  const deleteContent = useCallback(
++    async (path: string, sha: string, message: string) => {
++      const kit = ensureOctokit();
++      setLoading(true);
++      setError(null);
++
++      try {
++        await deleteFile(kit, OWNER, REPO, path, sha, message);
++        contentCacheRef.current.delete(path);
++      } catch (err) {
++        const msg =
++          err instanceof Error ? err.message : "Failed to delete content";
++        setError(msg);
++        throw err;
++      } finally {
++        setLoading(false);
++      }
++    },
++    [ensureOctokit],
++  );
++
++  const uploadImage = useCallback(
++    async (path: string, base64: string, message: string): Promise<string> => {
++      const kit = ensureOctokit();
++      setLoading(true);
++      setError(null);
++
++      try {
++        const result = await uploadImageAPI(
++          kit,
++          OWNER,
++          REPO,
++          path,
++          base64,
++          message,
++        );
++        return result.sha;
++      } catch (err) {
++        const msg =
++          err instanceof Error ? err.message : "Failed to upload image";
++        setError(msg);
++        throw err;
++      } finally {
++        setLoading(false);
++      }
++    },
++    [ensureOctokit],
++  );
++
++  return {
++    loading,
++    error,
++    tree,
++    contentCache: contentCacheRef.current,
++    fetchTree,
++    fetchContent,
++    saveContent,
++    deleteContent,
++    uploadImage,
++  };
++}
+diff --git a/src/components/admin/lib/content-paths.ts b/src/components/admin/lib/content-paths.ts
+new file mode 100644
+index 0000000..5af878b
+--- /dev/null
++++ b/src/components/admin/lib/content-paths.ts
+@@ -0,0 +1,88 @@
++export type ContentType = "posts" | "notes" | "reviews";
++
++export const CONTENT_DIRS: Record<ContentType, string> = {
++  posts: "src/content/posts",
++  notes: "src/content/notes",
++  reviews: "src/content/reviews",
++};
++
++export function getContentDir(type: ContentType): string {
++  return CONTENT_DIRS[type];
++}
++
++export function generateContentPath(
++  type: ContentType,
++  slug: string,
++  date: string,
++): string {
++  const dateStr = formatDate(date);
++  const dir = CONTENT_DIRS[type];
++
++  if (type === "notes") {
++    return `${dir}/${dateStr}-${slug}.md`;
++  }
++
++  // posts and reviews use directory-based structure
++  return `${dir}/${dateStr}-${slug}/index.md`;
++}
++
++export function generateImagePath(
++  type: ContentType,
++  slug: string,
++  date: string,
++  filename: string,
++): string {
++  const dateStr = formatDate(date);
++  const dir = CONTENT_DIRS[type];
++
++  if (type === "notes") {
++    // Notes are flat files, images go in the notes directory
++    return `${dir}/${filename}`;
++  }
++
++  return `${dir}/${dateStr}-${slug}/${filename}`;
++}
++
++export interface ParsedContentPath {
++  type: ContentType;
++  slug: string;
++  date: string;
++}
++
++export function parseContentPath(path: string): ParsedContentPath | null {
++  for (const [type, dir] of Object.entries(CONTENT_DIRS) as [ContentType, string][]) {
++    if (!path.startsWith(dir + "/")) continue;
++
++    const relative = path.slice(dir.length + 1);
++
++    if (type === "notes") {
++      // Pattern: {YYYY-MM-DD}-{slug}.md
++      const match = relative.match(/^(\d{4}-\d{2}-\d{2})-(.+)\.md$/);
++      if (match) {
++        return { type, date: match[1], slug: match[2] };
++      }
++    } else {
++      // Pattern: {YYYY-MM-DD}-{slug}/index.md
++      const match = relative.match(/^(\d{4}-\d{2}-\d{2})-(.+)\/index\.md$/);
++      if (match) {
++        return { type, date: match[1], slug: match[2] };
++      }
++    }
++  }
++
++  return null;
++}
++
++function formatDate(date: string): string {
++  // If already in YYYY-MM-DD format, return as-is
++  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
++    return date;
++  }
++
++  // Parse and format
++  const d = new Date(date);
++  const year = d.getFullYear();
++  const month = String(d.getMonth() + 1).padStart(2, "0");
++  const day = String(d.getDate()).padStart(2, "0");
++  return `${year}-${month}-${day}`;
++}
+diff --git a/src/components/admin/lib/frontmatter.ts b/src/components/admin/lib/frontmatter.ts
+new file mode 100644
+index 0000000..a9bbb48
+--- /dev/null
++++ b/src/components/admin/lib/frontmatter.ts
+@@ -0,0 +1,183 @@
++export interface ParsedFrontmatter {
++  frontmatter: Record<string, any>;
++  body: string;
++}
++
++export function parseFrontmatter(markdown: string): ParsedFrontmatter {
++  const trimmed = markdown.trimStart();
++
++  if (!trimmed.startsWith("---")) {
++    return { frontmatter: {}, body: markdown };
++  }
++
++  const endIndex = trimmed.indexOf("\n---", 3);
++  if (endIndex === -1) {
++    return { frontmatter: {}, body: markdown };
++  }
++
++  const yamlBlock = trimmed.slice(4, endIndex).trim();
++  const body = trimmed.slice(endIndex + 4).replace(/^\r?\n/, "");
++  const frontmatter = parseYaml(yamlBlock);
++
++  return { frontmatter, body };
++}
++
++export function serializeFrontmatter(
++  frontmatter: Record<string, any>,
++  body: string,
++): string {
++  const lines: string[] = [];
++
++  for (const [key, value] of Object.entries(frontmatter)) {
++    if (value === undefined || value === null || value === "") {
++      continue;
++    }
++
++    lines.push(serializeValue(key, value));
++  }
++
++  const fm = lines.length > 0 ? lines.join("\n") + "\n" : "";
++  return `---\n${fm}---\n${body}`;
++}
++
++function serializeValue(key: string, value: any): string {
++  if (typeof value === "boolean") {
++    return `${key}: ${value}`;
++  }
++
++  if (Array.isArray(value)) {
++    const items = value.map((item) => serializeScalar(item)).join(", ");
++    return `${key}: [${items}]`;
++  }
++
++  if (typeof value === "number") {
++    return `${key}: ${value}`;
++  }
++
++  const str = String(value);
++  if (needsQuoting(str)) {
++    return `${key}: "${escapeYamlString(str)}"`;
++  }
++
++  return `${key}: ${str}`;
++}
++
++function serializeScalar(value: any): string {
++  if (typeof value === "number" || typeof value === "boolean") {
++    return String(value);
++  }
++  const str = String(value);
++  if (needsQuoting(str) || str.includes(",")) {
++    return `"${escapeYamlString(str)}"`;
++  }
++  return str;
++}
++
++function needsQuoting(str: string): boolean {
++  if (str === "") return true;
++  if (str.includes(":") || str.includes("#") || str.includes('"')) return true;
++  if (str.startsWith("'") || str.startsWith('"')) return true;
++  if (/^(true|false|yes|no|null)$/i.test(str)) return true;
++  return false;
++}
++
++function escapeYamlString(str: string): string {
++  return str.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
++}
++
++function parseYaml(yaml: string): Record<string, any> {
++  const result: Record<string, any> = {};
++  const lines = yaml.split("\n");
++
++  for (let i = 0; i < lines.length; i++) {
++    const line = lines[i];
++
++    // Skip empty lines and comments
++    if (!line.trim() || line.trim().startsWith("#")) continue;
++
++    const colonIndex = line.indexOf(":");
++    if (colonIndex === -1) continue;
++
++    const key = line.slice(0, colonIndex).trim();
++    let rawValue = line.slice(colonIndex + 1).trim();
++
++    // Check for multiline list (next lines start with -)
++    if (rawValue === "" && i + 1 < lines.length && lines[i + 1].trim().startsWith("-")) {
++      const items: any[] = [];
++      while (i + 1 < lines.length && lines[i + 1].trim().startsWith("-")) {
++        i++;
++        items.push(parseScalar(lines[i].trim().slice(1).trim()));
++      }
++      result[key] = items;
++      continue;
++    }
++
++    result[key] = parseValue(rawValue);
++  }
++
++  return result;
++}
++
++function parseValue(raw: string): any {
++  if (raw === "" || raw === "null" || raw === "~") return null;
++
++  // Inline array: [item1, item2]
++  if (raw.startsWith("[") && raw.endsWith("]")) {
++    const inner = raw.slice(1, -1).trim();
++    if (inner === "") return [];
++    return splitArrayItems(inner).map((item) => parseScalar(item.trim()));
++  }
++
++  return parseScalar(raw);
++}
++
++function splitArrayItems(inner: string): string[] {
++  const items: string[] = [];
++  let current = "";
++  let inQuote: string | null = null;
++
++  for (let i = 0; i < inner.length; i++) {
++    const ch = inner[i];
++
++    if (inQuote) {
++      if (ch === inQuote && inner[i - 1] !== "\\") {
++        inQuote = null;
++      }
++      current += ch;
++    } else if (ch === '"' || ch === "'") {
++      inQuote = ch;
++      current += ch;
++    } else if (ch === ",") {
++      items.push(current.trim());
++      current = "";
++    } else {
++      current += ch;
++    }
++  }
++
++  if (current.trim()) {
++    items.push(current.trim());
++  }
++
++  return items;
++}
++
++function parseScalar(raw: string): any {
++  if (raw === "true" || raw === "True") return true;
++  if (raw === "false" || raw === "False") return false;
++  if (raw === "null" || raw === "~") return null;
++
++  // Quoted string
++  if (
++    (raw.startsWith('"') && raw.endsWith('"')) ||
++    (raw.startsWith("'") && raw.endsWith("'"))
++  ) {
++    return raw.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");
++  }
++
++  // Number
++  if (/^-?\d+$/.test(raw)) return parseInt(raw, 10);
++  if (/^-?\d+\.\d+$/.test(raw)) return parseFloat(raw);
++
++  return raw;
++}
+diff --git a/src/components/admin/lib/github-api.ts b/src/components/admin/lib/github-api.ts
+new file mode 100644
+index 0000000..ecb2203
+--- /dev/null
++++ b/src/components/admin/lib/github-api.ts
+@@ -0,0 +1,165 @@
++import { Octokit } from "@octokit/rest";
++
++export const OWNER = "jiunbae";
++export const REPO = "jiunbae.github.io";
++export const BRANCH = "main";
++
++const CONTENT_PREFIXES = [
++  "src/content/posts/",
++  "src/content/notes/",
++  "src/content/reviews/",
++];
++
++export function createOctokit(token: string): Octokit {
++  return new Octokit({ auth: token });
++}
++
++export async function validateToken(
++  octokit: Octokit,
++): Promise<{ login: string; name: string | null; avatarUrl: string }> {
++  const { data } = await octokit.rest.users.getAuthenticated();
++  return {
++    login: data.login,
++    name: data.name,
++    avatarUrl: data.avatar_url,
++  };
++}
++
++export interface TreeFile {
++  path: string;
++  sha: string;
++  size: number;
++}
++
++export async function fetchRepoTree(
++  octokit: Octokit,
++  owner: string = OWNER,
++  repo: string = REPO,
++  branch: string = BRANCH,
++): Promise<TreeFile[]> {
++  const { data } = await octokit.rest.git.getTree({
++    owner,
++    repo,
++    tree_sha: branch,
++    recursive: "1",
++  });
++
++  return (data.tree ?? [])
++    .filter(
++      (item) =>
++        item.type === "blob" &&
++        item.path &&
++        CONTENT_PREFIXES.some((prefix) => item.path!.startsWith(prefix)),
++    )
++    .map((item) => ({
++      path: item.path!,
++      sha: item.sha!,
++      size: item.size ?? 0,
++    }));
++}
++
++export interface FileContent {
++  content: string;
++  sha: string;
++}
++
++export async function fetchFileContent(
++  octokit: Octokit,
++  owner: string = OWNER,
++  repo: string = REPO,
++  path: string,
++  branch: string = BRANCH,
++): Promise<FileContent> {
++  const { data } = await octokit.rest.repos.getContent({
++    owner,
++    repo,
++    path,
++    ref: branch,
++  });
++
++  if (Array.isArray(data) || data.type !== "file") {
++    throw new Error(`Path "${path}" is not a file`);
++  }
++
++  const content = decodeBase64(data.content);
++
++  return {
++    content,
++    sha: data.sha,
++  };
++}
++
++export async function createOrUpdateFile(
++  octokit: Octokit,
++  owner: string = OWNER,
++  repo: string = REPO,
++  path: string,
++  content: string,
++  message: string,
++  sha?: string,
++): Promise<{ sha: string }> {
++  const { data } = await octokit.rest.repos.createOrUpdateFileContents({
++    owner,
++    repo,
++    path,
++    message,
++    content: encodeBase64(content),
++    branch: BRANCH,
++    ...(sha ? { sha } : {}),
++  });
++
++  return { sha: data.content?.sha ?? "" };
++}
++
++export async function deleteFile(
++  octokit: Octokit,
++  owner: string = OWNER,
++  repo: string = REPO,
++  path: string,
++  sha: string,
++  message: string,
++): Promise<void> {
++  await octokit.rest.repos.deleteFile({
++    owner,
++    repo,
++    path,
++    message,
++    sha,
++    branch: BRANCH,
++  });
++}
++
++export async function uploadImage(
++  octokit: Octokit,
++  owner: string = OWNER,
++  repo: string = REPO,
++  path: string,
++  base64Content: string,
++  message: string,
++): Promise<{ sha: string }> {
++  const { data } = await octokit.rest.repos.createOrUpdateFileContents({
++    owner,
++    repo,
++    path,
++    message,
++    content: base64Content,
++    branch: BRANCH,
++  });
++
++  return { sha: data.content?.sha ?? "" };
++}
++
++function encodeBase64(str: string): string {
++  if (typeof btoa === "function") {
++    return btoa(unescape(encodeURIComponent(str)));
++  }
++  return Buffer.from(str, "utf-8").toString("base64");
++}
++
++function decodeBase64(encoded: string): string {
++  const cleaned = encoded.replace(/\n/g, "");
++  if (typeof atob === "function") {
++    return decodeURIComponent(escape(atob(cleaned)));
++  }
++  return Buffer.from(cleaned, "base64").toString("utf-8");
++}
+diff --git a/src/components/admin/views/AuthView.tsx b/src/components/admin/views/AuthView.tsx
+new file mode 100644
+index 0000000..028945c
+--- /dev/null
++++ b/src/components/admin/views/AuthView.tsx
+@@ -0,0 +1,116 @@
++import { useState } from "react";
++import { useGitHub } from "../context/GitHubContext";
++
++export default function AuthView() {
++  const { login, error: contextError } = useGitHub();
++
++  const [token, setToken] = useState("");
++  const [passphrase, setPassphrase] = useState("");
++  const [showToken, setShowToken] = useState(false);
++  const [error, setError] = useState<string | null>(null);
++  const [isLoading, setIsLoading] = useState(false);
++
++  const displayError = error || contextError;
++
++  const handleSubmit = async (e: React.FormEvent) => {
++    e.preventDefault();
++    setError(null);
++
++    if (!token.trim()) {
++      setError("GitHub token is required");
++      return;
++    }
++
++    setIsLoading(true);
++    try {
++      await login(token.trim(), passphrase);
++    } catch (err) {
++      setError(
++        err instanceof Error ? err.message : "Authentication failed",
++      );
++    } finally {
++      setIsLoading(false);
++    }
++  };
++
++  return (
++    <div className="auth-container">
++      <div className="auth-card">
++        <h2>Admin Login</h2>
++        <p className="auth-description">
++          Enter your GitHub Personal Access Token to manage content.
++        </p>
++
++        {displayError && (
++          <div className="auth-error">{displayError}</div>
++        )}
++
++        <form onSubmit={handleSubmit}>
++          <div className="form-group">
++            <label htmlFor="token">GitHub Token</label>
++            <div className="token-input-wrapper">
++              <input
++                id="token"
++                type={showToken ? "text" : "password"}
++                value={token}
++                onChange={(e) => setToken(e.target.value)}
++                placeholder="github_pat_..."
++                autoComplete="off"
++              />
++              <button
++                type="button"
++                className="btn-toggle-visibility"
++                onClick={() => setShowToken(!showToken)}
++              >
++                {showToken ? "Hide" : "Show"}
++              </button>
++            </div>
++          </div>
++
++          <div className="form-group">
++            <label htmlFor="passphrase">Passphrase</label>
++            <input
++              id="passphrase"
++              type="password"
++              value={passphrase}
++              onChange={(e) => setPassphrase(e.target.value)}
++              placeholder="Encryption passphrase (optional)"
++              autoComplete="off"
++            />
++          </div>
++
++          <button
++            type="submit"
++            className="btn-login"
++            disabled={isLoading || !token.trim()}
++          >
++            {isLoading ? "Logging in..." : "Login"}
++          </button>
++        </form>
++
++        <div className="auth-help">
++          <h3>How to create a Fine-grained PAT</h3>
++          <ol>
++            <li>
++              Go to <strong>GitHub Settings</strong> &rarr;{" "}
++              <strong>Developer settings</strong> &rarr;{" "}
++              <strong>Fine-grained tokens</strong>
++            </li>
++            <li>
++              Select repository:{" "}
++              <code>jiunbae/jiunbae.github.io</code>
++            </li>
++            <li>
++              Permission: <strong>Contents</strong> (Read and write)
++            </li>
++          </ol>
++        </div>
++
++        <div className="auth-warning">
++          Warning: All changes will be committed directly to the{" "}
++          <strong>main</strong> branch.
++        </div>
++      </div>
++    </div>
++  );
++}
+diff --git a/src/components/admin/views/EditorView.tsx b/src/components/admin/views/EditorView.tsx
+new file mode 100644
+index 0000000..70f08c4
+--- /dev/null
++++ b/src/components/admin/views/EditorView.tsx
+@@ -0,0 +1,271 @@
++import { useState, useEffect, useCallback, useRef } from "react";
++import FrontmatterForm from "../components/FrontmatterForm";
++import ReviewFields from "../components/ReviewFields";
++import MarkdownEditor from "../components/MarkdownEditor";
++import ImageUploader from "../components/ImageUploader";
++import DraftManager from "../components/DraftManager";
++import ConfirmDialog from "../components/ConfirmDialog";
++import { useGitHubAPI } from "../hooks/useGitHub";
++import { useAutoSave } from "../hooks/useAutoSave";
++import { parseFrontmatter, serializeFrontmatter } from "../lib/frontmatter";
++import {
++  generateContentPath,
++  parseContentPath,
++  type ContentType,
++} from "../lib/content-paths";
++import { sanitizeSlug } from "@/utils/slug";
++import type { Draft } from "@/utils/storage";
++
++interface EditorViewProps {
++  path?: string;
++  contentType: ContentType;
++  onBack: () => void;
++}
++
++interface Frontmatter {
++  title: string;
++  description: string;
++  date: string;
++  slug: string;
++  tags: string[];
++  published: boolean;
++  heroImage?: string;
++  heroImageAlt?: string;
++  rating?: number;
++  [key: string]: any;
++}
++
++const DEFAULT_FRONTMATTER: Frontmatter = {
++  title: "",
++  description: "",
++  date: new Date().toISOString().slice(0, 10),
++  slug: "",
++  tags: [],
++  published: true,
++  heroImage: "",
++  heroImageAlt: "",
++};
++
++const typeToSingular = (t: ContentType) =>
++  t === "posts" ? "post" : t === "notes" ? "note" : "review";
++
++export default function EditorView({ path, contentType, onBack }: EditorViewProps) {
++  const { fetchContent, saveContent, deleteContent } = useGitHubAPI();
++  const draftIdRef = useRef(path ?? `new-${Date.now()}`);
++
++  const [frontmatter, setFrontmatter] = useState<Frontmatter>({
++    ...DEFAULT_FRONTMATTER,
++  });
++  const [body, setBody] = useState("");
++  const [isNew, setIsNew] = useState(!path);
++  const [sha, setSha] = useState<string | undefined>(undefined);
++  const [saving, setSaving] = useState(false);
++  const [saveStatus, setSaveStatus] = useState<string | null>(null);
++  const [error, setError] = useState<string | null>(null);
++  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
++
++  const { lastSaved } = useAutoSave(
++    {
++      title: frontmatter.title,
++      content: body,
++      frontmatter,
++      type: typeToSingular(contentType),
++    },
++    draftIdRef.current,
++    true,
++  );
++
++  // Load existing content
++  useEffect(() => {
++    if (!path) return;
++    let cancelled = false;
++
++    const load = async () => {
++      try {
++        const file = await fetchContent(path);
++        if (cancelled) return;
++
++        const parsed = parseFrontmatter(file.content);
++        const fm = parsed.frontmatter;
++        const pathInfo = parseContentPath(path);
++
++        setFrontmatter({
++          title: fm.title ?? "",
++          description: fm.description ?? "",
++          date: fm.date
++            ? String(fm.date).slice(0, 10)
++            : pathInfo?.date ?? "",
++          slug: fm.slug ?? pathInfo?.slug ?? "",
++          tags: Array.isArray(fm.tags) ? fm.tags : [],
++          published: fm.published !== false,
++          heroImage: fm.heroImage ?? "",
++          heroImageAlt: fm.heroImageAlt ?? "",
++          ...(contentType === "reviews" && fm.rating != null
++            ? { rating: fm.rating }
++            : {}),
++        });
++        setBody(parsed.body);
++        setSha(file.sha);
++        setIsNew(false);
++      } catch (err) {
++        setError(
++          err instanceof Error ? err.message : "Failed to load content",
++        );
++      }
++    };
++
++    load();
++    return () => { cancelled = true; };
++  }, [path, fetchContent, contentType]);
++
++  const handleSave = useCallback(async () => {
++    if (!frontmatter.title.trim()) {
++      setError("Title is required");
++      return;
++    }
++
++    setSaving(true);
++    setError(null);
++    setSaveStatus(null);
++
++    try {
++      const slug = sanitizeSlug(frontmatter.slug || frontmatter.title);
++      const date = frontmatter.date || new Date().toISOString().slice(0, 10);
++
++      const targetPath =
++        path && !isNew ? path : generateContentPath(contentType, slug, date);
++
++      const fmToSerialize: Record<string, any> = { ...frontmatter, slug };
++      if (contentType !== "reviews") {
++        delete fmToSerialize.rating;
++      }
++      // Clean empty optional fields
++      if (!fmToSerialize.heroImage) delete fmToSerialize.heroImage;
++      if (!fmToSerialize.heroImageAlt) delete fmToSerialize.heroImageAlt;
++
++      const content = serializeFrontmatter(fmToSerialize, body);
++      const action = isNew ? "Create" : "Update";
++      const message = `${action} ${contentType}: ${frontmatter.title}`;
++
++      await saveContent(targetPath, content, message, sha);
++      setIsNew(false);
++      setSaveStatus("Saved successfully");
++    } catch (err) {
++      setError(err instanceof Error ? err.message : "Failed to save");
++    } finally {
++      setSaving(false);
++    }
++  }, [frontmatter, body, path, isNew, sha, contentType, saveContent]);
++
++  const handleDelete = useCallback(async () => {
++    if (!path || !sha) return;
++    setShowDeleteConfirm(false);
++    setSaving(true);
++    setError(null);
++
++    try {
++      await deleteContent(path, sha, `Delete ${contentType}: ${frontmatter.title}`);
++      onBack();
++    } catch (err) {
++      setError(err instanceof Error ? err.message : "Failed to delete");
++      setSaving(false);
++    }
++  }, [path, sha, contentType, frontmatter.title, deleteContent, onBack]);
++
++  const handleImageInsert = useCallback((markdownImage: string) => {
++    setBody((prev) => prev + "\n" + markdownImage + "\n");
++  }, []);
++
++  const handleLoadDraft = useCallback((draft: Draft) => {
++    setFrontmatter({
++      ...DEFAULT_FRONTMATTER,
++      ...draft.frontmatter,
++    } as Frontmatter);
++    setBody(draft.content);
++  }, []);
++
++  return (
++    <div className="editor-container">
++      <div className="editor-header">
++        <h2>{isNew ? "New" : "Edit"} {contentType.slice(0, -1)}</h2>
++        <div className="editor-actions">
++          <button className="btn-cancel" onClick={onBack}>
++            Back
++          </button>
++          <DraftManager onLoad={handleLoadDraft} />
++          {!isNew && path && sha && (
++            <button
++              className="btn-delete"
++              onClick={() => setShowDeleteConfirm(true)}
++            >
++              Delete
++            </button>
++          )}
++          {saveStatus && <span className="save-status">{saveStatus}</span>}
++          {lastSaved && (
++            <span className="save-status" style={{ opacity: 0.6 }}>
++              Draft: {lastSaved.toLocaleTimeString()}
++            </span>
++          )}
++          <button
++            className="btn-save"
++            onClick={handleSave}
++            disabled={saving}
++          >
++            {saving ? "Saving..." : isNew ? "Create" : "Update"}
++          </button>
++        </div>
++      </div>
++
++      <div className="auth-warning" style={{ margin: "0", borderRadius: 0 }}>
++        main branch commit
++      </div>
++
++      {error && <div className="auth-error" style={{ margin: "1rem" }}><p>{error}</p></div>}
++
++      <div className="editor-content">
++        <div className="editor-section">
++          <h3>Metadata</h3>
++          <FrontmatterForm
++            frontmatter={frontmatter}
++            onChange={setFrontmatter}
++            contentType={contentType}
++          />
++          {contentType === "reviews" && (
++            <ReviewFields
++              rating={frontmatter.rating ?? 0}
++              onChange={(rating) =>
++                setFrontmatter((prev) => ({ ...prev, rating }))
++              }
++            />
++          )}
++        </div>
++
++        <div className="editor-section">
++          <h3>Content</h3>
++          <MarkdownEditor value={body} onChange={setBody} />
++        </div>
++
++        <div className="editor-section">
++          <h3>Images</h3>
++          <ImageUploader
++            onUpload={handleImageInsert}
++            contentType={contentType}
++            slug={frontmatter.slug || sanitizeSlug(frontmatter.title || "untitled")}
++            date={frontmatter.date || new Date().toISOString().slice(0, 10)}
++          />
++        </div>
++      </div>
++
++      <ConfirmDialog
++        isOpen={showDeleteConfirm}
++        title="Delete content"
++        message={`Are you sure you want to delete "${frontmatter.title}"? This cannot be undone.`}
++        confirmLabel="Delete"
++        onConfirm={handleDelete}
++        onCancel={() => setShowDeleteConfirm(false)}
++        danger
++      />
++    </div>
++  );
++}
+diff --git a/src/components/admin/views/ListView.tsx b/src/components/admin/views/ListView.tsx
+new file mode 100644
+index 0000000..ae8d8ff
+--- /dev/null
++++ b/src/components/admin/views/ListView.tsx
+@@ -0,0 +1,89 @@
++import { useState, useEffect, useCallback } from "react";
++import { useGitHubAPI } from "../hooks/useGitHub";
++import { parseContentPath, CONTENT_DIRS, type ContentType } from "../lib/content-paths";
++import ContentItem from "../components/ContentItem";
++
++interface ListViewProps {
++  onEdit: (path: string) => void;
++  onNew: (type: ContentType) => void;
++}
++
++const TABS: { key: ContentType; label: string }[] = [
++  { key: "posts", label: "Posts" },
++  { key: "notes", label: "Notes" },
++  { key: "reviews", label: "Reviews" },
++];
++
++export default function ListView({ onEdit, onNew }: ListViewProps) {
++  const { fetchTree, tree, loading, error } = useGitHubAPI();
++  const [activeTab, setActiveTab] = useState<ContentType>("posts");
++
++  useEffect(() => {
++    fetchTree();
++  }, []);
++
++  const filteredEntries = (tree ?? [])
++    .filter((entry) => {
++      const dir = CONTENT_DIRS[activeTab];
++      return entry.path.startsWith(dir + "/");
++    })
++    .filter((entry) => parseContentPath(entry.path) !== null)
++    .sort((a, b) => {
++      const parsedA = parseContentPath(a.path);
++      const parsedB = parseContentPath(b.path);
++      if (!parsedA || !parsedB) return 0;
++      return parsedB.date.localeCompare(parsedA.date);
++    });
++
++  return (
++    <div className="post-list">
++      <div className="post-list-header">
++        <div className="post-list-tabs">
++          {TABS.map((tab) => (
++            <button
++              key={tab.key}
++              className={`tab${activeTab === tab.key ? " active" : ""}`}
++              onClick={() => setActiveTab(tab.key)}
++            >
++              {tab.label}
++            </button>
++          ))}
++        </div>
++        <div className="post-list-actions">
++          <button className="btn-new" onClick={() => onNew(activeTab)}>
++            New
++          </button>
++          <button className="btn-refresh" onClick={fetchTree} disabled={loading}>
++            Refresh
++          </button>
++        </div>
++      </div>
++
++      <div className="post-list-content">
++        {loading && !tree && (
++          <div className="post-list-loading">Loading...</div>
++        )}
++
++        {!loading && error && (
++          <div className="post-list-empty">{error}</div>
++        )}
++
++        {!loading && !error && filteredEntries.length === 0 && (
++          <div className="post-list-empty">No content found.</div>
++        )}
++
++        {filteredEntries.length > 0 && (
++          <div className="post-list-items">
++            {filteredEntries.map((entry) => (
++              <ContentItem
++                key={entry.path}
++                path={entry.path}
++                onClick={() => onEdit(entry.path)}
++              />
++            ))}
++          </div>
++        )}
++      </div>
++    </div>
++  );
++}
+diff --git a/src/pages/admin.astro b/src/pages/admin.astro
+new file mode 100644
+index 0000000..9f42a3a
+--- /dev/null
++++ b/src/pages/admin.astro
+@@ -0,0 +1,18 @@
++---
++import Layout from '@/layouts/Layout.astro';
++import AdminApp from '@/components/admin/AdminApp';
++---
++
++<Layout title="Admin" description="Blog Admin CMS">
++  <div class="admin-page">
++    <AdminApp client:only="react" />
++  </div>
++</Layout>
++
++<script>
++  document.body.classList.add('admin-page-body');
++</script>
++
++<style lang="scss">
++  @use '@/styles/admin.scss';
++</style>
+diff --git a/src/utils/crypto.ts b/src/utils/crypto.ts
+index 805d365..cac8019 100644
+--- a/src/utils/crypto.ts
++++ b/src/utils/crypto.ts
+@@ -102,6 +102,26 @@ const getBrowserFingerprint = (): string => {
+   return fingerprint
+ }
+ 
++// Passphrase storage (in-memory only, never persisted)
++let _passphrase: string | null = null
++
++export const setPassphrase = (passphrase: string): void => {
++  _passphrase = passphrase
++}
++
++export const clearPassphrase = (): void => {
++  _passphrase = null
++}
++
++export const hasPassphrase = (): boolean => {
++  return _passphrase !== null
++}
++
++const getEncryptionKey = (): string => {
++  if (_passphrase) return _passphrase
++  return getBrowserFingerprint()
++}
++
+ /**
+  * 텍스트 암호화
+  * @param plaintext 암호화할 평문
+@@ -109,8 +129,7 @@ const getBrowserFingerprint = (): string => {
+  */
+ export const encrypt = async (plaintext: string): Promise<string> => {
+   try {
+-    const fingerprint = getBrowserFingerprint()
+-    const key = await deriveKey(fingerprint)
++    const key = await deriveKey(getEncryptionKey())
+ 
+     // 랜덤 IV 생성
+     const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH)) as StrictUint8Array
+@@ -145,8 +164,7 @@ export const encrypt = async (plaintext: string): Promise<string> => {
+  */
+ export const decrypt = async (ciphertext: string): Promise<string> => {
+   try {
+-    const fingerprint = getBrowserFingerprint()
+-    const key = await deriveKey(fingerprint)
++    const key = await deriveKey(getEncryptionKey())
+ 
+     // Base64 디코딩
+     const combined = base64ToBuffer(ciphertext)

@@ -104,6 +104,17 @@ const services: ServiceItem[] = [
     category: 'ai',
     post: '/posts/tokka-kakaotalk-analysis/',
   },
+  {
+    slug: 'https://jiun.dev/ai-horoscope/',
+    title: 'AI 운세 (제피로스)',
+    description: '매일 아침 AI 모델들의 운세를 전하는 디지털 무당 제피로스',
+    icon: '/images/services/ai-horoscope.png',
+    iconType: 'image',
+    tags: ['Python', 'Gemini API', 'GitHub Pages', 'Gitea Actions'],
+    status: 'live',
+    category: 'ai',
+    github: 'https://github.com/jiunbae/ai-horoscope',
+  },
 ]
 
 export const categories = {
