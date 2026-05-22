@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="330 default dark profile">
+  <rect width="512" height="512" fill="#101114"/>
+  <g fill="#f7f6f1">
+    <circle cx="138" cy="188" r="19"/>
+    <circle cx="138" cy="256" r="19"/>
+    <circle cx="138" cy="324" r="19"/>
+    <circle cx="195" cy="188" r="19"/>
+    <circle cx="195" cy="256" r="19"/>
+    <circle cx="195" cy="324" r="19"/>
+  </g>
+  <circle cx="324" cy="256" r="54" fill="none" stroke="#f7f6f1" stroke-width="35"/>
+</svg>
