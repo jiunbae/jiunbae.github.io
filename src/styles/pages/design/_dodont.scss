@@ -1,0 +1,55 @@
+@use '../../abstracts' as *;
+
+/* ===== Do / Don't ===== */
+.cv-do-dont {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-6);
+
+  @include belowMobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cv-do,
+.cv-dont {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* .cv-do-mark / .cv-dont-mark는 <Badge tone="success|error" weight="solid">로 이전됨 */
+
+.cv-do .cv-code,
+.cv-dont .cv-code {
+  margin: 0;
+}
+
+.cv-do-cap {
+  font-size: rem(13px);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: none;
+}
+
+.cv-link {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--text-link) 30%, transparent);
+  text-underline-offset: 2px;
+  transition: text-decoration-color var(--duration-base) var(--easing-standard);
+
+  &:hover {
+    text-decoration-color: var(--text-link);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+

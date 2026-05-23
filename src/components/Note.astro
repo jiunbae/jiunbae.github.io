@@ -1,0 +1,81 @@
+---
+/*
+ * Note — 글 안에서 별도 시선을 받는 단락.
+ *
+ * variant:
+ *   - info    : accent 색 dot
+ *   - caution : warning 색 dot
+ *   - issue   : error 색 dot
+ *
+ * 좌측 라벨 컬럼 + 우측 본문의 로그 엔트리 스타일.
+ */
+type Variant = 'info' | 'caution' | 'issue';
+
+interface Props {
+  variant?: Variant;
+  label?: string;
+}
+
+const { variant = 'info', label } = Astro.props;
+const defaultLabels: Record<Variant, string> = {
+  info: 'info',
+  caution: 'caution',
+  issue: 'issue',
+};
+const displayLabel = label ?? defaultLabels[variant];
+---
+
+<aside class={`note note-${variant}`}>
+  <span class="note-mark">{displayLabel}</span>
+  <div class="note-body"><slot /></div>
+</aside>
+
+<style lang="scss">
+  @use '../styles/abstracts' as *;
+
+  .note {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: baseline;
+    gap: var(--space-4);
+    padding: var(--space-1) 0;
+
+    .note-body p {
+      font-size: rem(14px);
+      font-weight: 500;
+      line-height: 1.55;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    @include belowMobile {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+  }
+
+  .note-mark {
+    font-family: var(--font-mono);
+    font-size: rem(11px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+
+    &::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+  }
+
+  .note-info  .note-mark { color: var(--accent-default); }
+  .note-caution  .note-mark { color: var(--state-warning); }
+  .note-issue .note-mark { color: var(--state-error); }
+</style>

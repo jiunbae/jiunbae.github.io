@@ -1,0 +1,45 @@
+---
+import SectionMark from '@/components/SectionMark.astro';
+import FocusDemo from '@/components/FocusDemo.astro';
+import DemoFrame from '@/components/DemoFrame.astro';
+
+const contrastRows = [
+  { token: '--text-primary', hex: '#121212', ratio: '18.9:1', wcag: 'AAA' },
+  { token: '--text-secondary', hex: '#3f3f3f', ratio: '10.4:1', wcag: 'AAA' },
+  { token: '--text-muted', hex: '#575757', ratio: '7.0:1', wcag: 'AAA' },
+  { token: '--text-disabled', hex: '#666666', ratio: '5.7:1', wcag: 'AA' },
+  { token: '--accent-default', hex: '#2563EB', ratio: '5.2:1', wcag: 'AA' },
+];
+---
+
+<section id="cv-05" class="cv-section">
+  <SectionMark num="05" label="Accessibility" />
+  <h2>모두에게 명세된 것.</h2>
+  <p>
+    대비, 포커스, 모션 — 접근성은 따로 떨어진 항목이 아니라 모든 토큰에 박혀 있는 약속입니다.
+  </p>
+
+  <h3 class="cv-sub">Contrast — 흰 배경 위 대비비</h3>
+  <table class="cv-table">
+    <thead><tr><th scope="col">Token</th><th scope="col">Ratio</th><th scope="col">WCAG</th></tr></thead>
+    <tbody>
+    {contrastRows.map(r => (
+      <tr><td><code>{r.token}</code> · {r.hex}</td><td>{r.ratio}</td><td>{r.wcag}</td></tr>
+    ))}
+    </tbody>
+  </table>
+
+  <h3 class="cv-sub">Focus ring</h3>
+  <DemoFrame layout="row" gap="md" align="center" stackOnMobile>
+    <FocusDemo kind="button" variant="primary" size="md">Focused</FocusDemo>
+    <span class="cv-focus-desc"><code>--shadow-focus-ring</code> · 3px primary 30% alpha</span>
+  </DemoFrame>
+
+  <h3 class="cv-sub">Reduced motion</h3>
+  <DemoFrame>
+    <p class="cv-axe">
+      <code>prefers-reduced-motion</code>이 설정된 사용자에겐 transition과 transform 애니메이션을
+      자동으로 축소합니다. 모든 motion 토큰은 reduced 환경에서 0ms로 폴백할 수 있도록 디자인.
+    </p>
+  </DemoFrame>
+</section>

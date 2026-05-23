@@ -1,0 +1,326 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import SectionMark from '@/components/SectionMark.astro';
+import Badge from '@/components/Badge.astro';
+---
+
+<Layout
+  title="Voice — Design System"
+  description="블로그 카피의 톤과 한글·영문 혼용 원칙."
+>
+  <div class="vo">
+    <header class="vo-head">
+      <p class="vo-back"><a href="/design">← Design System</a></p>
+      <p class="vo-eyebrow">Voice</p>
+      <h1 class="vo-title">읽히는 방식.</h1>
+      <p class="vo-lede">
+        디자인은 보이는 결정 + 읽히는 결정. 이 블로그가 쓰는 톤과 한글·영문 혼용 규칙을 정리.
+      </p>
+    </header>
+
+    <section class="vo-section">
+      <SectionMark num="01" label="Observer" />
+      <h2 class="vo-h2">관찰자의 시점.</h2>
+      <p class="vo-body">
+        "내가 X를 만들었다"보다 "X를 만들다가 Y를 발견했다". 결과보다 과정, 결정보다 관찰을 쓴다.
+        독자가 같은 길을 따라올 수 있도록.
+      </p>
+
+      <div class="vo-compare">
+        <div class="vo-do">
+          <Badge tone="success" weight="solid">Do</Badge>
+          <p>"색 한 톤을 바꾸려다 결국 토큰 레이어 전체를 다시 정리했습니다."</p>
+        </div>
+        <div class="vo-dont">
+          <Badge tone="error" weight="solid">Don't</Badge>
+          <p>"완벽한 디자인 시스템을 구축했습니다."</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="vo-section">
+      <SectionMark num="02" label="KR + EN" />
+      <h2 class="vo-h2">한글 우선, 영문은 단어로.</h2>
+      <p class="vo-body">
+        문장의 뼈대는 한글, 토큰명·라이브러리·기술 용어는 영문. 한글로 음차하지 않는다.
+        "토큰"은 한글, <code class="vo-code">--text-primary</code>는 영문 그대로.
+      </p>
+
+      <div class="vo-compare">
+        <div class="vo-do">
+          <Badge tone="success" weight="solid">Do</Badge>
+          <p>"이전 primary는 <code class="vo-code">#64B5F6</code>로 대비가 부족했습니다."</p>
+        </div>
+        <div class="vo-dont">
+          <Badge tone="error" weight="solid">Don't</Badge>
+          <p>"이전 프라이머리는 #64B5F6로 컨트라스트가 부족했습니다."</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="vo-section">
+      <SectionMark num="03" label="Numbers" />
+      <h2 class="vo-h2">수치를 보여준다.</h2>
+      <p class="vo-body">
+        "흐릿했다" 대신 "대비비 2.4:1, AA 기준 4.5:1 미달". 주관 평가 대신 객관 지표.
+        수치가 곧 결정의 근거가 된다.
+      </p>
+
+      <div class="vo-compare">
+        <div class="vo-do">
+          <Badge tone="success" weight="solid">Do</Badge>
+          <p>"대비비 2.4:1 → 5.2:1로 보강해 WCAG AA 통과."</p>
+        </div>
+        <div class="vo-dont">
+          <Badge tone="error" weight="solid">Don't</Badge>
+          <p>"좀 더 잘 보이도록 색을 조정했습니다."</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="vo-section">
+      <SectionMark num="04" label="Short" />
+      <h2 class="vo-h2">한 문장 짧게.</h2>
+      <p class="vo-body">
+        쉼표로 늘어진 문장보다 마침표로 끊은 두 문장. 짧은 문장이 한글에 더 잘 맞고, 모바일에서 더 잘 읽힌다.
+      </p>
+
+      <div class="vo-compare">
+        <div class="vo-do">
+          <Badge tone="success" weight="solid">Do</Badge>
+          <p>"Body weight를 500으로 올렸습니다. 한글이 14~17px에서 또렷해집니다."</p>
+        </div>
+        <div class="vo-dont">
+          <Badge tone="error" weight="solid">Don't</Badge>
+          <p>"Body weight를 500으로 올린 결과, 한글이 14~17px 범위에서 더 또렷하게 보이게 됐다는 것을 확인할 수 있었습니다."</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="vo-section">
+      <SectionMark num="05" label="Code Inline" />
+      <h2 class="vo-h2">코드와 산문 사이.</h2>
+      <p class="vo-body">
+        파일 경로, 변수명, 토큰명은 인라인 코드(<code class="vo-code">--font-mono</code>)로.
+        실행되는 코드는 코드 블록으로. 본문에 hex 값 같은 상수가 등장하면 코드 표기.
+      </p>
+
+      <div class="vo-format">
+        <span class="vo-format-label">Inline code</span>
+        <p>본문 안에서 <code class="vo-code">var(--text-primary)</code>나 <code class="vo-code">src/styles/base/_tokens.scss</code>를 지칭.</p>
+      </div>
+    </section>
+
+    <section class="vo-section">
+      <SectionMark num="06" label="Humor" />
+      <h2 class="vo-h2">유머는 한 줄에 한 번.</h2>
+      <p class="vo-body">
+        기술 글이라고 건조하지 않아도 된다. 다만 농담은 한 단락에 한 번 이하 — 신호 대비 잡음이 늘어나면
+        독자가 정작 중요한 부분을 놓친다.
+      </p>
+    </section>
+
+    <section class="vo-section">
+      <SectionMark num="07" label="Personal" />
+      <h2 class="vo-h2">개인 단수, 결론은 보류.</h2>
+      <p class="vo-body">
+        "우리"보다 "나/제가", "그래야 합니다"보다 "이번엔 그렇게 정했습니다". 한 사람의 경험이라고
+        명시한다. 단정은 미루고, 다음 버전에 뒤집을 여지를 남긴다.
+      </p>
+    </section>
+
+    <section class="vo-section">
+      <SectionMark num="08" label="UI Labels" />
+      <h2 class="vo-h2">UI 라벨은 짧고 영문 우선.</h2>
+      <p class="vo-body">
+        화면 위 버튼/링크/네비게이션 라벨은 한글 산문과 다른 규칙으로 동작합니다.
+        짧고 익숙한 영문 동사(Copy, Skip, Detail, On this page)를 우선합니다.
+        반대로 콘텐츠성 라벨(변경 기록, 함께 보면 좋은)은 한글로.
+      </p>
+
+      <div class="vo-compare">
+        <div class="vo-do">
+          <Badge tone="success" weight="solid">Do</Badge>
+          <p>"Copy", "Skip to main content", "On this page", "Detail →"</p>
+        </div>
+        <div class="vo-dont">
+          <Badge tone="error" weight="solid">Don't</Badge>
+          <p>"복사하기", "본문으로 건너뛰기", "현재 페이지에서", "자세히 보기 →"</p>
+        </div>
+      </div>
+
+      <div class="vo-format vo-policy">
+        <span class="vo-format-label">Policy — 이 페이지가 그 예시</span>
+        <p>
+          이 페이지의 메타 라벨(<code class="vo-code">Voice</code>, <code class="vo-code">Do</code>,
+          <code class="vo-code">Don't</code>, <code class="vo-code">Policy</code>)이 영문인 이유.
+          UI 시스템 어휘는 짧고 표준화된 코드처럼 다루고, 본문은 한글로 풀어 씁니다.
+          섹션 번호와 본문은 한글, 분류 태그는 영문 — 둘 다 같은 페이지에서 공존.
+        </p>
+      </div>
+    </section>
+
+    <footer class="vo-foot">
+      <p>이 가이드는 카피 작성 시 참조용입니다. 모든 규칙은 깰 수 있되, 이유가 있어야 합니다.</p>
+    </footer>
+  </div>
+</Layout>
+
+<style lang="scss">
+  @use '../../styles/abstracts' as *;
+
+  .vo {
+    max-width: var(--container-doc);
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-6) var(--space-20);
+    color: var(--text-primary);
+  }
+
+  .vo-head {
+    margin: 0 0 var(--space-16);
+  }
+
+  .vo-back {
+    margin: 0 0 var(--space-8);
+
+    a {
+      font-family: var(--font-mono);
+      font-size: rem(12px);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+
+      &:hover { color: var(--accent-default); }
+    }
+  }
+
+  .vo-eyebrow {
+    font-family: var(--font-mono);
+    font-size: rem(12px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-default);
+    margin: 0 0 var(--space-3);
+  }
+
+  .vo-title {
+    @include display-2;
+    margin: 0 0 var(--space-4);
+  }
+
+  .vo-lede {
+    @include body-lg;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 540px;
+  }
+
+  .vo-section {
+    margin: 0 0 var(--space-12);
+    padding: var(--space-8) 0;
+    border-top: 1px solid var(--border-default);
+  }
+
+  /* .vo-num은 <SectionMark>로 이전됨 */
+
+  .vo-h2 {
+    @include heading-1;
+    margin: 0 0 var(--space-4);
+  }
+
+  .vo-body {
+    @include body;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-6);
+    max-width: 580px;
+  }
+
+  .vo-do,
+  .vo-dont,
+  .vo-format {
+    p {
+      @include body-sm;
+      color: var(--text-primary);
+      margin: 0;
+    }
+  }
+
+  .vo-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+
+    @include belowMobile { grid-template-columns: 1fr; }
+  }
+
+  .vo-do,
+  .vo-dont {
+    padding: var(--space-4);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  /* .vo-mark / .vo-mark-do / .vo-mark-dont는 <Badge tone="success|error" weight="solid">로 이전됨 */
+  .vo-do > :global(.badge),
+  .vo-dont > :global(.badge) {
+    margin-bottom: var(--space-3);
+  }
+
+  .vo-format {
+    padding: var(--space-4);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+  }
+
+  .vo-format-label {
+    font-family: var(--font-mono);
+    font-size: rem(11px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    display: block;
+    margin: 0 0 var(--space-2);
+  }
+
+  .vo-code {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+    font-weight: 600;
+    background: var(--surface-subtle);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--text-primary);
+  }
+
+  .vo-foot {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-default);
+
+    p {
+      @include caption;
+      color: var(--text-muted);
+      margin: 0;
+    }
+  }
+
+  /* forced-colors fallback */
+  @media (forced-colors: active) {
+    .vo-back a:focus-visible,
+    .vo-link:focus-visible {
+      outline: 2px solid CanvasText;
+      outline-offset: 2px;
+    }
+    .vo-do,
+    .vo-dont,
+    .vo-format {
+      forced-color-adjust: none;
+      border-color: CanvasText;
+    }
+  }
+</style>

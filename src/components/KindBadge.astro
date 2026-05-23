@@ -1,0 +1,37 @@
+---
+/*
+ * KindBadge — Changelog 변경 종류용 Badge 프리셋.
+ *
+ * Badge primitive를 그대로 쓰되, Keep-a-Changelog 어휘를 tone에 매핑.
+ * 새 페이지에서 같은 카테고리를 다루려면 이 매핑을 재사용하세요.
+ */
+import Badge from './Badge.astro';
+
+export type Kind = 'added' | 'changed' | 'removed' | 'fixed' | 'a11y';
+type Tone = 'success' | 'accent' | 'error' | 'warning' | 'info';
+
+interface Props {
+  kind: Kind;
+  label?: string;
+}
+
+const { kind, label } = Astro.props;
+
+const toneOf: Record<Kind, Tone> = {
+  added: 'success',
+  changed: 'accent',
+  removed: 'error',
+  fixed: 'warning',
+  a11y: 'info',
+};
+const defaultLabels: Record<Kind, string> = {
+  added: 'Added',
+  changed: 'Changed',
+  removed: 'Removed',
+  fixed: 'Fixed',
+  a11y: 'A11y',
+};
+const display = label ?? defaultLabels[kind];
+---
+
+<Badge tone={toneOf[kind]}>{display}</Badge>

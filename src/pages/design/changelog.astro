@@ -1,0 +1,244 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import KindBadge from '@/components/KindBadge.astro';
+import type { Kind } from '@/components/KindBadge.astro';
+import StatusBadge from '@/components/StatusBadge.astro';
+import type { Status } from '@/components/StatusBadge.astro';
+import { designMeta } from '@/components/design/_meta';
+
+const releases = [
+  {
+    version: 'v0.1',
+    date: '2026.05.22',
+    status: 'Current',
+    summary: '디자인 시스템 첫 버전. 토큰 레이어와 핵심 컴포넌트를 정리.',
+    changes: [
+      { kind: 'added', text: 'Primitive + Semantic 2-레이어 토큰 체계 (text, surface, border, accent)' },
+      { kind: 'added', text: 'Foundation 토큰 — space(11), radius(6), shadow(5), motion(4d+4e), z-index(7)' },
+      { kind: 'added', text: 'Typography 9단계 스케일 (display/heading/body/caption/label/code)' },
+      { kind: 'added', text: 'Pretendard + Fira Code 폰트 패밀리 토큰화' },
+      { kind: 'added', text: 'Chip / Button / PostCard / Note 4개 공유 컴포넌트' },
+      { kind: 'added', text: 'State 컬러 (success/warning/error/info) + bg 변형' },
+      { kind: 'added', text: '/design 매거진 표지 스타일 spec doc' },
+      { kind: 'changed', text: 'Primary 색을 #64B5F6 → #2563EB로 변경 (대비비 2.4:1 → 5.2:1, WCAG AA pass)' },
+      { kind: 'changed', text: 'Body weight 400 → 500 (한글 가독성 강화)' },
+      { kind: 'changed', text: '의미 토큰을 color-mix()로 텍스트 색에서 파생하는 패턴 도입' },
+      { kind: 'a11y', text: 'WCAG AA 대비비 검증, focus-visible ring 토큰화' },
+      { kind: 'a11y', text: 'prefers-reduced-motion 전역 처리' },
+    ],
+  },
+];
+
+/* Kind 라벨은 KindBadge 컴포넌트로 이전됨 — Kind 타입은 KindBadge에서 import */
+---
+
+<Layout
+  title="Changelog — Design System"
+  description="디자인 시스템 버전별 변경 기록."
+>
+  <div class="cl">
+    <header class="cl-head">
+      <p class="cl-back"><a href="/design">← Design System</a></p>
+      <p class="cl-eyebrow">Changelog</p>
+      <h1 class="cl-title">변경 기록</h1>
+      <p class="cl-lede">
+        {designMeta.version}, 토큰 {designMeta.tokenCount}개, 컴포넌트 {designMeta.componentCount}개부터. 다음 발행본은 여기서 추가됩니다.
+      </p>
+    </header>
+
+    {releases.map(release => (
+      <section class="cl-release">
+        <header class="cl-release-head">
+          <div class="cl-version">
+            <h2>{release.version}</h2>
+            <StatusBadge status={release.status as Status} />
+          </div>
+          <time class="cl-date" datetime={release.date.replace(/\./g, '-')}>{release.date}</time>
+        </header>
+
+        <p class="cl-summary">{release.summary}</p>
+
+        <ul class="cl-changes">
+          {release.changes.map(c => (
+            <li class="cl-change">
+              <KindBadge kind={c.kind as Kind} />
+              <span class="cl-text">{c.text}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <footer class="cl-foot">
+      <p>변경 제안은 <a href="https://github.com/jiunbae/jiunbae.github.io" class="cl-link">GitHub</a>에서 받습니다.</p>
+    </footer>
+  </div>
+</Layout>
+
+<style lang="scss">
+  @use '../../styles/abstracts' as *;
+
+  .cl {
+    max-width: var(--container-doc);
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-6) var(--space-20);
+    color: var(--text-primary);
+  }
+
+  .cl-head {
+    margin: 0 0 var(--space-16);
+  }
+
+  .cl-back {
+    margin: 0 0 var(--space-8);
+
+    a {
+      font-family: var(--font-mono);
+      font-size: rem(12px);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color var(--duration-base) var(--easing-standard);
+
+      &:hover { color: var(--accent-default); }
+    }
+  }
+
+  .cl-eyebrow {
+    font-family: var(--font-mono);
+    font-size: rem(12px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-default);
+    margin: 0 0 var(--space-3);
+  }
+
+  .cl-title {
+    @include display-2;
+    margin: 0 0 var(--space-4);
+  }
+
+  .cl-lede {
+    @include body-lg;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 560px;
+  }
+
+  .cl-release {
+    padding: var(--space-8) 0;
+    border-top: 1px solid var(--border-default);
+  }
+
+  .cl-release-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 0 0 var(--space-4);
+  }
+
+  .cl-version {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-3);
+
+    h2 {
+      font-family: var(--font-mono);
+      font-size: rem(24px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--text-primary);
+    }
+  }
+
+  /* .cl-status는 <StatusBadge>로 이전됨 */
+
+  .cl-date {
+    font-family: var(--font-mono);
+    font-size: rem(12px);
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .cl-summary {
+    @include body;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-6);
+  }
+
+  .cl-changes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .cl-change {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding: var(--space-2) 0;
+    border-top: 1px dashed var(--border-subtle);
+
+    @include belowMobile {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+  }
+
+  /* .cl-kind / .cl-change-* 색상 분기는 <KindBadge>로 이전됨 */
+
+  /* Badge primitive 실제 클래스는 .badge — KindBadge wrapper도 같은 클래스 사용 */
+  .cl-change > :global(.badge) {
+    justify-self: start;
+    align-self: center;
+  }
+
+  .cl-text {
+    @include body-sm;
+    color: var(--text-primary);
+  }
+
+  .cl-foot {
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-default);
+
+    p {
+      @include caption;
+      color: var(--text-muted);
+      margin: 0;
+    }
+  }
+
+  .cl-link {
+    color: var(--text-link);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--text-link) 30%, transparent);
+    text-underline-offset: 2px;
+
+    &:hover { text-decoration-color: var(--text-link); }
+
+    &:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+  }
+
+  /* forced-colors fallback */
+  @media (forced-colors: active) {
+    .cl-back a:focus-visible,
+    .cl-link:focus-visible {
+      outline: 2px solid CanvasText;
+      outline-offset: 2px;
+    }
+  }
+</style>

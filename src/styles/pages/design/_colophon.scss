@@ -1,0 +1,39 @@
+@use '../../abstracts' as *;
+
+/* ===== Colophon links ===== */
+.cv-colophon-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed currentColor;
+  transition: color var(--duration-base) var(--easing-standard);
+
+  &:hover { color: var(--accent-default); }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* cv-status / cv-status-beta / cv-status-deprecated는 <StatusBadge>로 이전됨.
+ * h3 본문 안에 인라인으로 들어가는 상태 뱃지에 미세 정렬만 부여. */
+.cv-sub > :global(.badge) {
+  margin: 0 var(--space-1);
+  vertical-align: 2px;
+}
+
+/* ===== Colophon ===== */
+.cv-colophon {
+  margin-top: var(--space-12);
+  padding-top: var(--space-4);
+  border-top: 2px solid var(--text-primary);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: rem(11px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}

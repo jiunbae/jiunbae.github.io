@@ -1,0 +1,89 @@
+---
+/*
+ * DemoFrame — 디자인 시스템 페이지의 데모 컨테이너.
+ *
+ * 왜 필요한가:
+ *   페이지 안에서 컴포넌트 데모를 둘러싸는 "raised + bordered + padded" 박스가
+ *   5곳에서 거의 같은 CSS로 중복(cv-buttons / cv-chips / cv-notes /
+ *   cv-focus-demo / cv-content-demo). DemoFrame 한 곳에서 chrome을 정의하고
+ *   layout/gap만 prop으로 분기합니다.
+ *
+ * Props:
+ *   layout: 'block' | 'wrap' | 'col' | 'row'
+ *   gap: 'sm' | 'md' | 'lg'
+ *   align: 'start' | 'center' | 'baseline'  // row/col에서만 의미
+ *   stackOnMobile: boolean                    // row → col, $mobile 이하에서
+ */
+type Layout = 'block' | 'wrap' | 'col' | 'row';
+type Gap = 'sm' | 'md' | 'lg';
+type Align = 'start' | 'center' | 'baseline';
+
+interface Props {
+  layout?: Layout;
+  gap?: Gap;
+  align?: Align;
+  stackOnMobile?: boolean;
+  class?: string;
+}
+
+const {
+  layout = 'block',
+  gap = 'md',
+  align = 'start',
+  stackOnMobile = false,
+  class: className = '',
+} = Astro.props;
+
+const classes = [
+  'demo-frame',
+  `demo-frame-${layout}`,
+  `demo-frame-gap-${gap}`,
+  layout !== 'block' && layout !== 'wrap' ? `demo-frame-align-${align}` : '',
+  stackOnMobile ? 'demo-frame-stack-mobile' : '',
+  className,
+].filter(Boolean).join(' ');
+---
+
+<div class={classes}><slot /></div>
+
+<style lang="scss" is:global>
+  @use '../styles/abstracts' as *;
+
+  .demo-frame {
+    padding: var(--space-5);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    margin: 0 0 var(--space-4);
+  }
+
+  .demo-frame-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .demo-frame-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .demo-frame-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .demo-frame-align-start    { align-items: flex-start; }
+  .demo-frame-align-center   { align-items: center; }
+  .demo-frame-align-baseline { align-items: baseline; }
+
+  .demo-frame-gap-sm { gap: var(--space-2); }
+  .demo-frame-gap-md { gap: var(--space-4); }
+  .demo-frame-gap-lg { gap: var(--space-5); }
+
+  .demo-frame-stack-mobile {
+    @include belowMobile {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

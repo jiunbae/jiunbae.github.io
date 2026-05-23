@@ -1,0 +1,50 @@
+---
+/*
+ * SectionMark — 디자인 시스템 페이지 섹션 헤더의 mono eyebrow.
+ *
+ * 이전엔 `<div class="cv-section-mark"><span class="cv-section-num">01</span>...`
+ * 패턴이 design.astro에 6번, [name].astro에 9번 중복. 같은 시각 contract를
+ * 한 컴포넌트로 모읍니다.
+ *
+ * Props:
+ *   num   : '01' 같은 시리얼 (string으로 받음 — 패딩 처리는 부모 책임)
+ *   label : 'Color' 같은 카테고리
+ *   tone  : 'page' (기본, design.astro) | 'component' ([name].astro)
+ */
+interface Props {
+  num: string;
+  label: string;
+  tone?: 'page' | 'component';
+}
+
+const { num, label, tone = 'page' } = Astro.props;
+---
+
+<div class={`section-mark section-mark-${tone}`}>
+  <span class="section-mark-num">{num}</span>
+  <span class="section-mark-label">{label}</span>
+</div>
+
+<style lang="scss" is:global>
+  @use '../styles/abstracts' as *;
+
+  .section-mark {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-3);
+  }
+
+  .section-mark-num,
+  .section-mark-label {
+    @include eyebrow;
+  }
+
+  .section-mark-num {
+    color: var(--accent-default);
+  }
+
+  .section-mark-label {
+    color: var(--text-muted);
+  }
+</style>

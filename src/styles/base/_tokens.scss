@@ -1,0 +1,144 @@
+/*
+ * Design Tokens
+ *
+ * 두 레이어로 구성:
+ *   1. Primitive (_global.scss)  — gray-1~6, primary-c1/c2, backgrounds
+ *   2. Semantic (이 파일)        — text-*, surface-*, border-*, accent-*, state-*
+ *
+ * 컴포넌트는 가능한 한 semantic 토큰만 사용. primitive 직접 사용은 토큰 정의 안에서만.
+ */
+
+:root {
+  /* ===== Semantic — Text (primitive 직접 참조) ===== */
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-700);
+  --text-muted: var(--neutral-600);
+  --text-disabled: var(--neutral-500);
+  --text-on-accent: var(--neutral-0);
+  --text-link: var(--primary-c1);
+
+  /* ===== Semantic — Surface (semantic 자기참조로 자동 다크 대응) ===== */
+  --surface-base: var(--background);                                          /* 페이지 배경 */
+  --surface-raised: var(--article-background);                                /* 카드, 아티클 */
+  --surface-overlay: var(--background);                                       /* 모달, 팝오버 (dark에서 재정의) */
+  --surface-subtle: color-mix(in srgb, var(--text-primary) 3%, transparent);  /* 코드블록, 줄무늬 */
+  --surface-hover: color-mix(in srgb, var(--text-primary) 5%, transparent);
+  --surface-active: color-mix(in srgb, var(--text-primary) 8%, transparent);
+
+  /* ===== Semantic — Border (semantic 자기참조) ===== */
+  --border-subtle: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  --border-default: color-mix(in srgb, var(--text-primary) 14%, transparent);
+  --border-strong: color-mix(in srgb, var(--text-primary) 25%, transparent);
+  --border-focus: var(--primary-c1);
+  --border-width: 1px;
+  --border-width-thick: 2px;
+
+  /* ===== Semantic — Accent (primitive 참조) ===== */
+  --accent-default: var(--primary-c1);
+  --accent-hover: var(--blue-700);
+  --accent-pressed: var(--blue-800);
+  --accent-muted: color-mix(in srgb, var(--primary-c1) 14%, transparent);
+  --accent-subtle: color-mix(in srgb, var(--primary-c1) 6%, transparent);
+
+  /* ===== Semantic — State (primitive 참조) ===== */
+  --state-success: var(--green-500);
+  --state-success-bg: color-mix(in srgb, var(--green-500) 12%, transparent);
+  --state-warning: var(--orange-500);
+  --state-warning-bg: color-mix(in srgb, var(--orange-500) 12%, transparent);
+  --state-error: var(--red-500);
+  --state-error-bg: color-mix(in srgb, var(--red-500) 12%, transparent);
+  --state-info: var(--primary-c1);
+  --state-info-bg: var(--accent-muted);
+
+  /* ===== Font families ===== */
+  --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', 'SF Mono', 'Cascadia Code', Consolas, Menlo, Monaco, ui-monospace, monospace;
+
+  /* ===== Spacing (4px base + micro steps for hairline UI) ===== */
+  --space-px: 1px;
+  --space-0_5: 2px;   /* hairline gap, micro padding */
+  --space-0_75: 3px;  /* radius-sm 짝 — eyebrow/badge 내부 패딩 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ===== Border radius — 더 또렷한 인상 위해 한 단계씩 줄임 ===== */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 20px;
+  --radius-pill: 9999px;
+
+  /* ===== Shadow ===== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.20);
+  --shadow-focus-ring: 0 0 0 3px color-mix(in srgb, var(--primary-c1) 30%, transparent);
+
+  /* ===== Motion ===== */
+  --duration-fast: 100ms;
+  --duration-base: 150ms;
+  --duration-slow: 250ms;
+  --duration-slower: 400ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);     /* Material 표준 */
+  --easing-emphasized: cubic-bezier(0.16, 1, 0.3, 1);  /* spring-like, 모달/시트 진입 */
+  --easing-decelerate: cubic-bezier(0, 0, 0.2, 1);     /* 진입 (밖→안) */
+  --easing-accelerate: cubic-bezier(0.4, 0, 1, 1);     /* 퇴장 (안→밖) */
+
+  /* ===== Layout containers / breakpoints =====
+   * 페이지가 자기 너비/sidenav 폭을 가지지 않게, 의미 있는 이름으로 한 곳에 모음.
+   */
+  --container-spec: 1080px;     /* 디자인 시스템 spec page 본문 폭 */
+  --container-doc: 720px;       /* 일반 문서/콘텐츠 폭 */
+  --container-reading: 660px;   /* 본문 읽기 폭 (블로그 글) */
+  --sidenav-width: 160px;       /* design.astro 좌측 sidenav 본문 */
+  --sidenav-gutter: 200px;      /* 컨테이너 가장자리로부터 sidenav center까지 */
+  --toc-width: 180px;           /* [name].astro 우측 in-page TOC */
+  --toc-gutter: 220px;          /* TOC와 본문 사이 gutter */
+  --bp-mobile: 480px;
+  --bp-tablet: 768px;
+  --bp-desktop: 1024px;
+  --bp-sidenav: 1280px;         /* design.astro sidenav 등장 지점 */
+  --bp-toc: 1100px;             /* [name].astro TOC 등장 지점 */
+  --bp-wide: 1440px;
+
+  /* ===== Z-index ===== */
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-toast: 70;
+  --z-tooltip: 80;
+}
+
+[data-theme='dark'] {
+  /* Dark에서 다르게 잡아야 하는 의미 토큰만 재정의 (primitive 참조) */
+  --text-primary: var(--neutral-0);
+  --text-secondary: var(--neutral-200);
+  --text-muted: var(--neutral-300);
+  --text-disabled: var(--neutral-400);
+  --surface-overlay: #2a2a2a;
+  --text-on-accent: var(--neutral-900);   /* 다크 primary(연한 파랑) 위에는 어두운 텍스트 */
+  --accent-hover: var(--blue-300);        /* 다크에선 더 밝게 인터랙션 강조 */
+  --accent-pressed: var(--blue-200);
+
+  /* Shadow는 다크에서 약간 더 강하게 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.55);
+}

@@ -1,0 +1,107 @@
+---
+import SectionMark from '@/components/SectionMark.astro';
+import Badge from '@/components/Badge.astro';
+
+const primarySwatches = [
+  { hex: '#2563EB', label: 'Light' },
+  { hex: '#60A5FA', label: 'Dark' },
+  { hex: '#3B82F6', label: 'Secondary' },
+];
+
+const stateSwatches = [
+  { token: '--state-success', hex: '#10B981' },
+  { token: '--state-warning', hex: '#F59E0B' },
+  { token: '--state-error', hex: '#EF4444' },
+];
+
+const stateBgSwatches = [
+  { token: '--state-success-bg', note: '12% tint' },
+  { token: '--state-warning-bg', note: '12% tint' },
+  { token: '--state-error-bg', note: '12% tint' },
+  { token: '--state-info-bg', note: 'primary 14%' },
+];
+
+const semanticGroups = [
+  { group: 'text', items: ['primary','secondary','muted','disabled','on-accent','link'] },
+  { group: 'surface', items: ['base','raised','overlay','subtle','hover','active'] },
+  { group: 'border', items: ['subtle','default','strong','focus'] },
+  { group: 'accent', items: ['default','hover','pressed','muted','subtle'] },
+];
+---
+
+<section id="cv-01" class="cv-section">
+  <SectionMark num="01" label="Color" />
+  <h2>색은 의미를 말한다.</h2>
+  <p>
+    Primary <code>#2563EB</code> (Tailwind Blue 600). 흰 배경 위 대비 5.2:1로 WCAG AA 통과.
+    다크는 반대로 <code>#60A5FA</code>. Surface와 border용 옅은 톤은 별도 정의 없이
+    <code>color-mix</code>로 텍스트 색에서 파생.
+  </p>
+
+  <h3 class="cv-sub">Primary</h3>
+  <div class="cv-swatches">
+    {primarySwatches.map(s => (
+      <div class="cv-swatch">
+        <span style={`background:${s.hex}`} aria-hidden="true"></span>
+        <b>{s.hex}</b> {s.label}
+      </div>
+    ))}
+  </div>
+
+  <h3 class="cv-sub">State</h3>
+  <div class="cv-swatches">
+    {stateSwatches.map(s => (
+      <div class="cv-swatch">
+        <span style={`background: var(${s.token})`} aria-hidden="true"></span>
+        <b>{s.token}</b> {s.hex}
+      </div>
+    ))}
+  </div>
+  <div class="cv-swatches cv-swatches-4">
+    {stateBgSwatches.map(s => (
+      <div class="cv-swatch cv-swatch-bg">
+        <span style={`background: var(${s.token})`} aria-hidden="true"></span>
+        <b>{s.token}</b> {s.note}
+      </div>
+    ))}
+  </div>
+
+  <h3 class="cv-sub">Usage</h3>
+  <pre class="cv-code"><code>{`color: var(--text-primary);
+background: var(--surface-raised);
+border: 1px solid var(--border-default);`}</code></pre>
+
+  <h3 class="cv-sub">Do / Don't</h3>
+  <div class="cv-do-dont">
+    <div class="cv-do">
+      <Badge tone="success" weight="solid">Do</Badge>
+      <p class="cv-do-cap">의미 토큰을 쓰면 다크 모드에서 자동으로 반전됩니다.</p>
+      <pre class="cv-code"><code>{`color: var(--text-primary);
+border: 1px solid var(--border-subtle);`}</code></pre>
+    </div>
+    <div class="cv-dont">
+      <Badge tone="error" weight="solid">Don't</Badge>
+      <p class="cv-do-cap">hex 리터럴은 라이트 한정 — 다크 배경 위에서 텍스트가 사라집니다.</p>
+      <pre class="cv-code"><code>{`color: #121212;
+border: 1px solid #e5e5e5;`}</code></pre>
+    </div>
+  </div>
+
+  <h3 class="cv-sub">Semantic Tokens — 컴포넌트가 직접 참조하는 의미 레이어</h3>
+  <div class="cv-tokens">
+    {semanticGroups.map(({ group, items }) => (
+      <div class="cv-tokens-group">
+        <p class="cv-tokens-label">{group}</p>
+        <div class="cv-tokens-row">
+          {items.map(name => (
+            <button class="cv-token" type="button" data-copy={`var(--${group}-${name})`}>
+              <span class="cv-token-chip" style={`background: var(--${group}-${name});`}></span>
+              <code>--{group}-{name}</code>
+              <span class="sr-only">, copy token</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

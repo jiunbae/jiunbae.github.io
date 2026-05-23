@@ -1,0 +1,102 @@
+@use '../../abstracts' as *;
+
+.cp {
+  max-width: var(--container-doc);
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-6) var(--space-20);
+  color: var(--text-primary);
+  position: relative;
+}
+
+/* cp-skip-link 스타일은 제거됨 — Layout.astro의 글로벌 skip link 사용 */
+
+/* Sticky in-page TOC — $toc 이상. 단일 nav landmark */
+.cp-toc {
+  display: none;
+
+  @include tocUp {
+    display: block;
+    position: fixed;
+    top: 120px;
+    left: max(var(--space-5), calc((100vw - var(--container-doc)) / 2 - var(--toc-gutter)));
+    width: var(--toc-width);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0_5);
+  }
+
+  a {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-0_75) var(--space-1) var(--space-2);
+    font-family: var(--font-mono);
+    font-size: rem(11px);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-radius: var(--radius-sm);
+    transition: color var(--duration-base) var(--easing-standard),
+                background var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard);
+
+    span {
+      color: var(--accent-default);
+      font-weight: 700;
+    }
+
+    &:hover {
+      color: var(--text-primary);
+      background: var(--surface-hover);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--shadow-focus-ring);
+      color: var(--text-primary);
+    }
+
+    &[aria-current="location"],
+    &[aria-current="true"] {
+      color: var(--text-primary);
+      background: var(--accent-subtle);
+      box-shadow: inset 2px 0 0 var(--accent-default);
+    }
+  }
+}
+
+/* forced-colors 폴백 — [name].astro 인터랙티브 요소 */
+@media (forced-colors: active) {
+  .cp-toc a:focus-visible,
+  .cp-related a:focus-visible,
+  .cp-back-link:focus-visible,
+  .cp-back a:focus-visible {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+  }
+}
+
+.cp-toc-label {
+  font-family: var(--font-mono);
+  font-size: rem(10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-2);
+}
+/* ===== Section paragraph (intro line) ===== */
+.cp-section-p {
+  @include body;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-5);
+  max-width: 580px;
+}
+

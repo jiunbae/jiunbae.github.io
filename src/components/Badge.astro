@@ -1,0 +1,70 @@
+---
+/*
+ * Badge — 디자인 시스템의 모든 작은 라벨(상태/카테고리/Do/Don't 등)을 통일하는 단일 primitive.
+ *
+ * 이전 모습:
+ *   - changelog의 cl-kind (added/changed/removed/fixed/a11y)
+ *   - design.astro의 cv-do-mark / cv-dont-mark
+ *   - voice.astro의 vo-mark-do / vo-mark-dont
+ *   - design.astro/[name].astro의 cv-status (Stable/Beta/Deprecated)
+ *   → 같은 모양, 다른 클래스. Badge 한 곳으로 모읍니다.
+ *
+ * tone: 시각 색상 (state 토큰 기반)
+ *
+ * weight (두 단계, 의도된 제약):
+ *   - outline : 배경 없음, border만 — 분류/상태 (KindBadge, StatusBadge 기본)
+ *   - solid   : state-bg 토큰 채움 — 강조 어조 (Do/Don't 같은 adjudication)
+ *
+ * ghost(배경만)나 muted 같은 3번째 단계는 도입하지 않습니다. 두 단계로
+ * 인지 부하를 낮추고, 새 use-case가 등장하면 두 weight 중 하나에 흡수합니다.
+ *
+ * is:global 사유:
+ *   Badge가 다른 컴포넌트(KindBadge, StatusBadge)에서 wrapping돼 호출될 때
+ *   data-astro-cid 전파가 깨지지 않게 하기 위함. 클래스명(.badge / .badge-*)은
+ *   유일성이 높아 충돌 위험 낮음. 그래도 새 클래스 추가 시 prefix 권장.
+ */
+type Tone = 'success' | 'warning' | 'error' | 'info' | 'neutral' | 'accent';
+type Weight = 'outline' | 'solid';
+
+interface Props {
+  tone?: Tone;
+  weight?: Weight;
+  class?: string;
+}
+
+const { tone = 'neutral', weight = 'outline', class: className = '' } = Astro.props;
+const classes = ['badge', `badge-${tone}`, `badge-${weight}`, className].filter(Boolean).join(' ');
+---
+
+<span class={classes}><slot /></span>
+
+<style lang="scss" is:global>
+  @use '../styles/abstracts' as *;
+
+  .badge {
+    @include eyebrow;
+    display: inline-block;
+    font-size: rem(10px);
+    padding: 1px var(--space-0_75);
+    border-radius: var(--radius-sm);
+    border: 1px solid currentColor;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  /* tones — color */
+  .badge-success { color: var(--state-success); }
+  .badge-warning { color: var(--state-warning); }
+  .badge-error   { color: var(--state-error); }
+  .badge-info    { color: var(--accent-default); }
+  .badge-accent  { color: var(--accent-default); }
+  .badge-neutral { color: var(--text-muted); }
+
+  /* solid weight — bg + border */
+  .badge-solid.badge-success { background: var(--state-success-bg); }
+  .badge-solid.badge-warning { background: var(--state-warning-bg); }
+  .badge-solid.badge-error   { background: var(--state-error-bg); }
+  .badge-solid.badge-info    { background: var(--state-info-bg); }
+  .badge-solid.badge-accent  { background: var(--accent-subtle); }
+  .badge-solid.badge-neutral { background: var(--surface-subtle); border-color: var(--border-default); }
+</style>

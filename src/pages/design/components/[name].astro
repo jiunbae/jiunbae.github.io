@@ -1,0 +1,384 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Chip from '@/components/Chip.astro';
+import Button from '@/components/Button.astro';
+import PostCard from '@/components/PostCard.astro';
+import Note from '@/components/Note.astro';
+import FocusDemo from '@/components/FocusDemo.astro';
+import SectionMark from '@/components/SectionMark.astro';
+import StatusBadge from '@/components/StatusBadge.astro';
+import { componentMeta, isComponentName } from '@/components/design/component-meta';
+import type { ComponentName } from '@/components/design/component-meta';
+
+export function getStaticPaths() {
+  // componentMeta의 키에서 자동 도출 — 새 컴포넌트는 component-meta.ts 한 곳만 갱신.
+  return Object.keys(componentMeta).map(name => ({ params: { name } }));
+}
+
+const rawName = Astro.params.name;
+if (!isComponentName(rawName)) throw new Error(`Unknown component: ${rawName}`);
+const name: ComponentName = rawName;
+const component = componentMeta[name];
+
+// Section schema — 인라인 분기 대신 데이터로 관리
+const hasStates = name === 'button' || name === 'chip';
+const baseSections = [
+  { key: 'preview', label: 'Preview' },
+  { key: 'rationale', label: 'Rationale' },
+  { key: 'anatomy', label: 'Anatomy' },
+  { key: 'props', label: 'Props' },
+  { key: 'usage', label: 'Usage' },
+  { key: 'a11y', label: 'Accessibility' },
+  { key: 'decision', label: 'Decision' },
+];
+const sections = [
+  ...baseSections,
+  ...(hasStates ? [{ key: 'states', label: 'States' }] : []),
+  { key: 'related', label: 'Related' },
+].map((s, i) => ({ ...s, num: String(i + 1).padStart(2, '0'), id: `cp-${String(i + 1).padStart(2, '0')}` }));
+const sectionNum = (key: string) => sections.find(s => s.key === key)!.num;
+const sectionId = (key: string) => sections.find(s => s.key === key)!.id;
+---
+
+<Layout
+  title={`${component.title} — Design System`}
+  description={component.purpose}
+>
+  <div class="cp">
+    <!-- Sticky in-page TOC (wide screens). 단일 <nav> 로 landmark 중첩 회피 -->
+    <nav class="cp-toc" aria-label="On this page">
+      <p class="cp-toc-label" aria-hidden="true">On this page</p>
+      <ul>
+        {sections.map(s => (
+          <li>
+            <a href={`#${s.id}`} data-section={s.id}><span>{s.num}</span> {s.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <header class="cp-head">
+      <p class="cp-back"><a href="/design">← Design System</a></p>
+      <p class="cp-eyebrow">Component</p>
+      <div class="cp-title-row">
+        <h1 class="cp-title">{component.title}</h1>
+        <StatusBadge status={component.status} />
+      </div>
+      <p class="cp-lede">{component.purpose}</p>
+    </header>
+
+    {/* ===== Preview ===== */}
+    <section id="cp-01" class="cp-section">
+      <SectionMark num={sectionNum('preview')} label="Preview" tone="component" />
+      <h2>실제 모습.</h2>
+
+      {name === 'button' && (
+        <div class="cp-demo">
+          <div class="cp-demo-row">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="primary" disabled>Disabled</Button>
+          </div>
+          <div class="cp-demo-row">
+            <Button variant="primary" size="sm">Small</Button>
+            <Button variant="primary" size="md">Medium</Button>
+            <Button variant="primary" size="lg">Large</Button>
+          </div>
+        </div>
+      )}
+
+      {name === 'chip' && (
+        <div class="cp-demo">
+          <div class="cp-demo-row">
+            <Chip>default</Chip>
+            <Chip variant="active">active</Chip>
+            <Chip variant="muted">+12</Chip>
+            <Chip as="button" type="button">clickable</Chip>
+          </div>
+          <p class="cp-demo-caption" id="cp-filter-demo-label">Filter chips — <code>pressed</code> prop이 자동으로 <code>aria-pressed</code> 부여</p>
+          <div class="cp-demo-row" role="group" aria-labelledby="cp-filter-demo-label">
+            <Chip as="button" type="button" pressed={true}>React</Chip>
+            <Chip as="button" type="button" pressed={false}>Astro</Chip>
+            <Chip as="button" type="button" pressed={false}>Svelte</Chip>
+          </div>
+        </div>
+      )}
+
+      {name === 'card' && (
+        <div class="cp-demo">
+          <PostCard
+            title="디자인 시스템을 다시 짠다는 것"
+            description="색 한 톤을 바꾸려다 결국 토큰 레이어 전체를 다시 정리했습니다."
+            date="2026.05.22"
+          >
+            <Fragment slot="tags">
+              <Chip>design</Chip>
+              <Chip>tokens</Chip>
+              <Chip variant="muted">+2</Chip>
+            </Fragment>
+          </PostCard>
+        </div>
+      )}
+
+      {name === 'note' && (
+        <div class="cp-demo cp-demo-stack">
+          <Note variant="info"><p>설명에 곁가지로 다는 보충 메모입니다.</p></Note>
+          <Note variant="caution"><p>아직 검증되지 않은 가정이거나 잠시 멈춰서 봐야 할 부분.</p></Note>
+          <Note variant="issue"><p>실패한 결정, 되돌린 변경, 또는 알려진 문제.</p></Note>
+        </div>
+      )}
+    </section>
+
+    {/* ===== Why ===== */}
+    <section id="cp-02" class="cp-section">
+      <SectionMark num={sectionNum('rationale')} label="Rationale" tone="component" />
+      <h2>왜 이렇게 만들었나.</h2>
+      <ul class="cp-why">
+        {component.why.map(reason => (
+          <li>{reason}</li>
+        ))}
+      </ul>
+    </section>
+
+    {/* ===== Anatomy ===== */}
+    <section id="cp-03" class="cp-section">
+      <SectionMark num={sectionNum('anatomy')} label="Anatomy" tone="component" />
+      <h2>어떻게 구성되는가.</h2>
+      <ul class="cp-anatomy">
+        {component.anatomy.map((part, i) => (
+          <li>
+            <span class="cp-anatomy-num">{String(i + 1).padStart(2, '0')}</span>
+            <span>{part}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {/* ===== Props ===== */}
+    <section id="cp-04" class="cp-section">
+      <SectionMark num={sectionNum('props')} label="Props" tone="component" />
+      <h2>속성.</h2>
+      <table class="cp-props">
+        <thead>
+          <tr>
+            <th scope="col">Prop</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {component.props.map(prop => (
+            <tr>
+              <td><code>{prop.name}</code></td>
+              <td><code class="cp-type">{prop.type}</code></td>
+              <td>{prop.default ? <code>{prop.default}</code> : <span class="cp-dash">—</span>}</td>
+              <td>{prop.desc}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    {/* ===== Usage ===== */}
+    <section id="cp-05" class="cp-section">
+      <SectionMark num={sectionNum('usage')} label="Usage" tone="component" />
+      <h2>가져다 쓰기.</h2>
+      <pre class="cp-code"><code>{component.importPath}</code></pre>
+    </section>
+
+    {/* ===== A11y ===== */}
+    <section id="cp-06" class="cp-section">
+      <SectionMark num={sectionNum('a11y')} label="Accessibility" tone="component" />
+      <h2>접근성 체크리스트.</h2>
+      <ul class="cp-list">
+        {component.a11y.map(item => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    {/* ===== When ===== */}
+    <section id="cp-07" class="cp-section">
+      <SectionMark num={sectionNum('decision')} label="Decision" tone="component" />
+      <h2>언제 쓰고, 언제 쓰지 않는가.</h2>
+      <div class="cp-decision">
+        <div>
+          <p class="cp-decision-mark cp-decision-yes">When to use</p>
+          <ul class="cp-list">
+            {component.when.map(item => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <p class="cp-decision-mark cp-decision-no">When not to</p>
+          <ul class="cp-list">
+            {component.whenNot.map(item => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {/* ===== States Matrix (Button, Chip) ===== */}
+    {name === 'button' && (
+      <section id={sectionId('states')} class="cp-section">
+        <SectionMark num={sectionNum('states')} label="States" tone="component" />
+        <h2>상태별 시각.</h2>
+        <p class="cp-section-p">3가지 상태를 같은 자리에서 비교. 각 상태가 토큰을 어떻게 다르게 쓰는지.</p>
+        <table class="cp-states">
+          <thead>
+            <tr>
+              <th scope="col">State</th>
+              <th scope="col">Primary</th>
+              <th scope="col">Secondary</th>
+              <th scope="col">Ghost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Idle</th>
+              <td><Button variant="primary">Button</Button></td>
+              <td><Button variant="secondary">Button</Button></td>
+              <td><Button variant="ghost">Button</Button></td>
+            </tr>
+            <tr>
+              <th scope="row">Focus</th>
+              <td><FocusDemo kind="button" variant="primary" size="md">Button</FocusDemo><span class="sr-only">Primary button, focused state (visual demo)</span></td>
+              <td><FocusDemo kind="button" variant="secondary" size="md">Button</FocusDemo><span class="sr-only">Secondary button, focused state (visual demo)</span></td>
+              <td><FocusDemo kind="button" variant="ghost" size="md">Button</FocusDemo><span class="sr-only">Ghost button, focused state (visual demo)</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Disabled</th>
+              <td><Button variant="primary" disabled>Button</Button></td>
+              <td><Button variant="secondary" disabled>Button</Button></td>
+              <td><Button variant="ghost" disabled>Button</Button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    )}
+
+    {name === 'chip' && (
+      <section id={sectionId('states')} class="cp-section">
+        <SectionMark num={sectionNum('states')} label="States" tone="component" />
+        <h2>변형별 시각.</h2>
+        <p class="cp-section-p">variant 3종 × as 2종. button으로 쓸 때만 hover/focus가 활성.</p>
+        <table class="cp-states">
+          <thead>
+            <tr>
+              <th scope="col">Variant</th>
+              <th scope="col">as="span"</th>
+              <th scope="col">as="button" (idle)</th>
+              <th scope="col">as="button" (focus)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">default</th>
+              <td><Chip>default</Chip></td>
+              <td><Chip as="button" type="button">default</Chip></td>
+              <td><FocusDemo kind="chip" variant="default">default</FocusDemo><span class="sr-only">default chip, focused state (visual demo)</span></td>
+            </tr>
+            <tr>
+              <th scope="row">active</th>
+              <td><Chip variant="active">active</Chip></td>
+              <td><Chip as="button" type="button" variant="active">active</Chip></td>
+              <td><FocusDemo kind="chip" variant="active">active</FocusDemo><span class="sr-only">active chip, focused state (visual demo)</span></td>
+            </tr>
+            <tr>
+              <th scope="row">muted</th>
+              <td><Chip variant="muted">+12</Chip></td>
+              <td><Chip as="button" type="button" variant="muted">+12</Chip></td>
+              <td><FocusDemo kind="chip" variant="muted">+12</FocusDemo><span class="sr-only">muted chip, focused state (visual demo)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    )}
+
+    {/* ===== Related ===== */}
+    <section id={sectionId('related')} class="cp-section">
+      <SectionMark num={sectionNum('related')} label="Related" tone="component" />
+      <h2>함께 보면 좋은.</h2>
+      <ul class="cp-related">
+        {component.related.map(r => (
+          <li>
+            <a href={r.href}>
+              <span class="cp-related-name">{r.name}</span>
+              <span class="cp-related-reason">{r.reason}</span>
+              <span class="cp-related-arrow">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <footer class="cp-foot">
+      <a href="/design" class="cp-back-link">← Design System</a>
+    </footer>
+  </div>
+</Layout>
+
+<script>
+  // view-transitions 시 재바인딩 가능하도록 init()으로 감쌈.
+  // AbortController로 이전 라운드의 observer를 깨끗이 해제.
+  let currentController: AbortController | null = null;
+
+  function init() {
+    currentController?.abort();
+    currentController = new AbortController();
+    const signal = currentController.signal;
+
+    const tocLinks = document.querySelectorAll<HTMLAnchorElement>('.cp-toc a[data-section]');
+    const sections = Array.from(tocLinks).map(a => {
+      const id = a.dataset.section;
+      return id ? document.getElementById(id) : null;
+    }).filter((el): el is HTMLElement => !!el);
+
+    if (sections.length === 0) return;
+
+    const setActive = (id: string) => {
+      tocLinks.forEach(a => {
+        if (a.dataset.section === id) {
+          a.setAttribute('aria-current', 'location');
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible[0]) setActive(visible[0].target.id);
+    }, {
+      rootMargin: '-80px 0px -60% 0px',
+      threshold: 0,
+    });
+
+    sections.forEach(s => observer.observe(s));
+    signal.addEventListener('abort', () => observer.disconnect(), { once: true });
+
+    // Seed 활성화 — 사용자가 스크롤 전에도 어느 섹션을 보고 있는지 표시.
+    const hashId = location.hash.replace('#', '');
+    if (hashId && sections.some(s => s.id === hashId)) {
+      setActive(hashId);
+    } else {
+      const seedTarget = sections.reduce((best, s) => {
+        const top = s.getBoundingClientRect().top;
+        return top <= 80 && top > best.top ? { id: s.id, top } : best;
+      }, { id: sections[0]!.id, top: -Infinity });
+      setActive(seedTarget.id);
+    }
+  }
+
+  init();
+  // ViewTransitions가 도입되면 페이지 전환마다 발화. AbortController가 중복 init을
+  // 안전하게 해제하므로 첫 페이지 로드에 init과 astro:page-load가 둘 다 호출돼도 OK.
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style lang="scss" is:global>
+  /* 정책: 디자인 시스템 페이지(design.astro, [name].astro)는 모두 is:global.
+   * .cv-* / .cp-* 네임스페이스가 자체 prefix로 사실상의 스코프 역할을 합니다. */
+  @use '../../../styles/pages/design-component';
+</style>

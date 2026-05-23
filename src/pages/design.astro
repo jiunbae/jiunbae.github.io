@@ -1,0 +1,190 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import Sidenav from '@/components/design/Sidenav.astro';
+import Cover from '@/components/design/Cover.astro';
+import SectionColor from '@/components/design/SectionColor.astro';
+import SectionTypography from '@/components/design/SectionTypography.astro';
+import SectionFoundation from '@/components/design/SectionFoundation.astro';
+import SectionInUse from '@/components/design/SectionInUse.astro';
+import SectionA11y from '@/components/design/SectionA11y.astro';
+import SectionContent from '@/components/design/SectionContent.astro';
+import Colophon from '@/components/design/Colophon.astro';
+---
+
+<Layout
+  title="Design — Jiun's Blog"
+  description="블로그 전반에서 사용하는 토큰과 컴포넌트의 명세."
+>
+  <div class="cv">
+    <Sidenav />
+    <Cover />
+
+    <!-- ====== 01 Color ====== -->
+    <SectionColor />
+
+    <!-- ====== 02 Typography ====== -->
+    <SectionTypography />
+
+    <!-- ====== 03 Foundation ====== -->
+    <SectionFoundation />
+
+    <!-- ====== 04 In Use ====== -->
+    <SectionInUse />
+
+    <!-- ====== 05 Accessibility ====== -->
+    <SectionA11y />
+
+    <!-- ====== 06 Content ====== -->
+    <SectionContent />
+
+    <Colophon />
+  </div>
+</Layout>
+
+<script>
+  // 페이지 스크립트를 init()으로 묶어 view-transitions(astro:page-load) 시에도 재바인딩 가능.
+  // AbortController로 이전 라운드의 listener와 IntersectionObserver를 모두 해제하여
+  // 페이지 전환 시 leak이 누적되지 않도록 함.
+  const LIVE_REGION_ID = 'design-copy-live-region';
+  let currentController: AbortController | null = null;
+
+  // announce()는 매 호출 시 region을 id로 재조회 — 옛 DOM의 region 클로저 누설 방지.
+  const announce = (msg: string) => {
+    const region = document.getElementById(LIVE_REGION_ID);
+    if (!region) return;
+    region.textContent = '';
+    requestAnimationFrame(() => { region.textContent = msg; });
+  };
+
+  function init() {
+  // 이전 init()의 listener/observer를 모두 해제
+  currentController?.abort();
+  currentController = new AbortController();
+  const signal = currentController.signal;
+
+  // 공용 sr-only live region — id 기반 idempotent
+  let tokenLiveRegion = document.getElementById(LIVE_REGION_ID) as HTMLSpanElement | null;
+  if (!tokenLiveRegion) {
+    tokenLiveRegion = document.createElement('span');
+    tokenLiveRegion.id = LIVE_REGION_ID;
+    tokenLiveRegion.className = 'sr-only';
+    tokenLiveRegion.setAttribute('aria-live', 'polite');
+    tokenLiveRegion.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(tokenLiveRegion);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.cv-token[data-copy]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = btn.dataset.copy ?? '';
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.classList.add('cv-token-copied');
+        announce(`${text} copied to clipboard`);
+        setTimeout(() => btn.classList.remove('cv-token-copied'), 1200);
+      } catch {
+        btn.classList.add('cv-token-failed');
+        announce('Copy failed');
+        setTimeout(() => btn.classList.remove('cv-token-failed'), 1200);
+      }
+    }, { signal });
+  });
+
+  // Sidenav scrollspy — IntersectionObserver로 현재 섹션에 aria-current 부여
+  const sidenavLinks = document.querySelectorAll<HTMLAnchorElement>('.cv-sidenav a[data-section]');
+  const sections = Array.from(sidenavLinks).map(a => {
+    const id = a.dataset.section;
+    return id ? document.getElementById(id) : null;
+  }).filter((el): el is HTMLElement => !!el);
+
+  if (sections.length > 0) {
+    const setActive = (id: string) => {
+      sidenavLinks.forEach(a => {
+        if (a.dataset.section === id) {
+          a.setAttribute('aria-current', 'location');
+        } else {
+          a.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      // 화면 상단에 가장 가까운 섹션 선택
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible[0]) setActive(visible[0].target.id);
+    }, {
+      rootMargin: '-80px 0px -60% 0px',
+      threshold: 0,
+    });
+
+    sections.forEach(s => observer.observe(s));
+    // signal abort 시 observer 해제 — view-transition leak 방지
+    signal.addEventListener('abort', () => observer.disconnect(), { once: true });
+
+    // Seed: location.hash 또는 viewport top과 가장 가까운 섹션으로 초기 활성화 표시.
+    // 사용자가 스크롤 전이라도 sidenav가 어떤 섹션을 보고 있는지 알려줌.
+    const hashId = location.hash.replace('#', '');
+    if (hashId && sections.some(s => s.id === hashId)) {
+      setActive(hashId);
+    } else {
+      const seedTarget = sections.reduce((best, s) => {
+        const top = s.getBoundingClientRect().top;
+        return top <= 80 && top > best.top ? { id: s.id, top } : best;
+      }, { id: sections[0]!.id, top: -Infinity });
+      setActive(seedTarget.id);
+    }
+  }
+
+  // 모든 cv-code 블록에 copy 버튼 동적 추가
+  // Astro scoped CSS를 적용하려면 pre의 data-astro-cid-* 속성을 새 요소에도 복제
+  // HMR/view-transitions에서 두 번 실행돼도 buttons가 누적되지 않도록 부모 체크.
+  document.querySelectorAll('pre.cv-code').forEach((pre) => {
+    if (pre.parentElement?.classList.contains('cv-code-wrap')) return;
+
+    const cidAttr = pre.getAttributeNames().find(n => n.startsWith('data-astro-cid-'));
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cv-code-wrap';
+    if (cidAttr) wrap.setAttribute(cidAttr, '');
+    pre.parentNode?.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+
+    const btn = document.createElement('button');
+    btn.className = 'cv-code-copy';
+    btn.type = 'button';
+    btn.textContent = 'Copy';
+    // accessible name parity (WCAG 2.5.3): visible text가 aria-label에 포함
+    btn.setAttribute('aria-label', 'Copy code');
+    if (cidAttr) btn.setAttribute(cidAttr, '');
+
+    // 라이브 리전은 페이지 단위 공용 announce()를 사용 — 버튼 안에 두면 accessible name에 섞임
+    btn.addEventListener('click', async () => {
+      const text = pre.querySelector('code')?.textContent ?? '';
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        announce('Code copied to clipboard');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 1500);
+      } catch {
+        btn.textContent = 'Failed';
+        announce('Copy failed');
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+      }
+    }, { signal });
+    wrap.appendChild(btn);
+  });
+  } // init()
+
+  init();
+  // astro:page-load는 ViewTransitions 사용 시 페이지 전환마다 발화. 현재 미사용이라도 방어적으로.
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style lang="scss" is:global>
+  @use '../styles/pages/design';
+</style>

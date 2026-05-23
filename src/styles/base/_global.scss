@@ -1,59 +1,88 @@
 :root {
-  --primary-c1: #64B5F6;
-  --primary-c2: #75a3cd;
-  --background: #ffffff;
-  --article-background: #fafafa;
-  --gray-1: #121212;
-  --gray-2: #282828;
-  --gray-3: #3f3f3f;
-  --gray-4: #575757;
-  --gray-5: #666666; /* 개선: 4.5:1 대비 (WCAG AA) */
-  --gray-6: #8b8b8b;
+  /* ===== Primitive — reversible color scales (theme-invariant) ===== */
+  --blue-200: #BFDBFE;
+  --blue-300: #93C5FD;
+  --blue-400: #60A5FA;
+  --blue-500: #3B82F6;
+  --blue-600: #2563EB;
+  --blue-700: #1D4ED8;
+  --blue-800: #1E40AF;
+  --green-500: #10B981;
+  --orange-500: #F59E0B;
+  --red-500: #EF4444;
+  --neutral-0: #ffffff;
+  --neutral-50: #fafafa;
+  --neutral-100: #f4f4f4;
+  --neutral-200: #e1e1e1;
+  --neutral-300: #b6b6b6;
+  --neutral-400: #8b8b8b;
+  --neutral-500: #666666;
+  --neutral-600: #575757;
+  --neutral-700: #3f3f3f;
+  --neutral-800: #282828;
+  --neutral-900: #121212;
+
+  /* ===== Brand / Theme aliases (라이트) ===== */
+  --primary-c1: var(--blue-600);
+  --primary-c2: var(--blue-500);
+  --background: var(--neutral-0);
+  --article-background: var(--neutral-50);
+  --gray-1: var(--neutral-900);
+  --gray-2: var(--neutral-800);
+  --gray-3: var(--neutral-700);
+  --gray-4: var(--neutral-600);
+  --gray-5: var(--neutral-500); /* 개선: 4.5:1 대비 (WCAG AA) */
+  --gray-6: var(--neutral-400);
   --icon-color: #000000;
-  --header-bg: #f4f4f4fa;
-  --code-inline-bg: rgba(0, 0, 0, 0.05);
+
+  /* 이전엔 외부 상수였던 항목을 토큰으로 흡수 */
+  --header-bg: color-mix(in srgb, var(--neutral-100) 98%, transparent);
+  --code-inline-bg: color-mix(in srgb, var(--neutral-900) 5%, transparent);
   --code-inline-color: #d63384;
-  --code-bg: #1e1e1e;
+  --code-bg: var(--neutral-900);
+  --selection-bg: color-mix(in srgb, var(--green-500) 30%, transparent);
 }
 
 [data-theme='dark'] {
-  --primary-c1: #42A5F5;
-  --primary-c2: #7ea1e2;
+  --primary-c1: var(--blue-400);
+  --primary-c2: var(--blue-500);
   --background: #2f2f2f;
   --article-background: #232323;
-  --gray-1: #ffffff;
+  --gray-1: var(--neutral-0);
   --gray-2: #f0f0f0;
-  --gray-3: #e1e1e1;
+  --gray-3: var(--neutral-200);
   --gray-4: #d3d3d3;
   --gray-5: #c5c5c5;
-  --gray-6: #b6b6b6;
-  --icon-color: #ffffff;
-  --header-bg: #242424fa;
-  --code-inline-bg: rgba(255, 255, 255, 0.1);
+  --gray-6: var(--neutral-300);
+  --icon-color: var(--neutral-0);
+
+  --header-bg: color-mix(in srgb, #242424 98%, transparent);
+  --code-inline-bg: color-mix(in srgb, var(--neutral-0) 10%, transparent);
   --code-inline-color: #f8b4d9;
   --code-bg: #1e1e1e;
+  --selection-bg: color-mix(in srgb, var(--green-500) 35%, transparent);
 }
 
 ::selection {
-  background-color: #15af7333;
+  background-color: var(--selection-bg);
 }
 
 body {
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
+  font-family: var(--font-sans, 'Pretendard'), -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
     'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     sans-serif;
   background-color: var(--background);
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--duration-base, 150ms) var(--easing-standard, ease), color var(--duration-base, 150ms) var(--easing-standard, ease);
 }
 
 hr {
   display: block;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: var(--space-8, 32px);
+  margin-bottom: var(--space-8, 32px);
   width: 100%;
   height: 0.5px;
   border: 0;
-  background-color: var(--gray-2);
+  background-color: var(--border-default, var(--gray-2));
 }
 
 /* 성능 최적화: 필요한 요소에만 transition 적용 */
@@ -68,49 +97,57 @@ select,
 [class*="card"],
 [class*="button"],
 [class*="Button"] {
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--duration-base, 150ms) var(--easing-standard, ease), color var(--duration-base, 150ms) var(--easing-standard, ease);
 }
 
 /* 링크 가시성 개선 */
 a {
-  color: var(--primary-c1);
-  text-decoration-color: rgba(100, 181, 246, 0.3);
+  color: var(--text-link, var(--primary-c1));
+  text-decoration-color: color-mix(in srgb, var(--text-link, var(--primary-c1)) 30%, transparent);
   text-underline-offset: 2px;
-  transition: text-decoration-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+  transition: text-decoration-color var(--duration-base, 150ms) var(--easing-standard, ease), color var(--duration-base, 150ms) var(--easing-standard, ease), background-color var(--duration-base, 150ms) var(--easing-standard, ease);
 
   &:hover {
-    text-decoration-color: var(--primary-c1);
+    text-decoration-color: var(--text-link, var(--primary-c1));
   }
 
   &:focus-visible {
-    outline: 2px solid var(--primary-c1);
+    outline: 2px solid var(--border-focus, var(--primary-c1));
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: var(--radius-sm, 2px);
   }
 }
 
-[data-theme='dark'] a {
-  text-decoration-color: rgba(29, 118, 210, 0.3);
-}
+/* 다크 모드 링크 색상은 --text-link 토큰이 자동 반전하므로 별도 처리 불요 */
 
-/* 버튼 클릭 피드백 */
+/* 버튼 클릭 피드백 — 디자인 시스템 컴포넌트(.btn/.chip)는 자체 focus 처리, 일반 button만 적용 */
 button,
 [role="button"] {
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+  transition: background-color var(--duration-base, 150ms) var(--easing-standard, ease), color var(--duration-base, 150ms) var(--easing-standard, ease), transform var(--duration-fast, 100ms) var(--easing-standard, ease);
 
   &:active {
     transform: scale(0.98);
   }
 
-  &:focus-visible {
-    outline: 2px solid var(--primary-c1);
-    outline-offset: 2px;
-  }
-
   &:disabled {
     cursor: not-allowed;
     opacity: 0.6;
+  }
+}
+
+/* 컴포넌트 외 일반 버튼/링크의 outline focus — forced-colors 모드 안전망 포함 */
+:where(button, [role="button"]):not(.btn):not(.chip):focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--border-focus, var(--primary-c1));
+  outline-offset: 2px;
+}
+
+/* Forced colors (Windows 고대비) — box-shadow focus가 무시될 때 대비 */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
   }
 }
 

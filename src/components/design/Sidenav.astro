@@ -1,0 +1,44 @@
+---
+/*
+ * 디자인 시스템 sticky sidenav.
+ *
+ * 단일 <nav> 안에 3개 그룹(Sections / Components / Meta).
+ * 그룹 라벨은 sr-only <h3>만 사용 — 이전의 role="group" + aria-labelledby는
+ * nav의 aria-label과 중첩 announce를 만들어서 제거. h3가 SR에 그룹 경계를 제공.
+ */
+import { designSections, designComponents } from './_meta';
+---
+
+<nav class="cv-sidenav-wrap" aria-label="Design system sections">
+  <div class="cv-sidenav cv-sidenav-sections">
+    <h3 class="cv-sidenav-heading sr-only">Sections</h3>
+    <ul>
+      {designSections.map(s => (
+        <li>
+          <a href={`#${s.id}`} data-section={s.id}>
+            <span>{s.id.replace('cv-', '')}</span> {s.short}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="cv-sidenav-divider" aria-hidden="true"></div>
+  <div class="cv-sidenav cv-sidenav-components">
+    <h3 class="cv-sidenav-heading sr-only">Components</h3>
+    <ul>
+      {designComponents.map(c => (
+        <li>
+          <a href={c.href}>→ {c.name}</a>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="cv-sidenav-divider" aria-hidden="true"></div>
+  <div class="cv-sidenav cv-sidenav-meta">
+    <h3 class="cv-sidenav-heading sr-only">Meta</h3>
+    <ul>
+      <li><a href="/design/voice">↗ Voice</a></li>
+      <li><a href="/design/changelog">↗ Changelog</a></li>
+    </ul>
+  </div>
+</nav>

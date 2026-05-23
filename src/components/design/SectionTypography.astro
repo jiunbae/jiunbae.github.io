@@ -1,0 +1,51 @@
+---
+import SectionMark from '@/components/SectionMark.astro';
+---
+
+<section id="cv-02" class="cv-section">
+  <SectionMark num="02" label="Typography" />
+  <h2>한 줄을 위한 자리.</h2>
+  <p>
+    Pretendard 한 패밀리. 의미 기반 9단계 — display, heading, body, caption, code.
+    본문은 500 weight 기본 (한글 가독성).
+  </p>
+
+  <h3 class="cv-sub">Font families</h3>
+  <div class="cv-fonts">
+    <div class="cv-font">
+      <code>--font-sans</code>
+      <span>Pretendard, system-ui, sans-serif</span>
+      <p class="cv-font-sample cv-font-sample-sans">디자인 시스템 — 본문</p>
+    </div>
+    <div class="cv-font">
+      <code>--font-mono</code>
+      <span>Fira Code, JetBrains Mono, SF Mono, monospace</span>
+      <p class="cv-font-sample cv-font-sample-mono">const tokens = useDesign();</p>
+    </div>
+  </div>
+
+  <h3 class="cv-sub">Scale</h3>
+  <table class="cv-type">
+    <thead>
+      <tr><th scope="col">Token</th><th scope="col">Size / Weight</th><th scope="col">Sample</th></tr>
+    </thead>
+    <tbody>
+    <tr><td>display-1</td><td>44 / 800</td><td><span class="t-display-1">디자인 노트</span></td></tr>
+    <tr><td>display-2</td><td>32 / 700</td><td><span class="t-display-2">디자인 노트</span></td></tr>
+    <tr><td>heading-1</td><td>26 / 700</td><td><span class="t-heading-1">디자인 노트</span></td></tr>
+    <tr><td>heading-2</td><td>20 / 700</td><td><span class="t-heading-2">디자인 노트</span></td></tr>
+    <tr><td>heading-3</td><td>18 / 600</td><td><span class="t-heading-3">디자인 노트</span></td></tr>
+    <tr><td>body-lg</td><td>17 / 500</td><td><span class="t-body-lg">한 줄에 65자 내외가 가장 편한 호흡.</span></td></tr>
+    <tr><td>body</td><td>15 / 500</td><td><span class="t-body">본문 기본 크기.</span></td></tr>
+    <tr><td>body-sm</td><td>14 / 500</td><td><span class="t-body-sm">보조 본문, 카드 설명.</span></td></tr>
+    <tr><td>caption</td><td>13 / 500</td><td><span class="t-caption">메타데이터, 날짜</span></td></tr>
+    <tr><td>label</td><td>13 / 600</td><td><span class="t-label">form label</span></td></tr>
+    <tr><td>code</td><td>14 / 400 · mono</td><td><span class="t-code">const tokens;</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="cv-sub">Usage</h3>
+  <pre class="cv-code"><code>{`@include heading-1;
+@include body;
+font-family: var(--font-mono);`}</code></pre>
+</section>

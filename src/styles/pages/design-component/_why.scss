@@ -1,0 +1,33 @@
+@use '../../abstracts' as *;
+
+/* ===== Why / Rationale ===== */
+.cp-why {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: cp-why-counter;
+
+  li {
+    @include body-sm;
+    counter-increment: cp-why-counter;
+    position: relative;
+    padding: var(--space-3) 0 var(--space-3) var(--space-8);
+    color: var(--text-primary);
+    border-top: 1px dashed var(--border-subtle);
+
+    &::before {
+      content: counter(cp-why-counter, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: rem(11px);
+      font-weight: 700;
+      color: var(--accent-default);
+      letter-spacing: 0.06em;
+    }
+
+    &:last-child { border-bottom: 1px dashed var(--border-subtle); }
+  }
+}
+

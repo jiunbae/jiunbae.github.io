@@ -1,0 +1,161 @@
+@use '../../abstracts' as *;
+
+/* ===== Content typography ===== */
+/* cv-content-demo 컨테이너는 <DemoFrame>으로 이전됨 */
+
+.cv-blockquote {
+  margin: 0;
+  padding: 0 0 0 var(--space-5);
+  border-left: 3px solid var(--accent-default);
+
+  p {
+    font-size: rem(18px);
+    font-weight: 500;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2);
+    max-width: none;
+  }
+
+  footer {
+    font-family: var(--font-mono);
+    font-size: rem(12px);
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+}
+
+.cv-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+
+  @include belowMobile { grid-template-columns: 1fr; }
+}
+
+.cv-ul,
+.cv-ol {
+  margin: 0;
+  padding-left: var(--space-5);
+  font-size: rem(15px);
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--text-primary);
+
+  li {
+    margin: 0 0 var(--space-1);
+  }
+
+  ul, ol {
+    margin: var(--space-1) 0;
+    padding-left: var(--space-5);
+  }
+
+  ul li, ol li {
+    color: var(--text-secondary);
+  }
+}
+
+.cv-ul {
+  list-style: none;
+  padding-left: 0;
+
+  > li {
+    position: relative;
+    padding-left: var(--space-5);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: var(--space-2);
+      top: 0.7em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-default);
+    }
+  }
+
+  ul {
+    list-style: disc;
+    color: var(--text-secondary);
+    padding-left: var(--space-5);
+    margin-top: var(--space-1);
+
+    li::before { display: none; }
+  }
+}
+
+.cv-ol {
+  counter-reset: cv-counter;
+  list-style: none;
+  padding-left: 0;
+
+  > li {
+    counter-increment: cv-counter;
+    position: relative;
+    padding-left: var(--space-8);
+
+    &::before {
+      content: counter(cv-counter, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: var(--font-mono);
+      font-size: rem(12px);
+      font-weight: 700;
+      color: var(--accent-default);
+      letter-spacing: 0.04em;
+    }
+  }
+}
+
+.cv-content-p {
+  font-size: rem(15px);
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--text-primary);
+  margin: 0;
+  max-width: none;
+}
+
+.cv-inline-code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  font-weight: 600;
+  background: var(--surface-subtle);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--text-primary);
+}
+
+.cv-figure {
+  margin: 0 0 var(--space-4);
+
+  figcaption {
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: rem(12px);
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+  }
+}
+
+.cv-figure-svg {
+  width: 100%;
+  max-width: 540px;
+  height: auto;
+  display: block;
+  color: var(--text-primary);
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+
+  /* SVG <text>의 font-family presentation attribute는 CSS 변수를 못 받음. CSS로 적용. */
+  .cv-figure-text text { font-family: var(--font-mono); }
+}
+

@@ -1,0 +1,108 @@
+@use '../../abstracts' as *;
+
+/* ===== Cover ===== */
+.cv-cover {
+  border: 2px solid var(--text-primary);
+  padding: var(--space-8) var(--space-8) var(--space-6);
+  margin: 0 0 var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  min-height: 540px;
+
+  @include belowTablet {
+    padding: var(--space-5) var(--space-5) var(--space-4);
+    min-height: 0;
+    gap: var(--space-8);
+  }
+}
+
+.cv-cover-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: rem(12px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.cv-issue { color: var(--accent-default); }
+.cv-date  { color: var(--text-muted); }
+
+.cv-title {
+  font-size: clamp(72px, 13vw, 160px);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  margin: 0;
+  color: var(--text-primary);
+
+  em {
+    font-style: italic;
+    font-weight: 700;  /* parent 800에서 한 단계만 — italic + 컬러로 강조, 광학 weight pothole 회피 */
+    color: var(--accent-default);
+  }
+}
+
+.cv-cover-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--space-8);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--text-primary);
+  align-items: end;
+
+  @include belowTablet {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+}
+
+.cv-lede {
+  font-size: rem(15px);
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.cv-toc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+
+  a {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding: 2px 0;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: rem(15px);
+    transition: color var(--duration-base) var(--easing-standard);
+
+    span {
+      font-family: var(--font-mono);
+      font-size: rem(12px);
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+    }
+
+    b {
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 2px;
+    }
+
+    &:hover {
+      color: var(--accent-default);
+      span { color: var(--accent-default); }
+    }
+  }
+}

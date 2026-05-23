@@ -1,0 +1,67 @@
+@use '../../abstracts' as *;
+
+
+.cp-head {
+  margin: 0 0 var(--space-12);
+}
+
+.cp-back {
+  margin: 0 0 var(--space-8);
+
+  a {
+    font-family: var(--font-mono);
+    font-size: rem(12px);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+
+    &:hover { color: var(--accent-default); }
+  }
+}
+
+.cp-eyebrow {
+  font-family: var(--font-mono);
+  font-size: rem(12px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-default);
+  margin: 0 0 var(--space-3);
+}
+
+.cp-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+  flex-wrap: wrap;
+}
+
+.cp-title {
+  @include display-2;
+  margin: 0;
+}
+
+/* .cp-status / cp-status-beta / cp-status-deprecated는 <StatusBadge>로 이전됨 */
+
+.cp-lede {
+  @include body-lg;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 580px;
+}
+
+.cp-section {
+  margin: 0 0 var(--space-12);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-default);
+}
+
+/* .cp-section-mark / .cp-section-num / .cp-section-label은 <SectionMark>로 이전됨 */
+
+.cp-section h2 {
+  @include heading-1;
+  margin: 0 0 var(--space-5);
+}
+

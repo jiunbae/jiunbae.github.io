@@ -1,0 +1,112 @@
+@use '../../abstracts' as *;
+
+.cv {
+  max-width: var(--container-spec);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-6) var(--space-20);
+  color: var(--text-primary);
+  position: relative;
+}
+
+/* cv-skip-link 스타일은 제거됨 — Layout.astro의 글로벌 skip link 사용 */
+
+/* Sticky 사이드 네비 — $sidenav 이상에서만 표시. 3개의 <nav>가 각자 aria-labelledby. */
+.cv-sidenav-wrap {
+  display: none;
+
+  @include sidenavUp {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    position: fixed;
+    top: 120px;
+    left: max(var(--space-5), calc((100vw - var(--container-spec)) / 2 - var(--sidenav-gutter)));
+    width: var(--sidenav-width);
+  }
+}
+
+.cv-sidenav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0_5);
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-0_5);
+  }
+
+  @include sidenavUp {
+    a {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      padding: 4px 6px;
+      font-family: var(--font-mono);
+      font-size: rem(11px);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border-radius: var(--radius-sm);
+      transition: color var(--duration-base) var(--easing-standard),
+                  background var(--duration-base) var(--easing-standard);
+
+      span {
+        color: var(--accent-default);
+        font-weight: 700;
+      }
+
+      &:hover {
+        color: var(--text-primary);
+        background: var(--surface-hover);
+      }
+
+      &:focus-visible {
+        outline: none;
+        box-shadow: var(--shadow-focus-ring);
+        color: var(--text-primary);
+      }
+
+      &[aria-current="location"],
+      &[aria-current="true"] {
+        color: var(--text-primary);
+        background: var(--accent-subtle);
+        box-shadow: inset 2px 0 0 var(--accent-default);
+      }
+    }
+  }
+}
+
+/* forced-colors 폴백 — focus + 컬러 데모 시각 보존 */
+@media (forced-colors: active) {
+  .cv-sidenav a:focus-visible,
+  .cv-toc a:focus-visible,
+  .cv-link:focus-visible,
+  .cv-colophon-link:focus-visible,
+  .cv-token:focus-visible,
+  .cv-code-copy:focus-visible {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+  }
+
+  /* swatch/shadow 데모는 forced-colors-adjust로 색을 유지하고 텍스트 보더 추가 */
+  .cv-swatch span,
+  .cv-token-chip,
+  .cv-radius-box,
+  .cv-shadow-box {
+    forced-color-adjust: none;
+    border: 1px solid CanvasText;
+  }
+
+  /* focus-demo 폴백은 FocusDemo 컴포넌트 내부에 정의 */
+}
+
+.cv-sidenav-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-1) 0;
+}

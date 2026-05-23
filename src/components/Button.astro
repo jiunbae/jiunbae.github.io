@@ -1,0 +1,110 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/*
+ * Button — 디자인 시스템의 기본 인터랙션 단위.
+ *
+ * variant:
+ *   - primary   : accent 배경, 흰 텍스트
+ *   - secondary : 보더 + 투명 배경
+ *   - ghost     : 보더도 없음, hover 시 surface
+ *
+ * size:
+ *   - sm | md (기본) | lg
+ *
+ * focus: 키보드 포커스 시 --shadow-focus-ring 적용
+ */
+type Variant = 'primary' | 'secondary' | 'ghost';
+type Size = 'sm' | 'md' | 'lg';
+
+interface Props extends HTMLAttributes<'button'> {
+  variant?: Variant;
+  size?: Size;
+  class?: string;
+}
+
+const { variant = 'primary', size = 'md', class: className = '', type = 'button', ...rest } = Astro.props;
+const classes = ['btn', `btn-${variant}`, `btn-${size}`, className].filter(Boolean).join(' ');
+---
+
+<button class={classes} type={type} {...rest}><slot /></button>
+
+<!--
+  is:global 유지 사유:
+  - 디자인 시스템 페이지에서 fake focus 데모를 <span class="btn"> 형태로 사용
+  - 외부 페이지에서 단순 <button class="btn"> markup 지원 (Chip와 동일 정책)
+-->
+<style lang="scss" is:global>
+  @use '../styles/abstracts' as *;
+
+  .btn {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: background var(--duration-base) var(--easing-standard),
+                border-color var(--duration-base) var(--easing-standard),
+                color var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard);
+
+    /* Disabled 상태는 opacity 대신 토큰으로 색을 명시 — 대비비 보존 */
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 1;
+      background: var(--surface-subtle);
+      color: var(--text-disabled);
+      border-color: var(--border-subtle);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--shadow-focus-ring);
+    }
+  }
+
+  /* sizes */
+  .btn-sm { padding: 2px var(--space-3); font-size: rem(13px); }
+  .btn-md { padding: var(--space-2) var(--space-4); font-size: rem(14px); }
+  .btn-lg { padding: var(--space-3) var(--space-5); font-size: rem(15px); }
+
+  /* variants */
+  .btn-primary {
+    background: var(--accent-default);
+    color: var(--text-on-accent);
+
+    &:hover:not(:disabled) { background: var(--accent-hover); }
+    &:active:not(:disabled) { background: var(--accent-pressed); }
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-default);
+
+    &:hover:not(:disabled) {
+      background: var(--surface-hover);
+      border-color: var(--border-strong);
+    }
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-primary);
+
+    &:hover:not(:disabled) { background: var(--surface-hover); }
+
+    /* Ghost는 "no fill, no border" 의도 — disabled에서도 일관 유지 */
+    &:disabled {
+      background: transparent;
+      border-color: transparent;
+    }
+  }
+</style>

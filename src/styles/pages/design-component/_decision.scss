@@ -1,0 +1,39 @@
+@use '../../abstracts' as *;
+
+/* ===== Decision ===== */
+.cp-decision {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+
+  @include belowMobile { grid-template-columns: 1fr; }
+}
+
+.cp-decision-mark {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: rem(10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--space-3);
+}
+
+.cp-decision-yes {
+  color: var(--state-success);
+  border: 1px solid var(--state-success);
+  background: var(--state-success-bg);
+
+  & + .cp-list li::before { background: var(--state-success); }
+}
+
+.cp-decision-no {
+  color: var(--state-error);
+  border: 1px solid var(--state-error);
+  background: var(--state-error-bg);
+
+  & + .cp-list li::before { background: var(--state-error); }
+}
+

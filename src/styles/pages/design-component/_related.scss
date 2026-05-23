@@ -1,0 +1,83 @@
+@use '../../abstracts' as *;
+
+/* ===== Related components ===== */
+.cp-related {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+
+  @include belowMobile { grid-template-columns: 1fr; }
+
+  li {
+    display: block;
+  }
+
+  a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "name arrow" "reason arrow";
+    gap: var(--space-1) var(--space-3);
+    align-items: center;
+    padding: var(--space-4);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: border-color var(--duration-base) var(--easing-standard),
+                transform var(--duration-base) var(--easing-standard);
+
+    &:hover {
+      border-color: var(--accent-default);
+      transform: translateY(-2px);
+
+      .cp-related-arrow { color: var(--accent-default); transform: translateX(2px); }
+    }
+  }
+}
+
+.cp-related-name {
+  grid-area: name;
+  font-size: rem(16px);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cp-related-reason {
+  grid-area: reason;
+  @include caption;
+  color: var(--text-muted);
+}
+
+.cp-related-arrow {
+  grid-area: arrow;
+  font-family: var(--font-mono);
+  font-size: rem(18px);
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: color var(--duration-base) var(--easing-standard),
+              transform var(--duration-base) var(--easing-standard);
+}
+
+/* Focus 데모는 <FocusDemo> 컴포넌트로 이전 */
+
+.cp-foot {
+  margin-top: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-default);
+  text-align: center;
+}
+
+.cp-back-link {
+  font-family: var(--font-mono);
+  font-size: rem(12px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-decoration: none;
+
+  &:hover { color: var(--accent-default); }
+}

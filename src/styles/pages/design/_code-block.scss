@@ -1,0 +1,58 @@
+@use '../../abstracts' as *;
+
+/* ===== Code block ===== */
+.cv-code-wrap {
+  position: relative;
+  margin: 0 0 var(--space-6);
+}
+
+.cv-code {
+  background: var(--surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin: 0;
+  overflow-x: auto;
+
+  code {
+    font-family: var(--font-mono);
+    font-size: rem(12px);
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    white-space: pre;
+    background: none;
+    padding: 0;
+  }
+}
+
+.cv-code-copy {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  appearance: none;
+  border: 1px solid var(--border-default);
+  background: var(--surface-base);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: rem(10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--duration-base) var(--easing-standard),
+              border-color var(--duration-base) var(--easing-standard);
+
+  &:hover {
+    color: var(--accent-default);
+    border-color: var(--accent-default);
+  }
+
+  &.copied {
+    color: var(--state-success);
+    border-color: var(--state-success);
+  }
+}
+

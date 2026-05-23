@@ -1,0 +1,108 @@
+---
+import SectionMark from '@/components/SectionMark.astro';
+
+const spaceScale = [
+  ['1', '4'], ['2', '8'], ['3', '12'], ['4', '16'], ['5', '20'],
+  ['6', '24'], ['8', '32'], ['10', '40'], ['12', '48'],
+  ['16', '64'], ['20', '80'],
+];
+
+const radii = ['sm','md','lg','xl','2xl','pill'];
+const shadows = ['sm','md','lg','xl','2xl'];
+const motions = [
+  { d: 'fast', label: '100ms' },
+  { d: 'base', label: '150ms' },
+  { d: 'slow', label: '250ms' },
+  { d: 'slower', label: '400ms' },
+];
+---
+
+<section id="cv-03" class="cv-section">
+  <SectionMark num="03" label="Foundation" />
+  <h2>변하지 않는 토큰.</h2>
+  <p>
+    4가지 기초 토큰 — Space (4px base, 11단계), Radius (5), Shadow (5, 다크 alpha 가산), Motion (4 duration + 4 easing).
+  </p>
+
+  <h3 class="cv-sub">Space — 4px base scale</h3>
+  <div class="cv-scale-space">
+    {spaceScale.map(([n, px]) => (
+      <div class="cv-scale-item">
+        <div class="cv-bar" style={`width: var(--space-${n});`}></div>
+        <span class="cv-scale-tag">{n} <em>· {px}px</em></span>
+      </div>
+    ))}
+  </div>
+
+  <h3 class="cv-sub">Radius</h3>
+  <div class="cv-scale-radius">
+    {radii.map(r => (
+      <div class="cv-scale-item">
+        <div class="cv-radius-box" style={`border-radius: var(--radius-${r});`}></div>
+        <span class="cv-scale-tag">{r}</span>
+      </div>
+    ))}
+  </div>
+
+  <h3 class="cv-sub">Shadow — 다크에선 alpha만 강화</h3>
+  <div class="cv-scale-shadow">
+    {shadows.map(s => (
+      <div class="cv-scale-item">
+        <div class="cv-shadow-box" style={`box-shadow: var(--shadow-${s});`}></div>
+        <span class="cv-scale-tag">{s}</span>
+      </div>
+    ))}
+  </div>
+
+  <h3 class="cv-sub">Motion — 호버해서 비교</h3>
+  <div class="cv-scale-motion">
+    {motions.map(({ d, label }) => (
+      <div class={`cv-motion-card cv-motion-${d}`}>
+        <code>--duration-{d}</code>
+        <span class="cv-motion-time">{label}</span>
+      </div>
+    ))}
+  </div>
+
+  <h3 class="cv-sub">Easing</h3>
+  <table class="cv-table">
+    <thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Usage</th></tr></thead>
+    <tbody>
+    <tr><td><code>--easing-standard</code></td><td>cubic-bezier(0.4, 0, 0.2, 1)</td><td>일반 인터랙션</td></tr>
+    <tr><td><code>--easing-emphasized</code></td><td>cubic-bezier(0.16, 1, 0.3, 1)</td><td>모달/시트 진입 (spring)</td></tr>
+    <tr><td><code>--easing-decelerate</code></td><td>cubic-bezier(0, 0, 0.2, 1)</td><td>밖에서 안으로</td></tr>
+    <tr><td><code>--easing-accelerate</code></td><td>cubic-bezier(0.4, 0, 1, 1)</td><td>안에서 밖으로</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="cv-sub">Breakpoints</h3>
+  <table class="cv-table">
+    <thead><tr><th scope="col">Name</th><th scope="col">Width</th><th scope="col">Range</th></tr></thead>
+    <tbody>
+    <tr><td><code>$mobile</code></td><td>480px</td><td>모바일 이상</td></tr>
+    <tr><td><code>$tablet</code></td><td>768px</td><td>태블릿 이상</td></tr>
+    <tr><td><code>$desktop</code></td><td>1024px</td><td>데스크탑 이상</td></tr>
+    <tr><td><code>$widescreen</code></td><td>1440px</td><td>와이드</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="cv-sub">Z-index</h3>
+  <table class="cv-table">
+    <thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Layer</th></tr></thead>
+    <tbody>
+    <tr><td><code>--z-dropdown</code></td><td>10</td><td>드롭다운</td></tr>
+    <tr><td><code>--z-sticky</code></td><td>20</td><td>sticky 헤더</td></tr>
+    <tr><td><code>--z-overlay</code></td><td>40</td><td>배경 오버레이</td></tr>
+    <tr><td><code>--z-modal</code></td><td>50</td><td>모달</td></tr>
+    <tr><td><code>--z-popover</code></td><td>60</td><td>팝오버</td></tr>
+    <tr><td><code>--z-toast</code></td><td>70</td><td>토스트</td></tr>
+    <tr><td><code>--z-tooltip</code></td><td>80</td><td>툴팁</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="cv-sub">Usage</h3>
+  <pre class="cv-code"><code>{`padding: var(--space-4) var(--space-5);
+border-radius: var(--radius-md);
+box-shadow: var(--shadow-md);
+transition: background var(--duration-base) var(--easing-standard);`}</code></pre>
+</section>

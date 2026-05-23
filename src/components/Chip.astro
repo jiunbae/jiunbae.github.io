@@ -1,0 +1,103 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/*
+ * Chip — 태그, 필터, 카드 안에서 쓰는 공통 pill 단위.
+ *
+ * variant:
+ *   - default : 기본 (회색 보더)
+ *   - active  : 선택된 상태 (primary 보더 + 옅은 primary 배경)
+ *   - muted   : 더 흐리게 (+N 같은 보조 표시)
+ *
+ * as:
+ *   - 'span'   (기본) — 표시용
+ *   - 'button' — 클릭 가능 (필터 토글 등)
+ *
+ * pressed (button 한정):
+ *   - boolean — aria-pressed를 자동 부여하고 variant='active'를 시각 보강.
+ *     문서에 약속된 "필터 chip엔 aria-pressed" 계약을 API로 명문화.
+ */
+type Variant = 'default' | 'active' | 'muted';
+
+type CommonProps = { variant?: Variant; class?: string };
+type Props =
+  | ({ as?: 'span' } & CommonProps & HTMLAttributes<'span'>)
+  | ({ as: 'button'; pressed?: boolean } & CommonProps & HTMLAttributes<'button'>);
+
+const props = Astro.props as Props;
+const as = props.as ?? 'span';
+const isButton = as === 'button';
+
+// pressed는 button arm에서만 narrow됨 — runtime delete 없이 분기로 분리.
+const pressed = isButton ? (props as Extract<Props, { as: 'button' }>).pressed : undefined;
+const variant: Variant = props.variant ?? (pressed ? 'active' : 'default');
+const className = props.class ?? '';
+const classes = ['chip', `chip-${variant}`, className].filter(Boolean).join(' ');
+const ariaPressed = isButton && typeof pressed === 'boolean' ? String(pressed) : undefined;
+
+// 우리가 다루지 않는 attributes만 spread에 흘려보냄
+const { as: _a, variant: _v, class: _c, pressed: _p, type: typeProp, ...rest } = props as Props & { pressed?: boolean; class?: string; type?: string };
+const Tag = as;
+// as="button"일 때 type 기본값 강제 — form 안에서 의도치 않은 submit 방지
+const buttonType = isButton ? (typeProp ?? 'button') : undefined;
+---
+
+<Tag class={classes} aria-pressed={ariaPressed} type={buttonType} {...rest}><slot /></Tag>
+
+<!--
+  is:global 유지 사유:
+  - JS가 cloneNode로 동적 생성하는 +N 뱃지가 scoped CSS의 data-astro-cid를 잃지 않도록
+  - 디자인 시스템 페이지에서 fake focus 데모를 <span class="chip"> 형태로 사용
+-->
+<style lang="scss" is:global>
+  @use '../styles/abstracts' as *;
+
+  .chip {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin: 0;
+    padding: 3px 10px 4px;
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: rem(13px);
+    line-height: 1.25rem;
+    transition: border-color var(--duration-base) var(--easing-standard),
+                color var(--duration-base) var(--easing-standard),
+                background-color var(--duration-base) var(--easing-standard),
+                box-shadow var(--duration-base) var(--easing-standard);
+  }
+
+  button.chip {
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--accent-default);
+      color: var(--accent-default);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--shadow-focus-ring);
+    }
+  }
+
+  .chip-active {
+    color: var(--accent-default);
+    border-color: var(--accent-default);
+    background: var(--accent-subtle);
+  }
+
+  .chip-muted {
+    color: var(--text-muted);
+    border-color: var(--border-subtle);
+  }
+</style>

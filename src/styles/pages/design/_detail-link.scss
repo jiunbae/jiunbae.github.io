@@ -1,0 +1,25 @@
+@use '../../abstracts' as *;
+
+/* ===== "Detail →" link in component sub-label ===== */
+.cv-more {
+  font-family: var(--font-mono);
+  font-size: rem(10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-default);
+  text-decoration: none;
+  margin-left: auto;
+  padding-left: var(--space-3);
+  transition: color var(--duration-base) var(--easing-standard);
+
+  &:hover { color: var(--accent-hover); }
+}
+
+.cv-sub {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+

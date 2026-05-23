@@ -1,0 +1,52 @@
+---
+/*
+ * FocusDemo — 디자인 시스템 데모용 가짜 focus 시각 컨테이너.
+ *
+ * 왜 별도 컴포넌트인가:
+ *   /design 페이지에서 "이것이 focus 상태입니다"를 보여주려면 실제 :focus 없이도
+ *   focus-ring을 강제로 그려야 합니다. 이전엔 `<span class="btn ... cv-btn-focused">`
+ *   처럼 인터랙티브 클래스를 비-interactive span에 합성하는 안티패턴이 8곳에 산재했고
+ *   `.cv-btn-focused` 규칙도 3곳에 중복됐습니다. 이 컴포넌트가 그 contract를
+ *   한 곳으로 모읍니다.
+ *
+ * 사용:
+ *   <FocusDemo kind="button" variant="primary" size="md">Focused</FocusDemo>
+ *   <FocusDemo kind="chip" variant="active">active</FocusDemo>
+ */
+type ButtonVariant = 'primary' | 'secondary' | 'ghost';
+type ChipVariant = 'default' | 'active' | 'muted';
+type Size = 'sm' | 'md' | 'lg';
+
+/*
+ * Discriminated union: kind이 button이면 variant는 ButtonVariant, size 받음.
+ * kind이 chip이면 variant는 ChipVariant, size는 받지 않음.
+ * 잘못된 조합(예: kind="chip" variant="primary")은 타입 단계에서 거부됩니다.
+ */
+type Props =
+  | { kind: 'button'; variant?: ButtonVariant; size?: Size }
+  | { kind: 'chip'; variant?: ChipVariant };
+
+const props = Astro.props as Props;
+const base = props.kind === 'button' ? 'btn' : 'chip';
+const variantClass = props.variant
+  ? `${base}-${props.variant}`
+  : `${base}-${props.kind === 'button' ? 'primary' : 'default'}`;
+const sizeClass = props.kind === 'button' ? ` btn-${props.size ?? 'md'}` : '';
+const classes = `${base} ${variantClass}${sizeClass} focus-demo`;
+---
+
+<span class={classes} aria-hidden="true" tabindex="-1"><slot /></span>
+
+<!-- is:global: button/chip 클래스가 외부에서 정의됨 + cloneNode 데모 호환 -->
+<style lang="scss" is:global>
+  .focus-demo {
+    box-shadow: var(--shadow-focus-ring);
+  }
+
+  @media (forced-colors: active) {
+    .focus-demo {
+      outline: 2px solid Highlight;
+      outline-offset: 2px;
+    }
+  }
+</style>

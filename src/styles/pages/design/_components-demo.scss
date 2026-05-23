@@ -1,0 +1,105 @@
+@use '../../abstracts' as *;
+
+/* ===== Components ===== */
+/* cv-card / cv-card-* 스타일은 PostCard 컴포넌트로 이전 */
+/* PostCard 데모를 design page에서 spacing만 정리 */
+.cv :global(.card) {
+  margin-bottom: var(--space-4);
+}
+
+/* cv-chips / cv-notes / cv-buttons / cv-focus-demo / cv-content-demo 컨테이너는 모두 <DemoFrame>으로 이전됨 */
+/* cv-note 및 cv-note-* 스타일은 Note 컴포넌트로 이전됨 */
+
+/* ===== Semantic tokens ===== */
+.cv-tokens {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5) 0;
+  border-top: 1px dashed var(--border-subtle);
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.cv-tokens-group {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: var(--space-4);
+  align-items: start;
+
+  @include belowMobile {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+}
+
+.cv-tokens-label {
+  font-family: var(--font-mono);
+  font-size: rem(12px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-default);
+  margin: 0;
+  padding-top: 4px;
+  max-width: none;
+}
+
+.cv-tokens-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.cv-token {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px 10px 4px 6px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--surface-base);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color var(--duration-base) var(--easing-standard),
+              background var(--duration-base) var(--easing-standard);
+
+  &:hover {
+    border-color: var(--accent-default);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus-ring);
+  }
+
+  &.cv-token-copied {
+    border-color: var(--state-success);
+    background: var(--state-success-bg);
+  }
+
+  &.cv-token-failed {
+    border-color: var(--state-error);
+    background: var(--state-error-bg);
+  }
+}
+
+.cv-token-chip {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.cv-token code {
+  font-family: var(--font-mono);
+  font-size: rem(11px);
+  font-weight: 600;
+  color: var(--text-primary);
+  background: none;
+  padding: 0;
+}
+

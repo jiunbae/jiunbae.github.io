@@ -1,48 +1,136 @@
 @use '../utils/' as *;
 @use './media-query' as *;
 
-@mixin typo-d1 {
+/*
+ * Typography Scale
+ *
+ * 의미 기반 mixin (display / heading / body / caption / label / code).
+ * 기존 d1/d2/h1/t1/t2/b3/b5/b6/b7은 비대칭 네이밍이라 alias로만 유지.
+ *
+ * 스케일:
+ *   13 — caption, label, code
+ *   14 — body-sm
+ *   15 — body
+ *   17 — body-lg
+ *   18 — heading-3
+ *   20 — heading-2
+ *   26 — heading-1
+ *   32 — display-2
+ *   44 — display-1
+ */
+
+/* ===== Display — 페이지 hero, 모던 인디 톤으로 letter-spacing 강화 ===== */
+@mixin display-1 {
+  font-size: rem(44px);
   font-weight: 800;
-  font-size: rem(35px);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
 }
 
-@mixin typo-d2 {
+@mixin display-2 {
+  font-size: rem(32px);
   font-weight: 700;
-  font-size: rem(27px);
+  line-height: 1.15;
+  letter-spacing: -0.028em;
 }
 
-@mixin typo-h1 {
+/* ===== Heading ===== */
+@mixin heading-1 {
+  font-size: rem(26px);
   font-weight: 700;
-  font-size: rem(22px);
+  line-height: 1.25;
+  letter-spacing: -0.022em;
 }
 
-@mixin typo-t1 {
+@mixin heading-2 {
+  font-size: rem(20px);
   font-weight: 700;
-  font-size: rem(19px);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
 }
 
-@mixin typo-t2 {
-  font-weight: 600;
+@mixin heading-3 {
   font-size: rem(18px);
-}
-
-@mixin typo-b3 {
   font-weight: 600;
-  font-size: rem(15px);
+  line-height: 1.4;
 }
 
-@mixin typo-b5 {
+@mixin heading-4 {
+  font-size: rem(16px);
   font-weight: 600;
-  font-size: rem(14px);
-  line-height: rem(20px);
+  line-height: 1.45;
 }
 
-@mixin typo-b6 {
+/* ===== Body — 한글 가독성 위해 500 weight 기본 ===== */
+@mixin body-lg {
+  font-size: rem(17px);
   font-weight: 500;
-  font-size: rem(13px);
+  line-height: 1.6;
 }
 
-@mixin typo-b7 {
-  font-weight: 600;
-  font-size: rem(13px);
+@mixin body {
+  font-size: rem(15px);
+  font-weight: 500;
+  line-height: 1.6;
 }
+
+@mixin body-sm {
+  font-size: rem(14px);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+/* ===== Caption / Label ===== */
+@mixin caption {
+  font-size: rem(13px);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+@mixin label {
+  font-size: rem(13px);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+@mixin code {
+  font-size: rem(14px);
+  font-weight: 400;
+  line-height: 1.5;
+  font-family: 'SF Mono', ui-monospace, Menlo, Monaco, 'JetBrains Mono', monospace;
+}
+
+/* ===== Eyebrow — 모노스페이스 대문자 라벨 (섹션 마크, 메타 라벨) ===== */
+@mixin eyebrow {
+  font-family: var(--font-mono);
+  font-size: rem(11px);
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* status-badge / status-badge-beta / status-badge-deprecated 믹스인은
+ * <StatusBadge> 컴포넌트로 이전됨 — Badge primitive 위의 얇은 프리셋. */
+
+/* ===== Back link — 페이지 상단 ← 링크 ===== */
+@mixin back-link {
+  font-family: var(--font-mono);
+  font-size: rem(12px);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color var(--duration-base) var(--easing-standard);
+
+  &:hover { color: var(--accent-default); }
+
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* typo-* 레거시 alias는 호출처가 없어 v0.2 정리 시 삭제됨 (status-badge와 같이 정리). */

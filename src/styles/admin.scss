@@ -339,7 +339,7 @@ body.admin-page-body {
     &:focus {
       outline: none;
       border-color: var(--primary-c1);
-      box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.1);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-c1) 10%, transparent);
     }
 
     &::placeholder {
@@ -461,7 +461,7 @@ button {
   &:hover:not(:disabled) {
     background: var(--primary-c2);
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(100, 181, 246, 0.3);
+    box-shadow: 0 4px 8px color-mix(in srgb, var(--primary-c1) 30%, transparent);
   }
 
   &:active:not(:disabled) {
@@ -561,7 +561,7 @@ button {
   &:hover {
     background: var(--primary-c2);
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(100, 181, 246, 0.3);
+    box-shadow: 0 4px 8px color-mix(in srgb, var(--primary-c1) 30%, transparent);
   }
 }
 
@@ -614,7 +614,7 @@ button {
   }
 
   &.active {
-    background: rgba(100, 181, 246, 0.08);
+    background: color-mix(in srgb, var(--primary-c1) 8%, transparent);
     border-left: 3px solid var(--primary-c1);
   }
 
@@ -671,7 +671,7 @@ button {
 }
 
 .tag {
-  background: rgba(100, 181, 246, 0.15);
+  background: color-mix(in srgb, var(--primary-c1) 15%, transparent);
   color: var(--primary-c1);
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
@@ -819,7 +819,7 @@ button {
 
     &.active {
       border-color: var(--primary-c1);
-      background: rgba(100, 181, 246, 0.05);
+      background: color-mix(in srgb, var(--primary-c1) 5%, transparent);
     }
 
     &.uploading {

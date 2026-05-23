@@ -73,31 +73,31 @@ const isActivePath = (target: string) => {
               </a>
             ))}
             <a href="/about/" class:list={['icon-link desktop-only', { 'active-icon': pathname.startsWith('/about') }]} aria-label="About page">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 20a6 6 0 0 0-12 0"/>
                 <circle cx="12" cy="10" r="4"/>
                 <circle cx="12" cy="12" r="10"/>
               </svg>
             </a>
             <a href="/status/" class:list={['icon-link desktop-only', { 'active-icon': pathname.startsWith('/status') }]} aria-label="Status">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
               </svg>
             </a>
             <a href="/rss.xml" class="icon-link desktop-only" aria-label="RSS feed">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 11a9 9 0 0 1 9 9"/>
                 <path d="M4 4a16 16 0 0 1 16 16"/>
                 <circle cx="5" cy="19" r="1"/>
               </svg>
             </a>
             <button class="icon-button desktop-only" id="search-toggle" aria-label="Search">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
               </svg>
             </button>
             <button class="icon-button desktop-only" id="theme-toggle-desktop" aria-label="Toggle theme">
-              <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="currentColor" stroke="currentColor">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="currentColor" stroke="currentColor">
                 <path d="M3.96326 16.1073L2.66133 15.7425L3.41265 16.8666C4.20961 18.059 5.26107 19.0598 6.49131 19.797C7.72155 20.5342 9.09997 20.9895 10.5273 21.1299C11.9546 21.2704 13.3953 21.0926 14.7457 20.6093C16.096 20.126 17.3224 19.3493 18.3365 18.3352C19.3506 17.321 20.1271 16.0945 20.6103 14.7441C21.0934 13.3938 21.2711 11.953 21.1305 10.5257C20.9899 9.09842 20.5346 7.72005 19.7973 6.48987C19.06 5.25969 18.059 4.20833 16.8665 3.41148L15.7424 2.66026L16.1073 3.96216C16.5792 5.64563 16.5944 7.42439 16.1512 9.11566C15.708 10.8069 14.8226 12.3497 13.5857 13.5854L13.5855 13.5857C12.3498 14.8224 10.8072 15.7077 9.11618 16.1509C7.42512 16.594 5.64658 16.579 3.96326 16.1073ZM11.5 22.5C5.42469 22.5 0.5 17.5753 0.5 11.5C0.5 5.42469 5.42469 0.5 11.5 0.5C17.5753 0.5 22.5 5.42469 22.5 11.5C22.5 17.5753 17.5753 22.5 11.5 22.5Z"/>
               </svg>
             </button>
@@ -118,18 +118,18 @@ const isActivePath = (target: string) => {
               })()}
             </span>
             <button class="mobile-icon-btn" id="search-toggle-mobile" aria-label="Search">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="8"/>
                 <path d="m21 21-4.35-4.35"/>
               </svg>
             </button>
             <button class="mobile-icon-btn" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
-              <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg aria-hidden="true" class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="3" y1="6" x2="21" y2="6"/>
                 <line x1="3" y1="12" x2="21" y2="12"/>
                 <line x1="3" y1="18" x2="21" y2="18"/>
               </svg>
-              <svg class="close-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg aria-hidden="true" class="close-icon" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="18" y1="6" x2="6" y2="18"/>
                 <line x1="6" y1="6" x2="18" y2="18"/>
               </svg>
@@ -137,13 +137,13 @@ const isActivePath = (target: string) => {
           </div>
         </div>
       </div>
-      <div class="progress-bar" id="progress-bar"></div>
+      <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
     </header>
 
     <!-- Mobile drawer overlay -->
     <div class="drawer-overlay" id="drawer-overlay"></div>
     <!-- Mobile drawer -->
-    <nav class="drawer" id="drawer" aria-label="Mobile navigation" aria-hidden="true">
+    <nav class="drawer" id="drawer" aria-label="Mobile navigation" inert>
       <div class="drawer-content">
         <div class="drawer-links">
           {baseNavLinks.map(link => (
@@ -159,19 +159,19 @@ const isActivePath = (target: string) => {
         <hr class="drawer-divider" />
         <div class="drawer-actions">
           <a href="/about/" class="drawer-action">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
             <span>About</span>
           </a>
           <a href="/status/" class="drawer-action">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             <span>Status</span>
           </a>
           <a href="/rss.xml" class="drawer-action">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
             <span>RSS Feed</span>
           </a>
           <button class="drawer-action" id="theme-toggle-drawer" aria-label="Toggle theme">
-            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="currentColor" stroke="currentColor"><path d="M3.96326 16.1073L2.66133 15.7425L3.41265 16.8666C4.20961 18.059 5.26107 19.0598 6.49131 19.797C7.72155 20.5342 9.09997 20.9895 10.5273 21.1299C11.9546 21.2704 13.3953 21.0926 14.7457 20.6093C16.096 20.126 17.3224 19.3493 18.3365 18.3352C19.3506 17.321 20.1271 16.0945 20.6103 14.7441C21.0934 13.3938 21.2711 11.953 21.1305 10.5257C20.9899 9.09842 20.5346 7.72005 19.7973 6.48987C19.06 5.25969 18.059 4.20833 16.8665 3.41148L15.7424 2.66026L16.1073 3.96216C16.5792 5.64563 16.5944 7.42439 16.1512 9.11566C15.708 10.8069 14.8226 12.3497 13.5857 13.5854L13.5855 13.5857C12.3498 14.8224 10.8072 15.7077 9.11618 16.1509C7.42512 16.594 5.64658 16.579 3.96326 16.1073ZM11.5 22.5C5.42469 22.5 0.5 17.5753 0.5 11.5C0.5 5.42469 5.42469 0.5 11.5 0.5C17.5753 0.5 22.5 5.42469 22.5 11.5C22.5 17.5753 17.5753 22.5 11.5 22.5Z"/></svg>
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="currentColor" stroke="currentColor"><path d="M3.96326 16.1073L2.66133 15.7425L3.41265 16.8666C4.20961 18.059 5.26107 19.0598 6.49131 19.797C7.72155 20.5342 9.09997 20.9895 10.5273 21.1299C11.9546 21.2704 13.3953 21.0926 14.7457 20.6093C16.096 20.126 17.3224 19.3493 18.3365 18.3352C19.3506 17.321 20.1271 16.0945 20.6103 14.7441C21.0934 13.3938 21.2711 11.953 21.1305 10.5257C20.9899 9.09842 20.5346 7.72005 19.7973 6.48987C19.06 5.25969 18.059 4.20833 16.8665 3.41148L15.7424 2.66026L16.1073 3.96216C16.5792 5.64563 16.5944 7.42439 16.1512 9.11566C15.708 10.8069 14.8226 12.3497 13.5857 13.5854L13.5855 13.5857C12.3498 14.8224 10.8072 15.7077 9.11618 16.1509C7.42512 16.594 5.64658 16.579 3.96326 16.1073ZM11.5 22.5C5.42469 22.5 0.5 17.5753 0.5 11.5C0.5 5.42469 5.42469 0.5 11.5 0.5C17.5753 0.5 22.5 5.42469 22.5 11.5C22.5 17.5753 17.5753 22.5 11.5 22.5Z"/></svg>
             <span>Theme</span>
           </button>
         </div>
@@ -180,7 +180,7 @@ const isActivePath = (target: string) => {
 
     <SearchModal client:idle />
 
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
 
@@ -190,7 +190,7 @@ const isActivePath = (target: string) => {
 
     <!-- Scroll to top button -->
     <button class="scroll-to-top" id="scroll-to-top" aria-label="Scroll to top">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="m18 15-6-6-6 6"/>
       </svg>
     </button>
@@ -273,22 +273,37 @@ const isActivePath = (target: string) => {
       const menuIcon = hamburgerBtn?.querySelector('.menu-icon') as HTMLElement;
       const closeIcon = hamburgerBtn?.querySelector('.close-icon') as HTMLElement;
 
+      // Focus trap이 잡힐 후보 — 보이는 + 비활성 아닌 + tabIndex >= 0
+      function focusableInDrawer(): HTMLElement[] {
+        if (!drawer) return [];
+        const candidates = drawer.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])');
+        return Array.from(candidates).filter(el => {
+          if (el.hasAttribute('disabled')) return false;
+          if (el.getAttribute('aria-hidden') === 'true') return false;
+          const rect = el.getBoundingClientRect();
+          if (rect.width === 0 && rect.height === 0) return false;
+          const style = window.getComputedStyle(el);
+          return style.visibility !== 'hidden' && style.display !== 'none';
+        });
+      }
+
       function openDrawer() {
-        drawer?.classList.add('open');
-        drawer?.setAttribute('aria-hidden', 'false');
+        if (!drawer) return;
+        drawer.classList.add('open');
+        drawer.removeAttribute('inert');
         drawerOverlay?.classList.add('open');
         if (menuIcon) menuIcon.style.display = 'none';
         if (closeIcon) closeIcon.style.display = 'block';
         hamburgerBtn?.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
-        // Focus first link in drawer
-        const firstLink = drawer?.querySelector('a, button') as HTMLElement;
-        firstLink?.focus();
+        // Focus first focusable link
+        focusableInDrawer()[0]?.focus();
       }
 
       function closeDrawer() {
-        drawer?.classList.remove('open');
-        drawer?.setAttribute('aria-hidden', 'true');
+        if (!drawer) return;
+        drawer.classList.remove('open');
+        drawer.setAttribute('inert', '');
         drawerOverlay?.classList.remove('open');
         if (menuIcon) menuIcon.style.display = 'block';
         if (closeIcon) closeIcon.style.display = 'none';
@@ -317,7 +332,8 @@ const isActivePath = (target: string) => {
           return;
         }
         if (e.key === 'Tab') {
-          const focusable = drawer.querySelectorAll<HTMLElement>('a, button');
+          const focusable = focusableInDrawer();
+          if (focusable.length === 0) return;
           const first = focusable[0];
           const last = focusable[focusable.length - 1];
           if (e.shiftKey && document.activeElement === first) {
@@ -393,20 +409,36 @@ const isActivePath = (target: string) => {
     position: absolute;
     top: -40px;
     left: 0;
-    padding: 8px;
-    background: var(--primary-c1);
-    color: white;
-    z-index: 100;
+    padding: 8px 12px;
+    background: var(--accent-default);
+    color: var(--text-on-accent);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 0 0 var(--radius-md) 0;
+    z-index: var(--z-toast);
 
     &:focus {
       top: 0;
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
     }
+  }
+
+  @media (forced-colors: active) {
+    .skip-link {
+      forced-color-adjust: none;
+      background: Canvas;
+      color: CanvasText;
+      border: 2px solid CanvasText;
+    }
+    .skip-link:focus { outline: 2px solid CanvasText; outline-offset: 2px; }
   }
 
   .header {
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: var(--z-sticky);
     background-color: var(--header-bg);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
@@ -613,7 +645,7 @@ const isActivePath = (target: string) => {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+    z-index: var(--z-overlay);
 
     &.open {
       display: block;
@@ -630,7 +662,7 @@ const isActivePath = (target: string) => {
     height: 100vh;
     background-color: var(--background);
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    z-index: var(--z-modal);
     transition: right 0.3s ease;
     overflow-y: auto;
 
@@ -755,7 +787,7 @@ const isActivePath = (target: string) => {
     transform: translateY(20px);
     transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.2s;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 40;
+    z-index: var(--z-sticky);
 
     &.visible {
       opacity: 1;

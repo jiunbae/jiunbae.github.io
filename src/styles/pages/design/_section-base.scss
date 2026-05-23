@@ -1,0 +1,120 @@
+@use '../../abstracts' as *;
+
+/* ===== Sections ===== */
+.cv-section {
+  padding: var(--space-12) 0;
+  border-top: 1px solid var(--border-default);
+  scroll-margin-top: var(--space-10);
+}
+
+/* .cv-section-mark / .cv-section-num / .cv-section-label은 <SectionMark>로 이전됨 */
+
+.cv-section h2 {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin: 0 0 var(--space-5);
+}
+
+.cv-section > p {
+  @include body-lg;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-8);
+  max-width: 580px;
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    font-weight: 600;
+    background: var(--surface-subtle);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--text-primary);
+  }
+}
+
+.cv-sub {
+  @include eyebrow;
+  color: var(--text-muted);
+  margin: var(--space-8) 0 var(--space-3);
+  max-width: none;
+}
+
+/* h3 + StatusBadge + 설명 + Detail → 링크를 한 줄에. h3 accessible name이
+ * 컴포넌트 이름만으로 깔끔하게 유지되도록 형제 요소로 분리. */
+.cv-sub-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: var(--space-8) 0 var(--space-3);
+
+  .cv-sub {
+    margin: 0;
+  }
+
+  .cv-sub-desc {
+    @include eyebrow;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-transform: none;
+    font-weight: 600;
+
+    &::before {
+      content: '· ';
+      color: var(--text-disabled);
+    }
+  }
+
+  .cv-more {
+    margin-left: auto;
+  }
+}
+
+/* ===== Color swatches ===== */
+.cv-swatches {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin: 0 0 var(--space-4);
+
+  @include belowMobile { grid-template-columns: 1fr; }
+}
+
+.cv-swatches.cv-swatches-4 {
+  grid-template-columns: repeat(4, 1fr);
+
+  @include belowTablet { grid-template-columns: repeat(2, 1fr); }
+  @include belowMobile { grid-template-columns: 1fr; }
+}
+
+.cv-swatch {
+  border: 1px solid var(--border-default);
+  padding: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: rem(11px);
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+
+  span {
+    display: block;
+    height: 80px;
+    margin: 0 0 var(--space-2);
+    border: 1px solid var(--border-subtle);
+  }
+
+  b {
+    display: block;
+    font-size: rem(12px);
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+}
+
+.cv-swatch.cv-swatch-bg span {
+  height: 48px;
+  border-radius: var(--radius-sm);
+}
+

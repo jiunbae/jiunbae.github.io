@@ -1,0 +1,93 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/*
+ * PostCard — 리스트 페이지에서 글 항목을 표시하는 단위.
+ *
+ * 다른 사용처를 위해 헤딩 레벨을 prop으로 받음 (기본 h3).
+ * post 카드는 보통 페이지 안에서 동등한 수준으로 반복되므로 h2~h4 선택 가능.
+ */
+interface Props extends HTMLAttributes<'article'> {
+  title: string;
+  description?: string;
+  date?: string;        /* 화면에 보일 표시 텍스트 (예: "2026.05.22") */
+  datetime?: string;    /* <time datetime="YYYY-MM-DD"> 머신 리더용 ISO */
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  class?: string;
+}
+
+const {
+  title,
+  description,
+  date,
+  datetime,
+  headingLevel = 'h3',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+// datetime이 빠지면 표시 텍스트에서 추정. YYYY.MM.DD/YYYY-MM-DD 모두 ISO 변환.
+const isoDate = datetime ?? (date ? date.replace(/\./g, '-') : undefined);
+
+const HeadingTag = headingLevel;
+const classes = ['card', className].filter(Boolean).join(' ');
+---
+
+<article class={classes} {...rest}>
+  <HeadingTag class="card-title">{title}</HeadingTag>
+  {description && <p class="card-desc">{description}</p>}
+  <div class="card-foot">
+    <div class="card-tags"><slot name="tags" /></div>
+    {date && <time class="card-date" datetime={isoDate}>{date}</time>}
+  </div>
+</article>
+
+<style lang="scss">
+  @use '../styles/abstracts' as *;
+
+  .card {
+    padding: var(--space-5);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-title {
+    font-size: rem(20px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--space-2);
+    color: var(--text-primary);
+  }
+
+  .card-desc {
+    font-size: rem(14px);
+    font-weight: 500;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-4);
+  }
+
+  .card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .card-tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  .card-date {
+    font-family: var(--font-mono);
+    font-size: rem(12px);
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+</style>

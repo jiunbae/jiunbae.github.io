@@ -1,0 +1,39 @@
+@use '../abstracts' as *;
+
+/* 디자인 시스템 컴포넌트 상세 페이지(`[name].astro`) 스타일 — section별 partial 분할.
+ *
+ * Cascade 계약:
+ *   1. shell         : .cp root, .cp-toc, forced-colors fallback
+ *   2. head          : .cp-back, .cp-eyebrow, .cp-title-row, .cp-lede, .cp-section
+ *   3. demo          : .cp-demo 컨테이너, .cp-demo-row, .cp-demo-caption
+ *   4. why           : Rationale 리스트 (.cp-why)
+ *   5. anatomy       : .cp-anatomy 리스트
+ *   6. props         : .cp-props 테이블
+ *   7. code          : .cp-code 블록 (별도 동적 copy 버튼 없음 — 본문 보기만)
+ *   8. lists         : .cp-list — When/WhenNot 등 일반 글머리표
+ *   9. decision      : Decision 섹션 (when/whenNot 페어)
+ *  10. states        : .cp-states 상태 매트릭스 (button, chip 한정)
+ *  11. related       : 관련 컴포넌트 카드 + cp-foot
+ *
+ * 네임스페이스 정책 (ADR — `.cv-*` vs `.cp-*` fork):
+ *   본 시스템은 두 디자인 페이지마다 별도 prefix(.cv-* / .cp-*)를 유지합니다.
+ *   - .cv-*: 디자인 시스템 메인 페이지 전용 (/design)
+ *   - .cp-*: 컴포넌트 상세 페이지 전용 (/design/components/[name])
+ *   - 공유 atoms는 src/components/* 의 Astro 컴포넌트로만 추출 (Badge, SectionMark 등).
+ *   - 공유 SCSS partial은 일부러 도입하지 않음 — 두 페이지는 정보 구조와 시각 리듬이
+ *     다르므로, 두 prefix를 fork로 두는 편이 cross-page 의도치 않은 변경을 막습니다.
+ *     공통 chrome(typography reset 등)은 이미 src/styles/base에서 처리됩니다.
+ *   - 새 디자인 페이지가 추가되면 새로운 prefix(.cd-*, .cs-* 등)를 만들어 동일 패턴으로 분할.
+ */
+
+@forward 'design-component/shell';
+@forward 'design-component/head';
+@forward 'design-component/demo';
+@forward 'design-component/why';
+@forward 'design-component/anatomy';
+@forward 'design-component/props';
+@forward 'design-component/code';
+@forward 'design-component/lists';
+@forward 'design-component/decision';
+@forward 'design-component/states';
+@forward 'design-component/related';

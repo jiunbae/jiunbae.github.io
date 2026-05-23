@@ -1,0 +1,28 @@
+---
+/*
+ * StatusBadge — 컴포넌트 라이프사이클 상태(Stable/Beta/Deprecated) 표시.
+ *
+ * Badge primitive 위의 얇은 프리셋. status-badge SCSS 믹스인을 대체합니다.
+ * KindBadge처럼, 자주 쓰이는 status 어휘를 tone에 매핑해 호출처에서
+ * tone을 매번 떠올리지 않게 합니다.
+ */
+import Badge from './Badge.astro';
+
+export type Status = 'Stable' | 'Beta' | 'Deprecated' | 'Current';
+type Tone = 'neutral' | 'warning' | 'error' | 'success';
+
+interface Props {
+  status: Status;
+}
+
+const toneOf: Record<Status, Tone> = {
+  Stable: 'neutral',
+  Beta: 'warning',
+  Deprecated: 'error',
+  Current: 'success',
+};
+
+const { status } = Astro.props;
+---
+
+<Badge tone={toneOf[status]}>{status}</Badge>

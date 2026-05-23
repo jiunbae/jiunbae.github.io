@@ -1,9 +1,18 @@
 @use '../utils/' as *;
 
-$mobile: rem(500px);
-$tablet: rem(780px);
-$desktop: rem(1000px);
-$widescreen: rem(1400px);
+/*
+ * Breakpoints — _tokens.scss의 --bp-* 와 정확히 같은 픽셀 값.
+ * CSS custom properties는 @media expression에 못 들어가서 SCSS 변수를 따로 두지만,
+ * 값은 단일 source: 이 파일이 token 정의를 mirror 합니다.
+ * --bp-mobile: 480px, --bp-tablet: 768px, --bp-desktop: 1024px,
+ * --bp-toc: 1100px, --bp-sidenav: 1280px, --bp-wide: 1440px
+ */
+$mobile: rem(480px);
+$tablet: rem(768px);
+$desktop: rem(1024px);
+$widescreen: rem(1440px);
+$toc: rem(1100px);
+$sidenav: rem(1280px);
 
 @mixin mobileAndUp {
   @media screen and (min-width: #{$mobile}) {
@@ -25,6 +34,37 @@ $widescreen: rem(1400px);
 
 @mixin widescreenAndUp {
   @media screen and (min-width: #{$widescreen}) {
+    @content;
+  }
+}
+
+@mixin tocUp {
+  @media screen and (min-width: #{$toc}) {
+    @content;
+  }
+}
+
+@mixin sidenavUp {
+  @media screen and (min-width: #{$sidenav}) {
+    @content;
+  }
+}
+
+/* max-width variants — "X 미만에서 적용" */
+@mixin belowMobile {
+  @media screen and (max-width: #{$mobile - rem(1px)}) {
+    @content;
+  }
+}
+
+@mixin belowTablet {
+  @media screen and (max-width: #{$tablet - rem(1px)}) {
+    @content;
+  }
+}
+
+@mixin belowDesktop {
+  @media screen and (max-width: #{$desktop - rem(1px)}) {
     @content;
   }
 }

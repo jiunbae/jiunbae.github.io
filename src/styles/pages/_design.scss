@@ -1,0 +1,42 @@
+@use '../abstracts' as *;
+
+/* 디자인 시스템 메인 페이지(`design.astro`) 스타일 — 섹션별 partial 분할.
+ *
+ * Cascade 계약 (이 순서 유지):
+ *   1. layout         : 페이지 root, sidenav, 분할자 — 가장 바깥 레이어
+ *   2. cover          : 매거진 표지 (Issue №, title, lede, TOC)
+ *   3. section-base   : .cv-section / .cv-sub / .cv-sub-row — 모든 섹션 공통
+ *   4. type-scale     : Typography 섹션 전용 type 샘플 셀
+ *   5. fonts          : Font family 섹션
+ *   6. foundation     : Foundation 스케일(space/radius/shadow/motion) + breakpoint
+ *   7. components-demo: 토큰 그리드, .cv-token, motion card 데모
+ *   8. data-table     : .cv-table 공통 표 스타일
+ *   9. button-cell    : In-Use Button 데모 셀
+ *  10. dodont         : Do/Don't 페어
+ *  11. detail-link    : "Detail →" 마이크로 링크 + .cv-sub-row 안 위치 조정
+ *  12. code-block     : .cv-code + 동적 주입되는 .cv-code-copy 버튼
+ *  13. a11y           : Accessibility 섹션 — focus desc 등
+ *  14. content        : Content 섹션 (블록쿼트, 리스트, figure)
+ *  15. colophon       : 페이지 하단 colophon
+ *
+ * 규칙:
+ *   - 각 partial은 `@use '../../abstracts' as *;`만 import — 다른 partial 직접 참조 금지
+ *   - partial이 redefine할 수 있는 selector는 자기 섹션 prefix(.cv-*)만 — 외부 prefix는 건들지 않음
+ *   - 새 섹션 추가 시 markup 분할(src/components/design/Section*.astro)과 1:1로 paired partial 생성
+ */
+
+@forward 'design/layout';
+@forward 'design/cover';
+@forward 'design/section-base';
+@forward 'design/type-scale';
+@forward 'design/fonts';
+@forward 'design/foundation';
+@forward 'design/components-demo';
+@forward 'design/data-table';
+@forward 'design/button-cell';
+@forward 'design/dodont';
+@forward 'design/detail-link';
+@forward 'design/code-block';
+@forward 'design/a11y';
+@forward 'design/content';
+@forward 'design/colophon';

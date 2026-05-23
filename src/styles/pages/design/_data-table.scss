@@ -1,0 +1,95 @@
+@use '../../abstracts' as *;
+
+/* ===== Generic data table ===== */
+/* Typography samples — mixin 사용 */
+.t-display-1 { @include display-1; }
+.t-display-2 { @include display-2; }
+.t-heading-1 { @include heading-1; }
+.t-heading-2 { @include heading-2; }
+.t-heading-3 { @include heading-3; }
+.t-body-lg   { @include body-lg; }
+.t-body      { @include body; }
+.t-body-sm   { @include body-sm; }
+.t-caption   { @include caption; }
+.t-label     { @include label; text-transform: uppercase; }
+.t-code      { @include code; }
+
+.cv-font-sample {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.cv-font-sample-sans {
+  font-family: var(--font-sans);
+  font-size: rem(20px);
+  font-weight: 600;
+}
+
+.cv-font-sample-mono {
+  font-family: var(--font-mono);
+  font-size: rem(15px);
+  font-weight: 600;
+}
+
+.cv-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 var(--space-4);
+  font-family: var(--font-mono);
+  font-size: rem(12px);
+
+  thead th {
+    text-align: left;
+    padding: var(--space-2) var(--space-2);
+    border-bottom: 1px solid var(--border-default);
+    font-size: rem(10px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+
+  tbody tr {
+    border-top: 1px dashed var(--border-subtle);
+    &:last-child { border-bottom: 1px dashed var(--border-subtle); }
+  }
+
+  tr {
+    border-top: 1px dashed var(--border-subtle);
+    &:last-child { border-bottom: 1px dashed var(--border-subtle); }
+  }
+
+  td {
+    padding: var(--space-2) var(--space-2);
+    color: var(--text-secondary);
+    font-weight: 500;
+    vertical-align: baseline;
+
+    &:nth-child(1) {
+      color: var(--text-primary);
+      font-weight: 700;
+      width: 35%;
+    }
+
+    &:nth-child(2) {
+      width: 35%;
+    }
+
+    &:last-child {
+      text-align: right;
+      color: var(--text-muted);
+      font-size: rem(11px);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 1em;
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+  }
+}
+

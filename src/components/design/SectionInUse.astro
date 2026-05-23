@@ -1,0 +1,106 @@
+---
+import SectionMark from '@/components/SectionMark.astro';
+import StatusBadge from '@/components/StatusBadge.astro';
+import Button from '@/components/Button.astro';
+import Chip from '@/components/Chip.astro';
+import PostCard from '@/components/PostCard.astro';
+import Note from '@/components/Note.astro';
+import FocusDemo from '@/components/FocusDemo.astro';
+import DemoFrame from '@/components/DemoFrame.astro';
+---
+
+<section id="cv-04" class="cv-section">
+  <SectionMark num="04" label="In Use" />
+  <h2>실제 페이지에서.</h2>
+  <p>토큰만 정의하는 시스템은 시스템이 아닙니다. 실제 페이지에서 같이 일하는 조각들.</p>
+
+  <div class="cv-sub-row">
+    <h3 class="cv-sub">Button</h3>
+    <StatusBadge status="Stable" />
+    <span class="cv-sub-desc">가장 자주 쓰는 인터랙션 단위</span>
+    <a href="/design/components/button" class="cv-more" aria-label="Button detail">Detail →</a>
+  </div>
+  <DemoFrame layout="wrap" gap="lg">
+    <div class="cv-btn-cell">
+      <Button variant="primary">Primary</Button>
+      <span class="cv-btn-state">idle · hover · active</span>
+    </div>
+    <div class="cv-btn-cell">
+      <Button variant="secondary">Secondary</Button>
+      <span class="cv-btn-state">idle · hover</span>
+    </div>
+    <div class="cv-btn-cell">
+      <Button variant="ghost">Ghost</Button>
+      <span class="cv-btn-state">idle · hover</span>
+    </div>
+    <div class="cv-btn-cell">
+      <FocusDemo kind="button" variant="primary" size="md">Focused</FocusDemo>
+      <span class="cv-btn-state">focus ring</span>
+    </div>
+    <div class="cv-btn-cell">
+      <Button variant="primary" disabled>Disabled</Button>
+      <span class="cv-btn-state">disabled</span>
+    </div>
+  </DemoFrame>
+  <pre class="cv-code"><code>{`<button class="btn btn-primary">Primary</button>`}</code></pre>
+
+  <div class="cv-sub-row">
+    <h3 class="cv-sub">Post Card</h3>
+    <StatusBadge status="Stable" />
+    <span class="cv-sub-desc">리스트 페이지에서 쓰는 카드</span>
+    <a href="/design/components/card" class="cv-more" aria-label="Post Card detail">Detail →</a>
+  </div>
+  <PostCard
+    title="디자인 시스템을 다시 짠다는 것"
+    description="색 한 톤을 바꾸려다 결국 토큰 레이어 전체를 다시 정리했습니다."
+    date="2026.05.22"
+    headingLevel="h4"
+  >
+    <Fragment slot="tags">
+      <Chip>design</Chip>
+      <Chip>tokens</Chip>
+      <Chip variant="muted">+2</Chip>
+    </Fragment>
+  </PostCard>
+  <pre class="cv-code"><code>{`<article class="card">
+  <h3>...</h3>
+  <p>...</p>
+  <div class="card-foot">
+    <Chip>tag</Chip>
+    <time>2026.05.22</time>
+  </div>
+</article>`}</code></pre>
+
+  <div class="cv-sub-row">
+    <h3 class="cv-sub">Chip</h3>
+    <StatusBadge status="Stable" />
+    <span class="cv-sub-desc">태그와 필터의 단위</span>
+    <a href="/design/components/chip" class="cv-more" aria-label="Chip detail">Detail →</a>
+  </div>
+  <DemoFrame layout="wrap" gap="sm">
+    <Chip variant="active">active</Chip>
+    <Chip>default</Chip>
+    <Chip as="button" type="button">hover me</Chip>
+    <Chip variant="muted">+12</Chip>
+  </DemoFrame>
+  <pre class="cv-code"><code>{`<Chip variant="active">active</Chip>
+<Chip>default</Chip>
+<Chip as="button" type="button">click</Chip>
+<Chip variant="muted">+12</Chip>`}</code></pre>
+
+  <div class="cv-sub-row">
+    <h3 class="cv-sub">Note</h3>
+    <StatusBadge status="Beta" />
+    <span class="cv-sub-desc">글 안에서 별도 시선을 받는 단락</span>
+    <a href="/design/components/note" class="cv-more" aria-label="Note detail">Detail →</a>
+  </div>
+  <DemoFrame layout="col" gap="sm">
+    <Note variant="info"><p>설명에 곁가지로 다는 보충 메모입니다.</p></Note>
+    <Note variant="caution"><p>아직 검증되지 않은 가정이거나 잠시 멈춰서 봐야 할 부분.</p></Note>
+    <Note variant="issue"><p>실패한 결정, 되돌린 변경, 또는 알려진 문제.</p></Note>
+  </DemoFrame>
+  <pre class="cv-code"><code>{`<aside class="note note-info">
+  <span class="note-mark">info</span>
+  <p>...</p>
+</aside>`}</code></pre>
+</section>
