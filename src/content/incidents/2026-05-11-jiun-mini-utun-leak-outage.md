@@ -143,3 +143,52 @@ args:
 3. **K8s init container의 멱등성은 옵션이 아니라 필수다.** Pod sandbox는 재생성되지만 `EmptyDir`은 살아남는다. 그래서 init이 한 번 부분 성공하고 다른 컨테이너 문제로 sandbox가 재생성되면 init이 영원히 실패할 수 있다. `ln -sf`, `mkdir -p`, `rm -f` 같은 idempotent 변형을 항상 쓰자.
 4. **운영 절차는 conversation에 두지 말고 코드로 남기자.** 같은 진단을 두 번째 하고 있다면 그건 첫 번째 진단을 잘못 저장한 것. 이번 사건을 계기로 `docs/jiun-mini/` runbook + safe-reboot 스크립트를 IaC 레포에 추가했다. 다음 재발은 SSH 후 한 줄로 진단되어야 한다.
 5. **재부팅 + 업데이트를 같은 사이클에 묶지 말자 (이번엔 묶었음).** 인터넷 복구만이 목적이었다면 macOS 26.4.1까지 같이 적용하지 말았어야 했다. 새 macOS가 OrbStack/Tailscale 시스템 확장과 호환 문제를 일으켰다면 다운타임이 두 배가 됐을 것. 다행히 이번엔 무사했지만, runbook에 명시한 대로 "macOS 업데이트는 별도 유지보수 창" 원칙을 다음부터는 지키자.
+
+## 후속 관찰 (2026-05-21)
+
+복구 후 9일 동안 동일 노드를 관찰하면서, 초기 보고서의 근본 원인 가설을 수정해야 할 새 데이터를 확보했습니다.
+
+### 관찰 결과
+
+| 시점 | uptime | utun 개수 | 인터넷 | 비고 |
+|------|--------|-----------|--------|------|
+| 2026-05-11 23:02 (원 사건) | 50일 22시간 | 9 | ❌ EADDRNOTAVAIL | 임계 도달 |
+| 2026-05-11 23:56 (재부팅 직후) | 4분 | 6 | ✅ | baseline |
+| 2026-05-12 00:00 | 8분 | 7 | ✅ | +1 |
+| 2026-05-21 17:03 | **2일 15시간** | **9** | ✅ | 다시 9개 도달, 그러나 인터넷 정상 |
+
+### 가설 수정
+
+**기존 가설**: "시스템 확장이 재시작될 때 옛 utun을 정리 안 함"
+**수정 가설**: "시스템 확장이 **정상 운영 중에도** 새 utun을 할당하고 옛 utun fd를 close 안 함"
+
+근거:
+- 5/21 시점, Tailscale network-extension 프로세스(PID 1254)의 `etime`이 부팅 시각부터 한 번도 끊기지 않았음 (재시작 0회)
+- 그럼에도 9개 utun 중 5개가 zombie (MTU 1380, IP 없음 — Tailscale 기본 MTU 시그니처)
+- 활성 utun은 utun4 단 1개 (`100.116.219.61` 할당, MTU 1280)
+
+누수 트리거 추정 (재시작 아님):
+- Wi-Fi sleep/wake, 네트워크 인터페이스 전환
+- Tailscale peer reconnect, NAT rebind, DERP 핸드오버
+- 시스템 sleep/wake 사이클
+
+매 이벤트마다 새 `NEPacketTunnelProvider` 인스턴스가 utun을 할당하고 이전 utun의 file descriptor를 release 안 함. 시스템 확장 프로세스 본인은 살아있으므로 OS도 fd를 회수 못 함.
+
+### 추가 학습: utun 개수 ≠ EADDRNOTAVAIL 임계
+
+5/21 시점에 utun이 9개인데 인터넷은 정상이라는 사실은, 원 사건의 직접 원인을 **utun 개수 단독**이 아닌 **utun 누수 + ephemeral port/소켓 누수 + 메모리 누수의 누적 조합**으로 봐야 함을 시사합니다. utun 개수는 누수의 *지표* (proxy metric)이지 임계 그 자체가 아닙니다.
+
+→ runbook의 헬스체크 기준 `utun ≥ 5` 경고는 *조기 알람*으로는 유효하지만, 단독 임계로는 부적절. uptime 일수와 함께 봐야 합니다.
+
+### 진짜 해결 방향
+
+월 1회 재부팅(`pmset repeat restartday`)은 mitigation일 뿐 근본 해결이 아닙니다. 시스템 확장 누수는 macOS NetworkExtension 프레임워크의 알려진 패턴이고, Tailscale macsys 빌드를 쓰는 한 회피 불가능합니다.
+
+근본 해결 옵션:
+
+1. **subnet router 경유 (가장 깔끔)**: 같은 LAN의 다른 Tailscale 노드(`gateway-1` 등)가 `192.168.32.0/24`를 subnet route로 광고하도록 설정. jiun-mini에서 Tailscale 자체를 제거하고 `192.168.32.55` LAN IP로 접근. 시스템 확장 자체가 없으므로 누수 원천 차단.
+2. **tailscaled CLI 데몬**: 오픈소스 `tailscaled` 바이너리를 launchd로 실행. NetworkExtension 미사용. macOS 공식 지원은 약하지만 기술적으로 가능.
+3. **업스트림 버그 리포트**: Tailscale GitHub에 본 관찰 데이터(PID 재시작 없이도 utun 누수)와 함께 이슈 제출. 이전 reports는 "재시작 시 정리 안 됨" 가설에 머물러 있어 새 데이터 가치 있음.
+4. **현상 유지 + 정기 재부팅**: 운영 비용 가장 낮음. 단 누수 속도(일일 ~2개)와 임계점이 매번 다를 수 있어 모니터링 필수.
+
+prod 영향을 고려하면 옵션 1이 장기 정답. 옵션 4를 단기로 두면서 옵션 1 마이그레이션을 별도 작업 항목으로 추적합니다.
