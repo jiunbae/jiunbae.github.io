@@ -173,7 +173,13 @@ const AudioConverterPage = () => {
               onClick={() => fileInputRef.current?.click()}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') fileInputRef.current?.click() }}
+              aria-label="Choose audio file or drop here"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  fileInputRef.current?.click();
+                }
+              }}
             >
               <div className={styles.dropIcon}>
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -186,7 +192,7 @@ const AudioConverterPage = () => {
               <p className={styles.dropHint}>MP3, WAV, OGG, FLAC, AAC, M4A, WMA</p>
               <input
                 ref={fileInputRef}
-                type="file"
+                type="file" tabIndex={-1} aria-hidden="true"
                 accept={ACCEPT_TYPES}
                 onChange={handleFileChange}
                 className={styles.hiddenInput}

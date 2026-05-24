@@ -88,6 +88,17 @@
       "D": 9.4,
       "avg": 9.613,
       "note": "stylelint 0, admin/contact/about cleanups, 91.7% adoption"
+    },
+    {
+      "label": "R18",
+      "at": "2026-05-24T07:47:31.772Z",
+      "commit": "a72d35e",
+      "A": 9.8,
+      "B": 9.68,
+      "C": 9.7,
+      "D": 9.5,
+      "avg": 9.67,
+      "note": "axe pipeline + visual baseline; 0 a11y violations; touch targets; reduced-motion transform guard"
     }
   ]
 }

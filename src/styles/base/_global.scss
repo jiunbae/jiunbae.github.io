@@ -186,6 +186,12 @@ select {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* 카드/리스트 hover translateY가 transition-duration 단축만으로는 막히지 않음 — transform 자체를 비활성화 */
+  *:hover, *:focus-visible, *:has(*:hover), *:has(*:focus-visible) {
+    transform: none !important;
   }
 }

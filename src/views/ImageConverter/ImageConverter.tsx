@@ -296,9 +296,15 @@ const ImageConverterPage = () => {
               onClick={() => fileInputRef.current?.click()}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') fileInputRef.current?.click() }}
+              aria-label="Choose image file or drop here"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();  // Space scroll 방지
+                  fileInputRef.current?.click();
+                }
+              }}
             >
-              <div className={styles.dropIcon}>
+              <div className={styles.dropIcon} aria-hidden="true">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                   <polyline points="17 8 12 3 7 8" />
@@ -310,6 +316,8 @@ const ImageConverterPage = () => {
               <input
                 ref={fileInputRef}
                 type="file"
+                tabIndex={-1}
+                aria-hidden="true"
                 accept={ACCEPT_TYPES}
                 onChange={handleFileChange}
                 className={styles.hiddenInput}
@@ -352,21 +360,24 @@ const ImageConverterPage = () => {
             <legend className={styles.legend}>Dimensions</legend>
             <div className={styles.dimensionRow}>
               <label className={styles.dimLabel}>
-                <span>W</span>
+                <span aria-hidden="true">W</span>
                 <input
                   type="number"
                   min={1}
                   value={width}
                   onChange={e => handleWidthChange(Number(e.target.value))}
                   className={styles.dimInput}
+                  aria-label="Width in pixels"
                 />
               </label>
               <button
+                type="button"
                 className={`${styles.lockBtn} ${lockAspect ? styles.locked : ''}`}
                 onClick={() => setLockAspect(!lockAspect)}
-                title={lockAspect ? 'Unlock aspect ratio' : 'Lock aspect ratio'}
+                aria-pressed={lockAspect}
+                aria-label={lockAspect ? 'Unlock aspect ratio' : 'Lock aspect ratio'}
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   {lockAspect ? (
                     <><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></>
                   ) : (
@@ -375,13 +386,14 @@ const ImageConverterPage = () => {
                 </svg>
               </button>
               <label className={styles.dimLabel}>
-                <span>H</span>
+                <span aria-hidden="true">H</span>
                 <input
                   type="number"
                   min={1}
                   value={height}
                   onChange={e => handleHeightChange(Number(e.target.value))}
                   className={styles.dimInput}
+                  aria-label="Height in pixels"
                 />
               </label>
             </div>
