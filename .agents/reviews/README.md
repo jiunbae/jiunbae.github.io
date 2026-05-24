@@ -3,6 +3,27 @@
 8 라운드의 4-reviewer cold review 결과. 각 라운드 노트는 reviewer별 점수,
 top strengths/weaknesses, 적용된 fix, build/audit metric을 포함합니다.
 
+## 왜 R11부터인가 (Phase 1, R1–R10 자료 부재)
+
+`R11`은 임의의 시작점이 아니라 **Phase 2 (블로그 전체 적용) baseline**입니다.
+
+이전 단계인 **Phase 1** — 디자인 시스템 페이지(`/design`) 자체를 구축한
+단계 — 도 4-reviewer cold review로 진행되었지만, 그 시점에는
+`score-tracker.mjs`, `.agents/personas/`, 라운드별 노트 작성 인프라가
+**존재하지 않았습니다**. 점수는 conversation 안에만 존재했고 파일로
+누적되지 않았기 때문에 **R1–R10의 라운드별 자료는 보존되지 않았습니다**.
+
+Phase 1에 대해 남아있는 흔적은 다음과 같습니다:
+
+- `src/pages/design/changelog.astro` v0.1 entry — Phase 1 산출물 요약
+- commit `a557b92` (또는 그 근방) — Phase 1 종료 시점 스냅샷
+- "28 라운드 cold review, 평균 9.557" 같은 conversation 메타 정보
+
+이 아카이브는 **append-only ground truth**라는 정책에 따라, 후술
+재구성으로 R1–R10을 만들지 않습니다 (점수 cherry-pick 금지). R11이
+보존 가능했던 첫 라운드이므로 그 지점을 Phase 2의 baseline으로
+기록합니다.
+
 ## 점수 추이
 
 | Round | A (DS) | B (UX/한글) | C (a11y) | D (IA/Grid) | Avg | Δ avg | Notes |
