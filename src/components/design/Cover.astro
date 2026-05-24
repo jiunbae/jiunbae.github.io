@@ -23,6 +23,14 @@ const { issue, date, isoDate, tokenCount, componentCount } = designMeta;
     <p class="cv-lede">
       이번 호. 토큰 {tokenCount}개, 컴포넌트 {componentCount}개, 결정 한 묶음.
     </p>
+    {/*
+      Editorial direction (소스 전용, 화면 노출 X):
+      이 페이지는 'Issue №' 잡지 메타포를 따릅니다.
+      표지(.cv-title)와 섹션 헤더(.cv-section h2)는 본문 typography ramp 바깥의
+      editorial scale을 의도적으로 사용합니다 —
+      --editorial-display-cover, --editorial-display-spread로 토큰화돼 있습니다 (_tokens.scss 참조).
+      본문 콘텐츠는 시스템 토큰(@include body, body-lg 등)을 그대로 따릅니다.
+    */}
     <nav class="cv-toc" aria-label="Issue contents">
       {designSections.map(s => (
         <a href={`#${s.id}`}>

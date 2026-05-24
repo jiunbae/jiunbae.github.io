@@ -5,14 +5,14 @@ import Layout from '@/layouts/Layout.astro';
 <Layout title="개인정보처리방침" description="Jiun's Blog 개인정보처리방침">
   <div class="page">
     <h1 class="title">개인정보처리방침</h1>
-    <p class="updated">최종 수정일: 2025년 1월 1일</p>
+    <p class="updated">최종 수정일: 2026년 5월 24일</p>
 
     <div class="content">
       <section>
         <h2>1. 개인정보의 수집 및 이용 목적</h2>
         <p>본 블로그("jiun.dev", 이하 "사이트")는 다음과 같은 목적으로 개인정보를 처리합니다:</p>
         <ul>
-          <li>댓글 기능 제공 (GitHub 계정을 통한 Utterances)</li>
+          <li>댓글 기능 제공 (자체 댓글 API — 익명 또는 GitHub OAuth 로그인)</li>
           <li>웹사이트 이용 통계 분석 (Google Analytics)</li>
           <li>사이트 성능 개선 및 콘텐츠 최적화</li>
         </ul>
@@ -20,16 +20,21 @@ import Layout from '@/layouts/Layout.astro';
 
       <section>
         <h2>2. 수집하는 개인정보 항목</h2>
-        <p>사이트는 직접적으로 개인정보를 수집하지 않습니다. 다만, 다음의 제3자 서비스를 통해 간접적으로 정보가 수집될 수 있습니다:</p>
+        <p>사이트는 댓글 기능을 위해 자체 API(<code>api.jiun.dev</code>)를 운영하며, 다음 정보를 수집합니다:</p>
+        <ul>
+          <li><strong>익명 댓글:</strong> 작성자가 입력한 이름(닉네임), 댓글 내용, 작성 시각</li>
+          <li><strong>GitHub OAuth 로그인 시:</strong> GitHub 사용자 이름, 프로필 이미지, GitHub 사용자 ID, 댓글 내용, 작성 시각</li>
+          <li><strong>인증 쿠키:</strong> 로그인 세션 유지를 위한 access token (HTTP 쿠키)</li>
+        </ul>
+        <p>이 외 다음의 제3자 서비스를 통해 간접적으로 정보가 수집될 수 있습니다:</p>
         <ul>
           <li><strong>Google Analytics:</strong> 쿠키를 통한 방문 기록, 페이지 조회, 브라우저 정보, 대략적인 위치 정보</li>
-          <li><strong>Utterances (댓글):</strong> GitHub 사용자 이름, 프로필 이미지 (GitHub 인증 기반)</li>
         </ul>
       </section>
 
       <section>
         <h2>3. 개인정보의 보유 및 이용 기간</h2>
-        <p>사이트는 별도의 개인정보를 보유하지 않습니다. Google Analytics 데이터는 Google의 데이터 보존 정책에 따르며, 댓글 데이터는 GitHub 리포지토리에 저장됩니다.</p>
+        <p>댓글 데이터(작성자명, 내용, 시각 등)는 사이트가 운영하는 <code>api.jiun.dev</code> 데이터베이스에 저장되며, 이용자가 삭제를 요청하거나 직접 삭제할 때까지 보관됩니다. Google Analytics 데이터는 Google의 데이터 보존 정책을 따릅니다.</p>
       </section>
 
       <section>
@@ -37,6 +42,7 @@ import Layout from '@/layouts/Layout.astro';
         <p>사이트는 다음과 같은 쿠키를 사용합니다:</p>
         <ul>
           <li><strong>필수 쿠키:</strong> 테마 설정 (라이트/다크 모드) — localStorage에 저장</li>
+          <li><strong>인증 쿠키:</strong> 댓글 로그인 세션 유지용 access token (<code>api.jiun.dev</code>, SameSite=Lax, 최대 7일)</li>
           <li><strong>분석 쿠키:</strong> Google Analytics 쿠키 (_ga, _gid)</li>
         </ul>
         <p>브라우저 설정에서 쿠키를 비활성화할 수 있으나, 일부 기능이 제한될 수 있습니다.</p>
@@ -47,14 +53,14 @@ import Layout from '@/layouts/Layout.astro';
         <p>사이트는 다음의 제3자 서비스를 이용합니다:</p>
         <ul>
           <li><strong>Google Analytics:</strong> 웹사이트 트래픽 분석 (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google 개인정보처리방침</a>)</li>
-          <li><strong>GitHub / Utterances:</strong> 댓글 시스템 (<a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub 개인정보처리방침</a>)</li>
+          <li><strong>GitHub OAuth:</strong> 댓글 로그인 시 사용자 인증 (선택적, <a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub 개인정보처리방침</a>)</li>
           <li><strong>Cloudflare Pages:</strong> 호스팅 서비스</li>
         </ul>
       </section>
 
       <section>
         <h2>6. 개인정보의 파기</h2>
-        <p>사이트 운영자가 직접 보유하는 개인정보는 없습니다. 제3자 서비스에서 수집한 데이터의 삭제는 해당 서비스의 정책을 따릅니다.</p>
+        <p>이용자가 직접 댓글을 삭제하거나 삭제를 요청하는 경우, 해당 댓글 데이터는 <code>api.jiun.dev</code> 데이터베이스에서 즉시 삭제됩니다. 제3자 서비스에서 수집한 데이터의 삭제는 해당 서비스의 정책을 따릅니다.</p>
       </section>
 
       <section>
@@ -62,8 +68,8 @@ import Layout from '@/layouts/Layout.astro';
         <p>이용자는 언제든지 다음의 권리를 행사할 수 있습니다:</p>
         <ul>
           <li>Google Analytics 추적 거부: <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a></li>
-          <li>댓글 삭제 요청: GitHub 리포지토리 Issues를 통해 요청</li>
-          <li>기타 문의: <a href="mailto:jiunbae.623@gmail.com">jiunbae.623@gmail.com</a></li>
+          <li>본인 댓글 삭제: GitHub OAuth로 로그인 후 댓글 화면에서 직접 삭제</li>
+          <li>익명 댓글 또는 기타 삭제 요청: <a href="mailto:jiunbae.623@gmail.com">jiunbae.623@gmail.com</a></li>
         </ul>
       </section>
 
@@ -153,6 +159,15 @@ import Layout from '@/layouts/Layout.astro';
     }
 
     strong {
+      color: var(--gray-2);
+    }
+
+    code {
+      font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+      font-size: 0.875em;
+      padding: 0.1em 0.35em;
+      border-radius: 0.25rem;
+      background: color-mix(in srgb, var(--gray-4) 15%, transparent);
       color: var(--gray-2);
     }
   }

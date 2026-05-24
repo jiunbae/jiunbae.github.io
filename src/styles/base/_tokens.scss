@@ -136,6 +136,14 @@
   --container-prose-lg: var(--container-md);
   --container-prose-wide: var(--container-xl);
   --measure: 38rem;             /* 본문 한 줄 글자 수 ~ 45-75 한글 chars */
+
+  /*
+   * Editorial typography scale — 잡지 메타포 전용.
+   * /design 페이지(Issue cover + spread)에서만 사용. 일반 페이지 본문은 typography mixin 사용.
+   * 이 토큰이 별도로 존재하는 이유: cover/section header가 본문 ramp 바깥에서 작동함을 명시.
+   */
+  --editorial-display-cover:  clamp(72px, 13vw, 160px);   /* Issue cover title */
+  --editorial-display-spread: clamp(36px, 5vw,  56px);    /* magazine spread section header */
   --sidenav-width: 160px;       /* design.astro 좌측 sidenav 본문 */
   --sidenav-gutter: 200px;      /* 컨테이너 가장자리로부터 sidenav center까지 */
   --toc-width: 180px;           /* [name].astro 우측 in-page TOC */

@@ -10,7 +10,8 @@
 /* .cv-section-mark / .cv-section-num / .cv-section-label은 <SectionMark>로 이전됨 */
 
 .cv-section h2 {
-  font-size: clamp(36px, 5vw, 56px);
+  /* editorial spread header — 잡지 페이지 spread 헤더. _tokens.scss --editorial-display-spread 참조. */
+  font-size: var(--editorial-display-spread);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.035em;
