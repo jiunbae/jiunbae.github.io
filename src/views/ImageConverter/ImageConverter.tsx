@@ -319,7 +319,7 @@ const ImageConverterPage = () => {
             <div className={styles.previewArea}>
               <div className={styles.previewToolbar}>
                 <span className={styles.fileName}>{fileName}.{fileExt}</span>
-                <button className={styles.removeBtn} onClick={handleRemove}>
+                <button type="button" className={styles.removeBtn} onClick={handleRemove}>
                   Remove
                 </button>
               </div>
@@ -328,7 +328,7 @@ const ImageConverterPage = () => {
               </div>
             </div>
           )}
-          {error && <div className={styles.error}>{error}</div>}
+          {error && <div className={styles.error} role="alert">{error}</div>}
         </div>
 
         {/* Right: Controls */}

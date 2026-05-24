@@ -51,16 +51,16 @@
   align-items: center;
   justify-content: center;
   min-height: 320px;
-  border: 2px dashed var(--gray-6);
+  border: 2px dashed var(--border-strong);
   border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard);
   background: var(--article-background);
 
   &:hover,
   &.dragging {
     border-color: var(--text-muted);
-    background: var(--gray-7, var(--article-background));
+    background: var(--surface-hover);
   }
 }
 
@@ -91,7 +91,7 @@
 }
 
 .fileInfo {
-  border: 1px solid var(--gray-6);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--article-background);
@@ -102,7 +102,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-2) var(--space-4);
-  border-bottom: 1px solid var(--gray-6);
+  border-bottom: 1px solid var(--border-default);
 }
 
 .fileName {
@@ -116,8 +116,8 @@
 
 .removeBtn {
   font-size: 0.8rem;
-  padding: 4px 10px;
-  border: 1px solid var(--gray-6);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   background: none;
   color: var(--text-muted);
@@ -133,7 +133,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2.5rem 1.5rem;
+  padding: var(--space-10) var(--space-6);
   gap: var(--space-4);
 }
 
@@ -160,23 +160,23 @@
 /* Progress */
 .progressSection {
   padding: 1rem 1.5rem 1.5rem;
-  border-top: 1px solid var(--gray-6);
+  border-top: 1px solid var(--border-default);
 }
 
 .progressBar {
   width: 100%;
   height: 6px;
-  background: var(--gray-6);
-  border-radius: 3px;
+  background: var(--surface-active);
+  border-radius: var(--radius-sm);
   overflow: hidden;
   margin-bottom: 0.5rem;
 }
 
 .progressFill {
   height: 100%;
-  background: var(--gray-3);
-  border-radius: 3px;
-  transition: width 0.3s ease;
+  background: var(--accent-default);
+  border-radius: var(--radius-sm);
+  transition: width var(--duration-slow) var(--easing-standard);
 }
 
 .progressText {
@@ -187,8 +187,8 @@
 .error {
   padding: var(--space-3) var(--space-6);
   font-size: 0.85rem;
-  color: #e53e3e;
-  border-top: 1px solid var(--gray-6);
+  color: var(--state-error);
+  border-top: 1px solid var(--border-default);
 }
 
 /* Controls panel */
@@ -217,7 +217,7 @@
 .formatToggle {
   display: flex;
   gap: 0;
-  border: 1px solid var(--gray-6);
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -231,15 +231,15 @@
   background: none;
   color: var(--text-muted);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background var(--duration-base) var(--easing-standard);
 
   &.active {
-    background: var(--gray-6);
+    background: var(--surface-active);
     color: var(--text-primary);
   }
 
   &:not(.active):hover {
-    background: var(--gray-7, transparent);
+    background: var(--accent-muted);
   }
 }
 
@@ -249,12 +249,12 @@
   padding: var(--space-3);
   border: none;
   border-radius: var(--radius-md);
-  background: var(--gray-1);
-  color: var(--background);
+  background: var(--accent-default);
+  color: var(--text-on-accent);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity var(--duration-base) var(--easing-standard);
 
   &:hover:not(:disabled) {
     opacity: 0.85;

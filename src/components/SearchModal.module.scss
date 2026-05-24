@@ -4,14 +4,13 @@
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgb(0, 0, 0, 0.45);
   backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding-top: 15vh;
-  animation: fadeIn 0.15s ease;
+  animation: fade-in 0.15s ease;
 }
 
 .dialog {
@@ -20,12 +19,12 @@
   margin: 0 1rem;
   background: var(--background);
   border: 1px solid color-mix(in srgb, var(--text-primary) 12%, transparent);
-  border-radius: 14px;
+  border-radius: var(--radius-xl);
   box-shadow:
-    0 24px 64px rgba(0, 0, 0, 0.18),
-    0 4px 16px rgba(0, 0, 0, 0.08);
+    0 24px 64px rgb(0, 0, 0, 0.18),
+    0 4px 16px rgb(0, 0, 0, 0.08);
   overflow: hidden;
-  animation: slideUp 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: slide-up 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .inputWrapper {
@@ -60,8 +59,8 @@
 .kbd {
   font-size: 0.6875rem;
   font-weight: 500;
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: var(--space-0_5) var(--space-1);
+  border-radius: var(--radius-md);
   background: color-mix(in srgb, var(--text-primary) 6%, transparent);
   color: var(--text-secondary);
   border: 1px solid color-mix(in srgb, var(--text-primary) 12%, transparent);
@@ -107,9 +106,10 @@
   &::-webkit-scrollbar {
     width: 6px;
   }
+
   &::-webkit-scrollbar-thumb {
     background: color-mix(in srgb, var(--text-primary) 18%, transparent);
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
   }
 }
 
@@ -117,11 +117,11 @@
   display: block;
   padding: 0.625rem 0.875rem;
   margin: 1px 0;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   text-decoration: none;
   color: var(--text-primary);
   cursor: pointer;
-  transition: background 0.1s ease, color 0.1s ease;
+  transition: background var(--duration-fast) var(--easing-standard), color var(--duration-fast) var(--easing-standard);
 
   &:hover {
     background: color-mix(in srgb, var(--text-primary) 5%, transparent);
@@ -144,14 +144,14 @@
   align-items: center;
   gap: 0.5rem;
   color: var(--text-primary);
-  transition: color 0.1s ease;
+  transition: color var(--duration-fast) var(--easing-standard);
 }
 
 .badge {
   font-size: 0.625rem;
   letter-spacing: 0.04em;
   padding: 1px 7px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: color-mix(in srgb, var(--primary-c1) 14%, transparent);
   color: var(--primary-c1);
   border: 1px solid color-mix(in srgb, var(--primary-c1) 20%, transparent);
@@ -192,12 +192,12 @@
   }
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
+@keyframes slide-up {
   from { opacity: 0; transform: translateY(8px) scale(0.99); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }

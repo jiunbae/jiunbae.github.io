@@ -19,11 +19,11 @@
   right: 16px;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(123, 184, 255, 0.35);
-  background: rgba(6, 10, 24, 0.76);
+  border-radius: var(--radius-circle);
+  border: 1px solid rgb(123, 184, 255, 0.35);
+  background: rgb(6, 10, 24, 0.76);
   backdrop-filter: blur(10px);
-  color: rgba(159, 208, 255, 0.84);
+  color: rgb(159, 208, 255, 0.84);
   font-size: 14px;
   cursor: pointer;
   z-index: 20;
@@ -33,8 +33,8 @@
   transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
-    border-color: rgba(123, 184, 255, 0.6);
-    background: rgba(54, 102, 177, 0.25);
+    border-color: rgb(123, 184, 255, 0.6);
+    background: rgb(54, 102, 177, 0.25);
     color: #d7ecff;
   }
 }
@@ -46,14 +46,14 @@
   width: min(380px, calc(100vw - 84px));
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 14px;
+  gap: var(--space-2);
+  padding: var(--space-4);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(123, 184, 255, 0.18);
-  background: rgba(8, 12, 28, 0.82);
+  border: 1px solid rgb(123, 184, 255, 0.18);
+  background: rgb(8, 12, 28, 0.82);
   backdrop-filter: blur(16px);
   z-index: 12;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity var(--duration-base) var(--easing-standard), transform var(--duration-base) var(--easing-standard);
 
   &.panelClosed {
     opacity: 0;
@@ -65,38 +65,38 @@
 .buttonRow {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 6px;
+  gap: var(--space-1);
 }
 
 .actionButton,
 .secondaryButton,
 .ruleButton,
 .toggleButton {
-  border: 1px solid rgba(123, 184, 255, 0.26);
-  border-radius: 7px;
-  background: rgba(10, 18, 38, 0.7);
-  color: rgba(190, 224, 255, 0.85);
+  border: 1px solid rgb(123, 184, 255, 0.26);
+  border-radius: var(--radius-md);
+  background: rgb(10, 18, 38, 0.7);
+  color: rgb(190, 224, 255, 0.85);
   font-size: 11px;
   font-family: inherit;
-  padding: 6px 9px;
+  padding: var(--space-1) var(--space-2);
   cursor: pointer;
   transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
-    border-color: rgba(123, 184, 255, 0.5);
-    background: rgba(41, 79, 139, 0.32);
+    border-color: rgb(123, 184, 255, 0.5);
+    background: rgb(41, 79, 139, 0.32);
     color: #eff7ff;
   }
 }
 
 .actionButton {
-  background: rgba(62, 118, 212, 0.28);
-  border-color: rgba(123, 184, 255, 0.45);
+  background: rgb(62, 118, 212, 0.28);
+  border-color: rgb(123, 184, 255, 0.45);
 }
 
 .ruleButtons {
   display: flex;
-  gap: 5px;
+  gap: var(--space-1);
 }
 
 .ruleButton {
@@ -115,12 +115,12 @@
   display: grid;
   grid-template-columns: 70px 1fr auto;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-2);
 }
 
 .controlLabel {
   font-size: 10px;
-  color: rgba(158, 197, 255, 0.7);
+  color: rgb(158, 197, 255, 0.7);
   text-transform: uppercase;
   letter-spacing: 0.7px;
 }
@@ -129,15 +129,15 @@
   width: 100%;
   appearance: none;
   height: 4px;
-  border-radius: 999px;
-  background: rgba(123, 184, 255, 0.2);
+  border-radius: var(--radius-pill);
+  background: rgb(123, 184, 255, 0.2);
   cursor: pointer;
 
   &::-webkit-slider-thumb {
     appearance: none;
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: #9cd0ff;
     border: none;
   }
@@ -145,7 +145,7 @@
   &::-moz-range-thumb {
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: #9cd0ff;
     border: none;
   }
@@ -155,15 +155,15 @@
   min-width: 58px;
 
   &.toggleOn {
-    border-color: rgba(123, 184, 255, 0.55);
-    background: rgba(123, 184, 255, 0.2);
+    border-color: rgb(123, 184, 255, 0.55);
+    background: rgb(123, 184, 255, 0.2);
     color: #dbf0ff;
   }
 }
 
 .stat {
   font-size: 11px;
-  color: rgba(179, 214, 255, 0.6);
+  color: rgb(179, 214, 255, 0.6);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -171,7 +171,7 @@
 .instruction {
   font-size: 11px;
   line-height: 1.45;
-  color: rgba(173, 209, 255, 0.58);
+  color: rgb(173, 209, 255, 0.58);
 }
 
 .hint {
@@ -179,11 +179,11 @@
   left: 50%;
   top: 52%;
   transform: translate(-50%, -50%);
-  color: rgba(168, 211, 255, 0.28);
+  color: rgb(168, 211, 255, 0.28);
   font-size: 15px;
   letter-spacing: 0.3px;
   pointer-events: none;
-  transition: opacity 1.6s ease;
+  transition: opacity var(--duration-slower) var(--easing-standard);
 
   &.hidden {
     opacity: 0;

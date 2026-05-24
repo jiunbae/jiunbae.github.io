@@ -22,11 +22,11 @@
   right: 16px;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(120, 140, 255, 0.25);
-  background: rgba(8, 8, 24, 0.7);
+  border-radius: var(--radius-circle);
+  border: 1px solid rgb(120, 140, 255, 0.25);
+  background: rgb(8, 8, 24, 0.7);
   backdrop-filter: blur(12px);
-  color: rgba(180, 190, 255, 0.7);
+  color: rgb(180, 190, 255, 0.7);
   font-size: 16px;
   cursor: pointer;
   z-index: 20;
@@ -36,9 +36,9 @@
   transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
-    background: rgba(120, 140, 255, 0.15);
+    background: rgb(120, 140, 255, 0.15);
     color: #c8cdff;
-    border-color: rgba(120, 140, 255, 0.5);
+    border-color: rgb(120, 140, 255, 0.5);
   }
 }
 
@@ -49,16 +49,16 @@
   right: 60px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-2);
   padding: var(--space-4);
   min-width: 210px;
-  background: rgba(8, 8, 24, 0.75);
+  background: rgb(8, 8, 24, 0.75);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(120, 140, 255, 0.12);
+  border: 1px solid rgb(120, 140, 255, 0.12);
   border-radius: var(--radius-lg);
   z-index: 10;
   user-select: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity var(--duration-base) var(--easing-standard), transform var(--duration-base) var(--easing-standard);
 
   &.panelClosed {
     opacity: 0;
@@ -71,12 +71,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: var(--space-2);
 }
 
 .controlLabel {
   font-size: 11px;
-  color: rgba(180, 190, 255, 0.5);
+  color: rgb(180, 190, 255, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   min-width: 64px;
@@ -85,10 +85,10 @@
 
 .toggleButton {
   padding: 4px 12px;
-  border: 1px solid rgba(120, 140, 255, 0.2);
+  border: 1px solid rgb(120, 140, 255, 0.2);
   border-radius: var(--radius-md);
   background: transparent;
-  color: rgba(180, 190, 255, 0.5);
+  color: rgb(180, 190, 255, 0.5);
   font-size: 11px;
   font-family: inherit;
   cursor: pointer;
@@ -97,33 +97,31 @@
   text-align: center;
 
   &:hover {
-    background: rgba(120, 140, 255, 0.08);
+    background: rgb(120, 140, 255, 0.08);
   }
 
   &.toggleOn {
     color: #8b9dff;
-    border-color: rgba(139, 157, 255, 0.4);
-    background: rgba(139, 157, 255, 0.08);
+    border-color: rgb(139, 157, 255, 0.4);
+    background: rgb(139, 157, 255, 0.08);
   }
 }
 
 .slider {
-  -webkit-appearance: none;
   appearance: none;
   width: 100%;
   max-width: 100px;
   height: 4px;
   border-radius: var(--radius-sm);
-  background: rgba(120, 140, 255, 0.15);
+  background: rgb(120, 140, 255, 0.15);
   outline: none;
   cursor: pointer;
 
   &::-webkit-slider-thumb {
-    -webkit-appearance: none;
     appearance: none;
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: #8b9dff;
     cursor: pointer;
     border: none;
@@ -132,7 +130,7 @@
   &::-moz-range-thumb {
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: #8b9dff;
     cursor: pointer;
     border: none;
@@ -141,17 +139,17 @@
 
 .panelDivider {
   height: 1px;
-  background: rgba(120, 140, 255, 0.1);
+  background: rgb(120, 140, 255, 0.1);
   margin: 2px 0;
 }
 
 .actionButton {
   flex: 1;
-  padding: 6px 10px;
-  border: 1px solid rgba(120, 140, 255, 0.2);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid rgb(120, 140, 255, 0.2);
   border-radius: var(--radius-md);
   background: transparent;
-  color: rgba(180, 190, 255, 0.7);
+  color: rgb(180, 190, 255, 0.7);
   font-size: 11px;
   font-family: inherit;
   cursor: pointer;
@@ -159,24 +157,24 @@
   white-space: nowrap;
 
   &:hover {
-    background: rgba(120, 140, 255, 0.08);
+    background: rgb(120, 140, 255, 0.08);
     color: #c8cdff;
   }
 }
 
 .clearButton {
-  border-color: rgba(255, 120, 80, 0.3);
-  color: rgba(255, 140, 100, 0.7);
+  border-color: rgb(255, 120, 80, 0.3);
+  color: rgb(255, 140, 100, 0.7);
 
   &:hover {
-    background: rgba(255, 120, 80, 0.12);
+    background: rgb(255, 120, 80, 0.12);
     color: #ff8a64;
   }
 }
 
 .stat {
   font-size: 11px;
-  color: rgba(180, 190, 255, 0.4);
+  color: rgb(180, 190, 255, 0.4);
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -186,10 +184,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: rgba(180, 190, 255, 0.25);
+  color: rgb(180, 190, 255, 0.25);
   font-size: 16px;
   pointer-events: none;
-  transition: opacity 0.6s ease;
+  transition: opacity var(--duration-slower) var(--easing-standard);
   text-align: center;
   line-height: 1.6;
 

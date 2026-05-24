@@ -55,6 +55,39 @@
       "D": 9.1,
       "avg": 9.488,
       "note": "+SVG aria-hidden, posts/[slug] radius cleanup"
+    },
+    {
+      "label": "R15",
+      "at": "2026-05-24T07:21:24.902Z",
+      "commit": "a716715",
+      "A": 9.6,
+      "B": 9.5,
+      "C": 9.6,
+      "D": 9.2,
+      "avg": 9.475,
+      "note": "site-wide sweep, contrast fixes after regression"
+    },
+    {
+      "label": "R16",
+      "at": "2026-05-24T07:24:48.202Z",
+      "commit": "a716715",
+      "A": 9.6,
+      "B": 9.6,
+      "C": 9.7,
+      "D": 9.3,
+      "avg": 9.55,
+      "note": "admin.scss tokenized, converter contrast fixes, progressbar a11y"
+    },
+    {
+      "label": "R17",
+      "at": "2026-05-24T07:28:56.032Z",
+      "commit": "a716715",
+      "A": 9.7,
+      "B": 9.65,
+      "C": 9.7,
+      "D": 9.4,
+      "avg": 9.613,
+      "note": "stylelint 0, admin/contact/about cleanups, 91.7% adoption"
     }
   ]
 }

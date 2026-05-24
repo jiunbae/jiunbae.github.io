@@ -196,12 +196,12 @@ const AudioConverterPage = () => {
             <div className={styles.fileInfo}>
               <div className={styles.previewToolbar}>
                 <span className={styles.fileName}>{file.name}</span>
-                <button className={styles.removeBtn} onClick={handleRemove}>
+                <button type="button" className={styles.removeBtn} onClick={handleRemove}>
                   Remove
                 </button>
               </div>
               <div className={styles.fileDetails}>
-                <div className={styles.fileIcon}>
+                <div className={styles.fileIcon} aria-hidden="true">
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M9 18V5l12-2v13" />
                     <circle cx="6" cy="18" r="3" />
@@ -216,20 +216,27 @@ const AudioConverterPage = () => {
 
               {(isConverting || progress > 0) && (
                 <div className={styles.progressSection}>
-                  <div className={styles.progressBar}>
+                  <div
+                    className={styles.progressBar}
+                    role="progressbar"
+                    aria-valuenow={Math.round(progress * 100)}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label="Conversion progress"
+                  >
                     <div
                       className={styles.progressFill}
                       style={{ width: `${Math.round(progress * 100)}%` }}
                     />
                   </div>
-                  <span className={styles.progressText}>
+                  <span className={styles.progressText} aria-live="polite">
                     {isLoadingFFmpeg ? 'Loading FFmpeg...' : isConverting ? `${Math.round(progress * 100)}%` : 'Done'}
                   </span>
                 </div>
               )}
 
               {error && (
-                <div className={styles.error}>{error}</div>
+                <div className={styles.error} role="alert">{error}</div>
               )}
             </div>
           )}

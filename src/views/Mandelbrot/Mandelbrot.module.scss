@@ -21,11 +21,11 @@
   right: 16px;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(0, 0, 0, 0.5);
+  border-radius: var(--radius-circle);
+  border: 1px solid rgb(255, 255, 255, 0.15);
+  background: rgb(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(255, 255, 255, 0.7);
   font-size: 16px;
   cursor: pointer;
   z-index: 20;
@@ -35,7 +35,7 @@
   transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(255, 255, 255, 0.1);
     color: #fff;
   }
 }
@@ -47,17 +47,17 @@
   right: 60px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-2);
   padding: var(--space-4);
   min-width: 240px;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgb(0, 0, 0, 0.55);
   backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgb(255, 255, 255, 0.08);
   border-radius: var(--radius-xl);
   z-index: 10;
   user-select: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: opacity var(--duration-slow) var(--easing-standard), transform var(--duration-slow) var(--easing-standard);
+  box-shadow: 0 8px 32px rgb(0, 0, 0, 0.4);
 
   &.panelClosed {
     opacity: 0;
@@ -81,7 +81,7 @@
 
 .coordLabel {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgb(255, 255, 255, 0.35);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   min-width: 32px;
@@ -90,7 +90,7 @@
 
 .coordValue {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgb(255, 255, 255, 0.7);
   font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.3px;
@@ -98,19 +98,19 @@
 
 .panelDivider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgb(255, 255, 255, 0.08);
   margin: 2px 0;
 }
 
 .controlGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-1);
 }
 
 .controlLabel {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgb(255, 255, 255, 0.45);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -118,7 +118,7 @@
 // Palette selector
 .paletteRow {
   display: flex;
-  gap: 6px;
+  gap: var(--space-1);
 }
 
 .paletteSwatch {
@@ -129,7 +129,7 @@
   padding: 0;
   cursor: pointer;
   overflow: hidden;
-  transition: border-color 0.2s ease, transform 0.15s ease;
+  transition: border-color var(--duration-base) var(--easing-standard), transform var(--duration-base) var(--easing-standard);
   background: transparent;
 
   &:hover {
@@ -137,7 +137,7 @@
   }
 
   &.paletteActive {
-    border-color: rgba(255, 255, 255, 0.6);
+    border-color: rgb(255, 255, 255, 0.6);
   }
 }
 
@@ -155,46 +155,44 @@
 }
 
 .slider {
-  -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: 4px;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.12);
+  background: rgb(255, 255, 255, 0.12);
   outline: none;
   cursor: pointer;
 
   &::-webkit-slider-thumb {
-    -webkit-appearance: none;
     appearance: none;
     width: 14px;
     height: 14px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: #fff;
     cursor: pointer;
     border: none;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-    transition: box-shadow 0.15s ease;
+    box-shadow: 0 0 8px rgb(255, 255, 255, 0.3);
+    transition: box-shadow var(--duration-base) var(--easing-standard);
 
     &:hover {
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 12px rgb(255, 255, 255, 0.5);
     }
   }
 
   &::-moz-range-thumb {
     width: 14px;
     height: 14px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: #fff;
     cursor: pointer;
     border: none;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgb(255, 255, 255, 0.3);
   }
 }
 
 .sliderValue {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgb(255, 255, 255, 0.35);
   min-width: 32px;
   text-align: right;
   font-variant-numeric: tabular-nums;
@@ -204,17 +202,17 @@
 .actionButton {
   width: 100%;
   padding: 7px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgb(255, 255, 255, 0.15);
   border-radius: var(--radius-md);
   background: transparent;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgb(255, 255, 255, 0.65);
   font-size: 11px;
   font-family: inherit;
   cursor: pointer;
   transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgb(255, 255, 255, 0.08);
     color: #fff;
   }
 }
@@ -224,12 +222,12 @@
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  color: rgba(255, 255, 255, 0.2);
+  color: rgb(255, 255, 255, 0.2);
   font-size: 13px;
   pointer-events: none;
   letter-spacing: 0.3px;
   white-space: nowrap;
-  transition: opacity 0.8s ease;
+  transition: opacity var(--duration-slower) var(--easing-standard);
 }
 
 @media (max-width: 640px) {

@@ -19,10 +19,10 @@
   right: 16px;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 170, 118, 0.38);
-  background: rgba(29, 12, 20, 0.74);
-  color: rgba(255, 205, 167, 0.86);
+  border-radius: var(--radius-circle);
+  border: 1px solid rgb(255, 170, 118, 0.38);
+  background: rgb(29, 12, 20, 0.74);
+  color: rgb(255, 205, 167, 0.86);
   font-size: 14px;
   cursor: pointer;
   z-index: 20;
@@ -32,8 +32,8 @@
   transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
-    border-color: rgba(255, 170, 118, 0.68);
-    background: rgba(98, 40, 33, 0.42);
+    border-color: rgb(255, 170, 118, 0.68);
+    background: rgb(98, 40, 33, 0.42);
     color: #fff0e1;
   }
 }
@@ -45,14 +45,14 @@
   width: min(400px, calc(100vw - 84px));
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 14px;
+  gap: var(--space-2);
+  padding: var(--space-4);
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(255, 170, 118, 0.24);
-  background: rgba(20, 8, 15, 0.84);
+  border: 1px solid rgb(255, 170, 118, 0.24);
+  background: rgb(20, 8, 15, 0.84);
   backdrop-filter: blur(14px);
   z-index: 12;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity var(--duration-base) var(--easing-standard), transform var(--duration-base) var(--easing-standard);
 
   &.panelClosed {
     opacity: 0;
@@ -64,37 +64,37 @@
 .buttonRow {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 6px;
+  gap: var(--space-1);
 }
 
 .actionButton,
 .secondaryButton,
 .paletteButton {
-  border: 1px solid rgba(255, 170, 118, 0.3);
-  border-radius: 7px;
-  background: rgba(55, 20, 30, 0.55);
-  color: rgba(255, 219, 188, 0.86);
+  border: 1px solid rgb(255, 170, 118, 0.3);
+  border-radius: var(--radius-md);
+  background: rgb(55, 20, 30, 0.55);
+  color: rgb(255, 219, 188, 0.86);
   font-size: 11px;
   font-family: inherit;
-  padding: 6px 9px;
+  padding: var(--space-1) var(--space-2);
   cursor: pointer;
   transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
-    border-color: rgba(255, 170, 118, 0.58);
-    background: rgba(110, 39, 46, 0.4);
+    border-color: rgb(255, 170, 118, 0.58);
+    background: rgb(110, 39, 46, 0.4);
     color: #fff3e9;
   }
 }
 
 .actionButton {
-  background: rgba(216, 101, 76, 0.32);
-  border-color: rgba(255, 170, 118, 0.5);
+  background: rgb(216, 101, 76, 0.32);
+  border-color: rgb(255, 170, 118, 0.5);
 }
 
 .paletteButtons {
   display: flex;
-  gap: 6px;
+  gap: var(--space-1);
 }
 
 .paletteButton {
@@ -113,13 +113,13 @@
   display: grid;
   grid-template-columns: 76px 1fr auto;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-2);
 }
 
 .controlLabel {
   font-size: 10px;
   letter-spacing: 0.7px;
-  color: rgba(255, 198, 152, 0.72);
+  color: rgb(255, 198, 152, 0.72);
   text-transform: uppercase;
 }
 
@@ -127,15 +127,15 @@
   width: 100%;
   appearance: none;
   height: 4px;
-  border-radius: 999px;
-  background: rgba(255, 170, 118, 0.22);
+  border-radius: var(--radius-pill);
+  background: rgb(255, 170, 118, 0.22);
   cursor: pointer;
 
   &::-webkit-slider-thumb {
     appearance: none;
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: #ffb275;
     border: none;
   }
@@ -143,7 +143,7 @@
   &::-moz-range-thumb {
     width: 12px;
     height: 12px;
-    border-radius: 50%;
+    border-radius: var(--radius-circle);
     background: #ffb275;
     border: none;
   }
@@ -151,17 +151,17 @@
 
 .value {
   font-size: 11px;
-  color: rgba(255, 221, 194, 0.66);
+  color: rgb(255, 221, 194, 0.66);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .sourceBadge {
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 170, 118, 0.34);
-  background: rgba(255, 170, 118, 0.17);
-  color: rgba(255, 225, 200, 0.88);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgb(255, 170, 118, 0.34);
+  background: rgb(255, 170, 118, 0.17);
+  color: rgb(255, 225, 200, 0.88);
   font-size: 11px;
   font-variant-numeric: tabular-nums;
 }
@@ -171,12 +171,12 @@
   left: 50%;
   top: 52%;
   transform: translate(-50%, -50%);
-  color: rgba(255, 210, 178, 0.28);
+  color: rgb(255, 210, 178, 0.28);
   font-size: 14px;
   text-align: center;
   letter-spacing: 0.3px;
   pointer-events: none;
-  transition: opacity 1.8s ease;
+  transition: opacity var(--duration-slower) var(--easing-standard);
 
   &.hidden {
     opacity: 0;

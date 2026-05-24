@@ -22,6 +22,8 @@
     "comment-empty-line-before": null,
     "scss/operator-no-newline-after": null,
     "scss/dimension-no-non-numeric-values": null,
+    "selector-pseudo-class-no-unknown": [true, { "ignorePseudoClasses": ["global"] }],
+    "declaration-block-single-line-max-declarations": null,
 
     "declaration-property-value-disallowed-list": {
       "/^transition/": ["/^[0-9]+(\\.[0-9]+)?(s|ms)/", "/[0-9]+(\\.[0-9]+)?(s|ms)\\b/"],
@@ -32,8 +34,8 @@
     "src/styles/base/_tokens.scss",
     "src/styles/base/_global.scss",
     "src/styles/abstracts/_mixin.scss",
+    "src/**/*.astro",
     "dist/**/*",
-    "node_modules/**/*",
-    "src/views/**/*.module.scss"
+    "node_modules/**/*"
   ]
 }

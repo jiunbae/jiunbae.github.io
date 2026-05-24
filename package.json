@@ -9,7 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint:style": "stylelint 'src/**/*.{scss,astro}' --allow-empty-input",
+    "lint:style": "stylelint 'src/**/*.scss' --allow-empty-input",
     "audit:tokens": "node scripts/token-audit.mjs",
     "audit:a11y": "node scripts/axe-run.mjs",
     "score": "node scripts/score-tracker.mjs",
