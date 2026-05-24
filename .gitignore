@@ -29,3 +29,6 @@ scripts/audit-latest.json
 scripts/visual-baseline/
 scripts/visual-actual/
 scripts/visual-diff.json
+
+# external research/feedback notes — not part of the published site
+context/
