@@ -505,6 +505,13 @@ const isActivePath = (target: string) => {
     display: flex;
     align-items: center;
     text-decoration: none;
+    /* logomark는 link accent를 상속하지 않고 monochrome 유지 — favicon과 톤 통일.
+     * 브랜드 mark는 color-independent로 두고, primary는 본문 링크/CTA에만 사용. */
+    color: var(--icon-color);
+
+    &:hover {
+      color: var(--icon-color);
+    }
   }
 
   .heading-wrapper {
