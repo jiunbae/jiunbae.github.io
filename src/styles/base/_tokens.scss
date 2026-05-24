@@ -40,11 +40,18 @@
   --accent-muted: color-mix(in srgb, var(--primary-c1) 14%, transparent);
   --accent-subtle: color-mix(in srgb, var(--primary-c1) 6%, transparent);
 
-  /* ===== Semantic — State (primitive 참조) ===== */
-  --state-success: var(--green-500);
+  /* ===== Semantic — State (primitive 참조) =====
+   * *-strong: darker variant for text on light backgrounds (≥4.5:1 AA)
+   * 일반 *: bg/dot/border용 mid intensity
+   */
+  --state-success: var(--green-700);            /* AA-pass for small text on white */
+  --state-success-strong: var(--green-700);
   --state-success-bg: color-mix(in srgb, var(--green-500) 12%, transparent);
-  --state-warning: var(--orange-500);
-  --state-warning-bg: color-mix(in srgb, var(--orange-500) 12%, transparent);
+  --state-success-dot: var(--green-500);        /* status dot, decorative */
+  --state-warning: var(--orange-700);
+  --state-warning-strong: var(--orange-700);
+  --state-warning-bg: color-mix(in srgb, var(--orange-500) 8%, transparent);  /* lighter so orange-700 text passes 4.5:1 */
+  --state-warning-dot: var(--orange-500);
   --state-error: var(--red-700);  /* 4.5:1 on light bg — small text AA */
   --state-error-strong: var(--red-700);
   --state-error-bg: color-mix(in srgb, var(--red-500) 12%, transparent);
@@ -163,6 +170,10 @@
   --accent-pressed: var(--blue-200);
   --state-error: #FCA5A5;             /* dark에서 light red 톤 — 충분한 대비 */
   --state-error-strong: #FCA5A5;
+  --state-success: var(--green-500);  /* 다크에서는 #10B981이 충분히 밝음 (4.6:1+) */
+  --state-success-strong: var(--green-500);
+  --state-warning: var(--orange-500); /* dark bg에서 #F59E0B 4.5:1+ */
+  --state-warning-strong: var(--orange-500);
 
   /* Shadow는 다크에서 약간 더 강하게 */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);

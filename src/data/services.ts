@@ -128,11 +128,12 @@ const services: ServiceItem[] = [
   },
 ]
 
+// 카테고리 컬러는 다크/라이트 모두에서 4.5:1+ contrast 만족하도록 darker shade 선택.
 export const categories = {
-  ai: { label: 'AI', color: '#a78bfa' },
-  'dev-tools': { label: 'Dev Tools', color: '#60a5fa' },
-  lifestyle: { label: 'Lifestyle', color: '#34d399' },
-  infra: { label: 'Infra', color: '#f97316' },
+  ai: { label: 'AI', color: '#7c3aed' },          /* violet-600 — 5.6:1 on white */
+  'dev-tools': { label: 'Dev Tools', color: '#2563eb' }, /* blue-600 — 5.17:1 */
+  lifestyle: { label: 'Lifestyle', color: '#047857' },   /* green-700 — 5.5:1 */
+  infra: { label: 'Infra', color: '#c2410c' },     /* orange-700 — 4.9:1 */
 } as const
 
 export default services

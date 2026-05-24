@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-// axe-core CLI runner — preview server를 띄우고 주요 페이지를 자동 검사.
+// axe-core via Playwright — chromedriver-free, runs against `astro preview`.
+// 결과: scripts/axe-latest.json (violations 합산) + per-page txt
 // 사용: npm run audit:a11y
 
-import { spawn, execSync } from 'node:child_process';
-import { writeFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { spawn } from 'node:child_process';
+import { mkdirSync, writeFileSync } from 'node:fs';
 import http from 'node:http';
+import { chromium } from 'playwright';
+import { AxeBuilder } from '@axe-core/playwright';
 
 const PORT = 4322;
 const BASE = `http://localhost:${PORT}`;
@@ -14,9 +16,12 @@ const PAGES = [
   '/', '/posts/', '/notes/', '/reviews/', '/projects/',
   '/about/', '/contact/', '/404', '/status/',
   '/design', '/design/changelog', '/design/voice',
+  '/playground/', '/tools/', '/privacy/',
 ];
 
-async function waitForServer(url, timeout = 20000) {
+const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
+
+async function waitForServer(url, timeout = 30000) {
   const start = Date.now();
   while (Date.now() - start < timeout) {
     try {
@@ -26,9 +31,7 @@ async function waitForServer(url, timeout = 20000) {
         req.setTimeout(500, () => { req.destroy(); reject(new Error('timeout')); });
       });
       return true;
-    } catch {
-      await new Promise(r => setTimeout(r, 500));
-    }
+    } catch { await new Promise(r => setTimeout(r, 500)); }
   }
   return false;
 }
@@ -39,47 +42,56 @@ console.log('Starting astro preview...');
 const server = spawn('npx', ['astro', 'preview', '--port', String(PORT)], {
   stdio: ['ignore', 'pipe', 'pipe'],
 });
-
 let serverOut = '';
 server.stdout.on('data', d => serverOut += d.toString());
 server.stderr.on('data', d => serverOut += d.toString());
 
+const browser = await chromium.launch();
 try {
-  const ready = await waitForServer(BASE);
-  if (!ready) {
-    console.error('Server failed to start:\n', serverOut);
-    process.exit(1);
-  }
+  const ok = await waitForServer(BASE);
+  if (!ok) { console.error('Server failed:\n', serverOut); process.exit(1); }
   console.log('Server up.\n');
 
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+
   const results = [];
+  let totalViolations = 0;
   for (const path of PAGES) {
-    const url = BASE + path;
-    process.stdout.write(`  ${path.padEnd(20)} `);
+    process.stdout.write(`  ${path.padEnd(22)} `);
     try {
-      const out = execSync(`npx @axe-core/cli "${url}" --exit --tags wcag2a,wcag2aa,wcag21a,wcag21aa,wcag22aa 2>&1 || true`, {
-        encoding: 'utf8',
-        maxBuffer: 4 * 1024 * 1024,
-      });
-      const violations = (out.match(/Violations found:\s*(\d+)/) ?? [])[1] ?? '?';
-      const passes = (out.match(/(\d+)\s+passes?/i) ?? [])[1] ?? '?';
-      console.log(`violations:${violations}  passes:${passes}`);
-      results.push({ path, violations, passes, raw: out });
-      writeFileSync(`scripts/axe-reports/${path.replace(/[\/]/g, '_') || 'root'}.txt`, out);
+      await page.goto(BASE + path, { waitUntil: 'networkidle', timeout: 15000 });
+      const r = await new AxeBuilder({ page }).withTags(TAGS).analyze();
+      const violations = r.violations;
+      const byImpact = { critical: 0, serious: 0, moderate: 0, minor: 0 };
+      for (const v of violations) byImpact[v.impact] = (byImpact[v.impact] ?? 0) + v.nodes.length;
+      const total = Object.values(byImpact).reduce((a,b) => a+b, 0);
+      totalViolations += total;
+      console.log(`v:${total}  c:${byImpact.critical}  s:${byImpact.serious}  m:${byImpact.moderate}  mi:${byImpact.minor}`);
+      results.push({ path, total, byImpact, violations: violations.map(v => ({
+        id: v.id, impact: v.impact, help: v.help, helpUrl: v.helpUrl,
+        nodes: v.nodes.length, sample: v.nodes[0]?.target,
+      })) });
+      writeFileSync(
+        `scripts/axe-reports/${(path.replace(/[\/]/g, '_') || 'root')}.json`,
+        JSON.stringify({ path, byImpact, violations: r.violations }, null, 2),
+      );
     } catch (e) {
       console.log('ERR', e.message);
+      results.push({ path, error: e.message });
     }
   }
 
   const summary = {
     at: new Date().toISOString(),
-    pages: results.map(({ path, violations, passes }) => ({ path, violations, passes })),
-    totalViolations: results.reduce((a, r) => a + (parseInt(r.violations) || 0), 0),
+    totalViolations,
+    perPage: results,
   };
   writeFileSync('scripts/axe-latest.json', JSON.stringify(summary, null, 2));
-  console.log(`\nTotal violations: ${summary.totalViolations}`);
-  console.log(`Reports → scripts/axe-reports/*.txt`);
+  console.log(`\nTotal violations: ${totalViolations}`);
   console.log(`Summary → scripts/axe-latest.json`);
+  console.log(`Reports → scripts/axe-reports/*.json`);
 } finally {
+  await browser.close();
   server.kill('SIGTERM');
 }

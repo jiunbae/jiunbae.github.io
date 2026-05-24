@@ -316,8 +316,8 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     color: var(--text-secondary);
 
     .active & {
-      background: color-mix(in srgb, var(--accent-default) 15%, transparent);
-      color: var(--accent-default);
+      background: color-mix(in srgb, var(--accent-default) 18%, transparent);
+      color: var(--accent-hover);  /* darker variant — passes 4.5:1 over muted bg */
     }
   }
 
@@ -472,12 +472,12 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     text-transform: capitalize;
 
     &.live {
-      background: color-mix(in srgb, var(--state-success) 15%, transparent);
+      background: color-mix(in srgb, var(--state-success) 6%, transparent);  /* 4.5:1+ over green-700 text */
       color: var(--state-success);
     }
 
     &.beta {
-      background: color-mix(in srgb, var(--state-warning) 15%, transparent);
+      background: color-mix(in srgb, var(--state-warning) 4%, transparent);  /* 4.5:1+ over orange-700 text */
       color: var(--state-warning);
     }
 

@@ -8,7 +8,9 @@
   --blue-700: #1D4ED8;
   --blue-800: #1E40AF;
   --green-500: #10B981;
+  --green-700: #047857;  /* 5.5:1 on white — small text AA */
   --orange-500: #F59E0B;
+  --orange-700: #B45309; /* 4.95:1 on white — small text AA */
   --red-500: #EF4444;
   --red-600: #DC2626;
   --red-700: #B91C1C;  /* 4.5:1 on white — small text AA */
@@ -108,7 +110,7 @@ select,
 /* 링크 가시성 개선 */
 a {
   color: var(--text-link, var(--primary-c1));
-  text-decoration-color: color-mix(in srgb, var(--text-link, var(--primary-c1)) 30%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--text-link, var(--primary-c1)) 75%, transparent);  /* WCAG 1.4.1: visible underline so links don't rely on color alone */
   text-underline-offset: 2px;
   transition: text-decoration-color var(--duration-base, 150ms) var(--easing-standard, ease), color var(--duration-base, 150ms) var(--easing-standard, ease), background-color var(--duration-base, 150ms) var(--easing-standard, ease);
 

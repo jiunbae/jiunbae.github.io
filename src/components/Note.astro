@@ -25,10 +25,10 @@ const defaultLabels: Record<Variant, string> = {
 const displayLabel = label ?? defaultLabels[variant];
 ---
 
-<aside class={`note note-${variant}`}>
+<div class={`note note-${variant}`} role="note">
   <span class="note-mark">{displayLabel}</span>
   <div class="note-body"><slot /></div>
-</aside>
+</div>
 
 <style lang="scss">
   @use '../styles/abstracts' as *;
