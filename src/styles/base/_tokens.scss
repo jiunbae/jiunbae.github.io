@@ -45,7 +45,8 @@
   --state-success-bg: color-mix(in srgb, var(--green-500) 12%, transparent);
   --state-warning: var(--orange-500);
   --state-warning-bg: color-mix(in srgb, var(--orange-500) 12%, transparent);
-  --state-error: var(--red-500);
+  --state-error: var(--red-700);  /* 4.5:1 on light bg — small text AA */
+  --state-error-strong: var(--red-700);
   --state-error-bg: color-mix(in srgb, var(--red-500) 12%, transparent);
   --state-info: var(--primary-c1);
   --state-info-bg: var(--accent-muted);
@@ -85,6 +86,7 @@
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
   --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.20);
   --shadow-focus-ring: 0 0 0 3px color-mix(in srgb, var(--primary-c1) 30%, transparent);
+  --scrim: rgba(0, 0, 0, 0.5);  /* 모달/드로어 backdrop */
 
   /* ===== Motion ===== */
   --duration-fast: 100ms;
@@ -102,6 +104,29 @@
   --container-spec: 1080px;     /* 디자인 시스템 spec page 본문 폭 */
   --container-doc: 720px;       /* 일반 문서/콘텐츠 폭 */
   --container-reading: 660px;   /* 본문 읽기 폭 (블로그 글) */
+  /*
+   * Container scale — 단일 xs..2xl 스케일 + 의미적 alias.
+   *   xs  : 480 — 좁은 본문/lede (404 등)
+   *   sm  : 700 — 단문 본문 (privacy)
+   *   md  : 800 — 중간 본문 (about)
+   *   doc : 720~860 별칭 — 일반 문서/페이지 폭
+   *   lg  : 1100 — 그리드/카탈로그 (reviews list)
+   *   xl  : 1200 — index 안쪽 컨테이너
+   *   2xl : 1400 — 헤더/페이지 최대 폭
+   *   spec/narrow/reading/catalog/wide — 레거시 역할 alias (호환 유지)
+   */
+  --container-xs: 480px;
+  --container-sm: 700px;
+  --container-md: 800px;
+  --container-narrow: 780px;
+  --container-catalog: 1100px;
+  --container-xl: 1200px;
+  --container-wide: 1400px;
+  /* Legacy aliases retained for stable consumer sites */
+  --container-prose-narrow: var(--container-xs);
+  --container-prose-md: var(--container-sm);
+  --container-prose-lg: var(--container-md);
+  --container-prose-wide: var(--container-xl);
   --measure: 38rem;             /* 본문 한 줄 글자 수 ~ 45-75 한글 chars */
   --sidenav-width: 160px;       /* design.astro 좌측 sidenav 본문 */
   --sidenav-gutter: 200px;      /* 컨테이너 가장자리로부터 sidenav center까지 */
@@ -135,6 +160,8 @@
   --text-on-accent: var(--neutral-900);   /* 다크 primary(연한 파랑) 위에는 어두운 텍스트 */
   --accent-hover: var(--blue-300);        /* 다크에선 더 밝게 인터랙션 강조 */
   --accent-pressed: var(--blue-200);
+  --state-error: #FCA5A5;             /* dark에서 light red 톤 — 충분한 대비 */
+  --state-error-strong: #FCA5A5;
 
   /* Shadow는 다크에서 약간 더 강하게 */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);

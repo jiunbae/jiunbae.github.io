@@ -18,7 +18,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
             <img src="/profile.png" alt="Jiun Bae" class="avatar" />
           </div>
           <div class="profile-info">
-            <h1 class="name">Jiun Bae <span class="name-kr">· 배지운</span></h1>
+            <h1 class="name">Jiun Bae <span class="name-kr" lang="ko">· 배지운</span></h1>
             <div class="links">
               <a href="mailto:jiunbae.623@gmail.com" aria-label="Email">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -217,31 +217,31 @@ const { experience, education, skills, projects, awards, publications } = aboutD
   .page {
     color: var(--text-secondary);
     font-family: -apple-system, Roboto, sans-serif, serif;
-    max-width: 800px;
+    max-width: var(--container-prose-lg);
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: var(--space-6);
 
-    @media (min-width: 500px) {
-      padding: 2rem;
+    @include mobileAndUp {
+      padding: var(--space-8);
     }
   }
 
   .profile {
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
   }
 
   .profile-card {
     min-width: 260px;
-    max-width: 720px;
+    max-width: var(--container-doc);
     width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    padding: 0.5rem;
+    gap: var(--space-6);
+    padding: var(--space-2);
 
-    @media (min-width: 780px) {
-      padding: 2rem;
+    @include tabletAndUp {
+      padding: var(--space-8);
     }
   }
 
@@ -249,12 +249,12 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: var(--space-4);
     width: 100%;
     max-width: 320px;
     margin: 0 auto;
 
-    @media (min-width: 780px) {
+    @include tabletAndUp {
       flex-direction: row;
       align-items: center;
     }
@@ -275,12 +275,12 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-2);
     width: 100%;
 
-    @media (min-width: 780px) {
+    @include tabletAndUp {
       align-items: flex-start;
-      gap: 1rem;
+      gap: var(--space-4);
     }
   }
 
@@ -301,17 +301,17 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.2rem;
+    gap: var(--space-1);
     width: 100%;
 
-    @media (min-width: 780px) {
+    @include tabletAndUp {
       justify-content: flex-start;
     }
 
     a {
       color: var(--text-muted);
-      transition: color 0.2s;
-      padding: 4px;
+      transition: color var(--duration-base) var(--easing-standard);
+      padding: var(--space-1);
 
       svg {
         stroke: var(--icon-color);
@@ -334,11 +334,11 @@ const { experience, education, skills, projects, awards, publications } = aboutD
   }
 
   .content {
-    margin-top: 0.5rem;
+    margin-top: var(--space-2);
 
     :global(section) {
-      margin-bottom: 2.5rem;
-      padding-bottom: 1rem;
+      margin-bottom: var(--space-10);
+      padding-bottom: var(--space-4);
 
       &:last-child {
         margin-bottom: 0;
@@ -351,7 +351,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     h2 {
       @include display-2;
       font-weight: 600;
-      margin: 0 0 0.25rem;
+      margin: 0 0 var(--space-1);
       color: var(--primary-c1);
       letter-spacing: -0.5px;
       padding-bottom: 0;
@@ -382,7 +382,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
   }
 
   .item {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
     padding-left: 0;
     border-left: none;
 
@@ -402,7 +402,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     }
 
     .team {
-      margin-left: 0.5rem;
+      margin-left: var(--space-2);
       color: var(--text-muted);
 
       a {
@@ -423,7 +423,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 
     .meta {
       display: flex;
-      gap: 0.75rem;
+      gap: var(--space-3);
       @include caption;
     }
 
@@ -433,13 +433,13 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 
     .position, .degree {
       color: var(--primary-c1);
-      margin: 0.25rem 0;
+      margin: var(--space-1) 0;
     }
 
     .location, .advisor, .description {
       color: var(--text-muted);
       @include body-sm;
-      margin: 0.25rem 0;
+      margin: var(--space-1) 0;
 
       a {
         color: var(--primary-c1);
@@ -447,10 +447,10 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     }
 
     ul {
-      margin-top: 0.5rem;
+      margin-top: var(--space-2);
       list-style: none;
       position: relative;
-      padding-left: 2rem;
+      padding-left: var(--space-8);
 
       &::before {
         content: '';
@@ -460,15 +460,15 @@ const { experience, education, skills, projects, awards, publications } = aboutD
         bottom: 0;
         width: 2px;
         background-color: var(--text-primary);
-        border-radius: 1px;
+        border-radius: var(--radius-sm);
       }
 
       li {
         position: relative;
-        padding-left: 0.25rem;
+        padding-left: var(--space-1);
         color: var(--text-secondary);
         @include body-sm;
-        margin: 0.25rem 0;
+        margin: var(--space-1) 0;
         line-height: 1.6;
 
         &::before {
@@ -492,7 +492,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     li {
       display: flex;
       justify-content: space-between;
-      padding: 0.5rem 0;
+      padding: var(--space-2) 0;
       border-bottom: 1px solid var(--border-default);
 
       &:last-child {
@@ -511,7 +511,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
   }
 
   .paper {
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
 
     &:last-child {
       margin-bottom: 0;
@@ -521,7 +521,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
       @include body;
       font-weight: 600;
       color: var(--text-primary);
-      margin: 0 0 0.25rem;
+      margin: 0 0 var(--space-1);
 
       a {
         color: inherit;
@@ -536,7 +536,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     .authors {
       color: var(--text-secondary);
       @include caption;
-      margin: 0.25rem 0;
+      margin: var(--space-1) 0;
     }
 
     .journal {
@@ -549,7 +549,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 
   .skills-grid {
     display: grid;
-    gap: 1rem;
+    gap: var(--space-4);
   }
 
   .skill-category {
@@ -557,7 +557,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
       @include caption;
       font-weight: 600;
       color: var(--text-secondary);
-      margin: 0 0 0.5rem;
+      margin: 0 0 var(--space-2);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -566,20 +566,20 @@ const { experience, education, skills, projects, awards, publications } = aboutD
   .skill-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
 
   .skill-tag {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
+    padding: var(--space-1) var(--space-3);
     background: var(--surface-raised);
     border: 1px solid var(--border-default);
-    border-radius: 1rem;
+    border-radius: var(--radius-xl);
     @include caption;
     color: var(--text-secondary);
   }
 
-  @media (max-width: 768px) {
+  @include belowTablet {
     .profile-header {
       flex-direction: column;
       text-align: center;
@@ -596,7 +596,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 
     .item .meta {
       flex-direction: column;
-      gap: 0.25rem;
+      gap: var(--space-1);
     }
   }
 </style>

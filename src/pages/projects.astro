@@ -1,5 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro';
+import Chip from '@/components/Chip.astro';
 import services, { categories } from '@/data/services';
 import playgroundItems from '@/data/playground';
 import toolItems from '@/data/tools';
@@ -38,10 +39,10 @@ const tabs: { key: Tab; label: string; count: number }[] = [
 
     <!-- Services Panel -->
     <div class="tab-panel active" id="panel-services" role="tabpanel" aria-labelledby="tab-services" tabindex="0">
-      <div class="category-filters">
-        <button class="filter-btn active" data-filter="all">All</button>
+      <div class="category-filters" role="group" aria-label="Filter services by category">
+        <button class="filter-btn active" data-filter="all" type="button" aria-pressed="true">All</button>
         {Object.entries(categories).map(([key, cat]) => (
-          <button class="filter-btn" data-filter={key} style={`--cat-color: ${cat.color}`}>
+          <button class="filter-btn" data-filter={key} type="button" aria-pressed="false" style={`--cat-color: ${cat.color}`}>
             {cat.label}
           </button>
         ))}
@@ -72,7 +73,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
                 <p class="card-description">{item.description}</p>
                 <div class="tags">
                   {item.tags.map(tag => (
-                    <span class="tag">{tag}</span>
+                    <Chip size="sm">{tag}</Chip>
                   ))}
                 </div>
               </div>
@@ -80,7 +81,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
                 {item.slug ? (
                   <a href={item.slug} class="card-link" target="_blank" rel="noopener noreferrer">
                     Visit
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M7 17L17 7"/><path d="M7 7h10v10"/>
                     </svg>
                   </a>
@@ -90,7 +91,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
                 <div class="footer-links">
                   {item.post && (
                     <a href={item.post} class="post-link">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
                       </svg>
                       Post
@@ -98,7 +99,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
                   )}
                   {item.github && (
                     <a href={item.github} class="github-link" target="_blank" rel="noopener noreferrer">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                       </svg>
                       Source
@@ -124,7 +125,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
               <div class="card-meta">
                 <div class="tags">
                   {item.tags.map(tag => (
-                    <span class="tag">{tag}</span>
+                    <Chip size="sm">{tag}</Chip>
                   ))}
                 </div>
                 <span class="date">{item.date}</span>
@@ -148,7 +149,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
               <p class="card-description">{item.description}</p>
               <div class="tags">
                 {item.tags.map(tag => (
-                  <span class="tag">{tag}</span>
+                  <Chip size="sm">{tag}</Chip>
                 ))}
               </div>
             </div>
@@ -215,8 +216,12 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     btn.addEventListener('click', () => {
       const filter = btn.dataset.filter;
 
-      filterBtns.forEach(b => b.classList.remove('active'));
+      filterBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
 
       serviceCards.forEach(card => {
         if (filter === 'all' || card.dataset.category === filter) {
@@ -248,13 +253,13 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   @use '../styles/abstracts' as *;
 
   .page {
-    max-width: 1100px;
+    max-width: var(--container-catalog);
     margin: 0 auto;
-    padding: 2rem;
+    padding: var(--space-8);
   }
 
   .header {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
 
   .title {
@@ -274,23 +279,23 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     display: flex;
     gap: 0;
     border-bottom: 1px solid var(--border-subtle);
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
   }
 
   .tab-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 12px 20px;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-5);
     border: none;
     background: none;
-    color: var(--border-default);
+    color: var(--text-muted);
     @include body-sm;
     font-weight: 600;
     cursor: pointer;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
-    transition: color 0.2s, border-color 0.2s;
+    transition: color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
     &:hover {
       color: var(--text-secondary);
@@ -305,8 +310,8 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   .tab-count {
     @include eyebrow;
     font-weight: 500;
-    padding: 1px 6px;
-    border-radius: 10px;
+    padding: var(--space-px) var(--space-1);
+    border-radius: var(--radius-lg);
     background: var(--border-subtle);
     color: var(--text-secondary);
 
@@ -327,21 +332,21 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   /* Category filters */
   .category-filters {
     display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
     flex-wrap: wrap;
   }
 
   .filter-btn {
-    padding: 5px 14px;
-    border-radius: 20px;
+    padding: var(--space-1) var(--space-4);
+    border-radius: var(--radius-2xl);
     border: 1px solid var(--border-subtle);
     background: var(--surface-raised);
     color: var(--text-secondary);
     @include caption;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
     &:hover {
       border-color: var(--border-default);
@@ -359,12 +364,12 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: var(--space-6);
   }
 
   /* Shared card styles */
   .card-body {
-    padding: 1rem 1.25rem;
+    padding: var(--space-4) var(--space-5);
     flex: 1;
   }
 
@@ -377,21 +382,21 @@ const tabs: { key: Tab; label: string; count: number }[] = [
 
   .card-description {
     @include caption;
-    color: var(--border-default);
+    color: var(--text-muted);
     line-height: 1.5;
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--space-3);
   }
 
   .tags {
     display: flex;
-    gap: 0.4rem;
+    gap: var(--space-2);
     flex-wrap: wrap;
   }
 
   .tag {
     @include eyebrow;
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: var(--space-0_5) var(--space-2);
+    border-radius: var(--radius-md);
     background: var(--border-subtle);
     color: var(--text-secondary);
   }
@@ -400,12 +405,12 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   .service-card {
     display: flex;
     flex-direction: column;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
     background: var(--surface-raised);
     border: 1px solid var(--border-subtle);
     color: var(--text-primary);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform var(--duration-base) var(--easing-standard), box-shadow var(--duration-base) var(--easing-standard);
 
     &:hover {
       transform: translateY(-4px);
@@ -417,13 +422,13 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.25rem 1.25rem 0;
+    padding: var(--space-5) var(--space-5) 0;
   }
 
   .icon-badge {
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -441,14 +446,14 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   .icon-img {
     width: 32px;
     height: 32px;
-    border-radius: 6px;
+    border-radius: var(--radius-md);
     object-fit: contain;
   }
 
   .service-meta {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
 
   .category-label {
@@ -461,8 +466,8 @@ const tabs: { key: Tab; label: string; count: number }[] = [
 
   .status-dot {
     @include eyebrow;
-    padding: 2px 8px;
-    border-radius: 10px;
+    padding: var(--space-0_5) var(--space-2);
+    border-radius: var(--radius-lg);
     font-weight: 500;
     text-transform: capitalize;
 
@@ -486,14 +491,14 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 1.25rem;
+    padding: var(--space-3) var(--space-5);
     border-top: 1px solid var(--border-subtle);
   }
 
   .card-link {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--space-1);
     @include caption;
     font-weight: 500;
     color: var(--accent-default);
@@ -504,32 +509,32 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     }
 
     svg {
-      transition: transform 0.2s ease;
+      transition: transform var(--duration-base) var(--easing-standard);
     }
   }
 
   .card-link-disabled {
     @include caption;
     font-weight: 500;
-    color: var(--border-default);
+    color: var(--text-muted);
   }
 
   .footer-links {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--space-3);
   }
 
   .github-link,
   .post-link {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: var(--space-1);
     @include caption;
     font-weight: 500;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--duration-base) var(--easing-standard);
 
     &:hover {
       color: var(--text-primary);
@@ -543,13 +548,13 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   /* Playground cards */
   .playground-card {
     display: block;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
     background: var(--surface-raised);
     border: 1px solid var(--border-subtle);
     text-decoration: none;
     color: var(--text-primary);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform var(--duration-base) var(--easing-standard), box-shadow var(--duration-base) var(--easing-standard);
 
     &:hover {
       transform: translateY(-4px);
@@ -566,32 +571,32 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     height: 160px;
     overflow: hidden;
     background-size: cover;
-    transition: transform 0.4s ease;
+    transition: transform var(--duration-slower) var(--easing-standard);
   }
 
   .card-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
 
   .date {
     @include caption;
-    color: var(--border-default);
+    color: var(--text-muted);
     white-space: nowrap;
   }
 
   /* Tool cards */
   .tool-card {
     display: block;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
     background: var(--surface-raised);
     border: 1px solid var(--border-subtle);
     text-decoration: none;
     color: var(--text-primary);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform var(--duration-base) var(--easing-standard), box-shadow var(--duration-base) var(--easing-standard);
 
     &:hover {
       transform: translateY(-4px);
@@ -614,9 +619,9 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     line-height: 1;
   }
 
-  @media (max-width: 640px) {
+  @include belowTablet {
     .page {
-      padding: 1.25rem;
+      padding: var(--space-5);
     }
 
     .grid {
@@ -628,7 +633,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     }
 
     .tab-btn {
-      padding: 10px 14px;
+      padding: var(--space-2) var(--space-4);
       @include caption;
     }
   }

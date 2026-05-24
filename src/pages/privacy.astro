@@ -89,34 +89,36 @@ import Layout from '@/layouts/Layout.astro';
 </Layout>
 
 <style lang="scss">
+  @use '../styles/abstracts' as *;
+
   .page {
-    max-width: 700px;
+    max-width: var(--container-prose-md);
     margin: 0 auto;
-    padding: 2rem;
+    padding: var(--space-8);
   }
 
   .title {
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom: 0.25rem;
+    margin-bottom: var(--space-1);
     color: var(--gray-1);
   }
 
   .updated {
     font-size: 0.85rem;
     color: var(--gray-4);
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
 
   .content {
     section {
-      margin-bottom: 2rem;
+      margin-bottom: var(--space-8);
     }
 
     h2 {
       font-size: 1.15rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: var(--space-3);
       color: var(--gray-1);
     }
 
@@ -124,18 +126,18 @@ import Layout from '@/layouts/Layout.astro';
       color: var(--gray-3);
       font-size: 0.95rem;
       line-height: 1.7;
-      margin-bottom: 0.5rem;
+      margin-bottom: var(--space-2);
     }
 
     ul {
-      padding-left: 1.25rem;
+      padding-left: var(--space-5);
       margin: 0.5rem 0;
 
       li {
         color: var(--gray-3);
         font-size: 0.95rem;
         line-height: 1.7;
-        margin-bottom: 0.25rem;
+        margin-bottom: var(--space-1);
       }
     }
 
@@ -153,9 +155,9 @@ import Layout from '@/layouts/Layout.astro';
     }
   }
 
-  @media (max-width: 640px) {
+  @include belowTablet {
     .page {
-      padding: 1.25rem;
+      padding: var(--space-5);
     }
 
     .title {

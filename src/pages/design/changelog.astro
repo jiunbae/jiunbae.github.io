@@ -8,9 +8,41 @@ import { designMeta } from '@/components/design/_meta';
 
 const releases = [
   {
-    version: 'v0.2',
+    version: 'v0.3',
     date: '2026.05.24',
     status: 'Current',
+    summary: '4명 cold reviewer (Atomic + Nielsen/RUI + WCAG/ARIA + Gestalt/IA) 3 라운드로 평균 8.80 → 9.49. Layout·spacing·motion 토큰 일관성 마무리.',
+    changes: [
+      // Spacing / motion / radius sweep
+      { kind: 'changed', text: 'spacing 토큰 사이트 전반 200+곳 → var(--space-*) (15개 페이지, Layout 포함). 4-px grid 정렬 완성' },
+      { kind: 'changed', text: 'Layout.astro 9개 transition → var(--duration-*) var(--easing-standard)' },
+      { kind: 'changed', text: 'Layout/projects/status/posts/about/tools radius 라ル(8/10/12/20/0.25rem/0.5rem 등) → --radius-md/lg/2xl' },
+      { kind: 'changed', text: 'projects.astro transition: all 0.2s, color 0.2s 등 → 토큰 (21개)' },
+      // Token additions
+      { kind: 'added', text: 'Chip에 size?: \'sm\' | \'md\' prop + .chip-sm 변형 (projects 태그 size="sm" 호출 silent drop 수정)' },
+      { kind: 'added', text: 'card-interactive($lift) mixin — figure-ground elevation + :has(focus-visible) parity + prefers-reduced-motion 폴백' },
+      { kind: 'added', text: '--scrim 토큰 (모달/드로어 backdrop, rgba(0,0,0,0.5) 흡수)' },
+      { kind: 'added', text: '--red-600/--red-700 primitive + --state-error → red-700 (light: 4.5:1 small text AA), dark: #FCA5A5' },
+      { kind: 'added', text: '_tokens.scss container scale 통합 (xs/sm/md/xl/wide + 레거시 alias)' },
+      // Information architecture
+      { kind: 'changed', text: 'Layout 네비 — 주요 텍스트 nav vs 유틸리티 아이콘 cluster 사이에 .nav-divider 추가 (Gestalt common region)' },
+      { kind: 'changed', text: 'index .post-item 카드 hover/focus elevation (shadow-md → lg + translateY)' },
+      { kind: 'changed', text: 'posts/index .post-item 행 hover background-color + focus-visible parity' },
+      { kind: 'changed', text: 'notes/index filter-btn raw transition: all 0.2s → 토큰' },
+      // A11y
+      { kind: 'a11y', text: 'projects 카테고리 필터 — role="group" + 동적 aria-pressed (SR 토글 상태 노출, SC 4.1.2)' },
+      { kind: 'a11y', text: 'CommentSection h3 Comments → h2 (heading hierarchy 정상화)' },
+      { kind: 'a11y', text: 'status/[slug] breadcrumb nav aria-label="Breadcrumb"' },
+      { kind: 'a11y', text: 'about .name-kr span에 lang="ko" (SC 3.1.2 Language of Parts)' },
+      { kind: 'a11y', text: '--state-error 라이트 테마 red-500(3.76:1) → red-700(4.5:1+) — deleteBtn 등 small text AA 통과' },
+      { kind: 'a11y', text: 'status/projects 데코 SVG 9개에 aria-hidden="true" 추가 (SC 1.1.1)' },
+      { kind: 'a11y', text: '.nav-divider role/aria-orientation 제거 (aria-hidden과 모순 해소)' },
+    ],
+  },
+  {
+    version: 'v0.2',
+    date: '2026.05.24',
+    status: 'Deprecated',
     summary: '블로그 전체에 디자인 시스템 적용. 9 라운드 cold review(Atomic Design + Nielsen + WCAG 2.2 AA)로 평균 5.40 → 9.10.',
     changes: [
       // Token sweep across the blog

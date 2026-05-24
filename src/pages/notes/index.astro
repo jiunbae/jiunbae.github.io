@@ -272,11 +272,12 @@ const notesWithContent = await Promise.all(
     border-radius: 50%;
     color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: border-color var(--duration-base) var(--easing-standard),
+                color var(--duration-base) var(--easing-standard);
 
     &:hover {
-      border-color: var(--primary-c1);
-      color: var(--primary-c1);
+      border-color: var(--accent-default);
+      color: var(--accent-default);
     }
   }
 
@@ -287,10 +288,10 @@ const notesWithContent = await Promise.all(
     @include body-sm;
   }
 
-  @media (max-width: 640px) {
+  @include belowTablet {
     .note-header {
       flex-direction: column;
-      gap: 0.25rem;
+      gap: var(--space-1);
     }
 
     .note-title {

@@ -12,3 +12,26 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: $line-number;
 }
+
+/// 카드 hover/focus elevation — Gestalt figure-ground 강화, 토큰화된 모션
+/// 컨테이너에 .post-link 등 stretched link 요소가 있다면 :has()로 키보드 parity 보장
+@mixin card-interactive($lift: -2px) {
+  transition: box-shadow var(--duration-base) var(--easing-standard),
+              transform var(--duration-base) var(--easing-standard);
+
+  &:hover,
+  &:has(a:focus-visible),
+  &:has(button:focus-visible) {
+    box-shadow: var(--shadow-lg);
+    transform: translateY($lift);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &:hover,
+    &:has(a:focus-visible),
+    &:has(button:focus-visible) {
+      transform: none;
+    }
+  }
+}

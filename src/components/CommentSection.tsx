@@ -279,7 +279,7 @@ export default function CommentSection({ postSlug, postType = 'posts' }: Props) 
 
   return (
     <div style={styles.container}>
-      <h3 style={styles.heading}>Comments {total > 0 && <span style={styles.count}>({total})</span>}</h3>
+      <h2 style={styles.heading}>Comments {total > 0 && <span style={styles.count}>({total})</span>}</h2>
 
       <CommentForm
         currentUser={currentUser}

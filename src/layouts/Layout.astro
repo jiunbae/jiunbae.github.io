@@ -72,6 +72,7 @@ const isActivePath = (target: string) => {
                 {link.label}
               </a>
             ))}
+            <span class="nav-divider desktop-only" aria-hidden="true"></span>
             <a href="/about/" class:list={['icon-link desktop-only', { 'active-icon': pathname.startsWith('/about') }]} aria-label="About page">
               <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 20a6 6 0 0 0-12 0"/>
@@ -417,7 +418,7 @@ const isActivePath = (target: string) => {
     position: absolute;
     top: -40px;
     left: 0;
-    padding: 8px 12px;
+    padding: var(--space-2) var(--space-3);
     background: var(--accent-default);
     color: var(--text-on-accent);
     font-family: var(--font-mono);
@@ -464,8 +465,8 @@ const isActivePath = (target: string) => {
 
       .wrapper {
         height: 52px;
-        padding: 10px 20px;
-        transition: height 0.3s;
+        padding: var(--space-2) var(--space-5);
+        transition: height var(--duration-slow) var(--easing-standard);
       }
 
       .icon {
@@ -483,16 +484,16 @@ const isActivePath = (target: string) => {
     width: 0;
     height: 2px;
     background-color: var(--primary-c1);
-    transition: width 0.1s ease-out;
+    transition: width var(--duration-fast) var(--easing-decelerate);
   }
 
   .wrapper {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: var(--space-5);
 
-    @media (min-width: 769px) {
-      padding: 20px 60px;
+    @include tabletAndUp {
+      padding: var(--space-5) var(--space-16);
     }
   }
 
@@ -505,7 +506,7 @@ const isActivePath = (target: string) => {
   .heading-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
     margin: 0;
 
     .logo-icon {
@@ -516,7 +517,7 @@ const isActivePath = (target: string) => {
       svg {
         width: 32px;
         height: 32px;
-        transition: width 0.3s, height 0.3s;
+        transition: width var(--duration-slow) var(--easing-standard), height var(--duration-slow) var(--easing-standard);
       }
     }
 
@@ -527,7 +528,7 @@ const isActivePath = (target: string) => {
       line-height: 1.5rem;
       color: var(--icon-color);
 
-      @media (min-width: 769px) {
+      @include tabletAndUp {
         display: inline-block;
       }
     }
@@ -536,17 +537,17 @@ const isActivePath = (target: string) => {
   .header-buttons {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: var(--space-3);
 
-    @media (min-width: 769px) {
-      gap: 1.25rem;
+    @include tabletAndUp {
+      gap: var(--space-5);
     }
   }
 
   .desktop-only {
     display: none;
 
-    @media (min-width: 769px) {
+    @include tabletAndUp {
       display: flex;
     }
   }
@@ -554,16 +555,16 @@ const isActivePath = (target: string) => {
   .mobile-only {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
 
-    @media (min-width: 769px) {
+    @include tabletAndUp {
       display: none;
     }
   }
 
   .navigation {
     align-items: center;
-    gap: 1rem;
+    gap: var(--space-4);
   }
 
   .link {
@@ -572,7 +573,7 @@ const isActivePath = (target: string) => {
     font-weight: 600;
     @include body;
     opacity: 0.7;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--duration-base) var(--easing-standard);
 
     &:hover {
       opacity: 1;
@@ -584,24 +585,34 @@ const isActivePath = (target: string) => {
     }
   }
 
+  /* 1차 nav 텍스트 링크와 유틸리티 아이콘 cluster를 시각적으로 구분 (Gestalt common region) */
+  .nav-divider {
+    display: inline-block;
+    width: 1px;
+    height: 18px;
+    background: var(--border-default);
+    margin: 0 var(--space-2);
+    align-self: center;
+  }
+
   .icon-link, .icon-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6px;
+    padding: var(--space-1);
     opacity: 0.7;
     color: var(--icon-color);
     background: none;
     border: none;
     cursor: pointer;
-    transition: opacity 0.2s ease;
+    transition: opacity var(--duration-base) var(--easing-standard);
 
     svg {
       width: 24px;
       height: 24px;
       color: var(--icon-color);
       stroke: var(--icon-color);
-      transition: width 0.3s, height 0.3s;
+      transition: width var(--duration-slow) var(--easing-standard), height var(--duration-slow) var(--easing-standard);
     }
 
     &:hover {
@@ -631,7 +642,7 @@ const isActivePath = (target: string) => {
     justify-content: center;
     min-width: 44px;
     min-height: 44px;
-    padding: 10px;
+    padding: var(--space-2);
     background: none;
     border: none;
     cursor: pointer;
@@ -648,7 +659,7 @@ const isActivePath = (target: string) => {
     display: none;
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--scrim);
     z-index: var(--z-overlay);
 
     &.open {
@@ -667,7 +678,7 @@ const isActivePath = (target: string) => {
     background-color: var(--background);
     box-shadow: var(--shadow-lg);
     z-index: var(--z-modal);
-    transition: right 0.3s ease;
+    transition: right var(--duration-slow) var(--easing-standard);
     overflow-y: auto;
 
     &.open {
@@ -678,26 +689,26 @@ const isActivePath = (target: string) => {
   .drawer-content {
     display: flex;
     flex-direction: column;
-    padding: 24px;
+    padding: var(--space-6);
     height: 100%;
   }
 
   .drawer-links {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
     margin-top: 40px;
   }
 
   .drawer-link {
     display: block;
-    padding: 16px 12px;
+    padding: var(--space-4) var(--space-3);
     @include heading-3;
     font-weight: 600;
     color: var(--text-primary);
     text-decoration: none;
-    border-radius: 8px;
-    transition: background-color 0.15s ease;
+    border-radius: var(--radius-md);
+    transition: background-color var(--duration-base) var(--easing-standard);
 
     &:hover {
       background-color: var(--article-background);
@@ -710,7 +721,7 @@ const isActivePath = (target: string) => {
   }
 
   .drawer-divider {
-    margin: 24px 0;
+    margin: var(--space-6) 0;
     border: none;
     border-top: 1px solid var(--text-secondary);
     height: 0;
@@ -720,24 +731,24 @@ const isActivePath = (target: string) => {
   .drawer-actions {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
   }
 
   .drawer-action {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px 12px;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-3);
     @include body;
     font-weight: 500;
     color: var(--text-primary);
     text-decoration: none;
     background: none;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     cursor: pointer;
     text-align: left;
-    transition: background-color 0.15s ease;
+    transition: background-color var(--duration-base) var(--easing-standard);
 
     &:hover {
       background-color: var(--article-background);
@@ -754,12 +765,12 @@ const isActivePath = (target: string) => {
 
   .footer {
     text-align: center;
-    padding: 50px 20px 20px;
+    padding: var(--space-12) var(--space-5) var(--space-5);
     margin: 0 auto;
-    max-width: 1400px;
+    max-width: var(--container-wide);
 
-    @media (min-width: 769px) {
-      padding: 50px 60px 20px;
+    @include tabletAndUp {
+      padding: var(--space-12) var(--space-16) var(--space-5);
     }
   }
 
@@ -789,7 +800,7 @@ const isActivePath = (target: string) => {
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.2s;
+    transition: opacity var(--duration-slow) var(--easing-standard), visibility var(--duration-slow) var(--easing-standard), transform var(--duration-slow) var(--easing-standard), background var(--duration-base) var(--easing-standard);
     box-shadow: var(--shadow-md);
     z-index: var(--z-sticky);
 
@@ -809,7 +820,7 @@ const isActivePath = (target: string) => {
     to { opacity: 1; }
   }
 
-  @media (max-width: 768px) {
+  @include belowTablet {
     .scroll-to-top {
       bottom: 1.5rem;
       right: 1.5rem;
@@ -820,7 +831,7 @@ const isActivePath = (target: string) => {
     .header.scrolled {
       .wrapper {
         height: 52px;
-        padding: 10px 20px;
+        padding: var(--space-2) var(--space-5);
       }
 
       .logo-icon svg {

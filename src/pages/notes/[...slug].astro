@@ -57,14 +57,14 @@ const ogImage = `/og/notes/${noteSlug}.png`;
   @use '../../styles/abstracts' as *;
 
   .article {
-    max-width: 780px;
+    max-width: var(--container-narrow);
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: var(--space-8) var(--space-6);
   }
 
   .article-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
     border-bottom: 1px solid var(--border-default);
 
     time {
@@ -78,7 +78,7 @@ const ogImage = `/og/notes/${noteSlug}.png`;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.3;
-    margin: 0.5rem 0 0;
+    margin: var(--space-2) 0 0;
     word-break: keep-all;
   }
 
@@ -92,25 +92,25 @@ const ogImage = `/og/notes/${noteSlug}.png`;
     :global(h2) {
       @include heading-2;
       font-weight: 600;
-      margin: 2rem 0 1rem;
+      margin: var(--space-8) 0 var(--space-4);
       color: var(--text-primary);
     }
 
     :global(p) {
-      margin: 1rem 0;
+      margin: var(--space-4) 0;
     }
 
     :global(blockquote) {
-      margin: 1.5rem 0;
-      padding: 1rem 1.5rem;
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-6);
       border-left: 4px solid var(--primary-c1);
       background: var(--surface-raised);
     }
   }
 
   .article-footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
     border-top: 1px solid var(--border-default);
   }
 

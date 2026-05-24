@@ -96,9 +96,9 @@ const ogImage = heroImage || '/profile.png';
   @use '../../styles/abstracts' as *;
 
   .article {
-    max-width: 780px;
+    max-width: var(--container-narrow);
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: var(--space-8) var(--space-6);
   }
 
   .hero-image {
@@ -114,8 +114,8 @@ const ogImage = heroImage || '/profile.png';
   }
 
   .article-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
     border-bottom: 1px solid var(--border-default);
 
     time {
@@ -129,12 +129,12 @@ const ogImage = heroImage || '/profile.png';
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.3;
-    margin: 0.5rem 0 0;
+    margin: var(--space-2) 0 0;
     word-break: keep-all;
   }
 
   .rating {
-    margin: 0.75rem 0 0;
+    margin: var(--space-3) 0 0;
     @include body;
     color: var(--accent-default);
     font-weight: 600;
@@ -144,7 +144,7 @@ const ogImage = heroImage || '/profile.png';
     @include body;
     color: var(--text-secondary);
     line-height: 1.7;
-    margin: 0.75rem 0 0;
+    margin: var(--space-3) 0 0;
     word-break: keep-all;
   }
 
@@ -158,7 +158,7 @@ const ogImage = heroImage || '/profile.png';
     :global(h2) {
       @include heading-1;
       font-weight: 600;
-      margin: 2rem 0 1rem;
+      margin: var(--space-8) 0 var(--space-4);
       color: var(--text-primary);
     }
 
@@ -170,12 +170,12 @@ const ogImage = heroImage || '/profile.png';
     }
 
     :global(p) {
-      margin: 1rem 0;
+      margin: var(--space-4) 0;
     }
 
     :global(blockquote) {
-      margin: 1.5rem 0;
-      padding: 1rem 1.5rem;
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-6);
       border-left: 4px solid var(--primary-c1);
       background: var(--surface-raised);
       border-radius: 0 0.5rem 0.5rem 0;
@@ -191,8 +191,8 @@ const ogImage = heroImage || '/profile.png';
   }
 
   .article-footer {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
+    margin-top: var(--space-12);
+    padding-top: var(--space-6);
     border-top: 1px solid var(--border-default);
   }
 
@@ -206,7 +206,7 @@ const ogImage = heroImage || '/profile.png';
     }
   }
 
-  @media (max-width: 768px) {
+  @include belowTablet {
     .article-title {
       @include heading-1;
     }

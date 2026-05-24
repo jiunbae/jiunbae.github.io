@@ -185,17 +185,17 @@ const formatRating = (rating: number) => `★ ${rating.toFixed(1)}`;
   @use '../../styles/abstracts' as *;
 
   .container {
-    max-width: 1100px;
+    max-width: var(--container-catalog);
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: var(--space-8) var(--space-6);
   }
 
   .page-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
     border-bottom: 1px solid var(--border-default);
   }
 
@@ -214,8 +214,8 @@ const formatRating = (rating: number) => `★ ${rating.toFixed(1)}`;
   .tag-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
   }
 
   /* .tag-button 로컬 스타일은 <Chip as="button" pressed>로 통일됨 */
@@ -321,16 +321,16 @@ const formatRating = (rating: number) => `★ ${rating.toFixed(1)}`;
 
   /* .tag-pill 로컬 클래스 제거 — <Chip>으로 통일 */
 
-  @media (max-width: 1024px) {
+  @include belowDesktop {
     .reviews-grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  @media (max-width: 640px) {
+  @include belowTablet {
     .reviews-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
+      gap: var(--space-3);
     }
 
     .card-title {

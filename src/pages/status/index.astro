@@ -94,7 +94,7 @@ function formatTime(d: Date) {
         <p class="subtitle">Real-time operational status for all jiun.dev services</p>
       </div>
       <a href="/status-rss.xml" class="rss-link" aria-label="Status RSS Feed">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M4 11a9 9 0 0 1 9 9"/>
           <path d="M4 4a16 16 0 0 1 16 16"/>
           <circle cx="5" cy="19" r="1"/>
@@ -134,7 +134,7 @@ function formatTime(d: Date) {
       </div>
       {groupedIncidents.length === 0 ? (
         <div class="no-incidents">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
             <polyline points="22 4 12 14.01 9 11.01"/>
           </svg>
@@ -182,16 +182,16 @@ function formatTime(d: Date) {
   @use '../../styles/abstracts' as *;
 
   .status-page {
-    max-width: 860px;
+    max-width: var(--container-doc);
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: var(--space-8) var(--space-6);
   }
 
   .status-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
 
     h1 {
       @include display-2;
@@ -203,8 +203,8 @@ function formatTime(d: Date) {
 
   .subtitle {
     @include body;
-    color: var(--border-default);
-    margin: 0.25rem 0 0;
+    color: var(--text-muted);
+    margin: var(--space-1) 0 0;
     line-height: 1.6;
   }
 
@@ -214,10 +214,10 @@ function formatTime(d: Date) {
     justify-content: center;
     width: 40px;
     height: 40px;
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     color: var(--text-muted);
-    transition: all 0.2s;
-    margin-top: 0.25rem;
+    transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
+    margin-top: var(--space-1);
 
     &:hover {
       color: var(--primary-c1);
@@ -229,12 +229,12 @@ function formatTime(d: Date) {
   .banner {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 1.25rem 1.5rem;
-    border-radius: 12px;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-6);
+    border-radius: var(--radius-lg);
     font-weight: 600;
     @include body;
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--space-10);
     border: 1px solid transparent;
   }
 
@@ -295,8 +295,8 @@ function formatTime(d: Date) {
   .section-header {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
 
     h2 {
       @include heading-2;
@@ -309,32 +309,32 @@ function formatTime(d: Date) {
   .service-count {
     @include eyebrow;
     font-weight: 500;
-    padding: 1px 6px;
-    border-radius: 10px;
+    padding: var(--space-px) var(--space-1);
+    border-radius: var(--radius-lg);
     background: var(--border-subtle);
     color: var(--text-secondary);
   }
 
   // Services grid
   .services-section {
-    margin-bottom: 3rem;
+    margin-bottom: var(--space-12);
   }
 
   .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 0.625rem;
+    gap: var(--space-3);
   }
 
   .service-card {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.875rem 1rem;
-    border-radius: 10px;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
     background: var(--article-background);
     border: 1px solid var(--border-subtle);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform var(--duration-base) var(--easing-standard), box-shadow var(--duration-base) var(--easing-standard);
 
     &:hover {
       transform: translateY(-2px);
@@ -345,7 +345,7 @@ function formatTime(d: Date) {
   .service-info {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
+    gap: var(--space-3);
   }
 
   .service-dot-wrap {
@@ -396,16 +396,16 @@ function formatTime(d: Date) {
 
   // Incidents
   .incidents-section {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
 
   .no-incidents {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
-    padding: 3rem 2rem;
-    border-radius: 12px;
+    gap: var(--space-3);
+    padding: var(--space-12) var(--space-8);
+    border-radius: var(--radius-lg);
     background: var(--article-background);
     border: 1px solid var(--border-subtle);
     text-align: center;
@@ -423,14 +423,14 @@ function formatTime(d: Date) {
   }
 
   .incident-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
   }
 
   .incident-date-row {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
   }
 
   .incident-date {
@@ -452,14 +452,14 @@ function formatTime(d: Date) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    border-radius: 10px;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-lg);
     background: var(--article-background);
     border: 1px solid var(--border-subtle);
     text-decoration: none;
-    margin-bottom: 0.5rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    margin-bottom: var(--space-2);
+    transition: transform var(--duration-base) var(--easing-standard), box-shadow var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
     &:hover {
       transform: translateY(-2px);
@@ -471,7 +471,7 @@ function formatTime(d: Date) {
   .incident-left {
     display: flex;
     align-items: center;
-    gap: 0.875rem;
+    gap: var(--space-3);
     flex: 1;
     min-width: 0;
   }
@@ -479,7 +479,7 @@ function formatTime(d: Date) {
   .severity-indicator {
     width: 4px;
     height: 36px;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
     flex-shrink: 0;
   }
 
@@ -491,7 +491,7 @@ function formatTime(d: Date) {
   .incident-info {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: var(--space-1);
     min-width: 0;
   }
 
@@ -507,15 +507,15 @@ function formatTime(d: Date) {
   .incident-meta {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--space-2);
     @include caption;
   }
 
   .severity-badge {
     @include eyebrow;
     font-weight: 600;
-    padding: 0.125rem 0.5rem;
-    border-radius: 4px;
+    padding: var(--space-0_5) var(--space-2);
+    border-radius: var(--radius-md);
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
@@ -549,15 +549,15 @@ function formatTime(d: Date) {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.25rem;
+    gap: var(--space-1);
     flex-shrink: 0;
   }
 
   .status-pill {
     @include eyebrow;
     font-weight: 600;
-    padding: 0.2rem 0.625rem;
-    border-radius: 10px;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-lg);
     text-transform: capitalize;
   }
 
@@ -587,7 +587,7 @@ function formatTime(d: Date) {
     font-variant-numeric: tabular-nums;
   }
 
-  @media (max-width: 768px) {
+  @include belowTablet {
     .status-header h1 {
       @include heading-1;
     }
@@ -599,13 +599,13 @@ function formatTime(d: Date) {
     .incident-card {
       flex-direction: column;
       align-items: flex-start;
-      gap: 0.75rem;
+      gap: var(--space-3);
     }
 
     .incident-right {
       flex-direction: row;
       align-items: center;
-      gap: 0.5rem;
+      gap: var(--space-2);
       width: 100%;
     }
 

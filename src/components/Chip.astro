@@ -18,8 +18,9 @@ import type { HTMLAttributes } from 'astro/types';
  *     문서에 약속된 "필터 chip엔 aria-pressed" 계약을 API로 명문화.
  */
 type Variant = 'default' | 'active' | 'muted';
+type Size = 'sm' | 'md';
 
-type CommonProps = { variant?: Variant; class?: string };
+type CommonProps = { variant?: Variant; size?: Size; class?: string };
 type Props =
   | ({ as?: 'span' } & CommonProps & HTMLAttributes<'span'>)
   | ({ as: 'button'; pressed?: boolean } & CommonProps & HTMLAttributes<'button'>);
@@ -31,12 +32,13 @@ const isButton = as === 'button';
 // pressed는 button arm에서만 narrow됨 — runtime delete 없이 분기로 분리.
 const pressed = isButton ? (props as Extract<Props, { as: 'button' }>).pressed : undefined;
 const variant: Variant = props.variant ?? (pressed ? 'active' : 'default');
+const size: Size = props.size ?? 'md';
 const className = props.class ?? '';
-const classes = ['chip', `chip-${variant}`, className].filter(Boolean).join(' ');
+const classes = ['chip', `chip-${variant}`, `chip-${size}`, className].filter(Boolean).join(' ');
 const ariaPressed = isButton && typeof pressed === 'boolean' ? String(pressed) : undefined;
 
 // 우리가 다루지 않는 attributes만 spread에 흘려보냄
-const { as: _a, variant: _v, class: _c, pressed: _p, type: typeProp, ...rest } = props as Props & { pressed?: boolean; class?: string; type?: string };
+const { as: _a, variant: _v, size: _s, class: _c, pressed: _p, type: typeProp, ...rest } = props as Props & { pressed?: boolean; size?: Size; class?: string; type?: string };
 const Tag = as;
 // as="button"일 때 type 기본값 강제 — form 안에서 의도치 않은 submit 방지
 const buttonType = isButton ? (typeProp ?? 'button') : undefined;
@@ -99,5 +101,14 @@ const buttonType = isButton ? (typeProp ?? 'button') : undefined;
   .chip-muted {
     color: var(--text-muted);
     border-color: var(--border-subtle);
+  }
+
+  .chip-sm {
+    padding: var(--space-0_5) var(--space-2);
+    @include eyebrow;
+    line-height: 1.1rem;
+  }
+  .chip-md {
+    /* base — explicit no-op for clarity */
   }
 </style>

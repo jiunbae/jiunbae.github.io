@@ -26,7 +26,7 @@ const totalCount = sortedPosts.length;
 >
   <div class="main">
     <section class="wrapper">
-      <h1 class="sr-only">Posts</h1>
+      <h1 class="sr-only">Recent posts</h1>
       <div class="tag-list" id="tag-list" role="group" aria-label="Filter by tag">
         <div class="tag-buttons" id="tag-buttons">
           <Chip as="button" variant="active" data-tag="all" aria-pressed="true">
@@ -244,7 +244,7 @@ const totalCount = sortedPosts.length;
     flex-direction: column;
     margin: 0 auto;
     padding: var(--space-6) var(--space-5) 0;
-    max-width: 1400px;
+    max-width: var(--container-wide);
 
     @include desktopAndUp {
       flex-direction: row;
@@ -255,7 +255,7 @@ const totalCount = sortedPosts.length;
   .wrapper {
     flex: 1;
     width: 100%;
-    max-width: 1200px;
+    max-width: var(--container-prose-wide);
     margin-inline: auto;
 
     @include tabletAndUp {
@@ -342,6 +342,15 @@ const totalCount = sortedPosts.length;
     background-color: var(--surface-raised);
     box-shadow: var(--shadow-md);
     border-radius: var(--radius-lg);
+    /* 카드 affordance — hover/focus 시 elevation 변화로 클릭 가능 영역 시그널 */
+    transition: box-shadow var(--duration-base) var(--easing-standard),
+                transform var(--duration-base) var(--easing-standard);
+  }
+
+  .post-item:hover .post,
+  .post-item:has(.post-link:focus-visible) .post {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
   }
 
   .post-figure {
