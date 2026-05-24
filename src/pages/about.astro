@@ -207,6 +207,13 @@ const { experience, education, skills, projects, awards, publications } = aboutD
           </div>
         </div>
       </section>
+
+      <aside class="colophon" aria-label="Colophon">
+        <p>
+          이 블로그는 자체 디자인 시스템 위에서 만들어졌습니다.
+          <a href="/design" class="colophon-link">시스템 들여다보기 →</a>
+        </p>
+      </aside>
     </div>
   </div>
 </Layout>
@@ -577,6 +584,31 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     border-radius: var(--radius-xl);
     @include caption;
     color: var(--text-secondary);
+  }
+
+  /* Colophon — about 페이지 마무리에 디자인 시스템 link */
+  .colophon {
+    margin-top: var(--space-16);
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--border-subtle);
+
+    p {
+      @include body-sm;
+      color: var(--text-muted);
+      margin: 0;
+      text-align: center;
+    }
+  }
+
+  .colophon-link {
+    color: var(--text-link);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--text-link) 60%, transparent);
+    text-underline-offset: 2px;
+
+    &:hover {
+      text-decoration-color: var(--text-link);
+    }
   }
 
   @include belowTablet {

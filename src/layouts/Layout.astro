@@ -186,7 +186,11 @@ const isActivePath = (target: string) => {
     </main>
 
     <footer class="footer">
-      <span class="copy-right">Copyright © {new Date().getFullYear()}. jiunbae. All rights reserved.</span>
+      <span class="copy-right">© {new Date().getFullYear()} jiunbae. All rights reserved.</span>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <a class="footer-link" href="/design">Design</a>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <a class="footer-link" href="/privacy/">Privacy</a>
     </footer>
 
     <!-- Scroll to top button -->
@@ -768,6 +772,11 @@ const isActivePath = (target: string) => {
     padding: var(--space-12) var(--space-5) var(--space-5);
     margin: 0 auto;
     max-width: var(--container-wide);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: var(--space-2);
 
     @include tabletAndUp {
       padding: var(--space-12) var(--space-16) var(--space-5);
@@ -776,7 +785,24 @@ const isActivePath = (target: string) => {
 
   .copy-right {
     color: var(--text-secondary);
-    @include body;
+    @include body-sm;
+  }
+
+  .footer-sep {
+    color: var(--text-muted);
+    @include body-sm;
+  }
+
+  .footer-link {
+    @include body-sm;
+    color: var(--text-muted);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--text-link);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
   }
 
   main {
