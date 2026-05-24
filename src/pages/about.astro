@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import aboutData from '../data/about.json';
+import Chip from '@/components/Chip.astro';
 
 const { experience, education, skills, projects, awards, publications } = aboutData;
 ---
@@ -164,13 +165,13 @@ const { experience, education, skills, projects, awards, publications } = aboutD
         <h2>Publications</h2>
         {publications.papers.map((paper) => (
           <div class="paper">
-            <h4>
+            <h3>
               {paper.url ? (
                 <a href={paper.url} target="_blank" rel="noopener noreferrer">{paper.title}</a>
               ) : (
                 paper.title
               )}
-            </h4>
+            </h3>
             <p class="authors">{paper.authors.join(', ')}</p>
             <p class="journal">{paper.journal}, {paper.volume}, {paper.year}</p>
           </div>
@@ -181,26 +182,26 @@ const { experience, education, skills, projects, awards, publications } = aboutD
         <h2>Skills</h2>
         <div class="skills-grid">
           <div class="skill-category">
-            <h4>Languages</h4>
+            <h3>Languages</h3>
             <div class="skill-tags">
               {skills.languages.map((lang) => (
-                <span class="skill-tag">{lang}</span>
+                <Chip>{lang}</Chip>
               ))}
             </div>
           </div>
           <div class="skill-category">
-            <h4>Frameworks</h4>
+            <h3>Frameworks</h3>
             <div class="skill-tags">
               {skills.frameworks.map((fw) => (
-                <span class="skill-tag">{fw}</span>
+                <Chip>{fw}</Chip>
               ))}
             </div>
           </div>
           <div class="skill-category">
-            <h4>Tools</h4>
+            <h3>Tools</h3>
             <div class="skill-tags">
               {skills.tools.map((tool) => (
-                <span class="skill-tag">{tool}</span>
+                <Chip>{tool}</Chip>
               ))}
             </div>
           </div>
@@ -211,8 +212,10 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 </Layout>
 
 <style lang="scss">
+  @use '../styles/abstracts' as *;
+
   .page {
-    color: var(--gray-3);
+    color: var(--text-secondary);
     font-family: -apple-system, Roboto, sans-serif, serif;
     max-width: 800px;
     margin: 0 auto;
@@ -282,16 +285,16 @@ const { experience, education, skills, projects, awards, publications } = aboutD
   }
 
   .name {
-    font-size: 1.5rem;
+    @include heading-1;
     font-weight: 700;
-    color: var(--gray-1);
+    color: var(--text-primary);
     margin: 0;
   }
 
   .name-kr {
     font-weight: 400;
-    font-size: 1.1rem;
-    color: var(--gray-3);
+    @include heading-3;
+    color: var(--text-secondary);
   }
 
   .links {
@@ -306,7 +309,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     }
 
     a {
-      color: var(--gray-4);
+      color: var(--text-muted);
       transition: color 0.2s;
       padding: 4px;
 
@@ -325,8 +328,8 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     margin: 0 auto;
     padding: 0;
     max-width: 100%;
-    color: var(--gray-3);
-    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    @include body-sm;
     text-align: center;
   }
 
@@ -346,7 +349,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 
   .section {
     h2 {
-      font-size: 1.8rem;
+      @include display-2;
       font-weight: 600;
       margin: 0 0 0.25rem;
       color: var(--primary-c1);
@@ -359,9 +362,9 @@ const { experience, education, skills, projects, awards, publications } = aboutD
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 1.3rem;
+      @include heading-2;
       font-weight: 500;
-      color: var(--gray-1);
+      color: var(--text-primary);
 
       &:first-of-type {
         margin-top: 0;
@@ -389,7 +392,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 
     .title {
       a {
-        color: var(--gray-1);
+        color: var(--text-primary);
         text-decoration: none;
 
         &:hover {
@@ -400,7 +403,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 
     .team {
       margin-left: 0.5rem;
-      color: var(--gray-4);
+      color: var(--text-muted);
 
       a {
         color: inherit;
@@ -413,19 +416,19 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     }
 
     .period {
-      color: var(--gray-4);
-      font-size: 0.875rem;
+      color: var(--text-muted);
+      @include caption;
       font-weight: 400;
     }
 
     .meta {
       display: flex;
       gap: 0.75rem;
-      font-size: 0.875rem;
+      @include caption;
     }
 
     .organization {
-      color: var(--gray-3);
+      color: var(--text-secondary);
     }
 
     .position, .degree {
@@ -434,8 +437,8 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     }
 
     .location, .advisor, .description {
-      color: var(--gray-4);
-      font-size: 0.9375rem;
+      color: var(--text-muted);
+      @include body-sm;
       margin: 0.25rem 0;
 
       a {
@@ -456,15 +459,15 @@ const { experience, education, skills, projects, awards, publications } = aboutD
         top: 0;
         bottom: 0;
         width: 2px;
-        background-color: var(--gray-1);
+        background-color: var(--text-primary);
         border-radius: 1px;
       }
 
       li {
         position: relative;
         padding-left: 0.25rem;
-        color: var(--gray-3);
-        font-size: 0.9375rem;
+        color: var(--text-secondary);
+        @include body-sm;
         margin: 0.25rem 0;
         line-height: 1.6;
 
@@ -475,7 +478,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
           top: 0.7rem;
           width: 6px;
           height: 6px;
-          background-color: var(--gray-2);
+          background-color: var(--text-secondary);
           border-radius: 50%;
         }
       }
@@ -490,7 +493,7 @@ const { experience, education, skills, projects, awards, publications } = aboutD
       display: flex;
       justify-content: space-between;
       padding: 0.5rem 0;
-      border-bottom: 1px solid var(--gray-5);
+      border-bottom: 1px solid var(--border-default);
 
       &:last-child {
         border-bottom: none;
@@ -498,12 +501,12 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     }
 
     .award-title {
-      color: var(--gray-2);
+      color: var(--text-secondary);
     }
 
     .award-year {
-      color: var(--gray-4);
-      font-size: 0.875rem;
+      color: var(--text-muted);
+      @include caption;
     }
   }
 
@@ -515,9 +518,9 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     }
 
     h4 {
-      font-size: 1rem;
+      @include body;
       font-weight: 600;
-      color: var(--gray-1);
+      color: var(--text-primary);
       margin: 0 0 0.25rem;
 
       a {
@@ -531,14 +534,14 @@ const { experience, education, skills, projects, awards, publications } = aboutD
     }
 
     .authors {
-      color: var(--gray-3);
-      font-size: 0.875rem;
+      color: var(--text-secondary);
+      @include caption;
       margin: 0.25rem 0;
     }
 
     .journal {
-      color: var(--gray-4);
-      font-size: 0.875rem;
+      color: var(--text-muted);
+      @include caption;
       font-style: italic;
       margin: 0;
     }
@@ -551,9 +554,9 @@ const { experience, education, skills, projects, awards, publications } = aboutD
 
   .skill-category {
     h4 {
-      font-size: 0.875rem;
+      @include caption;
       font-weight: 600;
-      color: var(--gray-3);
+      color: var(--text-secondary);
       margin: 0 0 0.5rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -569,11 +572,11 @@ const { experience, education, skills, projects, awards, publications } = aboutD
   .skill-tag {
     display: inline-block;
     padding: 0.25rem 0.75rem;
-    background: var(--article-background);
-    border: 1px solid var(--gray-5);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-default);
     border-radius: 1rem;
-    font-size: 0.875rem;
-    color: var(--gray-2);
+    @include caption;
+    color: var(--text-secondary);
   }
 
   @media (max-width: 768px) {

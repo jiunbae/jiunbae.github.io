@@ -401,6 +401,7 @@ function CommentForm({
             value={anonName}
             onChange={(e) => setAnonName(e.target.value)}
             placeholder="Name"
+            aria-label="Name"
             maxLength={50}
             required
             style={styles.input}
@@ -432,6 +433,7 @@ function CommentForm({
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder={placeholder}
+        aria-label={placeholder}
         maxLength={3000}
         required
         rows={compact ? 2 : 3}
@@ -510,11 +512,12 @@ function CommentItem({
             onChange={(e) => onEditChange(e.target.value)}
             rows={3}
             maxLength={3000}
+            aria-label="Edit comment"
             style={styles.textarea}
           />
           <div style={styles.editActions}>
-            <button onClick={onEditCancel} style={styles.linkBtn}>Cancel</button>
-            <button onClick={onEditSave} style={styles.submitBtn}>Save</button>
+            <button type="button" onClick={onEditCancel} style={styles.linkBtn}>Cancel</button>
+            <button type="button" onClick={onEditSave} style={styles.submitBtn}>Save</button>
           </div>
         </div>
       ) : (
@@ -524,12 +527,12 @@ function CommentItem({
       {!isEditing && (
         <div style={styles.actions}>
           {onReply && !isReply && (
-            <button onClick={onReply} style={styles.linkBtn}>Reply</button>
+            <button onClick={onReply} style={styles.linkBtn} aria-label={`Reply to comment by ${displayName}`}>Reply</button>
           )}
           {isOwner && (
             <>
-              <button onClick={onEdit} style={styles.linkBtn}>Edit</button>
-              <button onClick={onDelete} style={{ ...styles.linkBtn, ...styles.deleteBtn }}>Delete</button>
+              <button onClick={onEdit} style={styles.linkBtn} aria-label={`Edit your comment`}>Edit</button>
+              <button onClick={onDelete} style={{ ...styles.linkBtn, ...styles.deleteBtn }} aria-label={`Delete your comment`}>Delete</button>
             </>
           )}
         </div>
@@ -545,21 +548,21 @@ const styles: Record<string, React.CSSProperties> = {
   heading: {
     fontSize: '1.25rem',
     fontWeight: 600,
-    color: 'var(--gray-1)',
+    color: 'var(--text-primary)',
     marginBottom: '1.5rem',
   },
   count: {
     fontWeight: 400,
-    color: 'var(--gray-4)',
+    color: 'var(--text-muted)',
     fontSize: '1rem',
   },
   loading: {
-    color: 'var(--gray-4)',
+    color: 'var(--text-muted)',
     textAlign: 'center',
     padding: '2rem 0',
   },
   empty: {
-    color: 'var(--gray-4)',
+    color: 'var(--text-muted)',
     textAlign: 'center',
     padding: '2rem 0',
     fontStyle: 'italic',
@@ -580,20 +583,20 @@ const styles: Record<string, React.CSSProperties> = {
   },
   input: {
     padding: '0.5rem 0.75rem',
-    border: '1px solid var(--gray-5)',
+    border: '1px solid var(--border-default)',
     borderRadius: '0.375rem',
-    background: 'var(--article-background)',
-    color: 'var(--gray-1)',
+    background: 'var(--surface-raised)',
+    color: 'var(--text-primary)',
     fontSize: '0.875rem',
     maxWidth: '200px',
     fontFamily: 'inherit',
   },
   textarea: {
     padding: '0.75rem',
-    border: '1px solid var(--gray-5)',
+    border: '1px solid var(--border-default)',
     borderRadius: '0.375rem',
-    background: 'var(--article-background)',
-    color: 'var(--gray-1)',
+    background: 'var(--surface-raised)',
+    color: 'var(--text-primary)',
     fontSize: '0.9375rem',
     lineHeight: 1.5,
     resize: 'vertical' as const,
@@ -619,10 +622,12 @@ const styles: Record<string, React.CSSProperties> = {
   loginBtn: {
     background: 'none',
     border: 'none',
-    color: 'var(--gray-4)',
+    color: 'var(--text-muted)',
     fontSize: '0.8125rem',
     cursor: 'pointer',
-    padding: 0,
+    /* WCAG 2.5.8 target size 24×24 — 인라인 텍스트 버튼도 패딩으로 hit area 확보 */
+    minHeight: '24px',
+    padding: '4px 6px',
     fontFamily: 'inherit',
     whiteSpace: 'nowrap' as const,
   },
@@ -633,13 +638,13 @@ const styles: Record<string, React.CSSProperties> = {
   },
   loggedInAs: {
     fontSize: '0.8125rem',
-    color: 'var(--gray-4)',
+    color: 'var(--text-muted)',
     fontWeight: 500,
   },
   submitBtn: {
     padding: '0.5rem 1.25rem',
     background: 'var(--primary-c1)',
-    color: '#fff',
+    color: 'var(--text-on-accent)',
     border: 'none',
     borderRadius: '0.375rem',
     fontSize: '0.875rem',
@@ -650,7 +655,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   comment: {
     padding: '1rem 0',
-    borderBottom: '1px solid var(--gray-5)',
+    borderBottom: '1px solid var(--border-default)',
   },
   commentReply: {
     borderBottom: 'none',
@@ -666,7 +671,7 @@ const styles: Record<string, React.CSSProperties> = {
   author: {
     fontWeight: 600,
     fontSize: '0.9375rem',
-    color: 'var(--gray-1)',
+    color: 'var(--text-primary)',
     display: 'flex',
     alignItems: 'center',
     gap: '0.375rem',
@@ -676,15 +681,15 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '0.1rem 0.375rem',
     borderRadius: '0.25rem',
     background: 'var(--primary-c1)',
-    color: '#fff',
+    color: 'var(--text-on-accent)',
     fontWeight: 500,
   },
   legacyBadge: {
     fontSize: '0.6875rem',
     padding: '0.1rem 0.375rem',
     borderRadius: '0.25rem',
-    background: 'var(--gray-4)',
-    color: '#fff',
+    background: 'var(--text-muted)',
+    color: 'var(--text-on-accent)',
     fontWeight: 500,
   },
   commentAvatar: {
@@ -694,19 +699,19 @@ const styles: Record<string, React.CSSProperties> = {
   },
   time: {
     fontSize: '0.8125rem',
-    color: 'var(--gray-4)',
+    color: 'var(--text-muted)',
   },
   content: {
     fontSize: '0.9375rem',
     lineHeight: 1.7,
-    color: 'var(--gray-2)',
+    color: 'var(--text-secondary)',
     margin: '0.25rem 0 0.5rem',
     whiteSpace: 'pre-wrap' as const,
     wordBreak: 'break-word' as const,
   },
   deleted: {
     fontSize: '0.875rem',
-    color: 'var(--gray-4)',
+    color: 'var(--text-muted)',
     fontStyle: 'italic',
     margin: '0.25rem 0',
   },
@@ -717,14 +722,19 @@ const styles: Record<string, React.CSSProperties> = {
   linkBtn: {
     background: 'none',
     border: 'none',
-    color: 'var(--gray-4)',
+    color: 'var(--text-muted)',
     fontSize: '0.8125rem',
     cursor: 'pointer',
-    padding: 0,
+    /* WCAG 2.5.8 target size — 인라인 텍스트 버튼도 hit area 24×24+ 확보 */
+    minHeight: '24px',
+    padding: '4px 6px',
     fontFamily: 'inherit',
   },
   deleteBtn: {
-    color: '#c0392b',
+    color: 'var(--state-error)',
+    textDecoration: 'underline',     /* SC 1.4.1: color 외 비-색상 affordance — 색맹/저시력 보강 */
+    textUnderlineOffset: '2px',
+    fontWeight: 600,                  /* 다크 모드 contrast 보강 */
   },
   editArea: {
     display: 'flex',
@@ -739,7 +749,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   repliesContainer: {
     marginLeft: '1.5rem',
-    borderLeft: '2px solid var(--gray-5)',
+    borderLeft: '2px solid var(--border-default)',
     paddingLeft: '1rem',
   },
 };

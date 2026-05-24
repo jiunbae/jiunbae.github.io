@@ -72,8 +72,9 @@ const ogImage = heroImage || '/profile.png';
       </time>
       <h1 class="article-title">{review.data.title}</h1>
       {typeof review.data.rating === 'number' && (
-        <p class="rating" aria-label={`평점 ${review.data.rating.toFixed(1)}점`}>
-          ★ {review.data.rating.toFixed(1)} / 5
+        <p class="rating">
+          <span aria-hidden="true">★ {review.data.rating.toFixed(1)} / 5</span>
+          <span class="sr-only">평점 {review.data.rating.toFixed(1)}점</span>
         </p>
       )}
       {review.data.description && (
@@ -92,6 +93,8 @@ const ogImage = heroImage || '/profile.png';
 </Layout>
 
 <style lang="scss">
+  @use '../../styles/abstracts' as *;
+
   .article {
     max-width: 780px;
     margin: 0 auto;
@@ -113,52 +116,57 @@ const ogImage = heroImage || '/profile.png';
   .article-header {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--gray-5);
+    border-bottom: 1px solid var(--border-default);
 
     time {
-      color: var(--gray-4);
-      font-size: 0.9375rem;
+      color: var(--text-muted);
+      @include body-sm;
     }
   }
 
   .article-title {
-    font-size: 1.75rem;
+    @include display-2;
     font-weight: 700;
-    color: var(--gray-1);
+    color: var(--text-primary);
     line-height: 1.3;
     margin: 0.5rem 0 0;
+    word-break: keep-all;
   }
 
   .rating {
     margin: 0.75rem 0 0;
-    font-size: 1rem;
-    color: var(--primary-c1);
+    @include body;
+    color: var(--accent-default);
     font-weight: 600;
   }
 
   .article-description {
-    font-size: 1rem;
-    color: var(--gray-3);
+    @include body;
+    color: var(--text-secondary);
     line-height: 1.7;
     margin: 0.75rem 0 0;
+    word-break: keep-all;
   }
 
   .article-content {
+    max-width: var(--measure);
+    margin-inline: auto;
     line-height: 1.8;
-    color: var(--gray-2);
+    color: var(--text-secondary);
+    word-break: keep-all;
 
     :global(h2) {
-      font-size: 1.375rem;
+      @include heading-1;
       font-weight: 600;
       margin: 2rem 0 1rem;
-      color: var(--gray-1);
+      color: var(--text-primary);
     }
 
     :global(h3) {
-      font-size: 1.125rem;
+      @include heading-3;
       font-weight: 600;
       margin: 1.5rem 0 0.75rem;
-      color: var(--gray-1);
+      color: var(--text-primary);
     }
 
     :global(p) {
@@ -169,7 +177,7 @@ const ogImage = heroImage || '/profile.png';
       margin: 1.5rem 0;
       padding: 1rem 1.5rem;
       border-left: 4px solid var(--primary-c1);
-      background: var(--article-background);
+      background: var(--surface-raised);
       border-radius: 0 0.5rem 0.5rem 0;
     }
 
@@ -185,7 +193,7 @@ const ogImage = heroImage || '/profile.png';
   .article-footer {
     margin-top: 3rem;
     padding-top: 1.5rem;
-    border-top: 1px solid var(--gray-5);
+    border-top: 1px solid var(--border-default);
   }
 
   .back-link {
@@ -200,7 +208,7 @@ const ogImage = heroImage || '/profile.png';
 
   @media (max-width: 768px) {
     .article-title {
-      font-size: 1.5rem;
+      @include heading-1;
     }
 
     .hero-image {

@@ -8,9 +8,55 @@ import { designMeta } from '@/components/design/_meta';
 
 const releases = [
   {
+    version: 'v0.2',
+    date: '2026.05.24',
+    status: 'Current',
+    summary: '블로그 전체에 디자인 시스템 적용. 9 라운드 cold review(Atomic Design + Nielsen + WCAG 2.2 AA)로 평균 5.40 → 9.10.',
+    changes: [
+      // Token sweep across the blog
+      { kind: 'changed', text: '레거시 --gray-N 250+곳을 --text-*/--surface-*/--border-* semantic 토큰으로 치환 (about, projects, contact, posts/[slug], notes/[slug], reviews/[slug], status/*, Layout, CommentSection 등)' },
+      { kind: 'changed', text: 'status 페이지 56곳 hex(#22c55e/#f59e0b/#ef4444/#60a5fa/#d97706/#a78bfa) → --state-success/warning/error/info 토큰' },
+      { kind: 'changed', text: 'projects.astro hex(#22c55e/#eab308/#6b7280) → --state-*/text-muted 토큰' },
+      { kind: 'changed', text: 'Layout.astro hardcoded rgba shadow (3개) → --shadow-sm/md/lg 토큰' },
+      { kind: 'changed', text: 'status 펄스 애니메이션 rgba → color-mix(in srgb, var(--state-*) ..., transparent) 패턴' },
+      { kind: 'changed', text: 'posts/[slug] code-inline #d63384 → var(--state-error)' },
+      { kind: 'changed', text: 'CommentSection 하드코딩 \'#fff\' 3곳 → var(--text-on-accent) (다크 모드 2.5:1 대비비 → AA 통과)' },
+      { kind: 'changed', text: 'scroll-to-top, deleteBtn 등 → semantic token 사용' },
+      // Typography mixin adoption
+      { kind: 'changed', text: '14개 페이지 raw font-size (~150개) → typography 믹스인 (display-1/2, heading-1/2/3, body-lg/body/sm, caption, eyebrow) 적용' },
+      { kind: 'changed', text: 'Atomic 컴포넌트 Chip/PostCard/Note의 raw rem() → 믹스인 (atom 레이어 일관성)' },
+      { kind: 'added', text: '--measure: 38rem 토큰 신설 (한글 본문 45-75자 CPL 가이드)' },
+      // Component primitive adoption
+      { kind: 'added', text: 'status/index + status/[slug] severity/status pill → <Badge tone weight> (디자인 외부에서 첫 Badge 소비)' },
+      { kind: 'added', text: '4개 리스트 페이지(index/posts/notes/reviews) 필터 + 태그 → <Chip as="button" pressed> + <Chip>' },
+      { kind: 'added', text: 'about.astro skill-tag (3개소) → <Chip>' },
+      { kind: 'added', text: '404 페이지 재작성 — Korean voice + Search 검색 어포던스 + 다중 복구 링크 + Button-style 토큰' },
+      // Korean readability
+      { kind: 'added', text: '_global.scss body에 word-break: keep-all + overflow-wrap: anywhere 전역 적용 (한글 어절 분할 방지)' },
+      { kind: 'changed', text: 'posts/notes/reviews/status detail의 .article-content/.incident-body에 max-width: var(--measure) + margin-inline: auto 적용' },
+      { kind: 'changed', text: '한글 본문 line-height 1.7~1.85 일관 적용' },
+      // A11y — substantial
+      { kind: 'a11y', text: '4개 리스트(index/posts/notes/reviews) 중첩 anchor (<a>가 <h2> wrap) → stretched-link 패턴 (heading-in-link 제거 + 카드 전체 hit area 유지)' },
+      { kind: 'a11y', text: '4개 empty-filter 메시지 → role="status" aria-live="polite"' },
+      { kind: 'a11y', text: 'SearchModal APG Combobox 1.2 패턴 (role=combobox, aria-controls, aria-expanded, aria-activedescendant, aria-autocomplete, listbox id, option ids, focus-trap에서 option 제외, status를 listbox 밖으로 분리, Close 버튼 추가)' },
+      { kind: 'a11y', text: 'Drawer: role="dialog" + aria-modal="true" + aria-controls=drawer + 배경 main inert 토글 + 햄버거 aria-label 동적 (Menu ↔ Close menu)' },
+      { kind: 'a11y', text: 'Projects tabs: APG Tabs 키보드 패턴 (roving tabindex + ArrowLeft/Right/Home/End + aria-labelledby + tabindex=0 on panels)' },
+      { kind: 'a11y', text: 'CommentSection: 모든 input/textarea에 aria-label, Reply/Edit/Delete 버튼 disambiguating aria-label, Cancel/Save type="button", 인라인 버튼 min-height 24×24px (WCAG 2.5.8), deleteBtn에 underline+bold (color 단독 의존 제거)' },
+      { kind: 'a11y', text: 'Layout 모바일 로고 aria-label="Home" (heading display:none 시 accessible name 보존)' },
+      { kind: 'a11y', text: 'about.astro h4 → h3 (WCAG 2.4.6 sequential heading hierarchy)' },
+      { kind: 'a11y', text: 'contact 이모지 아이콘 (3종) aria-hidden="true"' },
+      { kind: 'a11y', text: 'status 페이지 데코 dots (banner/service/tag) aria-hidden="true"' },
+      { kind: 'a11y', text: 'status banner role="status" + aria-live="polite" (동적 상태 알림)' },
+      { kind: 'a11y', text: 'reviews/[slug] 평점 패턴: aria-hidden visual + sr-only text (aria-label on <p> 안티패턴 제거)' },
+      { kind: 'a11y', text: '리스트 페이지 카드 썸네일 alt="" (제목 링크 옆에 있어 데코로 처리, SR 중복 announce 제거)' },
+      // Voice
+      { kind: 'changed', text: 'Voice 8번 원칙 추가 — UI 라벨은 짧고 영문 우선, 본문은 한글 (Voice 페이지 자체가 그 예시)' },
+    ],
+  },
+  {
     version: 'v0.1',
     date: '2026.05.22',
-    status: 'Current',
+    status: 'Deprecated',
     summary: '디자인 시스템 첫 버전. 토큰 레이어와 핵심 컴포넌트를 정리.',
     changes: [
       { kind: 'added', text: 'Primitive + Semantic 2-레이어 토큰 체계 (text, surface, border, accent)' },
@@ -42,7 +88,7 @@ const releases = [
       <p class="cl-eyebrow">Changelog</p>
       <h1 class="cl-title">변경 기록</h1>
       <p class="cl-lede">
-        {designMeta.version}, 토큰 {designMeta.tokenCount}개, 컴포넌트 {designMeta.componentCount}개부터. 다음 발행본은 여기서 추가됩니다.
+        {designMeta.version}, 토큰 {designMeta.tokenCount}개, 컴포넌트 {designMeta.componentCount}개. 시스템이 페이지 위에서 살아갑니다.
       </p>
     </header>
 

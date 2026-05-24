@@ -95,8 +95,9 @@ export default function SearchModal() {
   useEffect(() => {
     if (!isOpen || !dialogRef.current) return
     const dialog = dialogRef.current
+    // Exclude listbox options — they're keyboard-navigated via aria-activedescendant, not Tab.
     const focusable = dialog.querySelectorAll<HTMLElement>(
-      'input, a[href], button, [tabindex]:not([tabindex="-1"])'
+      'input, a[href]:not([role="option"]), button:not([role="option"]), [tabindex]:not([tabindex="-1"])'
     )
     const first = focusable[0]
     const last = focusable[focusable.length - 1]
@@ -141,7 +142,7 @@ export default function SearchModal() {
   if (!isOpen) return null
 
   return (
-    <div className={styles.overlay} onClick={close} role="presentation">
+    <div className={styles.overlay} onClick={close}>
       <div
         ref={dialogRef}
         className={styles.dialog}
@@ -156,6 +157,7 @@ export default function SearchModal() {
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
           </svg>
+          {/* APG Combobox 1.2: input + listbox popup with aria-activedescendant for keyboard nav. */}
           <input
             ref={inputRef}
             className={styles.input}
@@ -163,29 +165,49 @@ export default function SearchModal() {
             placeholder="Search posts and notes..."
             value={query}
             onChange={e => setQuery(e.target.value)}
+            role="combobox"
             aria-label="Search query"
+            aria-controls="search-listbox"
+            /* APG Combobox 1.2: aria-expanded는 listbox 표시 여부를 반영 — 모달이 열리면 listbox도 항상 표시 */
+            aria-expanded={isOpen}
+            aria-autocomplete="list"
+            aria-activedescendant={results.length > 0 && activeIndex >= 0 ? `search-option-${activeIndex}` : undefined}
           />
-          <span className={styles.kbd}>ESC</span>
+          <button
+            type="button"
+            className={styles.closeBtn}
+            onClick={close}
+            aria-label="Close search"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
 
-        <div className={styles.results} ref={resultsRef} role="listbox">
-          {indexLoading && (
-            <div className={styles.empty}>Loading search index...</div>
-          )}
-          {indexError && (
-            <div className={styles.empty}>Failed to load search index. Please try again.</div>
-          )}
-          {!indexLoading && !indexError && query.trim() && results.length === 0 && (
-            <div className={styles.empty}>No results found for &ldquo;{query}&rdquo;</div>
-          )}
+        {/* Status messages live outside listbox per ARIA 1.2 — listbox children must be option/group/presentational */}
+        {indexLoading && (
+          <div className={styles.empty} role="status">Loading search index...</div>
+        )}
+        {indexError && (
+          <div className={styles.empty} role="status">Failed to load search index. Please try again.</div>
+        )}
+        {!indexLoading && !indexError && query.trim() && results.length === 0 && (
+          <div className={styles.empty} role="status">No results found for &ldquo;{query}&rdquo;</div>
+        )}
+
+        <div className={styles.results} ref={resultsRef} role="listbox" id="search-listbox" aria-label="Search results">
           {results.map((item, i) => (
             <a
               key={item.slug}
+              id={`search-option-${i}`}
               href={item.slug}
               className={`${styles.resultItem} ${i === activeIndex ? styles.active : ''}`}
               onMouseEnter={() => setActiveIndex(i)}
               role="option"
               aria-selected={i === activeIndex}
+              tabIndex={-1}
             >
               <div className={styles.resultTitle}>
                 {item.title}

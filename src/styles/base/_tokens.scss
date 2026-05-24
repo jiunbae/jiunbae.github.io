@@ -102,6 +102,7 @@
   --container-spec: 1080px;     /* 디자인 시스템 spec page 본문 폭 */
   --container-doc: 720px;       /* 일반 문서/콘텐츠 폭 */
   --container-reading: 660px;   /* 본문 읽기 폭 (블로그 글) */
+  --measure: 38rem;             /* 본문 한 줄 글자 수 ~ 45-75 한글 chars */
   --sidenav-width: 160px;       /* design.astro 좌측 sidenav 본문 */
   --sidenav-gutter: 200px;      /* 컨테이너 가장자리로부터 sidenav center까지 */
   --toc-width: 180px;           /* [name].astro 우측 in-page TOC */

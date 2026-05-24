@@ -41,7 +41,7 @@ const displayLabel = label ?? defaultLabels[variant];
     padding: var(--space-1) 0;
 
     .note-body p {
-      font-size: rem(14px);
+      @include body-sm;
       font-weight: 500;
       line-height: 1.55;
       color: var(--text-primary);
@@ -56,7 +56,7 @@ const displayLabel = label ?? defaultLabels[variant];
 
   .note-mark {
     font-family: var(--font-mono);
-    font-size: rem(11px);
+    @include eyebrow;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;

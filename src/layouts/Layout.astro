@@ -42,7 +42,7 @@ const isActivePath = (target: string) => {
 
     <header class="header" id="site-header">
       <div class="wrapper">
-        <a href="/" class="heading-link">
+        <a href="/" class="heading-link" aria-label="Home">
           <div class="heading-wrapper">
             <span class="logo-icon">
               <svg width="28" height="28" viewBox="96 128 320 256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -123,7 +123,7 @@ const isActivePath = (target: string) => {
                 <path d="m21 21-4.35-4.35"/>
               </svg>
             </button>
-            <button class="mobile-icon-btn" id="hamburger-btn" aria-label="Menu" aria-expanded="false">
+            <button class="mobile-icon-btn" id="hamburger-btn" aria-label="Menu" aria-expanded="false" aria-controls="drawer">
               <svg aria-hidden="true" class="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="3" y1="6" x2="21" y2="6"/>
                 <line x1="3" y1="12" x2="21" y2="12"/>
@@ -143,7 +143,7 @@ const isActivePath = (target: string) => {
     <!-- Mobile drawer overlay -->
     <div class="drawer-overlay" id="drawer-overlay"></div>
     <!-- Mobile drawer -->
-    <nav class="drawer" id="drawer" aria-label="Mobile navigation" inert>
+    <nav class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Mobile navigation" inert>
       <div class="drawer-content">
         <div class="drawer-links">
           {baseNavLinks.map(link => (
@@ -287,6 +287,7 @@ const isActivePath = (target: string) => {
         });
       }
 
+      const mainEl = document.getElementById('main-content');
       function openDrawer() {
         if (!drawer) return;
         drawer.classList.add('open');
@@ -295,7 +296,10 @@ const isActivePath = (target: string) => {
         if (menuIcon) menuIcon.style.display = 'none';
         if (closeIcon) closeIcon.style.display = 'block';
         hamburgerBtn?.setAttribute('aria-expanded', 'true');
+        hamburgerBtn?.setAttribute('aria-label', 'Close menu');
         document.body.style.overflow = 'hidden';
+        // Modal dialog: 배경 main을 inert로 — SR이 hidden 콘텐츠를 탐색하지 못하도록
+        mainEl?.setAttribute('inert', '');
         // Focus first focusable link
         focusableInDrawer()[0]?.focus();
       }
@@ -308,7 +312,9 @@ const isActivePath = (target: string) => {
         if (menuIcon) menuIcon.style.display = 'block';
         if (closeIcon) closeIcon.style.display = 'none';
         hamburgerBtn?.setAttribute('aria-expanded', 'false');
+        hamburgerBtn?.setAttribute('aria-label', 'Menu');
         document.body.style.overflow = 'unset';
+        mainEl?.removeAttribute('inert');
         // Return focus to hamburger button
         hamburgerBtn?.focus();
       }
@@ -405,6 +411,8 @@ const isActivePath = (target: string) => {
 </html>
 
 <style lang="scss">
+  @use '../styles/abstracts' as *;
+
   .skip-link {
     position: absolute;
     top: -40px;
@@ -413,7 +421,7 @@ const isActivePath = (target: string) => {
     background: var(--accent-default);
     color: var(--text-on-accent);
     font-family: var(--font-mono);
-    font-size: 13px;
+    @include caption;
     font-weight: 600;
     border-radius: 0 0 var(--radius-md) 0;
     z-index: var(--z-toast);
@@ -440,11 +448,7 @@ const isActivePath = (target: string) => {
     top: 0;
     z-index: var(--z-sticky);
     background-color: var(--header-bg);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-
-    [data-theme='dark'] & {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    }
+    box-shadow: var(--shadow-sm);
 
     &.scrolled {
       .heading-wrapper {
@@ -454,7 +458,7 @@ const isActivePath = (target: string) => {
         }
         .heading {
           display: none;
-          font-size: 1.25rem;
+          @include heading-2;
         }
       }
 
@@ -470,7 +474,7 @@ const isActivePath = (target: string) => {
       }
 
       .link {
-        font-size: 0.875rem;
+        @include caption;
       }
     }
   }
@@ -519,7 +523,7 @@ const isActivePath = (target: string) => {
     .heading {
       display: none;
       font-weight: 800;
-      font-size: 1.5rem;
+      @include heading-1;
       line-height: 1.5rem;
       color: var(--icon-color);
 
@@ -566,7 +570,7 @@ const isActivePath = (target: string) => {
     text-decoration: none;
     color: var(--icon-color);
     font-weight: 600;
-    font-size: 1rem;
+    @include body;
     opacity: 0.7;
     transition: opacity 0.2s ease;
 
@@ -616,7 +620,7 @@ const isActivePath = (target: string) => {
 
   // Mobile nav elements
   .current-page {
-    font-size: 1rem;
+    @include body;
     font-weight: 600;
     color: var(--icon-color);
   }
@@ -661,7 +665,7 @@ const isActivePath = (target: string) => {
     width: 280px;
     height: 100vh;
     background-color: var(--background);
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
     z-index: var(--z-modal);
     transition: right 0.3s ease;
     overflow-y: auto;
@@ -688,9 +692,9 @@ const isActivePath = (target: string) => {
   .drawer-link {
     display: block;
     padding: 16px 12px;
-    font-size: 1.125rem;
+    @include heading-3;
     font-weight: 600;
-    color: var(--gray-1);
+    color: var(--text-primary);
     text-decoration: none;
     border-radius: 8px;
     transition: background-color 0.15s ease;
@@ -708,7 +712,7 @@ const isActivePath = (target: string) => {
   .drawer-divider {
     margin: 24px 0;
     border: none;
-    border-top: 1px solid var(--gray-2);
+    border-top: 1px solid var(--text-secondary);
     height: 0;
     background: none;
   }
@@ -724,9 +728,9 @@ const isActivePath = (target: string) => {
     align-items: center;
     gap: 12px;
     padding: 16px 12px;
-    font-size: 1rem;
+    @include body;
     font-weight: 500;
-    color: var(--gray-1);
+    color: var(--text-primary);
     text-decoration: none;
     background: none;
     border: none;
@@ -760,8 +764,8 @@ const isActivePath = (target: string) => {
   }
 
   .copy-right {
-    color: var(--gray-3);
-    font-size: 1rem;
+    color: var(--text-secondary);
+    @include body;
   }
 
   main {
@@ -775,8 +779,8 @@ const isActivePath = (target: string) => {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: var(--primary-c1);
-    color: white;
+    background: var(--accent-default);
+    color: var(--text-on-accent);
     border: none;
     cursor: pointer;
     display: flex;
@@ -786,7 +790,7 @@ const isActivePath = (target: string) => {
     visibility: hidden;
     transform: translateY(20px);
     transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background 0.2s;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-md);
     z-index: var(--z-sticky);
 
     &.visible {

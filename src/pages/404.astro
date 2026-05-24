@@ -4,17 +4,35 @@ import Layout from '@/layouts/Layout.astro';
 
 <Layout title="404 - Page Not Found">
   <div class="container">
-    <h1 class="error-code">404</h1>
-    <p class="error-message">페이지를 찾을 수 없습니다</p>
-    <a href="/" class="home-link">홈으로 돌아가기</a>
+    <p class="error-eyebrow">404</p>
+    <h1 class="error-title">페이지를 찾을 수 없습니다</h1>
+    <p class="error-lede">
+      주소가 바뀌었거나 사라진 문서일 수 있습니다. 아래 경로 중에서 찾아가실 수 있습니다.
+    </p>
+    <div class="error-actions">
+      <a href="/" class="btn btn-primary btn-md">홈으로</a>
+      <a href="/posts" class="btn btn-secondary btn-md">최근 글</a>
+      <button id="error-search" class="btn btn-ghost btn-md" type="button" aria-label="Open search">Search</button>
+    </div>
+    <nav class="error-shortcuts" aria-label="Common destinations">
+      <ul>
+        <li><a href="/posts">Posts</a></li>
+        <li><a href="/notes">Notes</a></li>
+        <li><a href="/reviews">Reviews</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
   </div>
 </Layout>
 
-<style lang="scss">
+<style lang="scss" is:global>
+  @use '../styles/abstracts' as *;
+
   .container {
-    max-width: 780px;
+    max-width: var(--container-doc);
     margin: 0 auto;
-    padding: 4rem 1.5rem;
+    padding: var(--space-16) var(--space-6);
     text-align: center;
     min-height: 60vh;
     display: flex;
@@ -23,32 +41,59 @@ import Layout from '@/layouts/Layout.astro';
     align-items: center;
   }
 
-  .error-code {
-    font-size: 6rem;
-    font-weight: 700;
-    color: var(--gray-5);
-    margin: 0;
-    line-height: 1;
+  .error-eyebrow {
+    @include eyebrow;
+    color: var(--text-muted);
+    margin: 0 0 var(--space-2);
   }
 
-  .error-message {
-    font-size: 1.25rem;
-    color: var(--gray-3);
-    margin: 1rem 0 2rem;
+  .error-title {
+    @include display-2;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-4);
   }
 
-  .home-link {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: var(--primary-c1);
-    color: white;
-    text-decoration: none;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: background-color 0.2s;
+  .error-lede {
+    @include body-lg;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-8);
+    max-width: 480px;
+  }
 
-    &:hover {
-      background: var(--primary-c2);
+  .error-actions {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-10);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .error-shortcuts {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    a {
+      font-family: var(--font-mono);
+      @include caption;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+
+      &:hover { color: var(--accent-default); text-decoration: underline; }
     }
   }
 </style>
+
+<script>
+  document.getElementById('error-search')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('toggle-search'));
+  });
+</script>

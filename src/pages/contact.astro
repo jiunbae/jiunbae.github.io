@@ -34,21 +34,21 @@ import Layout from '@/layouts/Layout.astro';
         <h2 class="section-title">Topics I'd love to chat about</h2>
         <div class="topics">
           <div class="topic">
-            <span class="topic-icon">🤖</span>
+            <span class="topic-icon" aria-hidden="true">🤖</span>
             <div>
               <strong>AI / ML</strong>
               <p>Deep learning, computer vision, speech recognition</p>
             </div>
           </div>
           <div class="topic">
-            <span class="topic-icon">✍️</span>
+            <span class="topic-icon" aria-hidden="true">✍️</span>
             <div>
               <strong>Blog Content</strong>
               <p>Feedback, corrections, or topic suggestions</p>
             </div>
           </div>
           <div class="topic">
-            <span class="topic-icon">💻</span>
+            <span class="topic-icon" aria-hidden="true">💻</span>
             <div>
               <strong>Dev Collaboration</strong>
               <p>Open source, side projects, creative coding</p>
@@ -70,6 +70,8 @@ import Layout from '@/layouts/Layout.astro';
 </Layout>
 
 <style lang="scss">
+  @use '../styles/abstracts' as *;
+
   .page {
     max-width: 700px;
     margin: 0 auto;
@@ -77,15 +79,15 @@ import Layout from '@/layouts/Layout.astro';
   }
 
   .title {
-    font-size: 2rem;
+    @include display-2;
     font-weight: 700;
     margin-bottom: 0.5rem;
-    color: var(--gray-1);
+    color: var(--text-primary);
   }
 
   .subtitle {
-    font-size: 1rem;
-    color: var(--gray-4);
+    @include body;
+    color: var(--text-muted);
     line-height: 1.6;
     margin-bottom: 2.5rem;
   }
@@ -98,14 +100,14 @@ import Layout from '@/layouts/Layout.astro';
 
   .section {
     padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--gray-6);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .section-title {
-    font-size: 1.2rem;
+    @include heading-2;
     font-weight: 600;
     margin-bottom: 1rem;
-    color: var(--gray-1);
+    color: var(--text-primary);
   }
 
   .contact-list {
@@ -124,12 +126,12 @@ import Layout from '@/layouts/Layout.astro';
     .label {
       min-width: 100px;
       font-weight: 500;
-      color: var(--gray-3);
-      font-size: 0.9rem;
+      color: var(--text-secondary);
+      @include body-sm;
     }
 
     a {
-      color: var(--primary-c1);
+      color: var(--text-link);
       text-decoration: none;
 
       &:hover {
@@ -150,36 +152,36 @@ import Layout from '@/layouts/Layout.astro';
     gap: 0.75rem;
 
     .topic-icon {
-      font-size: 1.5rem;
+      @include heading-1;
       flex-shrink: 0;
       margin-top: 0.1rem;
     }
 
     strong {
       display: block;
-      color: var(--gray-1);
+      color: var(--text-primary);
       margin-bottom: 0.2rem;
     }
 
     p {
-      color: var(--gray-4);
-      font-size: 0.9rem;
+      color: var(--text-muted);
+      @include body-sm;
       margin: 0;
     }
   }
 
   .note {
-    color: var(--gray-4);
-    font-size: 0.9rem;
+    color: var(--text-muted);
+    @include body-sm;
     line-height: 1.6;
   }
 
   .privacy-link {
-    font-size: 0.85rem;
-    color: var(--gray-4);
+    @include caption;
+    color: var(--text-muted);
 
     a {
-      color: var(--primary-c1);
+      color: var(--text-link);
       text-decoration: none;
 
       &:hover {
@@ -194,7 +196,7 @@ import Layout from '@/layouts/Layout.astro';
     }
 
     .title {
-      font-size: 1.6rem;
+      @include heading-1;
     }
 
     .contact-list {

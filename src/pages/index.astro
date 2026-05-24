@@ -43,41 +43,42 @@ const totalCount = sortedPosts.length;
       <ul class="post-list" id="post-list">
         {sortedPosts.map((post) => (
           <li class="post-item" data-tags={JSON.stringify(post.data.tags)}>
-            <a href={`/posts${post.data.permalink || `/${post.slug}`}`} class="post-link">
-              <article class="post">
-                <figure class="post-figure">
-                  <div class="post-thumbnail">
-                    {post.data.heroImage && !post.data.heroImage.startsWith('./') ? (
-                      <img src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} loading="lazy" />
-                    ) : (
-                      <img src={`/thumbs/posts${post.data.permalink || `/${post.slug}`}.png`} alt={post.data.title} loading="lazy" />
-                    )}
+            <article class="post">
+              <figure class="post-figure">
+                <div class="post-thumbnail">
+                  {post.data.heroImage && !post.data.heroImage.startsWith('./') ? (
+                    <img src={post.data.heroImage} alt="" loading="lazy" />
+                  ) : (
+                    <img src={`/thumbs/posts${post.data.permalink || `/${post.slug}`}.png`} alt="" loading="lazy" />
+                  )}
+                </div>
+                <figcaption class="post-content">
+                  {/* Stretched link 패턴: 링크는 제목만 감싸고 ::after로 카드 전체 클릭 영역. */}
+                  <h2 class="post-title">
+                    <a href={`/posts${post.data.permalink || `/${post.slug}`}`} class="post-link">{post.data.title}</a>
+                  </h2>
+                  {post.data.description && (
+                    <p class="post-description">{post.data.description}</p>
+                  )}
+                  <div class="post-meta" data-comment-slug={(post.data.permalink || `/${post.slug}`).replace(/^\//, '')} data-comment-type="posts">
+                    <time class="post-date" datetime={post.data.date.toISOString()}>
+                      {fmtDate(post.data.date)}
+                    </time>
                   </div>
-                  <figcaption class="post-content">
-                    <h2 class="post-title">{post.data.title}</h2>
-                    {post.data.description && (
-                      <p class="post-description">{post.data.description}</p>
-                    )}
-                    <div class="post-meta" data-comment-slug={(post.data.permalink || `/${post.slug}`).replace(/^\//, '')} data-comment-type="posts">
-                      <time class="post-date" datetime={post.data.date.toISOString()}>
-                        {fmtDate(post.data.date)}
-                      </time>
+                  {post.data.tags.length > 0 && (
+                    <div class="post-tags">
+                      {post.data.tags.map(tag => (
+                        <Chip class="tag">{tag}</Chip>
+                      ))}
                     </div>
-                    {post.data.tags.length > 0 && (
-                      <div class="post-tags">
-                        {post.data.tags.map(tag => (
-                          <Chip class="tag">{tag}</Chip>
-                        ))}
-                      </div>
-                    )}
-                  </figcaption>
-                </figure>
-              </article>
-            </a>
+                  )}
+                </figcaption>
+              </figure>
+            </article>
           </li>
         ))}
       </ul>
-      <p class="empty-filter-message" id="empty-filter-msg" style="display:none">선택한 태그에 해당하는 포스트가 없습니다.</p>
+      <p class="empty-filter-message" id="empty-filter-msg" role="status" aria-live="polite" style="display:none">선택한 태그에 해당하는 포스트가 없습니다.</p>
     </section>
   </div>
   <CommentCountLoader />
@@ -303,19 +304,31 @@ const totalCount = sortedPosts.length;
 
   .post-item {
     list-style: none;
+    position: relative; /* stretched-link ::after의 containing block */
   }
 
+  /* Stretched link 패턴: <a>는 제목만 감싸지만 ::after로 카드 전체 클릭 가능.
+   * a11y/HTML 유효성을 지키면서(heading-in-link 제거) UX(전체 카드 hit area)는 유지. */
   .post-link {
     text-decoration: none;
-    display: block;
+    color: inherit;
 
-    &:hover,
-    &:focus {
-      .post-title,
-      .post-description,
-      .post-date {
-        text-decoration-color: var(--border-default);
-      }
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-lg);
+      z-index: 1;
+    }
+
+    &:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--border-default);
+    }
+
+    &:focus-visible::after {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
     }
   }
 
@@ -361,9 +374,6 @@ const totalCount = sortedPosts.length;
     overflow: hidden;
     font-weight: 700;
     color: var(--text-primary);
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    transition: text-decoration-color var(--duration-base) var(--easing-standard);
   }
 
   .post-description {
@@ -375,9 +385,6 @@ const totalCount = sortedPosts.length;
     overflow: hidden;
     font-weight: 600;
     color: var(--text-secondary);
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    transition: text-decoration-color var(--duration-base) var(--easing-standard);
   }
 
   .post-meta {

@@ -2,6 +2,25 @@
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import services from '@/data/services';
+import Badge from '@/components/Badge.astro';
+
+type IncidentSeverity = 'critical' | 'major' | 'minor' | 'maintenance';
+type IncidentStatus = 'investigating' | 'identified' | 'monitoring' | 'resolved' | 'scheduled';
+type BadgeTone = 'success' | 'warning' | 'error' | 'info' | 'neutral' | 'accent';
+
+const severityTone: Record<IncidentSeverity, BadgeTone> = {
+  critical: 'error',
+  major: 'warning',
+  minor: 'warning',
+  maintenance: 'info',
+};
+const statusTone: Record<IncidentStatus, BadgeTone> = {
+  investigating: 'warning',
+  identified: 'warning',
+  monitoring: 'info',
+  resolved: 'success',
+  scheduled: 'info',
+};
 
 const allIncidents = await getCollection('incidents', ({ data }) => data.published !== false);
 const incidents = allIncidents.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -83,8 +102,8 @@ function formatTime(d: Date) {
       </a>
     </header>
 
-    <div class:list={['banner', hasIssues ? 'banner-warning' : 'banner-ok']}>
-      <span class="banner-dot"></span>
+    <div class:list={['banner', hasIssues ? 'banner-warning' : 'banner-ok']} role="status" aria-live="polite">
+      <span class="banner-dot" aria-hidden="true"></span>
       <span class="banner-text">{hasIssues ? 'Some systems are experiencing issues' : 'All Systems Operational'}</span>
       <span class="banner-time">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
     </div>
@@ -99,7 +118,7 @@ function formatTime(d: Date) {
           <div class:list={['service-card', `status-${s.opStatus}`]}>
             <div class="service-info">
               <span class="service-dot-wrap">
-                <span class="service-dot"></span>
+                <span class="service-dot" aria-hidden="true"></span>
               </span>
               <span class="service-name">{s.title}</span>
             </div>
@@ -135,9 +154,9 @@ function formatTime(d: Date) {
                   <div class="incident-info">
                     <span class="incident-title">{incident.data.title}</span>
                     <span class="incident-meta">
-                      <span class:list={['severity-badge', `severity-${incident.data.severity}`]}>
+                      <Badge tone={severityTone[incident.data.severity as IncidentSeverity]} weight="solid">
                         {severityLabels[incident.data.severity]}
-                      </span>
+                      </Badge>
                       <span class="incident-services">
                         {incident.data.affectedServices.join(', ')}
                       </span>
@@ -145,9 +164,9 @@ function formatTime(d: Date) {
                   </div>
                 </div>
                 <div class="incident-right">
-                  <span class:list={['status-pill', `pill-${incident.data.status}`]}>
+                  <Badge tone={statusTone[incident.data.status as IncidentStatus]}>
                     {incident.data.status}
-                  </span>
+                  </Badge>
                   <span class="incident-time">{formatTime(incident.data.date)}</span>
                 </div>
               </a>
@@ -160,6 +179,8 @@ function formatTime(d: Date) {
 </Layout>
 
 <style lang="scss">
+  @use '../../styles/abstracts' as *;
+
   .status-page {
     max-width: 860px;
     margin: 0 auto;
@@ -173,16 +194,16 @@ function formatTime(d: Date) {
     margin-bottom: 2rem;
 
     h1 {
-      font-size: 2rem;
+      @include display-2;
       font-weight: 700;
-      color: var(--gray-1);
+      color: var(--text-primary);
       margin: 0;
     }
   }
 
   .subtitle {
-    font-size: 1rem;
-    color: var(--gray-5);
+    @include body;
+    color: var(--border-default);
     margin: 0.25rem 0 0;
     line-height: 1.6;
   }
@@ -194,7 +215,7 @@ function formatTime(d: Date) {
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    color: var(--gray-4);
+    color: var(--text-muted);
     transition: all 0.2s;
     margin-top: 0.25rem;
 
@@ -212,31 +233,31 @@ function formatTime(d: Date) {
     padding: 1.25rem 1.5rem;
     border-radius: 12px;
     font-weight: 600;
-    font-size: 1rem;
+    @include body;
     margin-bottom: 2.5rem;
     border: 1px solid transparent;
   }
 
   .banner-ok {
-    background: color-mix(in srgb, #22c55e 8%, transparent);
-    border-color: color-mix(in srgb, #22c55e 20%, transparent);
-    color: #22c55e;
+    background: color-mix(in srgb, var(--state-success) 8%, transparent);
+    border-color: color-mix(in srgb, var(--state-success) 20%, transparent);
+    color: var(--state-success);
 
     .banner-dot {
-      background: #22c55e;
-      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+      background: var(--state-success);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-success) 40%, transparent);
       animation: pulse-green 2s infinite;
     }
   }
 
   .banner-warning {
-    background: color-mix(in srgb, #f59e0b 8%, transparent);
-    border-color: color-mix(in srgb, #f59e0b 20%, transparent);
-    color: #f59e0b;
+    background: color-mix(in srgb, var(--state-warning) 8%, transparent);
+    border-color: color-mix(in srgb, var(--state-warning) 20%, transparent);
+    color: var(--state-warning);
 
     .banner-dot {
-      background: #f59e0b;
-      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+      background: var(--state-warning);
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-warning) 40%, transparent);
       animation: pulse-amber 2s infinite;
     }
   }
@@ -253,21 +274,21 @@ function formatTime(d: Date) {
   }
 
   .banner-time {
-    font-size: 0.8125rem;
+    @include caption;
     font-weight: 400;
     opacity: 0.7;
   }
 
   @keyframes pulse-green {
-    0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-success) 40%, transparent); }
+    70% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--state-success) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-success) 0%, transparent); }
   }
 
   @keyframes pulse-amber {
-    0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-warning) 40%, transparent); }
+    70% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--state-warning) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--state-warning) 0%, transparent); }
   }
 
   // Section headers
@@ -278,20 +299,20 @@ function formatTime(d: Date) {
     margin-bottom: 1rem;
 
     h2 {
-      font-size: 1.25rem;
+      @include heading-2;
       font-weight: 600;
-      color: var(--gray-1);
+      color: var(--text-primary);
       margin: 0;
     }
   }
 
   .service-count {
-    font-size: 0.7rem;
+    @include eyebrow;
     font-weight: 500;
     padding: 1px 6px;
     border-radius: 10px;
-    background: var(--gray-6);
-    color: var(--gray-3);
+    background: var(--border-subtle);
+    color: var(--text-secondary);
   }
 
   // Services grid
@@ -312,12 +333,12 @@ function formatTime(d: Date) {
     padding: 0.875rem 1rem;
     border-radius: 10px;
     background: var(--article-background);
-    border: 1px solid var(--gray-6);
+    border: 1px solid var(--border-subtle);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      box-shadow: var(--shadow-md);
     }
   }
 
@@ -344,33 +365,33 @@ function formatTime(d: Date) {
 
   .service-name {
     font-weight: 500;
-    font-size: 0.9375rem;
-    color: var(--gray-1);
+    @include body-sm;
+    color: var(--text-primary);
   }
 
   .service-status {
-    font-size: 0.75rem;
+    @include caption;
     font-weight: 500;
-    color: var(--gray-4);
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.03em;
   }
 
   .status-operational {
-    .service-dot { background: #22c55e; }
-    .service-status { color: #22c55e; }
+    .service-dot { background: var(--state-success); }
+    .service-status { color: var(--state-success); }
   }
   .status-maintenance {
-    .service-dot { background: #60a5fa; }
-    .service-status { color: #60a5fa; }
+    .service-dot { background: var(--state-info); }
+    .service-status { color: var(--state-info); }
   }
   .status-degraded {
-    .service-dot { background: #f59e0b; }
-    .service-status { color: #f59e0b; }
+    .service-dot { background: var(--state-warning); }
+    .service-status { color: var(--state-warning); }
   }
   .status-major-outage {
-    .service-dot { background: #ef4444; }
-    .service-status { color: #ef4444; }
+    .service-dot { background: var(--state-error); }
+    .service-status { color: var(--state-error); }
   }
 
   // Incidents
@@ -386,17 +407,17 @@ function formatTime(d: Date) {
     padding: 3rem 2rem;
     border-radius: 12px;
     background: var(--article-background);
-    border: 1px solid var(--gray-6);
+    border: 1px solid var(--border-subtle);
     text-align: center;
 
     svg {
-      color: #22c55e;
+      color: var(--state-success);
       opacity: 0.6;
     }
 
     p {
-      color: var(--gray-4);
-      font-size: 0.9375rem;
+      color: var(--text-muted);
+      @include body-sm;
       margin: 0;
     }
   }
@@ -413,9 +434,9 @@ function formatTime(d: Date) {
   }
 
   .incident-date {
-    font-size: 0.8125rem;
+    @include caption;
     font-weight: 600;
-    color: var(--gray-4);
+    color: var(--text-muted);
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -424,7 +445,7 @@ function formatTime(d: Date) {
   .incident-date-line {
     flex: 1;
     height: 1px;
-    background: var(--gray-6);
+    background: var(--border-subtle);
   }
 
   .incident-card {
@@ -435,15 +456,15 @@ function formatTime(d: Date) {
     padding: 1rem 1.25rem;
     border-radius: 10px;
     background: var(--article-background);
-    border: 1px solid var(--gray-6);
+    border: 1px solid var(--border-subtle);
     text-decoration: none;
     margin-bottom: 0.5rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      border-color: var(--gray-5);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-default);
     }
   }
 
@@ -462,10 +483,10 @@ function formatTime(d: Date) {
     flex-shrink: 0;
   }
 
-  .sev-critical { background: #ef4444; }
-  .sev-major { background: #f59e0b; }
-  .sev-minor { background: #d97706; }
-  .sev-maintenance { background: #60a5fa; }
+  .sev-critical { background: var(--state-error); }
+  .sev-major { background: var(--state-warning); }
+  .sev-minor { background: var(--state-warning); }
+  .sev-maintenance { background: var(--state-info); }
 
   .incident-info {
     display: flex;
@@ -476,8 +497,8 @@ function formatTime(d: Date) {
 
   .incident-title {
     font-weight: 600;
-    font-size: 0.9375rem;
-    color: var(--gray-1);
+    @include body-sm;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -487,11 +508,11 @@ function formatTime(d: Date) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8125rem;
+    @include caption;
   }
 
   .severity-badge {
-    font-size: 0.6875rem;
+    @include eyebrow;
     font-weight: 600;
     padding: 0.125rem 0.5rem;
     border-radius: 4px;
@@ -500,28 +521,28 @@ function formatTime(d: Date) {
   }
 
   .severity-critical {
-    background: color-mix(in srgb, #ef4444 15%, transparent);
-    color: #ef4444;
+    background: color-mix(in srgb, var(--state-error) 15%, transparent);
+    color: var(--state-error);
   }
 
   .severity-major {
-    background: color-mix(in srgb, #f59e0b 15%, transparent);
-    color: #f59e0b;
+    background: color-mix(in srgb, var(--state-warning) 15%, transparent);
+    color: var(--state-warning);
   }
 
   .severity-minor {
-    background: color-mix(in srgb, #d97706 12%, transparent);
-    color: #d97706;
+    background: color-mix(in srgb, var(--state-warning) 12%, transparent);
+    color: var(--state-warning);
   }
 
   .severity-maintenance {
-    background: color-mix(in srgb, #60a5fa 15%, transparent);
-    color: #60a5fa;
+    background: color-mix(in srgb, var(--state-info) 15%, transparent);
+    color: var(--state-info);
   }
 
   .incident-services {
-    color: var(--gray-4);
-    font-size: 0.8125rem;
+    color: var(--text-muted);
+    @include caption;
   }
 
   .incident-right {
@@ -533,7 +554,7 @@ function formatTime(d: Date) {
   }
 
   .status-pill {
-    font-size: 0.6875rem;
+    @include eyebrow;
     font-weight: 600;
     padding: 0.2rem 0.625rem;
     border-radius: 10px;
@@ -541,34 +562,34 @@ function formatTime(d: Date) {
   }
 
   .pill-resolved {
-    background: color-mix(in srgb, #22c55e 12%, transparent);
-    color: #22c55e;
+    background: color-mix(in srgb, var(--state-success) 12%, transparent);
+    color: var(--state-success);
   }
 
   .pill-investigating, .pill-identified {
-    background: color-mix(in srgb, #f59e0b 12%, transparent);
-    color: #f59e0b;
+    background: color-mix(in srgb, var(--state-warning) 12%, transparent);
+    color: var(--state-warning);
   }
 
   .pill-monitoring {
-    background: color-mix(in srgb, #60a5fa 12%, transparent);
-    color: #60a5fa;
+    background: color-mix(in srgb, var(--state-info) 12%, transparent);
+    color: var(--state-info);
   }
 
   .pill-scheduled {
-    background: color-mix(in srgb, var(--gray-4) 12%, transparent);
-    color: var(--gray-4);
+    background: color-mix(in srgb, var(--text-muted) 12%, transparent);
+    color: var(--text-muted);
   }
 
   .incident-time {
-    font-size: 0.75rem;
-    color: var(--gray-5);
+    @include caption;
+    color: var(--border-default);
     font-variant-numeric: tabular-nums;
   }
 
   @media (max-width: 768px) {
     .status-header h1 {
-      font-size: 1.6rem;
+      @include heading-1;
     }
 
     .services-grid {

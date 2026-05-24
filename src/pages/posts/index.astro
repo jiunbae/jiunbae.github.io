@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import CommentCountLoader from '@/components/CommentCountLoader.astro';
+import Chip from '@/components/Chip.astro';
 import { fmtDate } from '@/utils/date';
 
 const allPosts = await getCollection('posts', ({ data }) => data.published !== false);
@@ -27,50 +28,46 @@ const totalCount = sortedPosts.length;
     <section class="wrapper">
       <h1 class="sr-only">Posts</h1>
       <div class="tag-list" id="tags-container" role="group" aria-label="Filter by tag">
-        <button class="tag-button active" data-tag="all" aria-pressed="true">
-          all ({totalCount})
-        </button>
+        <Chip as="button" type="button" class="tag-button active" pressed={true} data-tag="all">all ({totalCount})</Chip>
         {tags.map(([tag, count]) => (
-          <button class="tag-button" data-tag={tag} aria-pressed="false">
-            {tag} ({count})
-          </button>
+          <Chip as="button" type="button" class="tag-button" pressed={false} data-tag={tag}>{tag} ({count})</Chip>
         ))}
       </div>
 
       <ul class="post-list" id="posts-list">
         {sortedPosts.map((post) => (
           <li class="post-item" data-tags={JSON.stringify(post.data.tags)}>
-            <a href={`/posts${post.data.permalink || `/${post.slug}`}`} class="post-link">
-              <article class="post">
-                <div class="post-content">
-                  <div class="post-header" data-comment-slug={(post.data.permalink || `/${post.slug}`).replace(/^\//, '')} data-comment-type="posts">
-                    <time class="post-date" datetime={post.data.date.toISOString()}>
-                      {fmtDate(post.data.date)}
-                    </time>
-                  </div>
-                  <h2 class="post-title">{post.data.title}</h2>
-                  {post.data.description && (
-                    <p class="post-description">{post.data.description}</p>
-                  )}
-                  {post.data.tags.length > 0 && (
-                    <div class="post-tags">
-                      {post.data.tags.map(tag => (
-                        <span class="tag">{tag}</span>
-                      ))}
-                    </div>
-                  )}
+            <article class="post">
+              <div class="post-content">
+                <div class="post-header" data-comment-slug={(post.data.permalink || `/${post.slug}`).replace(/^\//, '')} data-comment-type="posts">
+                  <time class="post-date" datetime={post.data.date.toISOString()}>
+                    {fmtDate(post.data.date)}
+                  </time>
                 </div>
-                {post.data.heroImage && !post.data.heroImage.startsWith('./') && (
-                  <div class="post-thumbnail">
-                    <img src={post.data.heroImage} alt={post.data.heroImageAlt || post.data.title} loading="lazy" />
+                <h2 class="post-title">
+                  <a href={`/posts${post.data.permalink || `/${post.slug}`}`} class="post-link">{post.data.title}</a>
+                </h2>
+                {post.data.description && (
+                  <p class="post-description">{post.data.description}</p>
+                )}
+                {post.data.tags.length > 0 && (
+                  <div class="post-tags">
+                    {post.data.tags.map(tag => (
+                      <Chip>{tag}</Chip>
+                    ))}
                   </div>
                 )}
-              </article>
-            </a>
+              </div>
+              {post.data.heroImage && !post.data.heroImage.startsWith('./') && (
+                <div class="post-thumbnail">
+                  <img src={post.data.heroImage} alt="" loading="lazy" />
+                </div>
+              )}
+            </article>
           </li>
         ))}
       </ul>
-      <p class="empty-filter-message" id="empty-filter-msg" style="display:none">선택한 태그에 해당하는 포스트가 없습니다.</p>
+      <p class="empty-filter-message" id="empty-filter-msg" role="status" aria-live="polite" style="display:none">선택한 태그에 해당하는 포스트가 없습니다.</p>
     </section>
   </div>
   <CommentCountLoader />
@@ -92,12 +89,16 @@ const totalCount = sortedPosts.length;
     if (!target) return;
     const selectedTag = target.dataset.tag;
 
-    // Update active tag and aria-pressed
+    // Update active tag: aria-pressed + .chip-active visual (matches Chip primitive contract)
     tagsContainer.querySelectorAll('.tag-button').forEach(btn => {
       btn.classList.remove('active');
+      btn.classList.remove('chip-active');
+      btn.classList.add('chip-default');
       btn.setAttribute('aria-pressed', 'false');
     });
     target.classList.add('active');
+    target.classList.remove('chip-default');
+    target.classList.add('chip-active');
     target.setAttribute('aria-pressed', 'true');
 
     // Filter posts
@@ -128,6 +129,8 @@ const totalCount = sortedPosts.length;
 </script>
 
 <style lang="scss">
+  @use '../../styles/abstracts' as *;
+
   .main {
     max-width: 900px;
     margin: 0 auto;
@@ -146,29 +149,7 @@ const totalCount = sortedPosts.length;
     gap: 0.5rem;
   }
 
-  .tag-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    background: transparent;
-    border: 1px solid var(--gray-5);
-    border-radius: 2rem;
-    font-size: 0.875rem;
-    color: var(--gray-3);
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &:hover {
-      border-color: var(--primary-c1);
-      color: var(--primary-c1);
-    }
-
-    &.active {
-      background: var(--primary-c1);
-      border-color: var(--primary-c1);
-      color: white;
-    }
-  }
+  /* .tag-button 로컬 스타일 제거 — <Chip as="button" pressed>로 통일됨. */
 
   .post-list {
     list-style: none;
@@ -180,22 +161,38 @@ const totalCount = sortedPosts.length;
   }
 
   .post-item {
-    border-bottom: 1px solid var(--gray-5);
-    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-default);
+    padding-bottom: var(--space-4);
+    position: relative; /* stretched-link */
 
     &:last-child {
       border-bottom: none;
     }
   }
 
+  /* Stretched link 패턴 — heading-in-link 회피하면서 카드 전체 클릭 영역 유지 */
   .post-link {
     text-decoration: none;
-    display: block;
+    color: inherit;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-md);
+    }
+
+    &:hover { color: var(--text-link); }
+
+    &:focus-visible::after {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 2px;
+    }
   }
 
   .post {
     display: flex;
-    gap: 1.5rem;
+    gap: var(--space-6);
     align-items: flex-start;
   }
 
@@ -207,31 +204,24 @@ const totalCount = sortedPosts.length;
   .post-header {
     display: flex;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--space-2);
   }
 
   .post-date {
-    font-size: 0.8125rem;
-    color: var(--gray-4);
+    @include caption;
+    color: var(--text-muted);
   }
 
   .post-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--gray-1);
-    margin: 0 0 0.5rem;
-    line-height: 1.4;
-
-    .post-link:hover & {
-      color: var(--primary-c1);
-    }
+    @include heading-3;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-2);
   }
 
   .post-description {
-    font-size: 0.9375rem;
-    color: var(--gray-3);
-    margin: 0 0 0.75rem;
-    line-height: 1.6;
+    @include body-sm;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-3);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -241,16 +231,12 @@ const totalCount = sortedPosts.length;
   .post-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.375rem;
+    gap: var(--space-1);
+    position: relative; /* tag chips remain above stretched ::after */
+    z-index: 2;
   }
 
-  .tag {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.625rem;
-    background: var(--article-background);
-    border-radius: 1rem;
-    color: var(--gray-4);
-  }
+  /* .tag 로컬 클래스 제거 — <Chip>으로 통일됨 */
 
   .post-thumbnail {
     flex-shrink: 0;
@@ -268,9 +254,9 @@ const totalCount = sortedPosts.length;
 
   .empty-filter-message {
     text-align: center;
-    color: var(--gray-4);
+    color: var(--text-muted);
     padding: 3rem 1rem;
-    font-size: 0.9375rem;
+    @include body-sm;
   }
 
   @media (max-width: 640px) {
@@ -285,7 +271,7 @@ const totalCount = sortedPosts.length;
     }
 
     .post-title {
-      font-size: 1rem;
+      @include body;
     }
   }
 </style>

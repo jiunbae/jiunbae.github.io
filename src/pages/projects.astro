@@ -24,9 +24,11 @@ const tabs: { key: Tab; label: string; count: number }[] = [
         <button
           class:list={['tab-btn', { active: i === 0 }]}
           data-tab={tab.key}
+          id={`tab-${tab.key}`}
           role="tab"
           aria-selected={i === 0 ? 'true' : 'false'}
           aria-controls={`panel-${tab.key}`}
+          tabindex={i === 0 ? 0 : -1}
         >
           {tab.label}
           <span class="tab-count">{tab.count}</span>
@@ -35,7 +37,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     </div>
 
     <!-- Services Panel -->
-    <div class="tab-panel active" id="panel-services" role="tabpanel">
+    <div class="tab-panel active" id="panel-services" role="tabpanel" aria-labelledby="tab-services" tabindex="0">
       <div class="category-filters">
         <button class="filter-btn active" data-filter="all">All</button>
         {Object.entries(categories).map(([key, cat]) => (
@@ -55,7 +57,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
               <div class="service-header">
                 <div class="icon-badge" style={`--badge-color: ${cat.color}`}>
                   {item.iconType === 'image' ? (
-                    <img src={item.icon} alt={item.title} class="icon-img" width="32" height="32" />
+                    <img src={item.icon} alt="" class="icon-img" width="32" height="32" />
                   ) : (
                     <span class="icon-letter">{item.icon}</span>
                   )}
@@ -111,7 +113,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     </div>
 
     <!-- Playground Panel -->
-    <div class="tab-panel" id="panel-playground" role="tabpanel">
+    <div class="tab-panel" id="panel-playground" role="tabpanel" aria-labelledby="tab-playground" tabindex="0">
       <div class="grid">
         {playgroundItems.map(item => (
           <a href={item.slug} class="playground-card">
@@ -134,7 +136,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     </div>
 
     <!-- Tools Panel -->
-    <div class="tab-panel" id="panel-tools" role="tabpanel">
+    <div class="tab-panel" id="panel-tools" role="tabpanel" aria-labelledby="tab-tools" tabindex="0">
       <div class="grid">
         {toolItems.map(item => (
           <a href={item.slug} class="tool-card">
@@ -162,30 +164,46 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   const tabBtns = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
   const panels = document.querySelectorAll<HTMLDivElement>('.tab-panel');
 
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab;
+  // APG Tabs pattern: 활성 탭만 tabindex=0, 화살표/Home/End로 탐색
+  function activateTab(btn: HTMLButtonElement, focusBtn = true) {
+    const tab = btn.dataset.tab;
+    tabBtns.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+      b.setAttribute('tabindex', '-1');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    btn.setAttribute('tabindex', '0');
+    if (focusBtn) btn.focus();
 
-      tabBtns.forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
+    panels.forEach(p => {
+      if (p.id === `panel-${tab}`) {
+        p.classList.add('active');
+        p.querySelectorAll('.grid > *').forEach((card, i) => {
+          (card as HTMLElement).animate(
+            [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }],
+            { duration: 200, delay: i * 30, easing: 'ease-out', fill: 'forwards' }
+          );
+        });
+      } else {
+        p.classList.remove('active');
+      }
+    });
+  }
 
-      panels.forEach(p => {
-        if (p.id === `panel-${tab}`) {
-          p.classList.add('active');
-          p.querySelectorAll('.grid > *').forEach((card, i) => {
-            (card as HTMLElement).animate(
-              [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }],
-              { duration: 200, delay: i * 30, easing: 'ease-out', fill: 'forwards' }
-            );
-          });
-        } else {
-          p.classList.remove('active');
-        }
-      });
+  tabBtns.forEach((btn, idx) => {
+    btn.addEventListener('click', () => activateTab(btn, false));
+    btn.addEventListener('keydown', (e) => {
+      const key = (e as KeyboardEvent).key;
+      let next = idx;
+      if (key === 'ArrowRight') next = (idx + 1) % tabBtns.length;
+      else if (key === 'ArrowLeft') next = (idx - 1 + tabBtns.length) % tabBtns.length;
+      else if (key === 'Home') next = 0;
+      else if (key === 'End') next = tabBtns.length - 1;
+      else return;
+      e.preventDefault();
+      activateTab(tabBtns[next] as HTMLButtonElement);
     });
   });
 
@@ -227,6 +245,8 @@ const tabs: { key: Tab; label: string; count: number }[] = [
 </script>
 
 <style lang="scss">
+  @use '../styles/abstracts' as *;
+
   .page {
     max-width: 1100px;
     margin: 0 auto;
@@ -238,15 +258,14 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   }
 
   .title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: var(--gray-1);
+    @include display-2;
+    margin-bottom: var(--space-2);
+    color: var(--text-primary);
   }
 
   .subtitle {
-    font-size: 1rem;
-    color: var(--gray-5);
+    @include body;
+    color: var(--text-muted);
     line-height: 1.6;
   }
 
@@ -254,7 +273,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   .tabs {
     display: flex;
     gap: 0;
-    border-bottom: 1px solid var(--gray-6);
+    border-bottom: 1px solid var(--border-subtle);
     margin-bottom: 1.5rem;
   }
 
@@ -265,8 +284,8 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     padding: 12px 20px;
     border: none;
     background: none;
-    color: var(--gray-5);
-    font-size: 0.95rem;
+    color: var(--border-default);
+    @include body-sm;
     font-weight: 600;
     cursor: pointer;
     border-bottom: 2px solid transparent;
@@ -274,26 +293,26 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     transition: color 0.2s, border-color 0.2s;
 
     &:hover {
-      color: var(--gray-2);
+      color: var(--text-secondary);
     }
 
     &.active {
-      color: var(--primary-c1);
-      border-bottom-color: var(--primary-c1);
+      color: var(--accent-default);
+      border-bottom-color: var(--accent-default);
     }
   }
 
   .tab-count {
-    font-size: 0.7rem;
+    @include eyebrow;
     font-weight: 500;
     padding: 1px 6px;
     border-radius: 10px;
-    background: var(--gray-6);
-    color: var(--gray-3);
+    background: var(--border-subtle);
+    color: var(--text-secondary);
 
     .active & {
-      background: color-mix(in srgb, var(--primary-c1) 15%, transparent);
-      color: var(--primary-c1);
+      background: color-mix(in srgb, var(--accent-default) 15%, transparent);
+      color: var(--accent-default);
     }
   }
 
@@ -316,23 +335,23 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   .filter-btn {
     padding: 5px 14px;
     border-radius: 20px;
-    border: 1px solid var(--gray-6);
-    background: var(--article-background);
-    color: var(--gray-3);
-    font-size: 0.8rem;
+    border: 1px solid var(--border-subtle);
+    background: var(--surface-raised);
+    color: var(--text-secondary);
+    @include caption;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-      border-color: var(--gray-5);
-      color: var(--gray-1);
+      border-color: var(--border-default);
+      color: var(--text-primary);
     }
 
     &.active {
-      background: var(--gray-1);
+      background: var(--text-primary);
       color: var(--background);
-      border-color: var(--gray-1);
+      border-color: var(--text-primary);
     }
   }
 
@@ -350,15 +369,15 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   }
 
   .card-title {
-    font-size: 1.15rem;
+    @include heading-3;
     font-weight: 600;
     margin-bottom: 0.4rem;
-    color: var(--gray-1);
+    color: var(--text-primary);
   }
 
   .card-description {
-    font-size: 0.875rem;
-    color: var(--gray-5);
+    @include caption;
+    color: var(--border-default);
     line-height: 1.5;
     margin-bottom: 0.75rem;
   }
@@ -370,11 +389,11 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   }
 
   .tag {
-    font-size: 0.7rem;
+    @include eyebrow;
     padding: 2px 8px;
     border-radius: 4px;
-    background: var(--gray-6);
-    color: var(--gray-2);
+    background: var(--border-subtle);
+    color: var(--text-secondary);
   }
 
   /* Service cards */
@@ -383,14 +402,14 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     flex-direction: column;
     border-radius: 12px;
     overflow: hidden;
-    background: var(--article-background);
-    border: 1px solid var(--gray-6);
-    color: var(--gray-1);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      box-shadow: var(--shadow-lg);
     }
   }
 
@@ -413,7 +432,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   }
 
   .icon-letter {
-    font-size: 1.25rem;
+    @include heading-2;
     font-weight: 700;
     color: var(--badge-color);
     font-family: 'Fira Code', monospace;
@@ -433,7 +452,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   }
 
   .category-label {
-    font-size: 0.7rem;
+    @include eyebrow;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -441,25 +460,25 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   }
 
   .status-dot {
-    font-size: 0.65rem;
+    @include eyebrow;
     padding: 2px 8px;
     border-radius: 10px;
     font-weight: 500;
     text-transform: capitalize;
 
     &.live {
-      background: color-mix(in srgb, #22c55e 15%, transparent);
-      color: #22c55e;
+      background: color-mix(in srgb, var(--state-success) 15%, transparent);
+      color: var(--state-success);
     }
 
     &.beta {
-      background: color-mix(in srgb, #eab308 15%, transparent);
-      color: #eab308;
+      background: color-mix(in srgb, var(--state-warning) 15%, transparent);
+      color: var(--state-warning);
     }
 
     &.internal {
-      background: color-mix(in srgb, #6b7280 15%, transparent);
-      color: #6b7280;
+      background: color-mix(in srgb, var(--text-muted) 15%, transparent);
+      color: var(--text-muted);
     }
   }
 
@@ -468,16 +487,16 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     align-items: center;
     justify-content: space-between;
     padding: 0.75rem 1.25rem;
-    border-top: 1px solid var(--gray-6);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .card-link {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-size: 0.8rem;
+    @include caption;
     font-weight: 500;
-    color: var(--primary-c1);
+    color: var(--accent-default);
     text-decoration: none;
 
     &:hover svg {
@@ -490,9 +509,9 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   }
 
   .card-link-disabled {
-    font-size: 0.8rem;
+    @include caption;
     font-weight: 500;
-    color: var(--gray-5);
+    color: var(--border-default);
   }
 
   .footer-links {
@@ -506,14 +525,14 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    font-size: 0.8rem;
+    @include caption;
     font-weight: 500;
-    color: var(--gray-3);
+    color: var(--text-secondary);
     text-decoration: none;
     transition: color 0.2s ease;
 
     &:hover {
-      color: var(--gray-1);
+      color: var(--text-primary);
     }
 
     svg {
@@ -526,16 +545,16 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     display: block;
     border-radius: 12px;
     overflow: hidden;
-    background: var(--article-background);
-    border: 1px solid var(--gray-6);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
     text-decoration: none;
-    color: var(--gray-1);
+    color: var(--text-primary);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      color: var(--gray-1);
+      box-shadow: var(--shadow-lg);
+      color: var(--text-primary);
 
       .thumbnail {
         transform: scale(1.05);
@@ -558,8 +577,8 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   }
 
   .date {
-    font-size: 0.75rem;
-    color: var(--gray-5);
+    @include caption;
+    color: var(--border-default);
     white-space: nowrap;
   }
 
@@ -568,16 +587,16 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     display: block;
     border-radius: 12px;
     overflow: hidden;
-    background: var(--article-background);
-    border: 1px solid var(--gray-6);
+    background: var(--surface-raised);
+    border: 1px solid var(--border-subtle);
     text-decoration: none;
-    color: var(--gray-1);
+    color: var(--text-primary);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      color: var(--gray-1);
+      box-shadow: var(--shadow-lg);
+      color: var(--text-primary);
     }
   }
 
@@ -586,8 +605,8 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     align-items: center;
     justify-content: center;
     height: 120px;
-    background: var(--gray-6);
-    font-size: 3rem;
+    background: var(--border-subtle);
+    @include display-1;
     user-select: none;
   }
 
@@ -605,12 +624,12 @@ const tabs: { key: Tab; label: string; count: number }[] = [
     }
 
     .title {
-      font-size: 1.6rem;
+      @include heading-1;
     }
 
     .tab-btn {
       padding: 10px 14px;
-      font-size: 0.875rem;
+      @include caption;
     }
   }
 </style>

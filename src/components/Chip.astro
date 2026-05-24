@@ -68,7 +68,7 @@ const buttonType = isButton ? (typeProp ?? 'button') : undefined;
     font: inherit;
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: rem(13px);
+    @include caption;
     line-height: 1.25rem;
     transition: border-color var(--duration-base) var(--easing-standard),
                 color var(--duration-base) var(--easing-standard),

@@ -28,10 +28,10 @@ export const designComponents = [
  *     자동 카운트가 빌드 단계에서 어렵기에 정수로 유지하고 changelog 발행 시 갱신.
  */
 export const designMeta = {
-  issue: '№01',
-  date: '2026.05.22',
-  isoDate: '2026-05-22',
-  version: 'v0.1',
-  tokenCount: 70,
+  issue: '№02',
+  date: '2026.05.24',
+  isoDate: '2026-05-24',
+  version: 'v0.2',
+  tokenCount: 78,             /* +8: --measure, --space-px, --space-0_5/0_75, --container-*, --bp-* */
   componentCount: designComponents.length,
 } as const;

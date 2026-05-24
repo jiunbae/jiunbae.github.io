@@ -70,7 +70,9 @@ const classes = ['btn', `btn-${variant}`, `btn-${size}`, className].filter(Boole
     }
   }
 
-  /* sizes */
+  /* sizes — Button-specific scale (13/14/15px) intentionally tighter than the
+   * type ramp caption(13)→body-sm(14)→body(15). Mapped via rem() so user
+   * font-size scaling still respected. */
   .btn-sm { padding: 2px var(--space-3); font-size: rem(13px); }
   .btn-md { padding: var(--space-2) var(--space-4); font-size: rem(14px); }
   .btn-lg { padding: var(--space-3) var(--space-5); font-size: rem(15px); }

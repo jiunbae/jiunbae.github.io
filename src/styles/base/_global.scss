@@ -72,6 +72,9 @@ body {
     'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     sans-serif;
   background-color: var(--background);
+  /* 한글 줄바꿈: 단어 단위 wrap (어색한 음절 분할 방지) + 긴 URL/영문은 강제 줄바꿈 허용 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
   transition: background-color var(--duration-base, 150ms) var(--easing-standard, ease), color var(--duration-base, 150ms) var(--easing-standard, ease);
 }
 
