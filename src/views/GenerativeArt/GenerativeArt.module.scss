@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -47,12 +47,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 16px;
+  padding: var(--space-4);
   min-width: 220px;
   background: rgba(10, 10, 10, 0.75);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 200, 100, 0.15);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   z-index: 10;
   user-select: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -82,20 +82,20 @@
 
 .modeButtons {
   display: flex;
-  gap: 4px;
+  gap: var(--space-1);
   flex-wrap: wrap;
 }
 
 .modeButton {
   padding: 4px 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: transparent;
   color: rgba(255, 255, 255, 0.6);
   font-size: 10px;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   white-space: nowrap;
 
   &:hover {
@@ -121,7 +121,7 @@
   border-radius: 50%;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   padding: 0;
   position: relative;
 
@@ -145,13 +145,13 @@
   flex: 1;
   padding: 6px 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: transparent;
   color: rgba(255, 255, 255, 0.7);
   font-size: 11px;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   white-space: nowrap;
 
   &:hover {

@@ -1,26 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap';
 
 code[class*='language-'],
 pre[class*='language-'] {
   color: #d6deeb;
-  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   text-align: left;
   white-space: pre;
   word-spacing: normal;
   word-break: normal;
-  word-wrap: normal;
+  overflow-wrap: normal;
   line-height: 1.5;
   font-size: 0.875rem;
-
-  -moz-tab-size: 2;
-  -o-tab-size: 2;
   tab-size: 2;
-
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
+  tab-size: 2;
+  tab-size: 2;
   hyphens: none;
-  border-radius: 5px;
+  hyphens: none;
+  hyphens: none;
+  hyphens: none;
+  border-radius: var(--radius-md);
 }
 
 pre[class*='language-']::selection,
@@ -28,7 +26,7 @@ pre[class*='language-'] ::selection,
 code[class*='language-']::selection,
 code[class*='language-'] ::selection {
   text-shadow: none;
-  background: rgba(29, 59, 83, 0.99);
+  background: rgb(29, 59, 83, 0.99);
 }
 
 @media print {
@@ -54,19 +52,19 @@ pre[class*='language-'] {
 :not(pre) > code {
   margin: 0 0.2em;
   padding: 0.15rem 0.4rem;
-  border-radius: 0.25rem;
-  background-color: var(--code-inline-bg, rgba(0, 0, 0, 0.05));
+  border-radius: var(--radius-sm);
+  background-color: var(--code-inline-bg, rgb(0, 0, 0, 0.05));
   border: none;
   color: var(--code-inline-color, #d63384);
   white-space: normal;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
   vertical-align: middle;
-  font-family: 'Fira Code', 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+  font-family: 'Fira Code', 'SF Mono', Monaco, Inconsolata, monospace;
   font-size: 0.875em;
 }
 
 :not(pre) > code[class*='language-']::selection {
-  background-color: rgba(21, 175, 115, 0.2);
+  background-color: rgb(21, 175, 115, 0.2);
 }
 
 h1 code[class*='language-'],
@@ -92,7 +90,7 @@ h4 code[class*='language-'] {
 }
 
 .token.deleted {
-  color: rgba(239, 83, 80, 0.56);
+  color: rgb(239, 83, 80, 0.56);
   font-style: italic;
 }
 
@@ -166,7 +164,7 @@ h4 code[class*='language-'] {
 /* Mermaid 다이어그램 스타일 */
 svg[id^="mermaid"] {
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   padding: 16px;
   margin: 16px 0;
   display: block;

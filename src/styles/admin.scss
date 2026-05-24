@@ -13,19 +13,19 @@ body.admin-page-body {
 
     [class*='headerButtons'] {
       flex-wrap: nowrap !important;
-      gap: 0.5rem;
+      gap: var(--space-2);
 
       @include tabletAndUp {
-        gap: 0.75rem;
+        gap: var(--space-3);
       }
     }
 
     [class*='navigation'] {
       flex-wrap: nowrap !important;
-      gap: 0.5rem;
+      gap: var(--space-2);
 
       @include tabletAndUp {
-        gap: 0.75rem;
+        gap: var(--space-3);
       }
     }
 
@@ -79,7 +79,7 @@ body.admin-page-body {
   align-items: center;
   gap: 0.375rem;
   font-size: 0.8125rem;
-  color: var(--gray-4);
+  color: var(--text-muted);
   font-weight: 500;
   margin-left: 0.25rem;
 }
@@ -105,11 +105,11 @@ body.admin-page-body {
 
 .auth-card {
   background: var(--article-background);
-  border-radius: 16px;
-  padding: 2rem;
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
   max-width: 420px;
   width: 100%;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgb(0, 0, 0, 0.08);
   border: 1px solid var(--gray-4);
 
   @include tabletAndUp {
@@ -123,14 +123,14 @@ body.admin-page-body {
 
   h2 {
     margin: 0 0 0.5rem;
-    color: var(--gray-1);
+    color: var(--text-primary);
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.02em;
   }
 
   .auth-description {
-    color: var(--gray-5);
+    color: var(--text-muted);
     margin: 0;
     line-height: 1.6;
     font-size: 0.9375rem;
@@ -144,9 +144,9 @@ body.admin-page-body {
   width: 48px;
   height: 48px;
   background: var(--background);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   margin-bottom: 1rem;
-  color: var(--gray-2);
+  color: var(--text-secondary);
   border: 1px solid var(--gray-4);
 }
 
@@ -163,15 +163,15 @@ body.admin-page-body {
   justify-content: center;
   gap: 0.625rem;
   width: 100%;
-  padding: 0.75rem 1.5rem;
+  padding: var(--space-3) var(--space-6);
   background: #24292f;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background var(--duration-base) var(--easing-standard);
 
   &:hover {
     background: #1b1f23;
@@ -194,9 +194,9 @@ body.admin-page-body {
 .auth-divider {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
   margin: 1.25rem 0;
-  color: var(--gray-5);
+  color: var(--text-muted);
   font-size: 0.8125rem;
 
   &::before,
@@ -210,35 +210,35 @@ body.admin-page-body {
 
 .btn-pat-toggle {
   width: 100%;
-  padding: 0.75rem 1.5rem;
+  padding: var(--space-3) var(--space-6);
   background: transparent;
-  color: var(--gray-3);
+  color: var(--text-secondary);
   border: 1px solid var(--gray-4);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
     background: var(--background);
-    border-color: var(--gray-3);
-    color: var(--gray-2);
+    border-color: var(--text-secondary);
+    color: var(--text-secondary);
   }
 }
 
 .pat-form {
   .btn-pat-submit {
     width: 100%;
-    padding: 0.75rem 1.5rem;
+    padding: var(--space-3) var(--space-6);
     background: var(--primary-c1);
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     font-size: 0.9375rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background var(--duration-base) var(--easing-standard);
 
     &:hover:not(:disabled) {
       background: var(--primary-c2);
@@ -257,11 +257,11 @@ body.admin-page-body {
   padding-top: 1.25rem;
   border-top: 1px solid var(--gray-4);
   font-size: 0.8125rem;
-  color: var(--gray-5);
+  color: var(--text-muted);
 
   strong {
     font-weight: 600;
-    color: var(--gray-4);
+    color: var(--text-muted);
   }
 }
 
@@ -282,8 +282,8 @@ body.admin-page-body {
 .auth-error {
   background: #fee;
   border: 1px solid #fcc;
-  border-radius: 8px;
-  padding: 1rem;
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
   margin-bottom: 1.5rem;
   color: #c00;
 
@@ -295,7 +295,7 @@ body.admin-page-body {
 .auth-status {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
 
   .auth-status-badge {
     color: var(--primary-c1);
@@ -307,9 +307,9 @@ body.admin-page-body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  padding: 2rem;
-  color: var(--gray-4);
+  gap: var(--space-3);
+  padding: var(--space-8);
+  color: var(--text-muted);
   font-size: 0.875rem;
 }
 
@@ -320,7 +320,7 @@ body.admin-page-body {
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: var(--gray-2);
+    color: var(--text-secondary);
     font-size: 0.95rem;
   }
 
@@ -329,12 +329,12 @@ body.admin-page-body {
     width: 100%;
     padding: 0.875rem 1rem;
     border: 1px solid var(--gray-5);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     font-size: 1rem;
     font-family: inherit;
     background: var(--background);
-    color: var(--gray-1);
-    transition: border-color 0.2s, box-shadow 0.2s;
+    color: var(--text-primary);
+    transition: border-color var(--duration-base) var(--easing-standard), box-shadow var(--duration-base) var(--easing-standard);
 
     &:focus {
       outline: none;
@@ -343,7 +343,7 @@ body.admin-page-body {
     }
 
     &::placeholder {
-      color: var(--gray-5);
+      color: var(--text-muted);
     }
   }
 
@@ -354,7 +354,7 @@ body.admin-page-body {
 
   small {
     display: block;
-    color: var(--gray-5);
+    color: var(--text-muted);
     margin-top: 0.5rem;
     font-size: 0.875rem;
   }
@@ -362,7 +362,7 @@ body.admin-page-body {
 
 .token-input-wrapper {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
 
   .token-input {
     flex: 1;
@@ -383,14 +383,14 @@ body.admin-page-body {
   h3 {
     font-size: 1rem;
     margin: 0 0 1rem;
-    color: var(--gray-2);
+    color: var(--text-secondary);
     font-weight: 600;
   }
 
   ol {
     margin: 0;
     padding-left: 1.5rem;
-    color: var(--gray-3);
+    color: var(--text-secondary);
 
     li {
       margin-bottom: 0.75rem;
@@ -410,7 +410,7 @@ body.admin-page-body {
   code {
     background: var(--background);
     padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+    border-radius: var(--radius-md);
     font-family: 'Courier New', monospace;
     font-size: 0.9em;
     color: var(--primary-c1);
@@ -418,9 +418,9 @@ body.admin-page-body {
 }
 
 .auth-warning {
-  background: rgba(251, 191, 36, 0.08);
-  border: 1px solid rgba(251, 191, 36, 0.25);
-  border-radius: 8px;
+  background: rgb(251, 191, 36, 0.08);
+  border: 1px solid rgb(251, 191, 36, 0.25);
+  border-radius: var(--radius-md);
   padding: 0.875rem 1rem;
   margin-top: 1.5rem;
   font-size: 0.8125rem;
@@ -432,11 +432,11 @@ body.admin-page-body {
 button {
   cursor: pointer;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   padding: 0.625rem 1.25rem;
   font-size: 0.9375rem;
   font-weight: 600;
-  transition: all 0.2s;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   font-family: inherit;
 
   &:disabled {
@@ -471,32 +471,32 @@ button {
 
 .btn-logout {
   background: transparent;
-  color: var(--gray-4);
+  color: var(--text-muted);
   border: none;
   font-size: 0.8125rem;
   padding: 0.375rem 0.75rem;
 
   &:hover {
-    color: var(--gray-2);
+    color: var(--text-secondary);
     background: var(--background);
-    border-radius: 6px;
+    border-radius: var(--radius-md);
   }
 }
 
 .btn-cancel {
   background: var(--article-background);
-  color: var(--gray-2);
+  color: var(--text-secondary);
   border: 1px solid var(--gray-4);
 
   &:hover {
     background: var(--background);
-    border-color: var(--gray-3);
+    border-color: var(--text-secondary);
   }
 }
 
 .btn-toggle-visibility {
   background: var(--article-background);
-  color: var(--gray-3);
+  color: var(--text-secondary);
   padding: 0.875rem 1rem;
   white-space: nowrap;
 }
@@ -504,20 +504,20 @@ button {
 /* 포스트 목록 */
 .post-list {
   background: var(--article-background);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgb(0, 0, 0, 0.08);
 }
 
 .post-list-header {
   border-bottom: 1px solid var(--gray-4);
-  padding: 1rem;
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-4);
 
   @include tabletAndUp {
-    padding: 1.5rem;
+    padding: var(--space-6);
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -526,12 +526,12 @@ button {
 
 .post-list-tabs {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3);
 
   .tab {
     background: none;
     padding: 0.625rem 1.25rem;
-    color: var(--gray-3);
+    color: var(--text-secondary);
     border: 1px solid var(--gray-4);
     white-space: nowrap;
 
@@ -545,7 +545,7 @@ button {
 
 .post-list-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-3);
   justify-content: flex-end;
 
   button {
@@ -572,12 +572,12 @@ button {
 
 .btn-refresh {
   background: var(--article-background);
-  color: var(--gray-2);
+  color: var(--text-secondary);
   border: 1px solid var(--gray-4);
 
   &:hover:not(:disabled) {
     background: var(--background);
-    border-color: var(--gray-3);
+    border-color: var(--text-secondary);
   }
 }
 
@@ -589,7 +589,7 @@ button {
 .post-list-empty {
   text-align: center;
   padding: 4rem 2rem;
-  color: var(--gray-4);
+  color: var(--text-muted);
   font-size: 1.125rem;
 }
 
@@ -603,10 +603,10 @@ button {
   border-bottom: 1px solid var(--gray-4);
   padding: 1.25rem 1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background var(--duration-base) var(--easing-standard);
 
   @include tabletAndUp {
-    padding: 1.5rem;
+    padding: var(--space-6);
   }
 
   &:hover {
@@ -626,7 +626,7 @@ button {
 .post-item-header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
   margin-bottom: 0.5rem;
 }
 
@@ -634,39 +634,39 @@ button {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 700;
-  color: var(--gray-1);
+  color: var(--text-primary);
 }
 
 .unpublished-badge {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.625rem;
-  background: rgba(239, 68, 68, 0.1);
+  background: rgb(239, 68, 68, 0.1);
   color: #ef4444;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border: 1px solid rgb(239, 68, 68, 0.2);
 }
 
 .post-item-description {
   margin: 0 0 0.75rem;
-  color: var(--gray-4);
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
 .post-item-meta {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-4);
   font-size: 0.875rem;
-  color: var(--gray-5);
+  color: var(--text-muted);
   flex-wrap: wrap;
 }
 
 .post-item-tags {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
   flex-wrap: wrap;
 }
 
@@ -674,7 +674,7 @@ button {
   background: color-mix(in srgb, var(--primary-c1) 15%, transparent);
   color: var(--primary-c1);
   padding: 0.25rem 0.75rem;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 0.8125rem;
   font-weight: 500;
 }
@@ -682,22 +682,22 @@ button {
 /* 에디터 */
 .editor-container {
   background: var(--article-background);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgb(0, 0, 0, 0.08);
   overflow: hidden;
 }
 
 .editor-header {
   border-bottom: 1px solid var(--gray-4);
-  padding: 1rem;
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  gap: var(--space-4);
 
   @include tabletAndUp {
-    padding: 1.5rem;
+    padding: var(--space-6);
     flex-direction: row;
     align-items: center;
   }
@@ -706,13 +706,13 @@ button {
     margin: 0;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--gray-1);
+    color: var(--text-primary);
   }
 }
 
 .editor-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
   align-items: center;
   flex-wrap: nowrap;
   width: auto;
@@ -731,7 +731,7 @@ button {
 }
 
 .editor-content {
-  padding: 1.25rem;
+  padding: var(--space-5);
 
   @include tabletAndUp {
     padding: 2.5rem;
@@ -745,7 +745,7 @@ button {
     margin: 0 0 1.25rem;
     font-size: 1.125rem;
     font-weight: 700;
-    color: var(--gray-1);
+    color: var(--text-primary);
   }
 }
 
@@ -762,7 +762,7 @@ button {
 
 .btn-toggle {
   background: var(--article-background);
-  color: var(--gray-3);
+  color: var(--text-secondary);
   font-size: 0.8125rem;
   padding: 0.375rem 1rem;
   border: 1px solid var(--gray-4);
@@ -771,15 +771,15 @@ button {
 /* Frontmatter 폼 */
 .frontmatter-form {
   border: 1px solid var(--gray-4);
-  border-radius: 8px;
-  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
   background: var(--background);
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  gap: var(--space-4);
 
   @include tabletAndUp {
     grid-template-columns: 1fr 1fr;
@@ -788,7 +788,7 @@ button {
 
 .slug-input-wrapper {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
 
   input {
     flex: 1;
@@ -797,7 +797,7 @@ button {
 
 .btn-generate-slug {
   background: var(--article-background);
-  color: var(--gray-3);
+  color: var(--text-secondary);
   white-space: nowrap;
   border: 1px solid var(--gray-4);
 
@@ -810,11 +810,11 @@ button {
 .image-uploader {
   .dropzone {
     border: 2px dashed var(--gray-4);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: 3rem 2rem;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
     background: var(--background);
 
     &.active {
@@ -837,11 +837,11 @@ button {
     p {
       margin: 0 0 0.5rem;
       font-weight: 600;
-      color: var(--gray-2);
+      color: var(--text-secondary);
     }
 
     small {
-      color: var(--gray-5);
+      color: var(--text-muted);
     }
   }
 
@@ -874,28 +874,28 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgb(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 0.5rem;
+  padding: var(--space-2);
 
   @include tabletAndUp {
-    padding: 1rem;
+    padding: var(--space-4);
   }
 }
 
 .draft-modal-content {
   background: var(--article-background);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   max-width: 700px;
   width: 100%;
   max-height: 90vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 40px rgb(0, 0, 0, 0.3);
 
   @include tabletAndUp {
     max-height: 80vh;
@@ -906,22 +906,22 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
+  padding: var(--space-6);
   border-bottom: 1px solid var(--gray-4);
 
   h3 {
     margin: 0;
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--gray-1);
+    color: var(--text-primary);
   }
 }
 
 .btn-close {
   background: none;
-  color: var(--gray-5);
+  color: var(--text-muted);
   font-size: 1.5rem;
-  padding: 0.25rem;
+  padding: var(--space-1);
   width: 2rem;
   height: 2rem;
   display: flex;
@@ -929,7 +929,7 @@ button {
   justify-content: center;
 
   &:hover {
-    color: var(--gray-2);
+    color: var(--text-secondary);
   }
 
   &:focus {
@@ -951,7 +951,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-4);
 
   &:last-child {
     border-bottom: none;
@@ -966,7 +966,7 @@ button {
     margin: 0 0 0.375rem;
     font-size: 1.0625rem;
     font-weight: 600;
-    color: var(--gray-1);
+    color: var(--text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -975,12 +975,12 @@ button {
 
 .draft-item-meta {
   font-size: 0.8125rem;
-  color: var(--gray-5);
+  color: var(--text-muted);
 }
 
 .draft-item-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .btn-load {
@@ -1044,7 +1044,7 @@ button {
   .w-md-editor-text,
   .w-md-editor-text-pre {
     color: var(--gray-1) !important;
-    font-family: 'Courier New', 'Consolas', 'Monaco', monospace !important;
+    font-family: 'Courier New', Consolas, Monaco, monospace !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
     letter-spacing: 0 !important;
@@ -1052,7 +1052,7 @@ button {
   }
 
   .w-md-editor-text-input {
-    font-family: 'Courier New', 'Consolas', 'Monaco', monospace !important;
+    font-family: 'Courier New', Consolas, Monaco, monospace !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
     letter-spacing: 0 !important;
@@ -1064,7 +1064,7 @@ button {
   }
 
   .w-md-editor-text-pre > code {
-    font-family: 'Courier New', 'Consolas', 'Monaco', monospace !important;
+    font-family: 'Courier New', Consolas, Monaco, monospace !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
     letter-spacing: 0 !important;
@@ -1084,7 +1084,7 @@ button {
 
   button {
     background: var(--article-background);
-    color: var(--gray-3);
+    color: var(--text-secondary);
     font-size: 0.8125rem;
     padding: 0.375rem 1rem;
     border: 1px solid var(--gray-4);
@@ -1110,7 +1110,7 @@ button {
 
 /* 에디터 에러 메시지 */
 .editor-error {
-  margin: 1rem;
+  margin: var(--space-4);
 }
 
 /* 드래프트 저장 시간 표시 */

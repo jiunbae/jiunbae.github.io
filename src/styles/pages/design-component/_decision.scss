@@ -12,7 +12,7 @@
 .cp-decision-mark {
   display: inline-block;
   padding: 1px 6px;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: rem(10px);
   font-weight: 700;

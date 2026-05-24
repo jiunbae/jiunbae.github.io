@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -48,12 +48,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 16px;
+  padding: var(--space-4);
   min-width: 240px;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
+  border-radius: var(--radius-xl);
   z-index: 10;
   user-select: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -70,13 +70,13 @@
 .coordSection {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .coordRow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .coordLabel {
@@ -124,7 +124,7 @@
 .paletteSwatch {
   width: 36px;
   height: 20px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   border: 2px solid transparent;
   padding: 0;
   cursor: pointer;
@@ -144,14 +144,14 @@
 .swatchGradient {
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
 }
 
 // Slider
 .sliderRow {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .slider {
@@ -159,7 +159,7 @@
   appearance: none;
   width: 100%;
   height: 4px;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.12);
   outline: none;
   cursor: pointer;
@@ -205,13 +205,13 @@
   width: 100%;
   padding: 7px 12px;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: transparent;
   color: rgba(255, 255, 255, 0.65);
   font-size: 11px;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
     background: rgba(255, 255, 255, 0.08);

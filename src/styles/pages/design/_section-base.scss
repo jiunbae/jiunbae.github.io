@@ -19,6 +19,7 @@
 
 .cv-section > p {
   @include body-lg;
+
   color: var(--text-secondary);
   margin: 0 0 var(--space-8);
   max-width: 580px;
@@ -29,13 +30,14 @@
     font-weight: 600;
     background: var(--surface-subtle);
     padding: 1px 6px;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
     color: var(--text-primary);
   }
 }
 
 .cv-sub {
   @include eyebrow;
+
   color: var(--text-muted);
   margin: var(--space-8) 0 var(--space-3);
   max-width: none;
@@ -56,6 +58,7 @@
 
   .cv-sub-desc {
     @include eyebrow;
+
     color: var(--text-muted);
     letter-spacing: 0.04em;
     text-transform: none;
@@ -86,6 +89,7 @@
   grid-template-columns: repeat(4, 1fr);
 
   @include belowTablet { grid-template-columns: repeat(2, 1fr); }
+
   @include belowMobile { grid-template-columns: 1fr; }
 }
 

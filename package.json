@@ -8,7 +8,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint:style": "stylelint 'src/**/*.{scss,astro}' --allow-empty-input",
+    "audit:tokens": "node scripts/token-audit.mjs",
+    "audit:a11y": "node scripts/axe-run.mjs",
+    "score": "node scripts/score-tracker.mjs",
+    "score:show": "node scripts/score-tracker.mjs show"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
@@ -35,10 +40,13 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
+    "@axe-core/cli": "^4.11.3",
     "@types/node": "^22.19.15",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "@types/three": "^0.183.1",
+    "stylelint": "^17.12.0",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@9.15.0"

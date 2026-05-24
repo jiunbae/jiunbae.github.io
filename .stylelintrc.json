@@ -1,0 +1,39 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "selector-class-pattern": null,
+    "scss/at-mixin-pattern": null,
+    "scss/dollar-variable-pattern": null,
+    "scss/at-function-pattern": null,
+    "custom-property-pattern": null,
+    "no-descending-specificity": null,
+    "scss/comment-no-empty": null,
+    "scss/no-global-function-names": null,
+    "scss/load-no-partial-leading-underscore": null,
+    "media-feature-range-notation": null,
+    "alpha-value-notation": null,
+    "color-function-notation": null,
+    "color-hex-length": null,
+    "no-duplicate-selectors": null,
+    "value-keyword-case": null,
+    "shorthand-property-no-redundant-values": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "scss/double-slash-comment-empty-line-before": null,
+    "comment-empty-line-before": null,
+    "scss/operator-no-newline-after": null,
+    "scss/dimension-no-non-numeric-values": null,
+
+    "declaration-property-value-disallowed-list": {
+      "/^transition/": ["/^[0-9]+(\\.[0-9]+)?(s|ms)/", "/[0-9]+(\\.[0-9]+)?(s|ms)\\b/"],
+      "border-radius": ["/^[0-9]+(\\.[0-9]+)?(px|rem)$/"]
+    }
+  },
+  "ignoreFiles": [
+    "src/styles/base/_tokens.scss",
+    "src/styles/base/_global.scss",
+    "src/styles/abstracts/_mixin.scss",
+    "dist/**/*",
+    "node_modules/**/*",
+    "src/views/**/*.module.scss"
+  ]
+}

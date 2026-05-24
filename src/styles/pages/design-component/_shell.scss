@@ -95,6 +95,7 @@
 /* ===== Section paragraph (intro line) ===== */
 .cp-section-p {
   @include body;
+
   color: var(--text-secondary);
   margin: 0 0 var(--space-5);
   max-width: 580px;

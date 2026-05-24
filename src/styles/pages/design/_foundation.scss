@@ -26,7 +26,7 @@
 .cv-bar {
   height: 12px;
   background: var(--accent-default);
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
   min-width: 4px;
 }
 

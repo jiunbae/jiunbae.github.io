@@ -20,6 +20,7 @@
 
 .cp-demo-caption {
   @include caption;
+
   color: var(--text-muted);
   margin: var(--space-3) 0 var(--space-2);
 

@@ -8,6 +8,7 @@
 
   li {
     @include body-sm;
+
     display: grid;
     grid-template-columns: 40px 1fr;
     gap: var(--space-3);

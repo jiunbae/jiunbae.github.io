@@ -8,6 +8,7 @@
 
   li {
     @include body-sm;
+
     position: relative;
     padding: var(--space-2) 0 var(--space-2) var(--space-5);
     color: var(--text-primary);

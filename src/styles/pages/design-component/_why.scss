@@ -9,6 +9,7 @@
 
   li {
     @include body-sm;
+
     counter-increment: cp-why-counter;
     position: relative;
     padding: var(--space-3) 0 var(--space-3) var(--space-8);

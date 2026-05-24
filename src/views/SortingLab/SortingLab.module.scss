@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
     border-color: rgba(94, 234, 212, 0.62);
@@ -47,7 +47,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 14px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   border: 1px solid rgba(94, 234, 212, 0.22);
   background: rgba(6, 15, 25, 0.84);
   backdrop-filter: blur(14px);
@@ -78,7 +78,7 @@
   font-family: inherit;
   padding: 6px 9px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
     border-color: rgba(94, 234, 212, 0.56);

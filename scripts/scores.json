@@ -1,0 +1,60 @@
+{
+  "dimensions": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "names": {
+    "A": "DS Adoption (Atomic)",
+    "B": "Nielsen + RUI",
+    "C": "WCAG 2.2 AA + ARIA",
+    "D": "Gestalt + IA + Grid"
+  },
+  "rounds": [
+    {
+      "label": "R11",
+      "at": "2026-05-24T07:15:14.681Z",
+      "commit": "90984eb",
+      "A": 9.3,
+      "B": 9.2,
+      "C": 9.5,
+      "D": 7.2,
+      "avg": 8.8,
+      "note": "baseline"
+    },
+    {
+      "label": "R12",
+      "at": "2026-05-24T07:15:14.710Z",
+      "commit": "90984eb",
+      "A": 9.4,
+      "B": 9.3,
+      "C": 9.6,
+      "D": 8.6,
+      "avg": 9.225,
+      "note": ""
+    },
+    {
+      "label": "R13",
+      "at": "2026-05-24T07:15:14.740Z",
+      "commit": "90984eb",
+      "A": 9.5,
+      "B": 9.4,
+      "C": 9.7,
+      "D": 9.1,
+      "avg": 9.425,
+      "note": ""
+    },
+    {
+      "label": "R14",
+      "at": "2026-05-24T07:15:14.771Z",
+      "commit": "90984eb",
+      "A": 9.55,
+      "B": 9.5,
+      "C": 9.8,
+      "D": 9.1,
+      "avg": 9.488,
+      "note": "+SVG aria-hidden, posts/[slug] radius cleanup"
+    }
+  ]
+}

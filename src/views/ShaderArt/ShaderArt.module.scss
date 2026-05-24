@@ -33,7 +33,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -49,8 +49,8 @@
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 20px;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-5);
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(20px) saturate(1.2);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -80,7 +80,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   flex-shrink: 0;
 
   &:hover {
@@ -119,7 +119,7 @@
 
 .cycleButton {
   padding: 6px 14px;
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: transparent;
   color: rgba(255, 255, 255, 0.5);
@@ -128,7 +128,7 @@
   letter-spacing: 1px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   flex-shrink: 0;
 
   &:hover {
@@ -159,7 +159,7 @@
   .panel {
     bottom: 16px;
     padding: 8px 14px;
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   .shaderInfo {

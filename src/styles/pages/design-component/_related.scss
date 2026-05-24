@@ -47,7 +47,9 @@
 
 .cp-related-reason {
   grid-area: reason;
+
   @include caption;
+
   color: var(--text-muted);
 }
 

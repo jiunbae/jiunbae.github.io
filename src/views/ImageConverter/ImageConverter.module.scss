@@ -3,7 +3,7 @@
 .page {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: var(--space-8);
 }
 
 .header {
@@ -12,11 +12,11 @@
 
 .backLink {
   font-size: 0.85rem;
-  color: var(--gray-5);
+  color: var(--text-muted);
   text-decoration: none;
 
   &:hover {
-    color: var(--gray-2);
+    color: var(--text-secondary);
   }
 
   &::before {
@@ -28,19 +28,19 @@
   font-size: 2rem;
   font-weight: 700;
   margin: 0.25rem 0 0.5rem;
-  color: var(--gray-1);
+  color: var(--text-primary);
 }
 
 .subtitle {
   font-size: 1rem;
-  color: var(--gray-5);
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
 .layout {
   display: grid;
   grid-template-columns: 1fr 320px;
-  gap: 2rem;
+  gap: var(--space-8);
   align-items: start;
 }
 
@@ -52,31 +52,31 @@
   justify-content: center;
   min-height: 320px;
   border: 2px dashed var(--gray-6);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
   background: var(--article-background);
 
   &:hover,
   &.dragging {
-    border-color: var(--gray-4);
+    border-color: var(--text-muted);
     background: var(--gray-7, var(--article-background));
   }
 }
 
 .dropIcon {
-  color: var(--gray-5);
+  color: var(--text-muted);
   margin-bottom: 1rem;
 }
 
 .dropText {
   font-size: 0.95rem;
-  color: var(--gray-5);
+  color: var(--text-muted);
 }
 
 .dropHint {
   font-size: 0.8rem;
-  color: var(--gray-5);
+  color: var(--text-muted);
   opacity: 0.7;
   margin-top: 0.4rem;
 }
@@ -92,7 +92,7 @@
 
 .previewArea {
   border: 1px solid var(--gray-6);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--article-background);
 }
@@ -101,13 +101,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
+  padding: var(--space-2) var(--space-4);
   border-bottom: 1px solid var(--gray-6);
 }
 
 .fileName {
   font-size: 0.85rem;
-  color: var(--gray-3);
+  color: var(--text-secondary);
   font-family: monospace;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -118,19 +118,19 @@
   font-size: 0.8rem;
   padding: 4px 10px;
   border: 1px solid var(--gray-6);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: none;
-  color: var(--gray-4);
+  color: var(--text-muted);
   cursor: pointer;
 
   &:hover {
-    color: var(--gray-1);
-    border-color: var(--gray-4);
+    color: var(--text-primary);
+    border-color: var(--text-muted);
   }
 }
 
 .error {
-  padding: 0.75rem 1rem;
+  padding: var(--space-3) var(--space-4);
   font-size: 0.85rem;
   color: #e53e3e;
   margin-top: 0.5rem;
@@ -164,7 +164,7 @@
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--space-5);
 }
 
 .fieldset {
@@ -176,7 +176,7 @@
 .legend {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--gray-3);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin-bottom: 0.5rem;
@@ -187,7 +187,7 @@
   display: flex;
   gap: 0;
   border: 1px solid var(--gray-6);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
@@ -198,13 +198,13 @@
   font-weight: 500;
   border: none;
   background: none;
-  color: var(--gray-4);
+  color: var(--text-muted);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 
   &.active {
     background: var(--gray-6);
-    color: var(--gray-1);
+    color: var(--text-primary);
   }
 
   &:not(.active):hover {
@@ -216,7 +216,7 @@
 .dimensionRow {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .dimLabel {
@@ -225,22 +225,22 @@
   gap: 0.4rem;
   flex: 1;
   font-size: 0.85rem;
-  color: var(--gray-4);
+  color: var(--text-muted);
 }
 
 .dimInput {
   width: 100%;
   padding: 6px 8px;
   border: 1px solid var(--gray-6);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: var(--article-background);
-  color: var(--gray-1);
+  color: var(--text-primary);
   font-size: 0.9rem;
   font-family: monospace;
 
   &:focus {
     outline: none;
-    border-color: var(--gray-4);
+    border-color: var(--text-muted);
   }
 }
 
@@ -251,14 +251,14 @@
   width: 32px;
   height: 32px;
   border: 1px solid var(--gray-6);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: none;
-  color: var(--gray-5);
+  color: var(--text-muted);
   cursor: pointer;
   flex-shrink: 0;
 
   &.locked {
-    color: var(--gray-2);
+    color: var(--text-secondary);
     background: var(--gray-6);
   }
 }
@@ -266,7 +266,7 @@
 /* Scale */
 .scaleRow {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .scaleBtn {
@@ -275,21 +275,21 @@
   font-size: 0.85rem;
   font-weight: 500;
   border: 1px solid var(--gray-6);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: none;
-  color: var(--gray-4);
+  color: var(--text-muted);
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 
   &.active {
     background: var(--gray-6);
-    color: var(--gray-1);
+    color: var(--text-primary);
   }
 }
 
 .outputSize {
   font-size: 0.8rem;
-  color: var(--gray-5);
+  color: var(--text-muted);
   margin-top: 0.4rem;
 }
 
@@ -297,21 +297,21 @@
 .checkboxLabel {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
   font-size: 0.9rem;
-  color: var(--gray-3);
+  color: var(--text-secondary);
   cursor: pointer;
   margin-bottom: 0.5rem;
 
   input[type='checkbox'] {
-    accent-color: var(--gray-3);
+    accent-color: var(--text-secondary);
   }
 }
 
 .colorRow {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .colorInput {
@@ -319,7 +319,7 @@
   height: 36px;
   padding: 2px;
   border: 1px solid var(--gray-6);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: none;
   cursor: pointer;
 }
@@ -328,30 +328,30 @@
   flex: 1;
   padding: 6px 8px;
   border: 1px solid var(--gray-6);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: var(--article-background);
-  color: var(--gray-1);
+  color: var(--text-primary);
   font-size: 0.9rem;
   font-family: monospace;
 
   &:focus {
     outline: none;
-    border-color: var(--gray-4);
+    border-color: var(--text-muted);
   }
 }
 
 /* Quality slider */
 .slider {
   width: 100%;
-  accent-color: var(--gray-3);
+  accent-color: var(--text-secondary);
 }
 
 /* Download button */
 .downloadBtn {
   width: 100%;
-  padding: 12px;
+  padding: var(--space-3);
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--gray-1);
   color: var(--background);
   font-size: 1rem;
@@ -371,7 +371,7 @@
 
 @media (max-width: 768px) {
   .page {
-    padding: 1.25rem;
+    padding: var(--space-5);
   }
 
   .layout {

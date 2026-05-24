@@ -33,7 +33,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
 
   &:hover {
     background: rgba(80, 140, 255, 0.12);
@@ -50,12 +50,12 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 16px;
+  padding: var(--space-4);
   min-width: 230px;
   background: rgba(6, 6, 18, 0.78);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(80, 140, 255, 0.1);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   z-index: 10;
   user-select: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -89,7 +89,7 @@
   width: 100%;
   max-width: 100px;
   height: 4px;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
   background: rgba(80, 140, 255, 0.15);
   outline: none;
   cursor: pointer;
@@ -118,7 +118,7 @@
 // Count buttons row
 .countButtons {
   display: flex;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .countButton {
@@ -130,7 +130,7 @@
   font-size: 10px;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   white-space: nowrap;
 
   &:hover {
@@ -148,7 +148,7 @@
 // Mouse mode buttons
 .modeButtons {
   display: flex;
-  gap: 4px;
+  gap: var(--space-1);
 }
 
 .modeButton {
@@ -160,7 +160,7 @@
   font-size: 10px;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   white-space: nowrap;
 
   &:hover {
@@ -178,13 +178,13 @@
 .toggleButton {
   padding: 4px 12px;
   border: 1px solid rgba(80, 140, 255, 0.2);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   background: transparent;
   color: rgba(140, 180, 255, 0.5);
   font-size: 11px;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color var(--duration-base) var(--easing-standard), color var(--duration-base) var(--easing-standard), border-color var(--duration-base) var(--easing-standard);
   min-width: 40px;
   text-align: center;
 

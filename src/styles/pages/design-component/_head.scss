@@ -40,6 +40,7 @@
 
 .cp-title {
   @include display-2;
+
   margin: 0;
 }
 
@@ -47,6 +48,7 @@
 
 .cp-lede {
   @include body-lg;
+
   color: var(--text-secondary);
   margin: 0;
   max-width: 580px;
@@ -62,6 +64,7 @@
 
 .cp-section h2 {
   @include heading-1;
+
   margin: 0 0 var(--space-5);
 }
 
