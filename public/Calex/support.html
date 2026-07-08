@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support - Calex AI</title>
+<style>
+  :root { --bg:#fff; --fg:#1d1d1f; --muted:#62666f; --accent:#0f766e; --panel:#f4f7f6; --border:rgba(0,0,0,.09); }
+  @media (prefers-color-scheme: dark) { :root { --bg:#090b0d; --fg:#f5f5f7; --muted:#a7adb5; --accent:#5eead4; --panel:#15191d; --border:rgba(255,255,255,.14); } }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; line-height:1.7; }
+  .wrap { max-width:780px; margin:0 auto; padding:56px 24px 84px; }
+  a { color:var(--accent); text-decoration:none; }
+  .back { display:inline-block; margin-bottom:30px; font-size:15px; }
+  h1 { font-size:38px; letter-spacing:-.02em; margin-bottom:26px; }
+  h2 { font-size:22px; margin:34px 0 10px; }
+  p, li { color:var(--fg); font-size:16px; margin-bottom:10px; }
+  ul { padding-left:22px; }
+  details { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:10px; }
+  summary { cursor:pointer; font-weight:700; }
+  details p { color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <a class="back" href="index.html">&lt; Calex AI</a>
+  <h1>Support</h1>
+
+  <h2>Contact</h2>
+  <p>Email: <a href="mailto:jiunbae.623@gmail.com">jiunbae.623@gmail.com</a></p>
+  <p>Please include your device model, iOS version, Calex version, and a short description of what happened.</p>
+
+  <h2>Common questions</h2>
+  <details>
+    <summary>How do I stop Always Listen?</summary>
+    <p>Open Calex and turn off Always Listen from the dashboard or settings. You can also revoke microphone access in iOS Settings.</p>
+  </details>
+  <details>
+    <summary>Where is my data stored?</summary>
+    <p>Calex is local-first. Recordings, transcripts, summaries, todos, and history are stored on your device unless you explicitly use an external speech or AI provider.</p>
+  </details>
+  <details>
+    <summary>Why does transcription or summarization fail?</summary>
+    <p>Check microphone permission, network availability if you use a cloud provider, and the provider credentials or model configuration selected in Settings.</p>
+  </details>
+  <details>
+    <summary>How do I reduce battery usage?</summary>
+    <p>Use scheduled Always Listen windows, keep low-power behavior enabled, and avoid preloading large models unless you need immediate offline processing.</p>
+  </details>
+
+  <h2>Privacy</h2>
+  <p>See the <a href="privacy.html">Calex Privacy Policy</a> for details on local storage, optional external providers, and data controls.</p>
+</main>
+</body>
+</html>

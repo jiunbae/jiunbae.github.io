@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calex AI</title>
+<style>
+  :root { --bg:#fbfaf7; --fg:#171717; --muted:#60646c; --accent:#0f766e; --card:#ffffff; --border:rgba(23,23,23,.12); }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0b0d0f; --fg:#f6f5f2; --muted:#a5abb4; --accent:#5eead4; --card:#15191d; --border:rgba(246,245,242,.16); } }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; line-height:1.65; }
+  .wrap { max-width:880px; margin:0 auto; padding:72px 24px 88px; }
+  nav { display:flex; gap:18px; margin-bottom:56px; font-size:15px; }
+  a { color:var(--accent); text-decoration:none; }
+  h1 { font-size:clamp(40px,8vw,76px); line-height:.95; letter-spacing:-.03em; margin-bottom:22px; }
+  .lead { color:var(--muted); font-size:20px; max-width:700px; margin-bottom:42px; }
+  .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:38px 0; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; min-height:150px; }
+  h2 { font-size:24px; margin:46px 0 14px; }
+  h3 { font-size:17px; margin-bottom:8px; }
+  p, li { color:var(--muted); font-size:16px; margin-bottom:10px; }
+  ul { padding-left:20px; }
+  .cta { display:inline-flex; align-items:center; gap:8px; background:var(--fg); color:var(--bg); padding:12px 18px; border-radius:999px; font-weight:700; margin-top:8px; }
+  footer { border-top:1px solid var(--border); margin-top:60px; padding-top:22px; color:var(--muted); font-size:14px; }
+  @media (max-width:720px) { .wrap { padding:42px 18px 64px; } .grid { grid-template-columns:1fr; } nav { margin-bottom:36px; } }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <nav>
+    <a href="privacy.html">Privacy</a>
+    <a href="support.html">Support</a>
+  </nav>
+
+  <h1>Calex AI</h1>
+  <p class="lead">Calex turns meetings, calls, and focused work sessions into searchable notes, summaries, decisions, todos, and daily reviews.</p>
+  <a class="cta" href="support.html">Get support</a>
+
+  <section class="grid" aria-label="Highlights">
+    <div class="card">
+      <h3>Always Listen</h3>
+      <p>Start explicit listening sessions when you need ambient context captured and summarized.</p>
+    </div>
+    <div class="card">
+      <h3>Dashboard and history</h3>
+      <p>Review highlights, decisions, todos, and transcripts without digging through raw audio.</p>
+    </div>
+    <div class="card">
+      <h3>Local-first controls</h3>
+      <p>Keep data on device by default and choose which speech or AI providers you want to use.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Built for real work</h2>
+    <ul>
+      <li>Capture live transcription and meeting context from iPhone and iPad.</li>
+      <li>Generate concise briefs, follow-ups, decisions, and todos from long sessions.</li>
+      <li>Use widgets to check recording state and recent summaries quickly.</li>
+      <li>Control Always Listen schedules, low-power behavior, and model choices.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Calex AI is developed by Jiun Bae. For privacy details, see the <a href="privacy.html">Calex Privacy Policy</a>.</p>
+  </footer>
+</main>
+</body>
+</html>
