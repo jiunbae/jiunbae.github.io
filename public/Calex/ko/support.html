@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지원 - Calex AI</title>
+<style>
+  :root { --bg:#fff; --fg:#1d1d1f; --muted:#62666f; --accent:#6f7cff; --panel:#f4f7f6; --border:rgba(0,0,0,.09); }
+  @media (prefers-color-scheme: dark) { :root { --bg:#090b0d; --fg:#f5f5f7; --muted:#a7adb5; --accent:#a5a2ff; --panel:#15191d; --border:rgba(255,255,255,.14); } }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Segoe UI",Roboto,sans-serif; line-height:1.75; word-break:keep-all; }
+  .wrap { max-width:780px; margin:0 auto; padding:56px 24px 84px; }
+  a { color:var(--accent); text-decoration:none; }
+  .back { display:inline-block; font-size:15px; }
+  h1 { font-size:36px; letter-spacing:-.02em; margin-bottom:26px; }
+  h2 { font-size:22px; margin:34px 0 10px; }
+  p, li { color:var(--fg); font-size:16px; margin-bottom:10px; }
+  ul { padding-left:22px; }
+  details { background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 18px; margin-bottom:10px; }
+  summary { cursor:pointer; font-weight:700; }
+  details p { color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px">
+    <a class="back" href="index.html">&lt; Calex AI</a>
+    <a href="../support.html" style="font-size:15px">English</a>
+  </div>
+  <h1>지원</h1>
+
+  <h2>문의</h2>
+  <p>이메일: <a href="mailto:jiunbae.dev@gmail.com">jiunbae.dev@gmail.com</a></p>
+  <p>기기 모델, iOS 버전, Calex 버전, 그리고 어떤 상황이었는지 간단한 설명을 함께 보내주세요.</p>
+
+  <h2>자주 묻는 질문</h2>
+  <details>
+    <summary>상시 청취(Always Listen)를 어떻게 끄나요?</summary>
+    <p>Calex를 열고 대시보드 또는 설정에서 상시 청취를 끄면 됩니다. iOS 설정에서 마이크 접근 권한을 해제할 수도 있습니다.</p>
+  </details>
+  <details>
+    <summary>제 데이터는 어디에 저장되나요?</summary>
+    <p>Calex는 온디바이스 우선입니다. 녹음·전사·요약·할 일·기록은 외부 음성 또는 AI 제공자를 명시적으로 사용하지 않는 한 기기 안에 저장됩니다.</p>
+  </details>
+  <details>
+    <summary>전사나 요약이 실패하는 이유는?</summary>
+    <p>마이크 권한, 클라우드 제공자를 사용하는 경우 네트워크 연결, 그리고 설정에서 선택한 제공자 자격 증명이나 모델 구성을 확인해 주세요.</p>
+  </details>
+  <details>
+    <summary>배터리 사용을 어떻게 줄이나요?</summary>
+    <p>상시 청취 스케줄(시간대)을 설정하고, 저전력 동작을 켜 두며, 즉시 오프라인 처리가 필요하지 않다면 큰 모델을 미리 로드하지 않는 것이 좋습니다.</p>
+  </details>
+
+  <h2>개인정보</h2>
+  <p>로컬 저장, 선택적 외부 제공자, 데이터 관리에 대한 자세한 내용은 <a href="privacy.html">Calex 개인정보 처리방침</a>을 참고하세요.</p>
+</main>
+</body>
+</html>
