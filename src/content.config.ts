@@ -1,3 +1,4 @@
+import { glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
 
 // Helper to handle null/undefined/empty values from YAML
@@ -14,25 +15,30 @@ const baseSchema = z.object({
   heroImageAlt: nullableString(),
 });
 
+// `[!_]` keeps the legacy convention of ignoring files prefixed with `_`
+// (e.g. incidents/_example.md), which the Content Layer glob loader no longer
+// excludes automatically.
+const mdPattern = '**/[!_]*.{md,mdx}';
+
 const posts = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: mdPattern, base: './src/content/posts' }),
   schema: baseSchema,
 });
 
 const notes = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: mdPattern, base: './src/content/notes' }),
   schema: baseSchema,
 });
 
 const reviews = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: mdPattern, base: './src/content/reviews' }),
   schema: baseSchema.extend({
     rating: z.number().min(0).max(5).optional(),
   }),
 });
 
 const incidents = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: mdPattern, base: './src/content/incidents' }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),

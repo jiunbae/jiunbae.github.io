@@ -24,7 +24,7 @@ const statusTone: Record<IncidentStatus, BadgeTone> = {
 export async function getStaticPaths() {
   const incidents = await getCollection('incidents', ({ data }) => data.published !== false);
   return incidents.map((incident) => ({
-    params: { slug: incident.slug },
+    params: { slug: incident.id },
     props: { incident },
   }));
 }
@@ -77,7 +77,7 @@ const timelineStatusColors: Record<string, string> = {
 };
 ---
 
-<Layout title={`${incident.data.title} — Status`} description={`Incident: ${incident.data.title}`} image={`/og/status/${incident.slug}.png`}>
+<Layout title={`${incident.data.title} — Status`} description={`Incident: ${incident.data.title}`} image={`/og/status/${incident.id}.png`}>
   <article class="incident-page">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="/status/">Status</a>

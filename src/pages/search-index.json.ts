@@ -12,11 +12,11 @@ export const GET: APIRoute = async () => {
       title: p.data.title,
       description: p.data.description || '',
       tags: p.data.tags || [],
-      slug: `/posts${p.data.permalink || `/${p.slug}`}`,
+      slug: `/posts${p.data.permalink || `/${p.id}`}`,
       type: 'post' as const,
     })),
     ...notes.map(n => {
-      const permalink = n.data.permalink || `/${n.slug}`;
+      const permalink = n.data.permalink || `/${n.id}`;
       const slug = permalink.startsWith('/notes/')
         ? permalink
         : `/notes/${permalink.replace(/^\//, '')}`;

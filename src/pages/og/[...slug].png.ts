@@ -141,7 +141,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const paths = [
     ...posts.map(p => {
-      let postSlug = p.data.permalink || p.slug;
+      let postSlug = p.data.permalink || p.id;
       if (postSlug.startsWith('/')) postSlug = postSlug.slice(1);
       return {
         params: { slug: `posts/${postSlug}` },
@@ -154,7 +154,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       };
     }),
     ...notes.map(n => {
-      let noteSlug = n.data.permalink || n.slug;
+      let noteSlug = n.data.permalink || n.id;
       if (noteSlug.startsWith('/notes/')) noteSlug = noteSlug.slice(7);
       else if (noteSlug.startsWith('/')) noteSlug = noteSlug.slice(1);
       return {
@@ -168,7 +168,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       };
     }),
     ...reviews.map(r => {
-      let reviewSlug = r.data.permalink || r.slug;
+      let reviewSlug = r.data.permalink || r.id;
       if (reviewSlug.startsWith('/reviews/')) reviewSlug = reviewSlug.slice(9);
       else if (reviewSlug.startsWith('/')) reviewSlug = reviewSlug.slice(1);
       return {
@@ -182,7 +182,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
       };
     }),
     ...incidents.map(i => ({
-      params: { slug: `status/${i.slug}` },
+      params: { slug: `status/${i.id}` },
       props: {
         title: i.data.title,
         description: `[${i.data.severity.toUpperCase()}] ${i.data.status} — ${i.data.affectedServices.join(', ')}`,

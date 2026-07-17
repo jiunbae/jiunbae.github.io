@@ -49,18 +49,18 @@ const totalCount = sortedPosts.length;
                   {post.data.heroImage && !post.data.heroImage.startsWith('./') ? (
                     <img src={post.data.heroImage} alt="" loading="lazy" />
                   ) : (
-                    <img src={`/thumbs/posts${post.data.permalink || `/${post.slug}`}.png`} alt="" loading="lazy" />
+                    <img src={`/thumbs/posts${post.data.permalink || `/${post.id}`}.png`} alt="" loading="lazy" />
                   )}
                 </div>
                 <figcaption class="post-content">
                   {/* Stretched link 패턴: 링크는 제목만 감싸고 ::after로 카드 전체 클릭 영역. */}
                   <h2 class="post-title">
-                    <a href={`/posts${post.data.permalink || `/${post.slug}`}`} class="post-link">{post.data.title}</a>
+                    <a href={`/posts${post.data.permalink || `/${post.id}`}`} class="post-link">{post.data.title}</a>
                   </h2>
                   {post.data.description && (
                     <p class="post-description">{post.data.description}</p>
                   )}
-                  <div class="post-meta" data-comment-slug={(post.data.permalink || `/${post.slug}`).replace(/^\//, '')} data-comment-type="posts">
+                  <div class="post-meta" data-comment-slug={(post.data.permalink || `/${post.id}`).replace(/^\//, '')} data-comment-type="posts">
                     <time class="post-date" datetime={post.data.date.toISOString()}>
                       {fmtDate(post.data.date)}
                     </time>

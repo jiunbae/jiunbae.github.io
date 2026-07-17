@@ -24,7 +24,7 @@ export async function getStaticPaths() {
 const { note } = Astro.props;
 const { Content } = await render(note);
 
-let noteSlug = note.data.permalink || note.slug;
+let noteSlug = note.data.permalink || note.id;
 if (noteSlug.startsWith('/notes/')) noteSlug = noteSlug.slice(7);
 else if (noteSlug.startsWith('/')) noteSlug = noteSlug.slice(1);
 const ogImage = `/og/notes/${noteSlug}.png`;

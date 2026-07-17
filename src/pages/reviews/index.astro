@@ -88,7 +88,7 @@ const formatRating = (rating: number) => `★ ${rating.toFixed(1)}`;
             const heroImage = resolveHeroImage(review);
             const slug = review.data.permalink
               ? review.data.permalink.trim().replace(/^\/reviews\//, '/').replace(/^\//, '')
-              : review.slug;
+              : review.id;
             const ogFallback = `/og/reviews/${slug}.png`;
             const coverSrc = heroImage || ogFallback;
             return (
@@ -103,7 +103,7 @@ const formatRating = (rating: number) => `★ ${rating.toFixed(1)}`;
                   </div>
                   <div class="card-body">
                     <h2 class="card-title">
-                      <a href={getReviewHref(review.data.permalink, review.slug)} class="review-link">{review.data.title}</a>
+                      <a href={getReviewHref(review.data.permalink, review.id)} class="review-link">{review.data.title}</a>
                     </h2>
                     {typeof review.data.rating === 'number' && (
                       <p class="card-rating">

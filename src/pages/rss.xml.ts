@@ -14,7 +14,7 @@ export async function GET(context: APIContext) {
   }));
 
   const noteItems = notes.map((note) => {
-    const permalink = note.data.permalink || `/${note.slug}`;
+    const permalink = note.data.permalink || `/${note.id}`;
     const link = permalink.startsWith('/notes/')
       ? permalink
       : `/notes/${permalink.replace(/^\//, '')}`;
