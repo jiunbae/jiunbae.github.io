@@ -175,6 +175,7 @@ const services: ServiceItem[] = [
     category: 'dev-tools',
     github: 'https://github.com/jiunbae/otpeek',
     store: 'https://apps.apple.com/app/otpeek/id6787845951',
+    post: '/posts/otpeek-cross-platform-otp/',
   },
   {
     title: 'BarShelf',
@@ -185,6 +186,7 @@ const services: ServiceItem[] = [
     status: 'live',
     category: 'dev-tools',
     github: 'https://github.com/Open330/barshelf',
+    post: '/posts/barshelf-macos-menubar-hub/',
   },
   {
     title: 'IssueBoard',
@@ -237,6 +239,7 @@ const services: ServiceItem[] = [
     tags: ['TypeScript', 'Puzzle', 'Daily'],
     status: 'live',
     category: 'lifestyle',
+    post: '/posts/nova-pouch-daily-word-puzzle/',
   },
   {
     slug: 'https://chartlog.jiun.dev',
@@ -247,6 +250,7 @@ const services: ServiceItem[] = [
     tags: ['Trading', 'Social', 'Game'],
     status: 'live',
     category: 'lifestyle',
+    post: '/posts/chartlog-social-trading-game/',
   },
   {
     title: 'Stashbar',
