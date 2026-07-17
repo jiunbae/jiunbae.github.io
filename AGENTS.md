@@ -1,29 +1,38 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-This site runs on Gatsby 5 with React and TypeScript. Reusable UI and hooks live in `src/components`, `src/views`, and `src/utils`, while `src/pages` and `src/templates` define page shells consumed by Gatsby. Styles sit under `src/styles` and component-scoped SCSS modules. Markdown content and JSON data live in `contents/` (`posts/`, `notes/`, `temp/`, `data/`). Static assets go to `static/`; Gatsby emits production bundles into `public/` (do not edit manually). Gatsby configuration is centralized in `gatsby-config.ts` and `gatsby-node.ts`.
+This site runs on Astro 6 with React islands and TypeScript. `src/pages` defines file-based routes (including `posts/`, `notes/`, `reviews/`, `tools/`, `status/`, `design/`, `og/`, `thumbs/` subfolders and standalone playground routes like `boids.astro`, `fluid-sim.astro`). Reusable UI, hooks, and interactive views live in `src/components`, `src/layouts`, and `src/views` (one folder per playground demo, e.g. `AudioConverter`, `Mandelbrot`, `Raymarching`). Styles sit under `src/styles` (`abstracts/`, `base/`, `pages/`, `utils/`) as SCSS partials. Structured data (services, playground entries, tools, about info) lives in `src/data/*.ts`/`.json`.
+
+Markdown/MDX content lives in `src/content/`, split by collection: `posts/`, `notes/`, `reviews/`, `incidents/`. Each entry is a folder — `src/content/posts/YYYY-MM-DD-slug/index.md` — and collection schemas (frontmatter validation) are defined centrally in `src/content.config.ts`. The `permalink` frontmatter field determines the final URL slug, independent of the folder name. Static assets go to `public/`; Astro emits the production build into `dist/` (gitignored, do not edit manually).
 
 ## Build, Test, and Development Commands
 Use `pnpm install` once, then run workflows with pnpm scripts:
-- `pnpm run develop`: local dev server with hot reload.
-- `pnpm run build`: production build; run before PRs touching runtime code or content.
-- `pnpm run serve`: preview the last build at `http://localhost:9000`.
-- `pnpm run clean`: reset Gatsby caches when data changes fail to surface.
-- `pnpm run typecheck`: strict TypeScript validation with the project tsconfig.
-- `pnpm run lint`: ESLint autofix; pair with a manual review of remaining warnings.
-- `pnpm run convert`: convert labeled GitHub issues into markdown files under `contents/`.
+- `pnpm run dev`: local dev server with hot reload (Astro dev).
+- `pnpm run build`: production build; run before PRs touching runtime code, styles, or content.
+- `pnpm run preview`: preview the last build at `http://localhost:4321` (audit/visual scripts serve it on `4322`).
+- `pnpm run lint:style`: stylelint over `src/**/*.scss` (no ESLint in this repo — TypeScript is checked via `astro check`/editor tooling against `tsconfig.json`).
+- `pnpm run audit:tokens`: scans `src/{pages,components,layouts,views,styles}` for raw spacing/radius/motion/color/shadow values vs. design-token usage; appends to `scripts/audit-history.jsonl`.
+- `pnpm run audit:a11y`: runs axe-core (via Playwright) against the built site's key routes; writes `scripts/axe-latest.json` + per-page reports under `scripts/axe-reports/`.
+- `pnpm run visual:baseline` / `pnpm run visual:check`: Playwright screenshots across pages × {light, dark} × {mobile, desktop}; `baseline` captures reference PNGs into `scripts/visual-baseline/`, `check` diffs the current build against them.
+- `pnpm run score` / `pnpm run score:show`: records/shows cumulative persona-review scores (see `.agents/` below).
+
+### When to run the validation chain
+Any change touching design tokens, layout, or visual styling should go through: `pnpm run build` → `pnpm run audit:tokens` → `pnpm run audit:a11y` → `pnpm run visual:check`. Only after the change is reviewed/approved, refresh the reference snapshots with `pnpm run visual:baseline` (baseline is the accepted-state snapshot, so don't regenerate it before approval or you'll mask regressions).
 
 ## Coding Style & Naming Conventions
-Follow the ESLint config (`eslint.config.mjs`): single quotes, no semicolons, avoid dangling commas, and ignore `_`-prefixed unused params. Components and layouts use `PascalCase`, utilities `camelCase`, and markdown filenames `kebab-case.md`. Indent with two spaces and keep React components functional. Re-run `pnpm run lint` after formatting changes.
+No ESLint config is present in this repo; TypeScript strictness comes from `tsconfig.json` (`astro/tsconfigs/strict`) and SCSS is linted with stylelint (`.stylelintrc.json`, `stylelint-config-standard-scss`). Follow existing conventions: single quotes, no semicolons, two-space indent. Components/layouts use `PascalCase`, utilities `camelCase`, and content folders `kebab-case` (`YYYY-MM-DD-slug/`). Keep React components functional. Re-run `pnpm run lint:style` after SCSS changes.
 
 ## Testing Guidelines
-Automated tests are not yet wired; rely on `pnpm run build` for regression coverage and inspect generated pages under `pnpm run serve`. Mirror existing file placement when adding content, and keep frontmatter complete (`title`, `date`, `slug`, `description`, media refs). If you introduce runtime utilities, add usage examples in the corresponding markdown post.
+There is no unit test suite; rely on `pnpm run build` for regression coverage, `pnpm run preview` to inspect generated pages, and the audit/visual scripts above for design-system and accessibility regressions. Mirror existing file placement when adding content (`src/content/<collection>/YYYY-MM-DD-slug/index.md`), and keep frontmatter complete per `src/content.config.ts` (`title`, `date`, `permalink`, `description`, `tags`, `published`, plus `rating` for reviews or the incident-specific fields for `incidents/`).
 
 ## Commit & Pull Request Guidelines
-Commits in history are short imperative statements (e.g., `Update components`, `Fix og image (#9)`). Follow that pattern, grouping related changes and referencing issues with `(#id)` when relevant. PRs should explain the change scope, call out impacted routes or content directories, and attach before/after screenshots for visual tweaks. Verify `pnpm run build` locally and note any manual validation steps in the PR description.
+Commits in history are short imperative statements, increasingly with a `type(scope):`/`type:` prefix (e.g., `feat(nav): expose /design via footer`, `fix(a11y): touch targets, reduced-motion transform guard`, `docs(.agents): codify 4-reviewer personas`) alongside plain ones (`Add Calex App Store pages`). Follow whichever pattern fits the change, group related work, and reference issues with `(#id)` when relevant. PRs should explain the change scope, call out impacted routes or content directories, and attach before/after screenshots for visual tweaks. Verify `pnpm run build` locally (plus the audit/visual chain for design changes) and note any manual validation steps in the PR description.
 
 ## Content & Deployment Notes
-Content updates deploy via `pnpm run deploy`, which cleans, rebuilds, and pushes `public/` with `gh-pages`. Use feature branches; avoid committing build artifacts. Secrets live in your local shell—do not hardcode keys in config files.
+Deployment is automated: `.github/workflows/astro.yml` builds with `astro build --site https://jiun.dev` and publishes `dist/` to GitHub Pages via `actions/deploy-pages` on every push to `main` (PRs get a build-only check). There is no manual `gh-pages`/`pnpm run deploy` step anymore — merging to `main` ships the site. Use feature branches; avoid committing build artifacts (`dist/`, `.astro/`). Secrets live in your local shell—do not hardcode keys in config files.
+
+## Design Review Personas
+`.agents/` archives the cold-review process used for design-system changes: `.agents/personas/{A,B,C,D}-*.md` define four reviewer lenses (DS adoption/Atomic Design, Nielsen heuristics + Korean readability, WCAG/ARIA accessibility, Gestalt/IA/grid), and `.agents/reviews/R<N>.md` record per-round scores and findings (append-only). When running a review round, spawn the four personas in parallel, log scores with `pnpm run score add R<N> <A> <B> <C> <D> "<note>"`, and cite the `audit:tokens`/`audit:a11y` output in the round notes. See `.agents/README.md` for the full protocol.
 
 ## Writing Style Guidelines (블로그 글쓰기 가이드라인)
 
@@ -48,7 +57,7 @@ Content updates deploy via `pnpm run deploy`, which cleans, rebuilds, and pushes
 ---
 title: "제목"
 date: 2024-01-01
-slug: /post-slug
+permalink: /post-slug
 tags: [ai, dev]
 published: true
 ---
