@@ -65,7 +65,7 @@ flowchart TB
   - Home LAN(192.168.0.0/24) 접근은 **Tailscale Subnet Router**로만
   - `registry.dev.domain`는 **Tailscale 내부에서만** Push/Pull
 - 운영:
-  - `dev.domain`는 서비스가 많아질 것이므로 **k3s + IaC(kubectl)**로 유지
+  - `dev.domain`는 서비스가 많아질 것이므로 **k3s + IaC**(kubectl)로 유지
   - `jiun.dev`는 cloudflared만 필요해서 **DSM Docker**로 분리 운영
 
 ---
