@@ -24,6 +24,8 @@ published: true
 
 그래서 [OTPeek](https://jiun.dev/OTPeek/)을 만들었다. iOS·macOS·Windows 홈스크린/데스크톱 위젯에 코드가 상시 떠 있고, 탭(클릭) 한 번이면 클립보드에 복사된다. 폰을 꺼낼 필요도, 앱을 열 필요도 없다. 이름 그대로 힐끗(peek) 보고 가져다 쓰는 게 전부다.
 
+![데스크톱 앱에서 계정별 2FA 코드가 한눈에 나열되고 클릭 한 번으로 복사되는 화면](/images/posts/otpeek-cross-platform-otp/desktop.png)
+
 ## 사실은 두 번 만들었다
 
 솔직히 처음부터 이렇게 만든 건 아니다.
@@ -50,6 +52,8 @@ core/crates/
 ```
 
 그리고 이 Rust 코어를 [UniFFI](https://mozilla.github.io/uniffi-rs/)로 Swift와 C#에 노출시켰다. 애플 쪽은 XCFramework로 뽑아 SwiftUI 앱이 그대로 호출하고, Windows는 `uniffi-bindgen-cs`로 C# 바인딩을 생성해 WinUI 3 앱이 호출한다. 두 앱 모두 OTP·암호화·동기화 로직을 단 한 줄도 다시 구현하지 않는다. 각 플랫폼에 남은 건 순수하게 화면을 그리는 코드뿐이다.
+
+![iOS 앱 화면. 데스크톱과 같은 계정 목록을 SwiftUI가 같은 Rust 코어를 호출해 그대로 보여준다](/images/posts/otpeek-cross-platform-otp/mobile.png)
 
 이렇게 바꾸고 나니 버그를 고칠 때 Rust 쪽 한 군데만 고치면 됐다. 테스트도 마찬가지다. RFC 4226/6238의 테스트 벡터를 코어에서 한 번 통과시키면, Swift에서 부르든 C#에서 부르든 같은 코드가 나온다. 참고로 코어 안에서는 `std::time`을 절대 부르지 않고 시간을 항상 인자로 받는데, 이래야 특정 시각의 코드를 결정론적으로 테스트할 수 있기 때문이다.
 
