@@ -1,8 +1,8 @@
 export interface ServiceItem {
   slug?: string
   title: string
-  /** 생성일(YYYY-MM-DD, 최초 커밋 기준) — 최신순 정렬 키 */
-  created: string
+  /** 최근 활동일(YYYY-MM-DD, 마지막 커밋 기준) — 최근 활동순 정렬 키 */
+  updated: string
   description: string
   icon: string
   iconType: 'image' | 'letter'
@@ -24,7 +24,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://tokka.jiun.dev',
     title: 'Tokka',
-    created: '2026-03-11',
+    updated: '2026-05-05',
     description: '카카오톡 대화 분석 서비스. 채팅 내보내기에서 AI 페르소나 프로파일링과 관계·대화 통계를 뽑아냅니다.',
     icon: '/images/services/tokka.svg',
     iconType: 'image',
@@ -36,7 +36,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://jiun.dev/ai-horoscope/',
     title: 'AI 운세 (제피로스)',
-    created: '2026-03-28',
+    updated: '2026-07-06',
     description: '매일 아침 AI 모델들의 운세를 전하는 디지털 무당 제피로스.',
     icon: '/images/services/ai-horoscope.png',
     iconType: 'image',
@@ -48,7 +48,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://burstpick.app',
     title: 'BurstPick',
-    created: '2026-02-14',
+    updated: '2026-03-29',
     description: '연사 사진을 AI로 골라내는 macOS 컬링 앱. Mac App Store 배포.',
     icon: '/images/services/burstpick.png',
     iconType: 'image',
@@ -60,7 +60,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://flatten.jiun.dev',
     title: 'Flatten',
-    created: '2026-06-25',
+    updated: '2026-07-18',
     description: 'AI를 어디까지 설득할 수 있나. 근거·반론·대화 전략으로 겨루는 설득 게임.',
     icon: '/images/services/flatten.png',
     iconType: 'image',
@@ -71,7 +71,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://finchi.jiun.dev',
     title: 'Finchi',
-    created: '2026-04-06',
+    updated: '2026-07-18',
     description: '경제 퀴즈로 금융 IQ 올리기. 한국은행·금감원·시중은행 리포트 기반 학습 플랫폼.',
     icon: '/images/services/finchi.png',
     iconType: 'image',
@@ -82,7 +82,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://nolbul.jiun.dev',
     title: 'Nolbul',
-    created: '2026-03-23',
+    updated: '2026-04-05',
     description: '멀티에이전트 협동을 연구하는 카드게임 플랫폼. AI 에이전트들이 함께 플레이합니다.',
     icon: 'N',
     iconType: 'letter',
@@ -94,7 +94,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://kiwimu.jiun.dev',
     title: 'kiwimu',
-    created: '2026-03-17',
+    updated: '2026-07-11',
     description: '교재·PDF를 서로 링크된 학습 위키와 퀴즈로 변환.',
     icon: 'k',
     iconType: 'letter',
@@ -107,7 +107,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'Kurim',
-    created: '2025-11-23',
+    updated: '2026-05-04',
     description: '개발자를 위한 AI 브랜딩. 아이디어에서 로고·랜딩·브랜드 아이덴티티까지 배포된 사이트로.',
     icon: '/images/services/kurim.ico',
     iconType: 'image',
@@ -118,7 +118,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'Kongbu',
-    created: '2025-11-08',
+    updated: '2026-07-03',
     description: 'GitHub 저장소를 퀴즈로 바꿔, 배포하는 코드를 진짜로 이해하게 합니다.',
     icon: '/images/services/kongbu.svg',
     iconType: 'image',
@@ -130,7 +130,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://arxiblog.jiun.dev',
     title: 'arxiblog',
-    created: '2026-06-01',
+    updated: '2026-06-27',
     description: 'arXiv 논문을 주석 달린 블로그 글로 변환.',
     icon: '/images/services/arxiblog.svg',
     iconType: 'image',
@@ -143,7 +143,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://selectchatgpt.jiun.dev',
     title: 'SelectChatGPT',
-    created: '2025-12-09',
+    updated: '2026-03-15',
     description: 'ChatGPT용 크롬 확장. 메시지를 골라 공유 링크를 만들거나 마크다운으로 내보냅니다.',
     icon: '/images/services/selectchatgpt.svg',
     iconType: 'image',
@@ -155,7 +155,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://prompt.jiun.dev',
     title: 'Oh My Prompt',
-    created: '2026-02-02',
+    updated: '2026-07-16',
     description: 'AI 코딩 세션의 프롬프트 저널. 기록하고 되짚는 CLI + 웹.',
     icon: '/images/services/oh-my-prompt.svg',
     iconType: 'image',
@@ -168,7 +168,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'agt',
-    created: '2025-11-23',
+    updated: '2026-05-22',
     description: 'AI 코딩 에이전트용 스킬·페르소나 패키지 매니저.',
     icon: '/images/services/agt.png',
     iconType: 'image',
@@ -182,7 +182,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://jiun.dev/OTPeek/',
     title: 'OTPeek',
-    created: '2025-12-28',
+    updated: '2026-07-07',
     description: '크로스플랫폼 2FA·OTP 앱. 위젯과 Rust 코어.',
     icon: '/images/services/otpeek.png',
     iconType: 'image',
@@ -195,7 +195,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'BarShelf',
-    created: '2026-07-08',
+    updated: '2026-07-09',
     slug: 'https://barshelf.jiun.dev',
     description: 'macOS 메뉴바 위젯 허브. OTP·LLM 사용량·CI 상태를 한눈에. 노터라이즈 릴리스.',
     icon: '/images/services/barshelf.png',
@@ -208,7 +208,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'IssueBoard',
-    created: '2026-01-06',
+    updated: '2026-03-15',
     description: '실시간 협업 이슈 트래커. Linear·Jira의 미니멀 대안.',
     icon: '/images/services/issueboard.svg',
     iconType: 'image',
@@ -219,7 +219,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'Claude Code Cloud',
-    created: '2025-12-13',
+    updated: '2026-03-15',
     description: '브라우저에서 Claude Code를 돌리는 웹 IDE. 실시간 터미널·파일 탐색기·세션 관리.',
     icon: '/images/services/claude-code-cloud.svg',
     iconType: 'image',
@@ -234,7 +234,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://ssudam.jiun.dev',
     title: 'Ssudam',
-    created: '2025-12-22',
+    updated: '2026-03-20',
     description: '생활 소모품 관리 iOS 앱. 사용 주기·교체 시점·지출을 추적.',
     icon: '/images/services/ssudam.png',
     iconType: 'image',
@@ -244,7 +244,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'Mstoon',
-    created: '2026-01-04',
+    updated: '2026-01-18',
     description: '직접 호스팅하는 웹툰 뷰어. 군더더기 없는 읽기 경험.',
     icon: 'M',
     iconType: 'letter',
@@ -255,7 +255,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://nova-pouch.jiun.dev',
     title: 'Nova Pouch',
-    created: '2026-03-02',
+    updated: '2026-03-16',
     description: '매일 단어 조각을 뽑아 상상의 세계를 쓰는 데일리 퍼즐.',
     icon: '/images/services/nova-pouch.png',
     iconType: 'image',
@@ -267,7 +267,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://chartlog.jiun.dev',
     title: 'Chartlog',
-    created: '2026-05-02',
+    updated: '2026-06-27',
     description: '친구방이 곧 하나의 차트. 사이버머니로 같이 매매하는 소셜 트레이딩 게임.',
     icon: '/images/services/chartlog.png',
     iconType: 'image',
@@ -278,7 +278,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'Stashbar',
-    created: '2025-10-22',
+    updated: '2026-07-08',
     slug: 'https://jiun.dev/stashbar/',
     description: '최근 파일을 쌓아두는 macOS 메뉴바 스택 앱.',
     icon: 'S',
@@ -291,7 +291,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://domidman.jiun.dev',
     title: '도믿맨: 퇴근길 생존기',
-    created: '2026-04-05',
+    updated: '2026-07-18',
     description: '퇴근길 생존 풍자 게임. 길에서 만난 NPC를 피하거나 도우며 집까지 걸어갑니다.',
     icon: '/images/services/domidman.png',
     iconType: 'image',
@@ -302,7 +302,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://bubbles.jiun.dev',
     title: 'Bubbles',
-    created: '2026-03-23',
+    updated: '2026-07-18',
     description: '비흡연자를 위한 담타. 3D 멀티플레이어 버블 게임.',
     icon: 'B',
     iconType: 'letter',
@@ -315,7 +315,7 @@ const services: ServiceItem[] = [
   // ── Infra ───────────────────────────────────────────
   {
     title: 'Aily',
-    created: '2026-02-07',
+    updated: '2026-07-12',
     description: 'Discord로 연결하는 에이전트 브리지 대시보드. 알림과 워크플로를 한곳에서.',
     icon: '/images/services/aily.svg',
     iconType: 'image',

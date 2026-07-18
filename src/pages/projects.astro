@@ -12,9 +12,9 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   { key: 'tools', label: 'Tools', count: toolItems.length },
 ];
 
-// 최신순 정렬: created 내림차순(최근 만든 프로젝트가 위로) → 동일 날짜는 title
+// 최근 활동순 정렬: updated 내림차순(최근 활동한 프로젝트가 위로) → 동일 날짜는 title
 const sortedServices = [...services].sort((a, b) =>
-  b.created.localeCompare(a.created) ||
+  b.updated.localeCompare(a.updated) ||
   a.title.localeCompare(b.title, 'en')
 );
 
