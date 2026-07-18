@@ -2,9 +2,9 @@
 title: "코드 리뷰 대신 프롬프트 리뷰: Software 3.0 시대의 품질 관리"
 description: "LLM Agent가 충분히 잘 코딩할 수 있다면, 우리가 정말 리뷰해야 할 것은 코드가 아니라 프롬프트다. Harness 기반 개발 환경에서 프롬프트 리뷰가 코드 리뷰를 대체하는 과정과 그 이유에 대하여."
 date: 2026-02-28
-slug: /prompt-review-not-code-review
+permalink: /prompt-review-not-code-review
 tags: [AI, LLM, PromptEngineering, CodeReview, Harness, Engineering]
-published: false
+published: true
 ---
 
 ## 당신의 팀은 아직 코드를 리뷰하고 있나요?
@@ -239,7 +239,7 @@ contents/prompts/payment-kcp-integration.md
 - "부분취소 시 기존 결제 금액 업데이트 로직이 명시되어 있지 않습니다"
 - "에러 상황에서 사용자에게 보여줄 메시지 정책이 필요합니다"
 
-리뷰 코멘트의 성격이 달라진다. "이 변수명을 바꿔주세요"가 아니라 **"이 시나리오에 대한 명세가 빠져 있습니다"**가 된다.
+리뷰 코멘트의 성격이 달라진다. "이 변수명을 바꿔주세요"가 아니라 **"이 시나리오에 대한 명세가 빠져 있습니다"라는** 지적이 된다.
 
 ### Step 3: Agent 실행 및 자동 검증
 

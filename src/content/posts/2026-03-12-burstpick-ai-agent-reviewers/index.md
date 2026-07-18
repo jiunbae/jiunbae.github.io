@@ -15,6 +15,8 @@ published: true
 
 문제는, 1인 개발자에게 리뷰어가 없다는 점입니다. 아니, 없었습니다. 지금은 4명의 AI 전문가가 매 리뷰 라운드마다 동시에 코드를 검토합니다. 45번의 리뷰 라운드를 거치며 다듬어진 이 프로세스를 공유합니다.
 
+![BurstPick의 컬링 화면. 왼쪽에 연사 프레임이 자동으로 묶인 클러스터 목록이 있고, 가운데에 선택된 프레임의 대형 미리보기, 오른쪽에 Overall 점수·품질 신호·태그와 Keep/Reject 결정 버튼이 표시된다.](/images/posts/burstpick-ai-agent-reviewers/culling-ui.png)
+
 ## 4명의 전문 리뷰어
 
 BurstPick의 리뷰 시스템에는 4명의 전문가가 있습니다. 각자 완전히 다른 렌즈로 코드를 봅니다.
@@ -179,6 +181,8 @@ BurstPick이 복잡한 이유 중 하나는 22개의 ML 모델입니다:
 - **분류 1개**: Apple Vision Classification
 
 이 모델들의 점수를 가중합, 최대, 기하평균 등으로 조합해서 최종 순위를 매깁니다. 사용자가 ML Settings 패널에서 모델별 가중치를 조절할 수 있고, 실시간 미리보기로 결과를 확인합니다.
+
+![BurstPick의 AI Model Settings 패널. Face Embedding 카테고리에서 AdaFace IR-18/IR-50, AuraFace, EdgeFace 등 얼굴 임베딩 모델의 크기·라이선스·정확도를 비교하며 선택할 수 있고, Speed/Balanced/Quality 프리셋과 메모리 사용량이 표시된다.](/images/posts/burstpick-ai-agent-reviewers/ml-model-settings.png)
 
 Performance Engineer 리뷰어가 이 파이프라인에서 가장 많이 지적하는 건 **메모리 압력**(memory pressure)입니다. 10,000장을 처리할 때 모든 모델을 메모리에 올려둘 수 없으니, 커널 레벨 메모리 모니터링으로 자동 캐시 퇴거와 모델 언로딩을 수행합니다.
 

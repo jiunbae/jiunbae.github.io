@@ -53,6 +53,8 @@ interference.b = 0.5 + 0.5 * cos(2.0 * PI * opd / 475.0); // 파랑 475nm
 
 환경맵 반사는 의도적으로 껐다. 80개 버블이 동시에 떠있을 때 스프라이트 아티팩트가 보여서 — 한 개일 때는 예뻤는데 여러 개가 모이니까 깨졌다. `envMapIntensity=0`으로 밀어버리고 셰이더 자체의 간섭 패턴에만 의존하는 게 오히려 자연스러웠다.
 
+![실제 렌더링된 Bubbles 화면. 밤하늘의 공원 배경에 나무와 가로등, 벤치가 놓여 있고 그 사이로 반투명한 비눗방울이 여러 개 떠오르고 있다.](/images/posts/bubbles-multiplayer-bubble-game/scene.png)
+
 ## 80개를 한 번에 그리기
 
 처음에는 버블마다 개별 `Mesh`를 만들었다. 80개 = 80 draw calls + 80 `useFrame`. 당연히 느렸다.
@@ -148,6 +150,8 @@ if (closeCode === 1012) {
 | 색상 8종 | 카테고리 (Marketing, Engineering, ...) |
 
 수식 바에는 `=SUM(B2:B14)`, `=VLOOKUP(D5, ...)` 같은 가짜 수식이 뜬다. 행+열 해시로 결정론적이라 같은 셀을 클릭하면 항상 같은 수식이 보인다. 시트 탭, 리본 메뉴, 상태 바까지 만들어서 스크린샷으로는 진짜 엑셀과 구별이 어렵다.
+
+![스텔스 모드 화면. 3D 비눗방울 씬이 'Task Tracker — Q1 Operations.xlsx'라는 업무 스프레드시트로 위장되어, 불었던 버블들이 상태 NEW·담당자·우선순위·카테고리를 가진 태스크 행으로 매핑되어 있다.](/images/posts/bubbles-multiplayer-bubble-game/stealth.png)
 
 ~~흡연자들이 담배 피러 나가면 스텔스 모드로 비눗방울을 불면 된다.~~
 

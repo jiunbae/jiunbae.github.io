@@ -36,6 +36,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://jiun.dev/ai-horoscope/',
     title: 'AI 운세 (제피로스)',
+    post: '/posts/small-side-services-roundup/',
     updated: '2026-07-06',
     description: '매일 아침 AI 모델들의 운세를 전하는 디지털 무당 제피로스.',
     icon: '/images/services/ai-horoscope.png',
@@ -60,6 +61,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://flatten.jiun.dev',
     title: 'Flatten',
+    post: '/posts/flatten-persuade-ai/',
     updated: '2026-07-18',
     description: 'AI를 어디까지 설득할 수 있나. 근거·반론·대화 전략으로 겨루는 설득 게임.',
     icon: '/images/services/flatten.png',
@@ -71,6 +73,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://finchi.jiun.dev',
     title: 'Finchi',
+    post: '/posts/small-side-services-roundup/',
     updated: '2026-07-18',
     description: '경제 퀴즈로 금융 IQ 올리기. 한국은행·금감원·시중은행 리포트 기반 학습 플랫폼.',
     icon: '/images/services/finchi.png',
@@ -82,6 +85,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://nolbul.jiun.dev',
     title: 'Nolbul',
+    post: '/posts/nolbul-multiagent-card-game/',
     updated: '2026-04-05',
     description: '멀티에이전트 협동을 연구하는 카드게임 플랫폼. AI 에이전트들이 함께 플레이합니다.',
     icon: 'N',
@@ -107,6 +111,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'Kurim',
+    post: '/posts/kurim-ai-branding/',
     updated: '2026-05-04',
     description: '개발자를 위한 AI 브랜딩. 아이디어에서 로고·랜딩·브랜드 아이덴티티까지 배포된 사이트로.',
     icon: '/images/services/kurim.ico',
@@ -118,6 +123,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'Kongbu',
+    post: '/posts/kongbu-code-quiz-learning/',
     updated: '2026-07-03',
     description: 'GitHub 저장소를 퀴즈로 바꿔, 배포하는 코드를 진짜로 이해하게 합니다.',
     icon: '/images/services/kongbu.svg',
@@ -130,6 +136,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://arxiblog.jiun.dev',
     title: 'arxiblog',
+    post: '/posts/arxiblog-paper-to-blog/',
     updated: '2026-06-27',
     description: 'arXiv 논문을 주석 달린 블로그 글로 변환.',
     icon: '/images/services/arxiblog.svg',
@@ -208,6 +215,7 @@ const services: ServiceItem[] = [
   },
   {
     title: 'IssueBoard',
+    post: '/posts/small-side-services-roundup/',
     updated: '2026-03-15',
     description: '실시간 협업 이슈 트래커. Linear·Jira의 미니멀 대안.',
     icon: '/images/services/issueboard.svg',
@@ -234,6 +242,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://ssudam.jiun.dev',
     title: 'Ssudam',
+    post: '/posts/small-side-services-roundup/',
     updated: '2026-03-20',
     description: '생활 소모품 관리 iOS 앱. 사용 주기·교체 시점·지출을 추적.',
     icon: '/images/services/ssudam.png',
@@ -291,6 +300,7 @@ const services: ServiceItem[] = [
   {
     slug: 'https://domidman.jiun.dev',
     title: '도믿맨: 퇴근길 생존기',
+    post: '/posts/domidman-commute-survival/',
     updated: '2026-07-18',
     description: '퇴근길 생존 풍자 게임. 길에서 만난 NPC를 피하거나 도우며 집까지 걸어갑니다.',
     icon: '/images/services/domidman.png',
