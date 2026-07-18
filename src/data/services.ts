@@ -274,6 +274,7 @@ const services: ServiceItem[] = [
     github: 'https://github.com/jiunbae/domidman',
   },
   {
+    slug: 'https://bubbles.jiun.dev',
     title: 'Bubbles',
     description: '비흡연자를 위한 담타. 3D 멀티플레이어 버블 게임.',
     icon: 'B',
