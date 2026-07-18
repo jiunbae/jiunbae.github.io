@@ -175,6 +175,12 @@ tmux 세션 라이프사이클도 연동했습니다:
 - **Gemini** → UX/UI 디자인 스펙 (1,564줄 UI 명세)
 - **Codex** → 기술 구현 명세 (2,259줄 코드 예시)
 
+![aily 대시보드의 세션 개요 화면. 활성/대기/유휴 세션 수와 여러 tmux 세션 카드가 그리드로 표시되고, 왼쪽에는 세션 목록과 실시간 연결 상태가 보인다.](/images/posts/aily-ai-session-bridge/dashboard-sessions.png)
+
+세션 상세 화면에서는 메시지 히스토리를 보고, tmux 세션으로 직접 명령을 보낼 수 있습니다. Discord/Slack 연동 상태도 한눈에 확인됩니다.
+
+![aily 대시보드의 세션 상세 화면. 왼쪽에 메시지 스트림과 입력창, 오른쪽에 세션 정보(호스트, 상태, 생성 시각, CWD)와 Discord/Slack 플랫폼 링크, 명령 전송 버튼이 배치돼 있다.](/images/posts/aily-ai-session-bridge/dashboard-session-detail.png)
+
 기술 스택은 의도적으로 가볍게 잡았습니다:
 
 | 선택 | 이유 |
