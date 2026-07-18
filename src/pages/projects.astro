@@ -68,6 +68,7 @@ const playgroundSections = [
       <div class="grid">
         {sortedServices.map(item => {
           const cat = categories[item.category];
+          const hasLinks = !!(item.slug || item.post || item.github || item.npm || item.store);
           return (
             <div
               class="service-card"
@@ -95,6 +96,7 @@ const playgroundSections = [
                   ))}
                 </div>
               </div>
+              {hasLinks && (
               <div class="card-footer">
                 {item.slug && (
                   <a href={item.slug} class="card-link" target="_blank" rel="noopener noreferrer">
@@ -139,6 +141,7 @@ const playgroundSections = [
                   )}
                 </div>
               </div>
+              )}
             </div>
           );
         })}

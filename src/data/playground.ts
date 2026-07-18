@@ -3,7 +3,7 @@ export interface PlaygroundItem {
   title: string
   description: string
   gradient: string
-  /** 배치 날짜는 신뢰할 수 없어 카드에 노출하지 않음. 정렬 참고용으로만 유지. */
+  /** 배치 날짜는 신뢰할 수 없어 카드에 노출하지 않음. 데이터 보존용으로만 유지. */
   date: string
   tags: string[]
   /** 'game' = 미니게임(/games/*), 'visual' = 비주얼 실험 */

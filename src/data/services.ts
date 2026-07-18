@@ -161,7 +161,7 @@ const services: ServiceItem[] = [
     status: 'live',
     category: 'dev-tools',
     npm: '@open330/agt',
-    github: 'https://github.com/open330/agt',
+    github: 'https://github.com/Open330/agt',
     post: '/posts/agt-package-manager-for-ai-agents/',
   },
   {
@@ -271,7 +271,6 @@ const services: ServiceItem[] = [
     tags: ['Vanilla JS', 'Canvas', 'Hono API', 'MongoDB'],
     status: 'beta',
     category: 'lifestyle',
-    github: 'https://github.com/jiunbae/domidman',
   },
   {
     slug: 'https://bubbles.jiun.dev',
