@@ -6,7 +6,7 @@ permalink: /claude-code-cloud
 tags: [ai, claude, dev, devops]
 heroImage: ./terminal.png
 heroImageAlt: Claude Code Cloud 터미널 화면
-published: true
+published: false
 ---
 # Claude Code Cloud: AI 코딩 세션을 브라우저에서
 

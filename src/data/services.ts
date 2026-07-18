@@ -225,19 +225,6 @@ const services: ServiceItem[] = [
     category: 'dev-tools',
     slug: 'https://issue.jiun.dev',
   },
-  {
-    title: 'Claude Code Cloud',
-    updated: '2026-03-15',
-    description: '브라우저에서 Claude Code를 돌리는 웹 IDE. 실시간 터미널·파일 탐색기·세션 관리.',
-    icon: '/images/services/claude-code-cloud.svg',
-    iconType: 'image',
-    tags: ['Next.js', 'WebSocket', 'xterm.js', 'Monaco'],
-    status: 'internal',
-    category: 'dev-tools',
-    github: 'https://github.com/jiunbae/claude-code-cloud',
-    post: '/posts/claude-code-cloud/',
-  },
-
   // ── Lifestyle ───────────────────────────────────────
   {
     slug: 'https://ssudam.jiun.dev',
