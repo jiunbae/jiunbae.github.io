@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import Chip from '@/components/Chip.astro';
-import services, { categories, categoryOrder, statusOrder } from '@/data/services';
+import services, { categories } from '@/data/services';
 import playgroundItems from '@/data/playground';
 import toolItems from '@/data/tools';
 
@@ -12,10 +12,9 @@ const tabs: { key: Tab; label: string; count: number }[] = [
   { key: 'tools', label: 'Tools', count: toolItems.length },
 ];
 
-// 결정적 정렬: category(ai→dev-tools→lifestyle→infra) → status(live→beta→internal) → title
+// 최신순 정렬: created 내림차순(최근 만든 프로젝트가 위로) → 동일 날짜는 title
 const sortedServices = [...services].sort((a, b) =>
-  (categoryOrder[a.category] - categoryOrder[b.category]) ||
-  (statusOrder[a.status] - statusOrder[b.status]) ||
+  b.created.localeCompare(a.created) ||
   a.title.localeCompare(b.title, 'en')
 );
 
