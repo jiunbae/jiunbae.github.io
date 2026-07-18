@@ -108,7 +108,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection('posts', ({ data }) => data.published !== false);
 
   return posts.map(p => {
-    let postSlug = p.data.permalink || p.slug;
+    let postSlug = p.data.permalink || p.id;
     if (postSlug.startsWith('/')) postSlug = postSlug.slice(1);
     return {
       params: { slug: `posts/${postSlug}` },

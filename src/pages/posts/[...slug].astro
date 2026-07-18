@@ -43,7 +43,7 @@ if (rawHeroImage) {
   }
 }
 
-let postSlug = post.data.permalink || post.slug;
+let postSlug = post.data.permalink || post.id;
 if (postSlug.startsWith('/')) postSlug = postSlug.slice(1);
 const ogImage = heroImage || `/og/posts/${postSlug}.png`;
 ---

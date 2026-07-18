@@ -148,7 +148,7 @@ function formatTime(d: Date) {
               <span class="incident-date-line"></span>
             </div>
             {group.items.map(incident => (
-              <a href={`/status/${incident.slug}/`} class="incident-card">
+              <a href={`/status/${incident.id}/`} class="incident-card">
                 <div class="incident-left">
                   <span class:list={['severity-indicator', `sev-${incident.data.severity}`]}></span>
                   <div class="incident-info">

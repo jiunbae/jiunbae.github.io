@@ -39,13 +39,13 @@ const totalCount = sortedPosts.length;
           <li class="post-item" data-tags={JSON.stringify(post.data.tags)}>
             <article class="post">
               <div class="post-content">
-                <div class="post-header" data-comment-slug={(post.data.permalink || `/${post.slug}`).replace(/^\//, '')} data-comment-type="posts">
+                <div class="post-header" data-comment-slug={(post.data.permalink || `/${post.id}`).replace(/^\//, '')} data-comment-type="posts">
                   <time class="post-date" datetime={post.data.date.toISOString()}>
                     {fmtDate(post.data.date)}
                   </time>
                 </div>
                 <h2 class="post-title">
-                  <a href={`/posts${post.data.permalink || `/${post.slug}`}`} class="post-link">{post.data.title}</a>
+                  <a href={`/posts${post.data.permalink || `/${post.id}`}`} class="post-link">{post.data.title}</a>
                 </h2>
                 {post.data.description && (
                   <p class="post-description">{post.data.description}</p>

@@ -18,7 +18,7 @@ export async function GET(context: APIContext) {
       title: `${severityPrefix[incident.data.severity] || ''} ${incident.data.title}`,
       pubDate: incident.data.date,
       description: `[${incident.data.status}] Affected: ${incident.data.affectedServices.join(', ')}`,
-      link: `/status/${incident.slug}/`,
+      link: `/status/${incident.id}/`,
     }));
 
   return rss({

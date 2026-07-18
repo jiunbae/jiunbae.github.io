@@ -3,11 +3,15 @@ export interface PlaygroundItem {
   title: string
   description: string
   gradient: string
+  /** 배치 날짜는 신뢰할 수 없어 카드에 노출하지 않음. 데이터 보존용으로만 유지. */
   date: string
   tags: string[]
+  /** 'game' = 미니게임(/games/*), 'visual' = 비주얼 실험 */
+  kind: 'game' | 'visual'
 }
 
-const playground: PlaygroundItem[] = [
+// gradient/date는 그대로 두고, kind는 slug 접두사로 결정적 부여(/games/* → game).
+const rawPlayground: Omit<PlaygroundItem, 'kind'>[] = [
   {
     slug: '/games/korean-word-puzzle/',
     title: '한끝차이',
@@ -292,5 +296,10 @@ const playground: PlaygroundItem[] = [
     tags: ['Canvas', 'Simulation', 'Cellular']
   },
 ]
+
+const playground: PlaygroundItem[] = rawPlayground.map(item => ({
+  ...item,
+  kind: item.slug.startsWith('/games/') ? 'game' : 'visual',
+}))
 
 export default playground

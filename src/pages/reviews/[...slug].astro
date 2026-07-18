@@ -19,7 +19,7 @@ export async function getStaticPaths() {
   };
 
   return reviews.map((review) => ({
-    params: { slug: normalizeReviewSlug(review.data.permalink, review.slug) },
+    params: { slug: normalizeReviewSlug(review.data.permalink, review.id) },
     props: { review },
   }));
 }
