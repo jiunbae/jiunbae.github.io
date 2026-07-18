@@ -107,7 +107,7 @@ const services: ServiceItem[] = [
     category: 'ai',
     npm: '@open330/kiwimu',
     github: 'https://github.com/Open330/kiwimu',
-    post: '/posts/kiwimu-14-persona-review/',
+    post: '/posts/kiwimu/',
   },
   {
     title: 'Kurim',

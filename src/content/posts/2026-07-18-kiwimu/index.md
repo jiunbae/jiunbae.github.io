@@ -2,7 +2,7 @@
 title: "나무위키는 하루 종일 읽으면서 전공책은 왜 못 읽을까: kiwimu를 v1.2까지 만든 기록"
 description: "'전공책은 안 읽히는데 나무위키는 하루종일 읽을 수 있잖아' — 한 문장에서 시작한 학습 위키 빌더를, 14명의 AI 페르소나 리뷰로 v1.0까지 끌어올리고, 스스로 자라는 v1.1을 거쳐, 위키가 직접 답하는 v1.2까지 만든 넉 달간의 기록. 잘된 것과 어설펐던 것 모두."
 date: 2026-07-18
-permalink: /kiwimu-14-persona-review
+permalink: /kiwimu
 tags: [AI, CodeReview, OpenSource, EdTech, LearningScience, DevProcess]
 published: true
 ---
