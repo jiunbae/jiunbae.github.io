@@ -32,6 +32,6 @@ export const designMeta = {
   date: '2026.05.24',
   isoDate: '2026-05-24',
   version: 'v0.2',
-  tokenCount: 78,             /* +8: --measure, --space-px, --space-0_5/0_75, --container-*, --bp-* */
+  tokenCount: 78,             /* +8: --container-list, --space-px, --space-0_5/0_75, --container-*, --bp-* (--measure 폐기분 상쇄) */
   componentCount: designComponents.length,
 } as const;
