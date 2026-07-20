@@ -1,6 +1,6 @@
 ---
 title: "aily: 터미널에서 시작하고, Slack에서 이어가는 AI 에이전트 세션"
-description: "터미널에서 작업하다 자리를 비워도, Discord/Slack에서 AI 에이전트 세션을 그대로 이어갈 수 있는 오픈소스 브릿지. 5줄짜리 bash 훅에서 시작해 33일 만에 프로덕션 배포까지의 여정입니다."
+description: "토요일 밤 297줄짜리 알림 훅에서 시작한 프로젝트가 33일 뒤 K8s에 올라가기까지. AI 봇을 하루 만에 버리고 결정론적 브릿지로 간 이유, tmux 삽질, Rust 재작성을 접은 프로파일링까지의 기록입니다."
 date: 2026-03-12
 permalink: /aily-ai-session-bridge
 tags: [AI, Claude, Discord, Slack, tmux, CLI, OpenSource, DevOps, Security, K8s]
@@ -9,454 +9,82 @@ published: true
 
 # aily: 터미널에서 시작하고, Slack에서 이어가는 AI 에이전트 세션
 
-## aily란?
+AI 코딩 에이전트를 쓰다 보면 워크플로우가 이렇게 됩니다. tmux 세션에서 Claude Code에 작업을 시키고, 시간이 걸리니까 자리를 비우고, 돌아와서 터미널을 확인합니다. 문제는 마지막 단계입니다. 에이전트가 5분 전에 끝났을 수도 있고, 질문을 던져놓고 기다리고 있을 수도 있습니다. SSH 호스트가 여러 대이고 세션이 동시에 돌아가면 어떤 세션이 끝났는지 알 방법이 없습니다.
 
-[aily](https://github.com/jiunbae/aily)는 tmux에서 돌아가는 AI 에이전트 세션과 Discord/Slack을 양방향으로 연결하는 오픈소스 브릿지입니다. 터미널에서 에이전트에게 작업을 시작하고, 자리를 비워도 Discord/Slack에서 그대로 이어서 작업할 수 있습니다.
+"그냥 Discord에 알림 하나 오면 안 되나?" — 이 생각으로 만들기 시작한 게 [aily](https://github.com/jiunbae/aily)입니다. tmux에서 돌아가는 에이전트 세션과 Discord/Slack을 양방향으로 연결하는 브릿지입니다. 터미널에서 시작한 작업을 자리를 비운 뒤에는 메신저 스레드에서 그대로 이어갑니다. tmux에 직접 릴레이하기 때문에 안에서 Claude가 돌든 Codex가 돌든 상관없습니다.
 
-### 이런 상황에서 유용합니다
+이 글은 그 33일의 기록입니다.
 
-- **에이전트가 여러 세션에서 동시에 돌아갈 때** — 어떤 세션이 끝났는지 터미널을 하나씩 확인할 필요 없이, Discord/Slack에서 한눈에 볼 수 있습니다.
-- **에이전트가 질문하고 기다릴 때** — 이미 쓰고 있는 Discord/Slack으로 알림이 오고, 스레드에 답장만 하면 에이전트에 바로 전달됩니다.
-- **원격 머신에서 에이전트를 돌릴 때** — 여러 SSH 호스트의 세션을 하나의 채널에서 관리할 수 있습니다.
-- **터미널에서 벗어나 이동할 때** — 작업 흐름이 끊기지 않습니다. 기존에 쓰던 메신저에서 그대로 에이전트와 대화를 이어갈 수 있습니다.
+## 토요일 밤, 297줄
 
-### 주요 장점
+2026년 2월 7일 토요일 밤 10시 56분, 첫 커밋. 파일 5개, 297줄이 전부였습니다. Claude Code의 Notification 훅이 실행되면 백그라운드 서브셸에서 5초 기다렸다가(세션 JSONL에 응답이 다 쓰이길 기다리는 겁니다), 파이썬 스크립트로 마지막 어시스턴트 메시지를 뽑아 Discord 스레드에 올리는 bash 스크립트였습니다. 스레드 이름은 `[agent] <tmux 세션명>`. 세션마다 전용 스레드가 생깁니다.
 
-| | |
-|---|---|
-| **에이전트 무관** | tmux 세션에 직접 릴레이하기 때문에, 안에서 어떤 에이전트가 돌아가든 상관없이 동작 |
-| **끊김 없는 전환** | 터미널에서 시작한 작업을 Discord/Slack에서 그대로 이어가기 |
-| **양방향** | 알림만 받는 게 아니라, 답장으로 에이전트에 입력 전달까지 |
-| **플랫폼 선택** | Discord, Slack, 또는 둘 다 동시 사용 |
-| **자동 세션 관리** | tmux 세션 생성 시 스레드 자동 생성, 종료 시 아카이브 |
-| **웹 대시보드** | 실시간 세션 모니터링, 메시지 히스토리, 전문 검색 |
-| **4번의 입력으로 설정 완료** | `aily init` 위자드가 모든 설정을 안내 |
+훅 파일 이름이 `notify-clawdia.sh`였습니다. Clawdia는 제가 쓰던 Claude 봇의 별명인데, 이때까지만 해도 이 도구가 Claude 전용이라고 생각했다는 흔적입니다.
 
-### 빠른 시작
+## 하루 만에 버린 첫 설계
 
-```bash
-git clone https://github.com/jiunbae/aily.git
-cd aily && ./aily init
-```
+첫날 밤에 써둔 아키텍처 문서의 원래 계획은 이랬습니다. Discord 쪽 입력은 이미 K8s에 떠 있던 AI 봇이 받아서, AGENTS.md에 적어둔 규칙("`[agent]` 스레드의 메시지는 해당 tmux 세션으로 보내라")에 따라 SSH로 포워딩한다. AI가 메시지를 이해하고 알아서 전달해 주는 그림이죠.
 
-아래는 aily가 5줄짜리 bash 훅에서 시작해 지금의 모습이 되기까지의 이야기입니다.
+다음 날 오후에 버렸습니다. AI가 릴레이 경로에 끼면 100% 신뢰할 수 없습니다. 어떤 때는 정확히 전달하고, 어떤 때는 챗봇처럼 자기가 응답해 버립니다. 메시지 전달에 확률적 요소가 있으면 안 됩니다. 2월 8일 커밋 메시지가 이 결정을 그대로 담고 있습니다: "Replaces AI-based message forwarding with a reliable bridge script." `[agent]` 스레드에 메시지가 오면 무조건 해당 tmux 세션으로 보낸다, 끝. AI로 만든 도구지만 동작 자체에는 AI가 없는 결정론적 브릿지가 됐고, 이게 프로젝트의 정체성이 됐습니다.
 
----
+같은 날 밤 이름도 `claude-hooks`에서 `aily`로 바꿨습니다. Claude 전용이 아니게 됐으니까요.
 
-## 문제: "끝났나?"
+## tmux가 가르쳐준 것들
 
-AI 코딩 에이전트를 쓰다 보면, 자연스럽게 이런 워크플로우가 됩니다:
+첫 주말에 tmux 삽질을 두 개 했습니다.
 
-1. tmux 세션에서 Claude Code에 작업을 시킴
-2. 시간이 걸리니까 자리를 비움
-3. 돌아와서 터미널을 확인
-
-문제는 3번입니다. 에이전트가 5분 전에 끝났을 수도 있고, 질문을 하고 기다리고 있을 수도 있습니다. SSH 호스트가 여러 대이고 세션이 동시에 돌아가면, **어떤 세션이 끝났는지 알 방법이 없습니다**.
-
-> "그냥 Discord에 알림 하나 오면 안 되나?"
-
-이 한 줄짜리 생각이 aily의 시작이었습니다.
-
-## 금요일 밤: 5개 파일, 297줄
-
-2월 7일 금요일 밤, 첫 커밋에는 파일이 5개뿐이었습니다.
-
-```
-hooks/
-├── notify-clawdia.sh       # Claude Code 알림 훅
-└── extract-last-message.py  # JSONL 파서
-install.sh
-.env.example
-.gitignore
-```
-
-핵심 로직은 단순했습니다:
+하나는 세션 감지 버그. `tmux display-message -p '#S'`가 훅이 실행되는 세션이 아니라 **attach된 클라이언트의 세션 이름**을 반환합니다. 세션 A에서 돌던 훅이 세션 B의 스레드에 알림을 올리는 상황이 나옵니다. tmux가 모든 pane에 심어주는 `$TMUX_PANE` 환경변수를 써야 합니다. 2월 8일 오후에 고쳤습니다.
 
 ```bash
-# Claude Code의 Notification 훅이 실행되면:
-# 1. 5초 대기 (JSONL 파일에 응답이 쓰일 때까지)
-# 2. extract-last-message.py로 마지막 어시스턴트 메시지 추출
-# 3. Discord 스레드에 포스트
-(
-  sleep 5
-  message=$(python3 extract-last-message.py)
-  curl -X POST "discord.com/api/.../messages" -d "$message"
-) &
-disown
-exit 0  # 훅은 즉시 리턴 (Claude Code 타임아웃 방지)
+# attach된 클라이언트가 아니라, 훅이 실행 중인 pane의 세션을 잡는다
+TMUX_SESSION=$(tmux display-message -t "$TMUX_PANE" -p '#{session_name}')
 ```
 
-스레드 이름은 `[agent] <tmux 세션명>`. 세션마다 전용 스레드가 생기고, 에이전트의 응답이 거기에 올라옵니다.
+다른 하나는 입력 전달. `tmux send-keys`로 텍스트와 Enter를 한 번에 보내면 Claude Code가 Enter를 줄바꿈(Shift+Enter)으로 해석합니다. 텍스트를 먼저 보내고, 0.3초 쉬고, Enter를 따로 보내야 합니다. 이건 문서 어디에도 없어서 직접 부딪혀야 알 수 있었습니다.
 
-"Clawdia"라는 이름은 Claude의 별명이었습니다 — 아직 이 도구가 Claude 전용이라고 생각했거든요.
+이후 진도는 빨랐습니다. 2월 9일에 tmux 세션 생성/종료와 스레드 생성/아카이브를 연동했고, 같은 날 밤 Slack 지원을 넣으면서 훅과 플랫폼 사이에 디스패처(`post.sh`)를 끼워 넣었습니다. 에이전트별 훅은 플랫폼을 모르고, 디스패처가 설정된 토큰을 보고 Discord/Slack 어느 쪽이든(둘 다면 병렬로) 보냅니다. 단방향 알림이 양방향 릴레이가 되니 쓰임새가 완전히 달라졌습니다. 에이전트가 "어떤 방법으로 할까요?" 하고 멈춰 있을 때, 터미널로 돌아갈 필요 없이 스레드에 답장만 하면 됩니다.
 
-## 첫 번째 전환점: AI 봇 → 결정론적 브릿지
+2월 12일에는 Dockerfile과 Gitea CI까지 붙였습니다. 시작한 지 6일째에 이미 K8s 배포 파이프라인이 있었던 셈인데, 정작 안심하고 켜둘 수 있게 되기까지는 한 달이 더 걸립니다. 이 얘기는 뒤에서 합니다.
 
-원래 계획은 **Discord 봇이 AI로 메시지를 이해하고 전달**하는 것이었습니다. Clawdia 봇이 스레드의 메시지를 읽고, AI가 판단해서 tmux로 포워딩하는 구조.
+## 대시보드: 세 에이전트가 따로 기획하고, 500줄로 합치다
 
-하루 만에 포기했습니다.
-
-AI가 중간에 끼면 **100% 신뢰할 수 없습니다**. 어떤 때는 정확히 전달하고, 어떤 때는 챗봇처럼 자체 응답을 합니다. 메시지 릴레이에 확률적 요소가 있으면 안 됩니다.
-
-```python
-# agent-bridge.py — AI 없는 결정론적 브릿지
-# 규칙: [agent] 스레드의 메시지 → 해당 tmux 세션으로 전달. 끝.
-async def on_message(message):
-    if not message.thread.name.startswith("[agent] "):
-        return
-    session = message.thread.name.removeprefix("[agent] ")
-    host = find_host_with_session(session)
-    await ssh_send_keys(host, session, message.content)
-```
-
-이 결정이 프로젝트의 정체성을 바꿨습니다. **챗봇이 아니라 릴레이**. AI가 만든 도구지만, 동작 자체에 AI는 없습니다.
-
-같은 날 이름도 바꿨습니다. `claude-hooks` → `aily`. Claude 전용이 아니게 됐으니까요.
-
-## 양방향 통신
-
-단방향 알림만으로는 부족했습니다. 에이전트가 "어떤 방법을 사용할까요?" 같은 질문을 하면, 터미널로 돌아가지 않고 Discord/Slack에서 바로 답하고 싶었습니다.
-
-```mermaid
-flowchart LR
-    A["Agent\n(Claude/Codex/Gemini)"] --> B["Hook\n(post.sh)"]
-    B --> C["Discord 스레드"]
-    B --> D["Slack 스레드"]
-    C --> F["Bridge"]
-    D --> F
-    F -->|"SSH + tmux send-keys"| A
-```
-
-여기서 하나 재미있는 삽질이 있었습니다. `tmux send-keys`로 메시지를 보낼 때, 텍스트와 Enter를 한 번에 보내면 Claude Code가 Enter를 줄바꿈(Shift+Enter)으로 해석합니다.
-
-```bash
-# 이렇게 하면 안 됨 (Enter가 줄바꿈이 됨)
-tmux send-keys -t session "message" Enter
-
-# 두 단계로 나눠야 함
-tmux send-keys -t session "message"
-sleep 0.3
-tmux send-keys -t session Enter
-```
-
-이런 건 문서에도 없습니다. 삽질해야 알 수 있는 것들.
-
-## 멀티 플랫폼 디스패처
-
-Discord만 지원하다가 Slack도 추가하면서, 아키텍처를 다시 생각했습니다.
-
-```
-notify-claude.sh  ─┐
-notify-codex.py   ─┤──▶ post.sh (디스패처) ──┬──▶ discord-post.sh
-notify-gemini.sh  ─┘                         └──▶ slack-post.sh
-```
-
-`post.sh`는 설정된 토큰을 보고 플랫폼을 자동 감지합니다. Discord 토큰만 있으면 Discord로, 둘 다 있으면 병렬로 전송. 에이전트별 훅은 플랫폼을 몰라도 됩니다.
-
-tmux 세션 라이프사이클도 연동했습니다:
-
-| 이벤트 | 동작 |
-|--------|------|
-| tmux 세션 생성 | Discord/Slack에 스레드 자동 생성 |
-| 에이전트 작업 완료 | 스레드에 응답 포스트 |
-| 에이전트가 질문 | 스레드에 선택지 포스트 |
-| 사용자가 스레드에 답장 | tmux 세션으로 입력 전달 |
-| tmux 세션 종료 | 스레드 아카이브 |
-
-세션을 시작하면 스레드가 생기고, 세션을 죽이면 스레드가 아카이브됩니다. 수동 설정이 필요 없습니다.
-
-## 대시보드: 3개의 AI가 함께 설계
-
-> "웹에서도 세션 상태를 보고 싶다."
-
-대시보드 기획을 **Claude, Codex, Gemini 3개의 에이전트가 동시에** 진행했습니다:
-
-- **Claude** → 백엔드 아키텍처 설계 (700줄 아키텍처 문서)
-- **Gemini** → UX/UI 디자인 스펙 (1,564줄 UI 명세)
-- **Codex** → 기술 구현 명세 (2,259줄 코드 예시)
+메신저 알림만으로는 "지금 전체 세션이 어떤 상태인가"를 보기 어려워서 웹 대시보드를 붙이기로 했습니다. 기획은 Claude, Gemini, Codex 세 에이전트에게 같은 요구사항을 주고 각자 진행시켰습니다. 결과물은 Claude의 아키텍처 문서 1,704줄, Gemini의 UI 명세 1,564줄, Codex의 구현 명세 2,259줄. 이걸 그대로 쓰는 게 아니라 500줄짜리 merged 플랜으로 추려서 구현에 들어갔고, 2월 15일 하루에 백엔드부터 WebSocket 실시간 UI까지 올라갔습니다.
 
 ![aily 대시보드의 세션 개요 화면. 활성/대기/유휴 세션 수와 여러 tmux 세션 카드가 그리드로 표시되고, 왼쪽에는 세션 목록과 실시간 연결 상태가 보인다.](/images/posts/aily-ai-session-bridge/dashboard-sessions.png)
 
-세션 상세 화면에서는 메시지 히스토리를 보고, tmux 세션으로 직접 명령을 보낼 수 있습니다. Discord/Slack 연동 상태도 한눈에 확인됩니다.
+기술 스택은 의식적으로 눌렀습니다. PostgreSQL 대신 SQLite(사용자가 한 명이라 쓰기 경합이 없고, 백업은 파일 복사면 됩니다), FastAPI 대신 이미 브릿지에서 쓰던 aiohttp, React 대신 빌드 파이프라인이 필요 없는 Alpine.js. 세 에이전트가 뽑아준 기획서는 수천 줄이었지만, 1인용 도구에 과한 엔지니어링을 들이지 않는 게 이번 프로젝트의 원칙이었습니다.
 
 ![aily 대시보드의 세션 상세 화면. 왼쪽에 메시지 스트림과 입력창, 오른쪽에 세션 정보(호스트, 상태, 생성 시각, CWD)와 Discord/Slack 플랫폼 링크, 명령 전송 버튼이 배치돼 있다.](/images/posts/aily-ai-session-bridge/dashboard-session-detail.png)
 
-기술 스택은 의도적으로 가볍게 잡았습니다:
+같은 원칙으로 접은 게 하나 더 있습니다. 2월 16일에 Rust 재작성을 검토했는데, 분석해 보니 메시지 릴레이 한 건의 경로에서 SSH 왕복이 50~300ms, 플랫폼 API 호출이 100~500ms인 반면 Python CPU는 1ms 정도, 전체의 0.1%였습니다. Rust로 바꾸면 ~800ms가 ~795ms가 됩니다. 대신 같은 날 SSH ControlMaster 연결 재사용, 병렬 호스트 스캔, HTTP 세션 재사용을 넣었습니다. 체감 차이는 이쪽이 압니다.
 
-| 선택 | 이유 |
-|------|------|
-| SQLite (not PostgreSQL) | 1인용 도구. 동시 쓰기 경합 없음. 백업은 파일 복사 |
-| aiohttp (not FastAPI) | 이미 브릿지에서 사용 중. 의존성 추가 없음 |
-| Alpine.js (not React) | 빌드 파이프라인 없음. HTML 한 파일로 동작 |
+## 설정을 4번의 입력으로
 
-과도한 엔지니어링을 피하려고 의식적으로 노력했습니다. 이 도구의 사용자는 한 명(나)이고, 읽기 위주의 워크로드입니다.
+기능이 붙을수록 설정이 무거워졌습니다. `.env`에 손으로 채워야 하는 변수가 10개를 넘었고, 실제로 다른 기기에 설치해 보니 저조차 번거로웠습니다. 특히 필수도 아닌 대시보드 URL을 첫 단계부터 물어보는 게 최악이었죠.
 
-## CLI: 4번의 프롬프트로 끝나는 설정
+2월 25~26일에 `aily init` 흐름을 갈아엎었습니다. 플랫폼 선택 → 봇 토큰 → 채널 ID → "기본값 쓸래?"에 y — 이 4번의 입력이면 끝나고, SSH 호스트나 대시보드 같은 고급 설정은 n을 눌렀을 때만 나옵니다. 이때 설정 파일도 `~/.claude/hooks/.notify-env`에서 `~/.config/aily/env`로 옮겼습니다. Claude 전용 훅 시절의 잔재가 경로에 남아 있었는데, Codex·Gemini·OpenCode까지 지원하는 마당에 설정이 `.claude/` 안에 있는 건 이상하니까요. XDG 스펙을 따르고, 구 경로는 자동 마이그레이션합니다.
 
-초기 설정은 `.env` 파일을 수동으로 편집하는 방식이었습니다. 대시보드 URL, 인증 토큰, Discord 토큰, 채널 ID... 10개가 넘는 변수를 직접 입력해야 했습니다.
+이 작업 중에 발견한 소소한 UX 버그 하나. `read -rs`로 시크릿을 입력받으면 붙여넣기를 해도 화면에 아무것도 안 나와서, 붙여넣기가 된 건지 알 수가 없습니다. 입력 후 `****`를 찍어주도록 고쳤습니다. 커밋 한 줄짜리 수정인데 설치 경험 차이가 컸습니다.
 
-실제로 다른 기기에서 설치해보니 **너무 번거로웠습니다**. 특히 개인 사용자에게 대시보드는 필수가 아닌데, 첫 단계부터 대시보드 URL을 물어봤습니다.
+## 배포 전날 밤: 19개 수정
 
-설정 흐름을 완전히 재설계했습니다:
+3월에 들어서면서 집을 비워도 24시간 돌아가도록 K8s에 올리는 작업을 했습니다. Docker 이미지 하나를 `BRIDGE_MODE` 환경변수로 discord 브릿지/slack 브릿지/대시보드 모드로 나눠 띄우는 구조인데, 컨테이너 환경은 어김없이 새 삽질을 안겨줬습니다. 3월 12일 자정 넘어서 한 커밋 두 개가 그 기록입니다. 로컬에서는 보안상 `127.0.0.1`에 바인딩하던 대시보드가 컨테이너 안에서는 liveness probe를 통과 못 해서 `0.0.0.0` 바인딩으로 고쳤고, 읽기 전용으로 마운트된 `~/.ssh` 때문에 SSH control socket을 `/tmp`로 옮겼고, 환경변수명 불일치로 인증 토큰을 못 읽던 것도 잡았습니다.
 
-```
-$ aily init
+그리고 같은 날 저녁, 배포 전 마지막으로 전체 코드베이스 보안 점검을 돌렸습니다. 결과는 솔직히 뜨끔했습니다 — CRITICAL 4개, HIGH 8개, MEDIUM 7개, 총 19개.
 
-=== aily setup wizard ===
+제일 심각한 건 대시보드의 XSS였습니다. 에이전트 메시지를 marked.js로 HTML 변환해서 `x-html`로 DOM에 그대로 꽂고 있었는데, AI 세션 트랜스크립트에 스크립트가 섞여 들어오면 그대로 실행됩니다. 더 나쁜 건 인증 토큰이 `<meta>` 태그에 노출되어 있어서 XSS 하나로 토큰 탈취까지 이어질 수 있었다는 점입니다. DOMPurify로 sanitize를 걸고, 토큰은 60초짜리 일회용 nonce로 바꿨습니다. 그 외에도 대시보드의 command queue가 SSH 호스트에서 아무 명령이나 실행할 수 있던 걸 tmux 명령만 허용하도록 막고, Discord `!new` 명령의 작업 디렉토리 파라미터로 쉘 메타문자가 주입되는 구멍을 막고, 로그인 rate limiting과 CSP 헤더, `StrictHostKeyChecking=yes` 같은 것들을 채워 넣었습니다. 18개 파일, 203줄짜리 커밋입니다.
 
-  1) Notification platform
-     > discord / slack / both
+배운 것: "나만 쓰는 도구니까 괜찮겠지"는 SSH와 웹이 연결된 시스템에서는 통하지 않습니다. 대시보드 한 곳이 뚫리면 SSH가 닿는 모든 머신이 같이 뚫립니다.
 
-  Discord bot token: ****
-  Discord channel ID: 12345...
-  ✓ Discord: ai-notifications
+## AI로 AI 도구 만들기
 
-  Defaults: SSH=localhost, cleanup=archive, no dashboard
-  Use defaults? [Y/n]: y
+aily는 AI 에이전트 세션을 관리하는 도구를 AI 에이전트 세션으로 만든, 다소 메타적인 프로젝트입니다. 33일간 커밋 143개가 쌓였고, 거의 전부 에이전트와의 페어 작업이었습니다. 대시보드 기획을 세 에이전트가 병렬로 한 것처럼 리뷰도 여럿에게 시켰는데, 3월 9일 밤 커밋 로그에는 "address gemini review", "address claude review", "address codex review"가 10분 간격으로 찍혀 있습니다. 서로 다른 모델이 서로 다른 걸 잡아주는 게 실제로 도움이 됐습니다.
 
-  ✓ Saved to ~/.config/aily/env
-  ✓ Hooks installed
-
-=== Setup complete ===
-```
-
-**4번의 입력으로 끝납니다.** 플랫폼 선택 → 토큰 → 채널 ID → "기본값 쓸래?" → 완료.
-
-대시보드, SSH 호스트, 에이전트 자동 실행 같은 고급 설정은 "기본값 쓸래?"에서 `n`을 눌렀을 때만 나옵니다. localhost 대시보드를 선택하면 인증 토큰도 자동으로 생성합니다.
-
-## 설정 경로 마이그레이션
-
-처음에 설정 파일이 `~/.claude/hooks/.notify-env`에 있었습니다. Claude Code 훅 디렉토리 안에요. 이건 aily가 Claude Code 전용 훅이던 시절의 잔재였습니다.
-
-이제 Claude, Codex, Gemini, OpenCode를 모두 지원하는데, 설정이 `.claude/` 안에 있는 건 맞지 않습니다.
-
-[XDG Base Directory 스펙](https://specifications.freedesktop.org/basedir-spec/latest/)을 따라 `~/.config/aily/env`로 이전했습니다. 모든 훅, 브릿지, CLI가 새 경로를 먼저 확인하고, 없으면 이전 경로로 폴백합니다. `aily init`을 다시 실행하면 자동으로 마이그레이션됩니다.
-
-## 실사용에서 발견한 것들
-
-직접 쓰면서 발견한 문제들이 가장 중요한 개선으로 이어졌습니다:
-
-### tmux 세션 감지 버그
-
-`tmux display-message -p '#S'`가 **훅이 실행되는 세션이 아니라 attach된 클라이언트의 세션 이름을 반환**했습니다. 세션 A에서 실행된 훅이 세션 B의 이름을 리포트하는 상황.
-
-```bash
-# 잘못된 방법 (attach된 클라이언트의 세션)
-TMUX_SESSION=$(tmux display-message -p '#S')
-
-# 올바른 방법 (현재 pane의 세션)
-TMUX_SESSION=$(tmux display-message -t "${TMUX_PANE}" -p '#{session_name}')
-```
-
-`$TMUX_PANE` 환경변수를 사용해야 합니다. 이건 tmux가 모든 pane에 설정하는 변수인데, 대부분의 tmux 관련 글에서 언급하지 않습니다.
-
-### 토큰 붙여넣기가 안 보이는 문제
-
-`read -rsp`로 시크릿을 입력받으면 `-s` 플래그 때문에 **붙여넣기를 해도 아무것도 표시되지 않습니다**. 사용자는 붙여넣기가 된 건지 안 된 건지 알 수 없습니다.
-
-입력 후 `****`를 표시하도록 수정했습니다. 작은 변경이지만 UX 차이가 큽니다.
-
-### Rust 재작성은 불필요
-
-성능 개선을 위해 Rust로 재작성하는 것을 검토했습니다. 프로파일링 결과:
-
-- SSH 네트워크 I/O: **79%**
-- 플랫폼 API 호출: **21%**
-- CPU (파싱, 로직): **0.1%**
-
-Rust로 바꿔봤자 0.1%가 빨라질 뿐입니다. 대신 SSH ControlMaster 연결 재사용, 병렬 호스트 스캔, HTTP 세션 재사용으로 체감 성능을 크게 개선했습니다.
-
-## AI로 AI 도구를 만든다는 것
-
-aily 자체가 메타적인 프로젝트입니다. **AI 에이전트 세션을 관리하는 도구를, AI 에이전트 세션으로 만들었습니다.**
-
-22일 동안의 개발 과정:
-
-- **8개의 Claude Code 세션** (가장 긴 세션은 5일간 연속 대화)
-- **132개의 커밋**
-- **멀티 에이전트 기획**: Claude, Gemini, Codex가 동시에 설계 문서 작성
-- **백그라운드 구현**: git worktree에서 각각의 에이전트가 병렬로 코드 작성
-- **리뷰 루프**: Gemini code assist로 5라운드 보안/동시성 리뷰
-
-아이러니하게도, aily를 개발하는 동안 aily가 가장 필요했습니다. "Claude가 끝났나?" 확인하려고 터미널을 왔다갔다 하면서, 바로 그 문제를 해결하는 도구를 만들고 있었거든요.
-
-## 현재 구조
-
-297줄에서 시작한 프로젝트의 현재 모습:
-
-```
-aily/
-├── hooks/              # 에이전트별 알림 훅 (bash/python)
-│   ├── post.sh         # 멀티 플랫폼 디스패처
-│   ├── notify-claude.sh
-│   ├── notify-codex.py
-│   └── notify-gemini.sh
-├── agent-bridge.py     # Discord ↔ tmux 양방향 브릿지
-├── slack-bridge.py     # Slack ↔ tmux 양방향 브릿지
-├── dashboard/          # 웹 대시보드 (aiohttp + Alpine.js)
-├── aily                # CLI (setup, status, doctor, sessions)
-├── Dockerfile          # 멀티 모드 컨테이너
-└── install.sh          # 원클릭 설치
-```
-
-| 기능 | 설명 |
-|------|------|
-| 에이전트 알림 | Claude, Codex, Gemini, OpenCode 작업 완료 시 알림 |
-| 양방향 채팅 | Discord/Slack 스레드에서 답장 → 에이전트에 입력 전달 |
-| 세션 라이프사이클 | tmux 세션 생성/종료 시 스레드 자동 관리 |
-| 멀티 호스트 | SSH로 여러 대의 개발 머신 관리 |
-| 대시보드 | 실시간 세션 모니터링, 메시지 히스토리 |
-| 사용량 모니터링 | API 사용량 추적, 리밋 리셋 시 자동 실행 |
-
-## 프로덕션에 올리기: K8s + GitOps
-
-로컬에서 돌리는 건 잘 됐지만, 집을 비워도 24시간 돌아가게 하고 싶었습니다. K8s 클러스터에 올리기로 했습니다.
-
-```mermaid
-flowchart LR
-    A["GitHub"] -->|mirror 8h| B["Gitea"]
-    B -->|push event| C["Gitea Actions CI"]
-    C -->|build & push| D["Container Registry"]
-    C -->|update image tag| E["IaC repo (release branch)"]
-    E -->|watch| F["ArgoCD"]
-    F -->|deploy| G["K8s Pod"]
-```
-
-Docker 이미지 하나에 `BRIDGE_MODE` 환경변수로 모드를 선택합니다:
-
-```yaml
-# discord 브릿지 모드
-- name: BRIDGE_MODE
-  value: "discord"
-
-# 또는 대시보드 모드
-- name: BRIDGE_MODE
-  value: "dashboard"
-```
-
-컨테이너에서 돌리면서 몇 가지 삽질이 있었습니다:
-
-| 문제 | 원인 | 해결 |
-|------|------|------|
-| liveness probe 실패 | 기본 바인딩이 `127.0.0.1` | `0.0.0.0`으로 변경 |
-| SSH 실패 | `~/.ssh/` 읽기 전용 | control socket을 `/tmp`로 이동 |
-| 인증 토큰 누락 | 환경변수명 불일치 | config 파일에서도 `DASHBOARD_TOKEN` 읽도록 수정 |
-
-## 보안 하드닝: 배포 전 19개 취약점 수정
-
-프로덕션에 올리기 전, 전체 코드베이스를 보안 관점에서 점검했습니다. 결과는 솔직히 놀라웠습니다 — CRITICAL 3개, HIGH 9개를 포함해 총 19개의 이슈가 나왔습니다.
-
-### CRITICAL: 즉시 수정
-
-**1. XSS via 마크다운 렌더링**
-
-대시보드에서 에이전트 메시지를 `marked.js`로 HTML 변환 후 `x-html`로 DOM에 직접 삽입하고 있었습니다. AI 세션 트랜스크립트에 악성 스크립트가 포함되면 대시보드 사용자 브라우저에서 실행됩니다.
-
-더 심각한 건, 인증 토큰이 `<meta>` 태그에 그대로 노출되어 있어서 XSS → 토큰 탈취 → 전체 API 접근이 가능했습니다.
-
-```javascript
-// Before: 직접 HTML 삽입
-x-html="renderMarkdown(item.msg.content)"
-
-// After: DOMPurify로 sanitize
-x-html="DOMPurify.sanitize(renderMarkdown(item.msg.content))"
-```
-
-토큰은 60초짜리 일회용 nonce로 교체했습니다.
-
-**2. 임의 명령 실행**
-
-대시보드의 command queue 엔드포인트가 SSH 호스트에서 **아무 명령이나** 실행할 수 있었습니다. `tmux` 명령어만 허용하는 화이트리스트를 적용했습니다.
-
-**3. 경로 주입**
-
-Discord에서 `!new` 명령으로 세션을 만들 때, `working_dir` 파라미터에 쉘 메타문자를 넣으면 명령 주입이 가능했습니다. 경로 문자를 정규식으로 검증하도록 수정했습니다.
-
-### HIGH: 놓치기 쉬운 것들
-
-| 이슈 | 수정 |
-|------|------|
-| 대시보드가 `0.0.0.0`에 바인딩 | 기본값 `127.0.0.1`로 변경 |
-| 자동생성 토큰이 로그에 전문 노출 | 앞 8자만 표시 |
-| 로그인 brute force 가능 | IP당 5회/분 rate limiting |
-| CSP 헤더 없음 | 미들웨어로 추가 |
-| CDN 스크립트 무결성 검증 없음 | SRI 해시 추가 |
-| 사용자 메시지가 로그에 기록 | 길이만 표시 |
-| X-Forwarded 헤더 무조건 신뢰 | `TRUST_PROXY` 설정 시에만 |
-| SSH 첫 연결 시 호스트키 자동 수락 | `StrictHostKeyChecking=yes` |
-
-### MEDIUM: 방어 깊이
-
-- `source`로 config 실행 → 안전한 key=value 파서로 교체
-- `eval` 사용 → `printf -v`로 교체
-- FTS5 쿼리 sanitization 강화
-- 오픈 리다이렉트 검증 강화 (`urlparse` 사용)
-- Shell hook의 JSON 직접 보간 → `python3 json.dumps`
-
-### 이미 잘 되어 있던 것들
-
-점검하면서 발견한 건, 이미 상당한 보안 기반이 있었다는 점입니다:
-
-- `shlex.quote()` 일관 사용
-- 파라미터화된 SQL + 테이블 화이트리스트
-- `hmac.compare_digest()` 타이밍 안전 비교
-- 비밀 정보 자동 마스킹 (`_redact_secrets()`)
-- Dockerfile 비루트 사용자 (uid 1000)
-
-**교훈**: "나만 쓰니까 괜찮겠지"는 위험합니다. 특히 SSH와 웹소켓이 연결된 시스템에서는 한 지점이 뚫리면 연쇄적으로 무너집니다.
-
-## AI로 AI 도구를 만든다는 것
-
-aily 자체가 메타적인 프로젝트입니다. **AI 에이전트 세션을 관리하는 도구를, AI 에이전트 세션으로 만들었습니다.**
-
-33일 동안의 개발 과정:
-
-- **133개의 커밋**, 18개 파일 수정 (보안 하드닝만)
-- **멀티 에이전트 기획**: Claude, Gemini, Codex가 동시에 설계 문서 작성
-- **백그라운드 구현**: git worktree에서 각각의 에이전트가 병렬로 코드 작성
-- **보안 리뷰**: 병렬 에이전트가 CRITICAL 3개, HIGH 9개, MEDIUM 7개 발견 및 수정
-
-아이러니하게도, aily를 개발하는 동안 aily가 가장 필요했습니다. "Claude가 끝났나?" 확인하려고 터미널을 왔다갔다 하면서, 바로 그 문제를 해결하는 도구를 만들고 있었거든요.
-
-## 현재 구조
-
-297줄에서 시작한 프로젝트의 현재 모습:
-
-```
-aily/
-├── hooks/              # 에이전트별 알림 훅 (bash/python)
-│   ├── post.sh         # 멀티 플랫폼 디스패처
-│   ├── notify-claude.sh
-│   ├── notify-codex.py
-│   └── notify-gemini.sh
-├── agent-bridge.py     # Discord ↔ tmux 양방향 브릿지
-├── slack-bridge.py     # Slack ↔ tmux 양방향 브릿지
-├── dashboard/          # 웹 대시보드 (aiohttp + Alpine.js)
-├── aily                # CLI (setup, status, doctor, sessions)
-├── Dockerfile          # 멀티 모드 컨테이너
-└── install.sh          # 원클릭 설치
-```
-
-| 기능 | 설명 |
-|------|------|
-| 에이전트 알림 | Claude, Codex, Gemini, OpenCode 작업 완료 시 알림 |
-| 양방향 채팅 | Discord/Slack 스레드에서 답장 → 에이전트에 입력 전달 |
-| 세션 라이프사이클 | tmux 세션 생성/종료 시 스레드 자동 관리 |
-| 멀티 호스트 | SSH로 여러 대의 개발 머신 관리 |
-| 대시보드 | 실시간 세션 모니터링, 메시지 히스토리, 전문 검색 |
-| 사용량 모니터링 | API 사용량 추적, 리밋 리셋 시 자동 실행 |
-| 보안 | DOMPurify, CSP, rate limiting, nonce 인증, 입력 검증 |
-| K8s 배포 | Docker + ArgoCD GitOps 파이프라인 |
-
-## 설치
+아이러니한 건, aily를 만드는 동안 aily가 가장 필요했다는 겁니다. "Claude 끝났나?" 확인하러 터미널을 왔다갔다 하면서, 바로 그 문제를 해결하는 도구를 만들고 있었으니까요. 중반부터는 실제로 aily가 aily 개발 알림을 보내줬습니다. 도그푸딩이 저절로 되는 구조라, `****` 붙여넣기 피드백이나 알림 중복 제거 같은 개선은 전부 제가 직접 걸려 넘어져서 나온 것들입니다.
 
 ```bash
 git clone https://github.com/jiunbae/aily.git
 cd aily && ./aily init
 ```
 
-4번의 입력이면 됩니다. 소스는 [GitHub](https://github.com/jiunbae/aily)에서 확인할 수 있습니다.
-
----
-
-**TL;DR**: 금요일 밤 "에이전트 끝나면 알림 좀 받자"로 시작한 프로젝트가, 33일 뒤에는 터미널에서 시작한 에이전트 작업을 Discord/Slack에서 끊김 없이 이어가는 프로덕션 시스템이 됐습니다. tmux에 직접 릴레이하기 때문에 에이전트 종류에 상관없이 동작하고, 19개 보안 이슈를 수정한 뒤 K8s에 배포했습니다.
+4번의 입력이면 됩니다. 소스는 [GitHub](https://github.com/jiunbae/aily)에 있습니다.

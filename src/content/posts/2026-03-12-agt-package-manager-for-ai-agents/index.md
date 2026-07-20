@@ -1,6 +1,6 @@
 ---
 title: "agt: AI 코딩 에이전트를 위한 패키지 매니저"
-description: "Claude Code, Codex, Gemini CLI 등 AI 코딩 에이전트의 스킬, 페르소나, 훅을 통합 관리하는 CLI 도구 agt를 만든 이야기입니다."
+description: "마크다운 스킬 모음이던 agent-skills가 셸 스크립트 3개를 거쳐 Rust CLI가 되기까지. 석 달 반, 커밋 167개 동안 겪은 파편화·훅 삽질·비밀번호 커밋 사건의 기록입니다."
 date: 2026-03-12
 permalink: /agt-package-manager-for-ai-agents
 tags: [AI, CLI, Claude, Codex, Gemini, OpenSource, Rust, DevTools]
@@ -11,258 +11,42 @@ published: true
 
 ![agt 배너 — AI 코딩 에이전트를 위한 스킬, 페르소나, 훅을 관리하는 모듈형 툴킷](/images/posts/agt-package-manager-for-ai-agents/banner.png)
 
-## 들어가며
+처음부터 패키지 매니저를 만들 생각은 없었습니다. 2025년 11월 23일의 첫 커밋은 `agent-skills`라는 이름의, 마크다운 파일 몇 개와 설치 가이드가 전부인 레포였습니다. Claude Code를 쓰다 보니 "이렇게 해줘"라는 지침이 자꾸 쌓였고, 프로젝트마다 복사해 붙이는 게 지겨워서 한군데 모아둔 것뿐이었죠.
 
-AI 코딩 에이전트를 쓰다 보면 자연스럽게 커스텀 지침이 쌓입니다. Claude Code에는 `.claude/skills/`, Codex에는 `AGENTS.md`, Gemini CLI에는 `GEMINI.md`. 각 에이전트마다 "이렇게 해줘"라는 지침을 따로 관리해야 합니다.
+문제는 에이전트가 하나가 아니라는 겁니다. Claude Code는 `.claude/skills/`, Codex는 `AGENTS.md`, Gemini CLI는 `GEMINI.md`. 같은 내용을 세 가지 방식으로 관리해야 하고, 저는 데스크탑과 랩탑을 오가며 일합니다. 파일이 다섯 개일 때는 손으로 복사해도 됐는데, 12월 한 달 동안 커밋이 40개 넘게 쌓이면서 상황이 달라졌습니다. 스킬을 하나 고치면 어느 머신의 어느 에이전트에 반영됐는지 저도 모르게 된 거죠. 설정 동기화 문제는 결국 패키지 매니저 문제입니다. npm이 풀던 것과 같은 문제요.
 
-스킬이 5개일 때는 괜찮았습니다. 10개가 되니 좀 번거로워졌고, 33개가 되니 수동 관리가 불가능해졌습니다. 여기에 리뷰어 페르소나 7개, 이벤트 훅 11개, 팀 워크플로우 5개까지 더하면 — 이건 패키지 매니저가 필요한 규모입니다.
+## install.sh의 시대
 
-그래서 [agt](https://github.com/open330/agt)를 만들었습니다.
+처음 몇 달은 셸 스크립트로 버텼습니다. `install.sh`가 스킬을 `~/.claude/skills/`로 복사해 주고, 12월 15일에는 Codex CLI 지원도 붙였습니다. 12월 11일에는 `claude-skill`이라는 CLI를 얹었는데, 프롬프트를 주면 Claude가 맞는 스킬을 골라 실행해 주는 물건이었습니다. 만든 그날 저녁에만 옵션 커밋이 다섯 개 쌓였습니다. 시스템 프롬프트 크기 제한에 걸려서 고치고, 스트리밍 출력이 안 나와서 고치고, `--result-only` 옵션을 붙이고. 셸 스크립트에 기능을 하나씩 덧대는 전형적인 경로였죠.
 
-`agt --help`를 실행하면 전체 명령 구조가 한눈에 들어옵니다:
+1월 29일에는 훅을 넣었습니다. 첫 훅은 english-coach — 제 프롬프트를 자연스러운 영어로 다듬어 주는 `UserPromptSubmit` 훅이었습니다. 이게 얼마나 삽질이었는지는 커밋 로그가 말해줍니다. 15:56에 추가하고, 17:16 프롬프트 길이 제한 가드, 17:19 콘텐츠 타입 감지, 18:18 멀쩡한 프롬프트를 차단하던 버그 수정, 18:36 JSON stdin 파싱 수정. 훅 하나 넣고 저녁 내내 고쳤습니다. 훅은 스킬과 달리 매 이벤트마다 무조건 실행되니까, 한 번 잘못 만들면 모든 프롬프트가 막힙니다. 이날 배웠습니다.
+
+바로 다음 날인 1월 30일에는 부끄러운 커밋이 하나 있습니다. `security: remove exposed password from playwright scripts`. 스킬에 딸린 스크립트에 비밀번호가 하드코딩된 채 커밋돼 있던 걸 발견해서, 히스토리를 정리하고 그 김에 security-auditor 스킬이 비밀번호와 사용자 경로를 감지하도록 강화했습니다. 보안 감사 스킬을 만들어 놓고 정작 그 스킬이 사는 레포에서 비밀번호가 새고 있었던 겁니다.
+
+2월 초에는 늘리는 대신 줄였습니다. 2월 1일에 당시 37개였던 스킬 전부를 Anthropic 공식 스킬 가이드라인에 맞춰 다시 썼고, 2월 7일에는 그중 6개를 그냥 지웠습니다. 겹치거나, 만들어 놓고 한 번도 안 쓴 것들이었습니다. 스킬은 쌓이는 게 아니라 관리되는 순간부터 자산이 됩니다.
+
+## Rust CLI가 된 날
+
+2월 18일 밤, 페르소나 리뷰용 CLI(`agent-persona`)를 추가했습니다. 이 시점에서 셸 스크립트가 세 벌이 됐습니다. `agent-skill`(설치), `agent-persona`(리뷰), `claude-skill`(실행). 각자 옵션 파싱이 다르고, 에러 처리가 다르고, Windows에서는 셋 다 애매했습니다.
+
+2월 19일 오후에 이걸 전부 하나로 합쳤습니다. 13:27에 Rust CLI 바이너리 커밋, 13:32에 npm 패키징, 13:49에 날짜 기반 버저닝 도입, 14:01에 `jiunbae/agent-skills` → `open330/agt` 리브랜드. CLI 첫 커밋부터 리브랜드까지 34분입니다. 물론 코드는 AI 에이전트가 대부분 썼고, 저는 셸 스크립트 세 벌의 동작을 그대로 옮기는지 지켜보는 쪽이었습니다.
+
+Rust를 고른 이유는 단순합니다. 스킬 관리 도구는 모든 프로젝트, 모든 머신에서 돌아야 하는데, Node나 Python 런타임을 전제할 수 없습니다. 단일 바이너리면 그 문제가 사라집니다. npm으로도 설치되는데(`npm install -g @open330/agt`), 이건 플랫폼별 pre-built 바이너리를 optional dependency로 내려받는 방식이라 결국 실행되는 건 같은 바이너리입니다. 버전을 semver 대신 날짜(`2026.2.19`)로 바꾼 것도 같은 맥락입니다. 스킬 모음에 "하위 호환을 깨는 변경"같은 개념을 유지하는 게 부자연스러워서, 그냥 언제 빌드인지만 남기기로 했습니다.
 
 ```console
 $ agt --help
 agt — A modular toolkit for extending AI coding agents
 
-Usage: agt <COMMAND>
-
 Commands:
   skill        Manage agent skills
   hook         Manage Claude Code hooks (command, http, prompt, agent)
   team         Manage agent teams (spawn coordinated multi-agent workflows)
-  persona      Manage agent personas (markdown files that define expert identities for any AI agent)
+  persona      Manage agent personas
   run          Run prompt with skill matching
   completions  Generate shell completion scripts
-  version      Show version
-  help         Print this message or the help of the given subcommand(s)
-
-Options:
-  -h, --help     Print help
-  -V, --version  Print version
 ```
 
-`skill`, `hook`, `team`, `persona` — 이 네 개가 agt가 관리하는 확장 단위입니다.
-
-## npm이 패키지를 관리하듯, agt는 에이전트를 관리한다
-
-agt의 핵심 아이디어는 간단합니다: **AI 에이전트의 확장 기능도 패키지처럼 관리할 수 있어야 한다.**
-
-```bash
-# npm install처럼, 스킬을 설치한다
-agt skill install --profile core
-
-# 리모트 레포에서도 설치 가능
-agt skill install -g --from open330/agt
-
-# 설치된 스킬 확인
-agt skill list --installed
-```
-
-npm이 `node_modules/`에 패키지를 설치하듯, agt는 `~/.claude/skills/`에 스킬을 설치합니다. 프로필(profile)은 `package.json`의 `dependencies` 같은 역할이고, 그룹(group)은 스코프(`@org/package`)에 해당하죠.
-
-## 왜 마크다운인가
-
-agt의 모든 스킬과 페르소나는 **순수 마크다운**입니다. 바이너리도 없고, 런타임 의존성도 없습니다.
-
-```
-security/security-auditor/
-└── SKILL.md
-```
-
-```yaml
-# SKILL.md 프론트매터
----
-name: security-auditor
-description: "Repository security audit. Use for '보안 점검', 'security audit' requests."
-trigger-keywords: 보안 점검, security audit, 민감 정보 검사
-allowed-tools: Read, Write, Edit, Bash, Grep, Glob
-priority: high
-tags: [security, audit]
----
-```
-
-이 설계에는 이유가 있습니다:
-
-1. **에이전트 독립적**: 마크다운이니 Claude Code든 Codex든 Gemini든 읽을 수 있습니다
-2. **버전 관리 가능**: Git으로 히스토리가 추적됩니다
-3. **사람이 읽을 수 있음**: SKILL.md를 열면 스킬이 뭘 하는지 바로 이해됩니다
-4. **디버깅 가능**: 스킬이 이상하게 동작하면 마크다운을 직접 수정하면 됩니다
-
-## 33개 스킬의 생태계
-
-현재 agt에는 8개 카테고리에 33개 스킬이 있습니다:
-
-| 카테고리 | 스킬 수 | 예시 |
-|----------|---------|------|
-| agents | 3 | background-implementer, background-planner, background-reviewer |
-| development | 7 | git-commit-pr, playwright, pr-review-loop, task-master |
-| business | 3 | bm-analyzer, document-processor, proposal-analyzer |
-| integrations | 10 | kubernetes-skill, slack-skill, discord-skill, notion-summary |
-| ml | 4 | audio-processor, ml-benchmark, model-sync, triton-deploy |
-| security | 1 | security-auditor |
-| context | 2 | context-manager, static-index |
-| meta | 3 | karpathy-guide, skill-manager, skill-recommender |
-
-모든 스킬을 설치할 필요는 없습니다. 프로필로 필요한 것만 골라서 설치합니다:
-
-```bash
-agt skill install --profile core    # 필수 7개만
-agt skill install --profile dev     # 개발 도구 전체
-agt skill install --profile full    # 코어 + 개발 + 에이전트
-```
-
-`core` 프로필에는 다음 7개가 포함됩니다:
-
-- `git-commit-pr` — 보안 검증 포함 커밋/PR 가이드
-- `context-manager` — 프로젝트 컨텍스트 자동 로더
-- `static-index` — 글로벌 정적 컨텍스트 인덱스
-- `security-auditor` — 레포지토리 보안 감사
-- `background-implementer` — 멀티 LLM 병렬 구현
-- `background-planner` — 멀티 LLM 병렬 기획
-- `background-reviewer` — 멀티 LLM 병렬 코드 리뷰
-
-## 페르소나: AI에게 전문가의 눈을 빌려주다
-
-스킬이 "무엇을 할 것인가"라면, 페르소나는 "어떤 관점에서 볼 것인가"입니다.
-
-```bash
-# 보안 전문가 관점으로 코드 리뷰
-agt persona review security-reviewer
-
-# Codex로 아키텍처 리뷰
-agt persona review architecture-reviewer --codex
-
-# 스테이징된 변경사항만 리뷰
-agt persona review code-quality-reviewer --staged
-```
-
-현재 7명의 전문 리뷰어 페르소나가 있습니다:
-
-| 페르소나 | 역할 | 관점 |
-|----------|------|------|
-| security-reviewer | Senior AppSec Engineer | OWASP, 인증, 인젝션 |
-| architecture-reviewer | Principal Architect | SOLID, API 설계, 결합도 |
-| code-quality-reviewer | Staff Engineer | 가독성, 복잡도, DRY |
-| performance-reviewer | Performance Engineer | 메모리, CPU, I/O |
-| database-reviewer | Senior DBA | 쿼리 최적화, 스키마 |
-| frontend-reviewer | Senior Frontend Engineer | React, 접근성 |
-| devops-reviewer | Senior DevOps/SRE | K8s, IaC, CI/CD |
-
-가장 강력한 기능은 **병렬 멀티 페르소나 리뷰**입니다:
-
-```bash
-# 3명의 전문가가 동시에, 각각 다른 LLM으로 리뷰
-agt persona review security-reviewer --gemini \
-  -o ".context/reviews/R01-security.md" &
-agt persona review architecture-reviewer --codex \
-  -o ".context/reviews/R01-architecture.md" &
-agt persona review code-quality-reviewer --claude \
-  -o ".context/reviews/R01-quality.md" &
-wait
-```
-
-3명의 전문가가 3개의 다른 AI 모델로 동시에 리뷰합니다. 결과는 `.context/reviews/`에 라운드 넘버링으로 저장되어, 이전 리뷰와 비교할 수 있습니다.
-
-## 훅: 이벤트 기반 자동화
-
-agt는 Claude Code의 훅 시스템과 깊이 통합되어 있습니다.
-
-```json
-{
-  "hooks": [
-    {
-      "name": "english-coach",
-      "event": "UserPromptSubmit",
-      "type": "command",
-      "description": "프롬프트를 자연스러운 영어로 재작성"
-    },
-    {
-      "name": "security-gate",
-      "event": "PreToolUse",
-      "type": "prompt",
-      "description": "셸 명령 실행 전 보안 검사"
-    },
-    {
-      "name": "commit-guard",
-      "event": "PreToolUse",
-      "type": "command",
-      "description": "민감 파일(.env, 키) 커밋 방지"
-    }
-  ]
-}
-```
-
-11개의 훅이 세션의 전체 라이프사이클을 커버합니다:
-
-- **프롬프트 제출 시**: 영어 코칭, 프롬프트 로깅
-- **도구 실행 전**: 보안 게이트, 커밋 가드
-- **도구 실행 후**: 린터 실행, 도구 분석
-- **세션 시작 시**: 프로젝트 컨텍스트 자동 로드
-- **팀 활동 시**: 활동 로그, 완료 검증
-
-## 팀: 사전 정의된 협업 워크플로우
-
-혼자 개발하더라도, AI 에이전트들이 팀처럼 협업할 수 있습니다.
-
-```yaml
-# teams/code-review.yml
-name: code-review
-description: "Multi-perspective code review"
-tasks:
-  - name: security-reviewer
-    persona: security-reviewer
-    description: "Review for security vulnerabilities"
-  - name: architecture-reviewer
-    persona: architecture-reviewer
-    description: "Review structure and design patterns"
-  - name: quality-reviewer
-    description: "Review code quality and test coverage"
-  - name: synthesize
-    depends_on: [security-reviewer, architecture-reviewer, quality-reviewer]
-    description: "Merge findings into unified report"
-```
-
-5개의 사전 정의된 팀이 있습니다:
-
-- **code-review**: 3명의 리뷰어가 동시 리뷰 → 통합 보고서
-- **feature-dev**: 아키텍트 → 구현자 + 테스터 + 문서화 병렬 실행
-- **debug**: 로그 분석, 코드 추적, 재현 테스트를 병렬로
-- **refactor**: 기획 → 마이그레이션 → 검증 순차 실행
-- **research**: 기술/시장/반론 조사를 병렬로 → 종합
-
-## Rust로 만든 CLI
-
-agt CLI는 Rust로 작성되었습니다. 이유는 심플합니다:
-
-1. **빠름**: 스킬 목록 출력이 수 밀리초
-2. **단일 바이너리**: Node.js나 Python 런타임 불필요
-3. **크로스 플랫폼**: macOS (arm64, x64), Linux (x64, arm64) 지원
-
-```toml
-# Cargo.toml
-[profile.release]
-opt-level = "z"       # 크기 최적화
-lto = true            # 링크 타임 최적화
-strip = true          # 심볼 제거
-codegen-units = 1     # 최적화 극대화
-```
-
-npm을 통해서도 설치할 수 있습니다. 플랫폼별 optional dependency로 pre-built 바이너리를 제공해요:
-
-```bash
-npm install -g @open330/agt
-# 또는 설치 없이
-npx @open330/agt skill list
-```
-
-## agent-skills에서 agt로
-
-원래 이 프로젝트는 `jiunbae/agent-skills`라는 이름이었습니다. 개인 레포에서 시작해서 스킬 파일만 모아두는 컬렉션이었죠.
-
-그런데 쓰다 보니 설치, 업데이트, 프로필 관리 같은 기능이 필요해졌습니다. 결국 CLI 도구가 되었고, Open330 오거니제이션으로 이전하면서 `agt`라는 이름을 갖게 됐습니다.
-
-![agt 로고](/images/posts/agt-package-manager-for-ai-agents/logo.png)
+이름이 바뀌면서 커맨드도 정리됐습니다.
 
 | Before | After |
 |--------|-------|
@@ -270,17 +54,56 @@ npx @open330/agt skill list
 | `~/.agent-skills/` | `~/.agt/` |
 | `agent-skill install <skill>` | `agt skill install <skill>` |
 | `agent-persona review <p>` | `agt persona review <p>` |
-| 설치 스크립트만 존재 | Rust CLI + npm 배포 |
+| `claude-skill "prompt"` | `agt run "prompt"` |
 
-바뀌지 않은 것도 있습니다: `~/.agents/` 정적 컨텍스트 경로, `~/.claude/skills/` 설치 대상, SKILL.md 포맷. 기존 사용자는 마이그레이션 가이드(`MIGRATION.md`)를 따라 이름만 바꾸면 됩니다.
+`~/.claude/skills/` 설치 대상과 SKILL.md 포맷은 그대로 둬서, 기존 사용자는 이름만 바꾸면 됩니다.
 
-## 마치며
+낭만은 여기까지고, 그날 밤은 CI와 싸웠습니다. 23:24 릴리스 생성 race condition 수정, 23:44 태그에서 버전 sync, 23:47 npm publish 멱등성 수정. 바이너리를 네 플랫폼(macOS arm64/x64, Linux x64/arm64)으로 빌드해서 GitHub 릴리스와 npm에 동시에 올리는 파이프라인은, 만들어 본 분은 아시겠지만 한 번에 되는 법이 없습니다.
 
-AI 코딩 에이전트 생태계가 빠르게 성장하고 있습니다. Claude Code, Codex, Gemini CLI, OpenCode — 각각 장단점이 다르고, 각각의 확장 방식도 다릅니다.
+## 이틀 밤의 도그푸딩
 
-agt는 이 파편화된 생태계 위에 하나의 관리 레이어를 제공하려 합니다. npm이 Node.js 패키지를 표준화했듯이, agt가 AI 에이전트의 확장 기능을 표준화할 수 있을지는 아직 모르겠습니다. 하지만 적어도 제 워크스테이션에서는 잘 동작하고 있습니다. 33개의 스킬과 7명의 리뷰어와 11개의 훅이 매일 돌아가고 있으니까요.
+2월 20일 밤부터 21일 새벽 2시 32분까지, 버전이 2026.2.22에서 2026.2.28까지 올라갔습니다. 전부 직접 써 보다가 걸린 것들입니다. 그중 하나가 `fix(agt): reject persona names with spaces` 커밋인데, `agt persona review security-reviewer`를 치다가 인자 순서를 헷갈리면 뒤의 단어들이 통째로 페르소나 이름으로 들어가는 문제였습니다. 에러도 안 나고 이상한 파일을 찾다 실패하죠. 이름에 공백이 오면 "인자 순서 확인하세요"라고 거부하게 바꿨습니다.
+
+그리고 agt 자신에게 리뷰를 시켰습니다. `agt persona review`로 자기 코드베이스를 돌린 결과가 `fix(agt): apply review findings — validate_name coverage, tarball limit, clippy` 커밋으로 남아 있습니다. 이름 검증이 안 닿는 경로, 원격 설치 시 tarball 크기 제한 없음 같은 것들이 나왔습니다. 도구가 자기 자신의 구멍을 찾는 건 볼 때마다 묘한 기분입니다.
+
+## 전부 마크다운
+
+CLI는 Rust지만, agt가 관리하는 것들은 전부 순수 마크다운입니다.
+
+```yaml
+# security/security-auditor/SKILL.md
+---
+name: auditing-security
+description: Audits repository security by analyzing current code and
+  commit history for sensitive information leaks.
+trigger_keywords:
+  - 보안 검사
+  - security audit
+---
+```
+
+바이너리도 런타임 의존성도 없으니 Claude Code든 Codex든 Gemini든 그냥 읽으면 되고, git으로 히스토리가 남고, 스킬이 이상하게 굴면 파일을 열어서 고치면 됩니다. 에이전트 생태계가 어디로 튈지 모르는 상황에서, 특정 에이전트의 플러그인 포맷에 묶이지 않는 게 이 프로젝트의 몇 안 되는 확신이었습니다.
+
+그 위의 관리 레이어가 npm과 닮은 건 의도한 결과입니다. 프로필은 `dependencies` 목록에 해당합니다. `agt skill install --profile core`를 치면 필수 스킬 7개(커밋/PR 가이드, 컨텍스트 로더, 보안 감사, 백그라운드 구현·기획·리뷰 에이전트 등)가 한 번에 깔립니다. 그룹은 스코프처럼 동작해서 `integrations/slack`처럼 카테고리 단위로 설치·삭제할 수 있고요. 2월 24~25일에는 인터랙티브 TUI 설치기와 `--from`으로 임의의 GitHub 레포에서 설치하는 기능, GitHub 토큰으로 private 레포를 읽는 기능이 붙었습니다. 스킬 레포와 CLI가 분리될 수 있어야 다른 사람이 자기 스킬 레포를 만들 수 있으니까요.
+
+## 페르소나, 팀, 그리고 꺼버린 CI
+
+페르소나는 스킬과 결이 다릅니다. 스킬이 "무엇을 할 것인가"라면 페르소나는 "어떤 눈으로 볼 것인가"입니다. 지금은 보안·아키텍처·코드 품질·성능·DB·프론트엔드·DevOps, 일곱 명의 리뷰어가 있고, `agt persona review security-reviewer --codex`처럼 페르소나마다 다른 LLM을 붙여 병렬로 돌릴 수 있습니다. 결과는 `.context/reviews/`에 라운드 번호로 쌓여서 이전 리뷰와 비교합니다. 첫 페르소나 중 하나가 "도도한 키위새"라는 이름의 Rust 시스템 리뷰어였는데, agt 자신을 리뷰시키려고 만든 거였습니다.
+
+3월 5일에는 훅 관리와 팀 기능을 한 커밋에 넣었습니다. 훅은 지금 11개가 세션 라이프사이클을 덮고 있고(프롬프트 제출 시 영어 코칭, 도구 실행 전 보안 게이트와 커밋 가드, 편집 후 린트 등), 팀은 code-review·feature-dev·debug·refactor·research 다섯 개의 YAML 정의로, 리뷰어 셋이 병렬로 보고 종합하는 식의 멀티 에이전트 워크플로우를 `agt team spawn` 한 줄로 띄웁니다.
+
+솔직한 커밋도 하나 적어두겠습니다. 3월 8일, `chore: remove CI workflows (development phase)`. 하루에 버전이 예닐곱 번 오르는 시기에 릴리스 파이프라인이 커밋마다 도는 건 도움보다 방해였고, 그냥 껐습니다. 릴리스 자동화는 개발이 안정되면 다시 붙일 생각입니다. 2월 19일 밤에 그 고생을 하고 얻은 결론이 "지금은 필요 없다"라는 게 좀 허무하긴 합니다.
+
+## 석 달 반의 숫자
+
+![agt 로고](/images/posts/agt-package-manager-for-ai-agents/logo.png)
+
+첫 커밋부터 오늘까지 커밋 167개. 스킬 36개(9개 카테고리), 리뷰어 페르소나 7명, 훅 11개, 팀 5개, 그리고 이걸 관리하는 Rust 코드 약 6,600줄. 마크다운 모음으로 시작한 레포치고는 멀리 왔습니다.
+
+npm이 Node.js 패키지를 표준화했듯 agt가 에이전트 확장을 표준화할 수 있을지는 — 솔직히 모르겠습니다. 에이전트마다 확장 포맷이 다른 파편화는 여전하고, agt는 그 위를 덮는 제 나름의 레이어일 뿐입니다. 어제도 스코프가 다른 그룹에 같은 이름의 스킬이 있으면 설치가 꼬이는 버그를 고쳤습니다. 다만 확실한 건, 이제 새 머신에서 한 줄이면 제 작업 환경 전체가 복원된다는 겁니다.
 
 ```bash
-# 시작은 한 줄이면 됩니다
 curl -fsSL https://raw.githubusercontent.com/open330/agt/main/setup.sh | bash
 ```
+
+소스는 [GitHub](https://github.com/open330/agt)에, 바이너리는 [npm](https://www.npmjs.com/package/@open330/agt)에 있습니다.
