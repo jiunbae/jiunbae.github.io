@@ -83,8 +83,7 @@ const ogImage = `/og/notes/${noteSlug}.png`;
   }
 
   .article-content {
-    max-width: var(--measure);
-    margin-inline: auto;
+    /* 폭은 .article(--container-narrow)이 결정 — TOC/헤더와 같은 폭으로 정렬 */
     line-height: 1.8;
     color: var(--text-secondary);
     word-break: keep-all;
