@@ -122,20 +122,24 @@
    *   xl  : 1200 — index 안쪽 컨테이너
    *   2xl : 1400 — 헤더/페이지 최대 폭
    *   spec/narrow/reading/catalog/wide — 레거시 역할 alias (호환 유지)
+   *
+   * narrow 이상은 clamp(기존값, N vw, 상한)으로 fluid.
+   * 기존값이 floor라서 ~1500px 미만에서는 지금까지와 픽셀 단위로 동일하고,
+   * 그 위에서만 늘어나 와이드 모니터의 빈 여백을 줄입니다.
    */
   --container-xs: 480px;
   --container-sm: 700px;
   --container-md: 800px;
-  --container-narrow: 780px;
-  --container-catalog: 1100px;
-  --container-xl: 1200px;
-  --container-wide: 1400px;
+  --container-narrow: clamp(780px, 52vw, 980px);
+  --container-catalog: clamp(1100px, 72vw, 1440px);
+  --container-xl: clamp(1200px, 76vw, 1600px);
+  --container-wide: clamp(1400px, 88vw, 1920px);
   /* Legacy aliases retained for stable consumer sites */
   --container-prose-narrow: var(--container-xs);
   --container-prose-md: var(--container-sm);
   --container-prose-lg: var(--container-md);
   --container-prose-wide: var(--container-xl);
-  --measure: 38rem;             /* 본문 한 줄 글자 수 ~ 45-75 한글 chars */
+  --measure: clamp(38rem, 40vw, 46rem); /* 본문 한 줄 ~45-75 한글 chars, 와이드에서만 완만히 확장 */
 
   /*
    * Editorial typography scale — 잡지 메타포 전용.
