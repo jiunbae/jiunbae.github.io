@@ -230,8 +230,8 @@ const ogImage = heroImage || `/og/posts/${postSlug}.png`;
   }
 
   .article-content {
-    max-width: var(--measure);
-    margin-inline: auto;
+    /* 폭은 .article(--container-narrow)이 결정 — TOC와 같은 폭으로 정렬.
+       상한 980px 기준 본문 17px에서 한 줄 ~55자로 CPL 범위 안에 들어옵니다. */
     @include body-lg;
     line-height: 1.85;
     color: var(--text-secondary);

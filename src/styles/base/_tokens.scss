@@ -139,7 +139,10 @@
   --container-prose-md: var(--container-sm);
   --container-prose-lg: var(--container-md);
   --container-prose-wide: var(--container-xl);
-  --measure: clamp(38rem, 40vw, 46rem); /* 본문 한 줄 ~45-75 한글 chars, 와이드에서만 완만히 확장 */
+  /* 본문 줄 길이 상한. 소비처는 status/[slug] .incident-body 뿐 —
+     posts/notes/reviews 본문은 컨테이너(--container-narrow)가 폭을 결정합니다.
+     주의: 17px(body-lg) 기준 38rem은 한 줄 ~36자로, CPL 권장 하한(45자)보다 좁습니다. */
+  --measure: clamp(38rem, 40vw, 46rem);
 
   /*
    * Editorial typography scale — 잡지 메타포 전용.
