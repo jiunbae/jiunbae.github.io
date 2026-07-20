@@ -117,7 +117,9 @@
    *   xs  : 480 — 좁은 본문/lede (404 등)
    *   sm  : 700 — 단문 본문 (privacy)
    *   md  : 800 — 중간 본문 (about)
-   *   doc : 720~860 별칭 — 일반 문서/페이지 폭
+   *   doc : 720 고정 — 일반 문서/페이지 폭. design-component TOC가 이 값으로
+   *         위치를 계산(_shell.scss)하므로 fluid로 바꾸지 말 것.
+   *   list: 720~900 — 단일 컬럼 행 목록 (posts/notes/status index)
    *   lg  : 1100 — 그리드/카탈로그 (reviews list)
    *   xl  : 1200 — index 안쪽 컨테이너
    *   2xl : 1400 — 헤더/페이지 최대 폭
@@ -131,6 +133,7 @@
   --container-sm: 700px;
   --container-md: 800px;
   --container-narrow: clamp(780px, 52vw, 980px);
+  --container-list: clamp(720px, 46vw, 900px);
   --container-catalog: clamp(1100px, 72vw, 1440px);
   --container-xl: clamp(1200px, 76vw, 1600px);
   --container-wide: clamp(1400px, 88vw, 1920px);
@@ -139,10 +142,8 @@
   --container-prose-md: var(--container-sm);
   --container-prose-lg: var(--container-md);
   --container-prose-wide: var(--container-xl);
-  /* 본문 줄 길이 상한. 소비처는 status/[slug] .incident-body 뿐 —
-     posts/notes/reviews 본문은 컨테이너(--container-narrow)가 폭을 결정합니다.
-     주의: 17px(body-lg) 기준 38rem은 한 줄 ~36자로, CPL 권장 하한(45자)보다 좁습니다. */
-  --measure: clamp(38rem, 40vw, 46rem);
+  /* --measure 폐기: 17px(body-lg) 기준 38rem은 한 줄 ~36자로 CPL 권장 하한(45자)에도
+     못 미쳐 본문을 불필요하게 좁혔습니다. 본문 줄 길이는 컨테이너 상한이 결정합니다. */
 
   /*
    * Editorial typography scale — 잡지 메타포 전용.

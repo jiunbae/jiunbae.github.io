@@ -198,7 +198,8 @@ const timelineStatusColors: Record<string, string> = {
   @use '../../styles/abstracts' as *;
 
   .incident-page {
-    max-width: var(--container-doc);
+    /* 다른 글 상세(posts/notes/reviews)와 동일한 폭 */
+    max-width: var(--container-narrow);
     margin: 0 auto;
     padding: var(--space-8) var(--space-6);
     overflow: hidden;
@@ -492,8 +493,7 @@ const timelineStatusColors: Record<string, string> = {
 
   // Body content
   .incident-body {
-    max-width: var(--measure);
-    margin-inline: auto;
+    /* 폭은 .incident-page(--container-narrow)가 결정 — 헤더/타임라인과 같은 폭으로 정렬 */
     line-height: 1.8;
     color: var(--text-secondary);
     word-break: keep-all;
