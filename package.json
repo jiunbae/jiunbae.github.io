@@ -28,7 +28,7 @@
     "@octokit/rest": "^22.0.1",
     "@resvg/resvg-js": "^2.6.2",
     "@uiw/react-md-editor": "^4.0.11",
-    "astro": "^6.4.8",
+    "astro": "^7.1.0",
     "astro-expressive-code": "^0.43.1",
     "clsx": "^2.1.1",
     "fuse.js": "^7.1.0",
