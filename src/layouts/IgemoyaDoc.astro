@@ -1,0 +1,120 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+const { frontmatter } = Astro.props;
+---
+
+<Layout title={frontmatter.title} description={frontmatter.description}>
+  <div class="igemoya-doc">
+    <p class="crumb"><a href="/apps/igemoya/">← 이게모야</a></p>
+    <h1 class="title">{frontmatter.title}</h1>
+    <p class="updated">{frontmatter.updated}</p>
+    <div class="content">
+      <slot />
+    </div>
+    <nav class="related" aria-label="관련 문서">
+      <a href="/apps/igemoya/privacy/">개인정보 처리방침</a>
+      <a href="/apps/igemoya/terms/">이용약관 · 커뮤니티 규칙</a>
+      <a href="/apps/igemoya/support/">지원</a>
+    </nav>
+  </div>
+</Layout>
+
+<style lang="scss" is:global>
+  .igemoya-doc {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem;
+
+    .crumb {
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      a { color: var(--gray-4); text-decoration: none; }
+      a:hover { color: var(--primary-c1); }
+    }
+
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: var(--gray-1);
+    }
+
+    .updated {
+      font-size: 0.85rem;
+      color: var(--gray-4);
+      margin-bottom: 2rem;
+    }
+
+    .content {
+      h2 {
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin: 2rem 0 0.75rem;
+        color: var(--gray-1);
+      }
+      h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 1.25rem 0 0.5rem;
+        color: var(--gray-2);
+      }
+      p, li, td, th {
+        color: var(--gray-3);
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+      p { margin-bottom: 0.6rem; }
+      ul, ol { padding-left: 1.25rem; margin: 0.5rem 0; }
+      li { margin-bottom: 0.25rem; }
+      a { color: var(--primary-c1); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      strong { color: var(--gray-2); }
+      code {
+        font-size: 0.85em;
+        padding: 0.1em 0.35em;
+        border-radius: 0.3rem;
+        background: var(--gray-9, rgba(127, 127, 127, 0.12));
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.75rem 0 1rem;
+        display: block;
+        overflow-x: auto;
+      }
+      th, td {
+        text-align: left;
+        padding: 0.4rem 0.6rem;
+        border-bottom: 1px solid var(--gray-8, rgba(127, 127, 127, 0.25));
+        vertical-align: top;
+      }
+      blockquote {
+        margin: 0.75rem 0;
+        padding: 0.25rem 0 0.25rem 1rem;
+        border-left: 3px solid var(--primary-c1);
+        color: var(--gray-3);
+      }
+      hr { border: 0; border-top: 1px solid var(--gray-8, rgba(127, 127, 127, 0.25)); margin: 1.5rem 0; }
+    }
+
+    .related {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.25rem;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--gray-8, rgba(127, 127, 127, 0.25));
+      font-size: 0.9rem;
+      a { color: var(--gray-3); text-decoration: none; }
+      a:hover { color: var(--primary-c1); }
+    }
+  }
+
+  @media (max-width: 640px) {
+    .igemoya-doc {
+      padding: 1.25rem;
+      .title { font-size: 1.6rem; }
+    }
+  }
+</style>
