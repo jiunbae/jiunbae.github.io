@@ -9,6 +9,15 @@ import rehypeMermaid from './src/plugins/rehype-mermaid.mjs';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://jiun.dev',
+  // Moved to its own site (repo jiunbae/igemoya). Keep the old paths alive so
+  // anything already linking here — App Store Connect drafts included — lands
+  // on the new home instead of a 404.
+  redirects: {
+    '/apps/igemoya': 'https://igemoya.jiun.dev/',
+    '/apps/igemoya/privacy': 'https://igemoya.jiun.dev/privacy/',
+    '/apps/igemoya/terms': 'https://igemoya.jiun.dev/terms/',
+    '/apps/igemoya/support': 'https://igemoya.jiun.dev/support/',
+  },
   // Astro 7부터 compressHTML 기본값이 'jsx'로 바뀌어 인라인 요소 사이 공백을
   // JSX 규칙대로 제거한다. 본문에 인라인 링크·강조가 섞인 한국어 문단이 많아
   // 공백이 사라지면 눈에 띄므로 Astro 6과 같은 HTML 인식 압축을 유지한다.
