@@ -41,10 +41,27 @@ function getServiceStatus(serviceName: string): ServiceStatus {
   return 'degraded';
 }
 
+/**
+ * Where a card should point. A live URL first; failing that, whatever page
+ * still describes the thing. A retired service has no URL by definition, and
+ * an npm package never had one — sending those to the repo beats a dead link
+ * or no link at all.
+ */
+function linkFor(s: { slug?: string; github?: string; npm?: string; post?: string }) {
+  if (s.slug) return { href: s.slug, external: true };
+  if (s.github) return { href: s.github, external: true };
+  if (s.npm) return { href: `https://www.npmjs.com/package/${s.npm}`, external: true };
+  if (s.post) return { href: s.post, external: false };
+  return null;
+}
+
 const serviceStatuses = services.map(s => ({
   ...s,
   opStatus: getServiceStatus(s.title),
-  namespace: STATUS_NAMESPACE_BY_TITLE[s.title],
+  link: linkFor(s),
+  // A retired service is not monitored: there is nothing left to probe, and
+  // reporting it as Operational would be the exact lie this page exists to stop.
+  namespace: s.status === 'retired' ? undefined : STATUS_NAMESPACE_BY_TITLE[s.title],
   // An open incident is a human saying something a replica count cannot see,
   // so the live layer must not overwrite it.
   incidentActive: activeIncidents.some(i => i.data.affectedServices.includes(s.title)),
@@ -130,13 +147,17 @@ function formatTime(d: Date) {
         {serviceStatuses.map(s => {
           // Whole card is the target where there is one. Services with no URL
           // stay a plain div rather than becoming a link that goes nowhere.
-          const Tag = s.slug ? 'a' : 'div';
-          const linkProps = s.slug
-            ? { href: s.slug, target: '_blank', rel: 'noopener noreferrer' }
+          const Tag = s.link ? 'a' : 'div';
+          const linkProps = s.link
+            ? {
+                href: s.link.href,
+                ...(s.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
+              }
             : {};
+          const retired = s.status === 'retired';
           return (
             <Tag
-              class:list={['service-card', `status-${s.opStatus}`, s.slug && 'service-card-link']}
+              class:list={['service-card', retired ? 'status-retired' : `status-${s.opStatus}`, s.link && 'service-card-link']}
               data-service-ns={s.namespace}
               data-incident-active={s.incidentActive ? 'true' : 'false'}
               {...linkProps}
@@ -146,7 +167,7 @@ function formatTime(d: Date) {
                   <span class="service-dot" aria-hidden="true"></span>
                 </span>
                 <span class="service-name">{s.title}</span>
-                {s.slug && (
+                {s.link && (
                   <svg class="service-link-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M7 17 17 7"/><path d="M8 7h9v9"/>
                   </svg>
@@ -154,7 +175,7 @@ function formatTime(d: Date) {
               </div>
               <span class="service-meta">
                 <span class="service-uptime" data-service-uptime hidden></span>
-                <span class="service-status">{statusLabels[s.opStatus]}</span>
+                <span class="service-status">{retired ? 'Retired' : statusLabels[s.opStatus]}</span>
               </span>
             </Tag>
           );
@@ -505,6 +526,20 @@ function formatTime(d: Date) {
     .service-dot { background: var(--state-success); }
     .service-status { color: var(--state-success); }
   }
+  /* Muted on purpose: a retired service should not draw the eye the way a
+     degraded one does. It is not a problem, it is a thing that ended.
+     Done with colour rather than opacity — fading the whole card takes its
+     text contrast down with it, which axe caught here as four serious
+     violations, one per retired card. */
+  .status-retired {
+    background: transparent;
+    border-style: dashed;
+
+    .service-dot { background: var(--text-disabled); }
+    .service-name { color: var(--text-secondary); }
+    .service-status { color: var(--text-muted); }
+  }
+
   .status-maintenance {
     .service-dot { background: var(--state-info); }
     .service-status { color: var(--state-info); }

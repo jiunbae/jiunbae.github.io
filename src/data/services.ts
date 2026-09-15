@@ -7,7 +7,8 @@ export interface ServiceItem {
   icon: string
   iconType: 'image' | 'letter'
   tags: string[]
-  status: 'live' | 'beta' | 'internal'
+  /** `retired` means the service is gone: its URL no longer answers and it is not monitored. */
+  status: 'live' | 'beta' | 'internal' | 'retired'
   category: 'ai' | 'dev-tools' | 'lifestyle' | 'infra'
   github?: string
   post?: string
@@ -96,14 +97,13 @@ const services: ServiceItem[] = [
     github: 'https://github.com/jiunbae/nolbul',
   },
   {
-    slug: 'https://kiwimu.jiun.dev',
     title: 'kiwimu',
     updated: '2026-07-11',
     description: '교재·PDF를 서로 링크된 학습 위키와 퀴즈로 변환.',
     icon: 'k',
     iconType: 'letter',
     tags: ['CLI', 'npm', 'LLM'],
-    status: 'live',
+    status: 'retired',
     category: 'ai',
     npm: '@open330/kiwimu',
     github: 'https://github.com/Open330/kiwimu',
@@ -117,9 +117,8 @@ const services: ServiceItem[] = [
     icon: '/images/services/kurim.ico',
     iconType: 'image',
     tags: ['Next.js', 'FastAPI', 'OpenAI', 'PostgreSQL'],
-    status: 'beta',
+    status: 'retired',
     category: 'ai',
-    slug: 'https://kurim.jiun.dev',
   },
   {
     title: 'Kongbu',
@@ -148,14 +147,13 @@ const services: ServiceItem[] = [
 
   // ── Dev Tools ───────────────────────────────────────
   {
-    slug: 'https://selectchatgpt.jiun.dev',
     title: 'SelectChatGPT',
     updated: '2026-03-15',
     description: 'ChatGPT용 크롬 확장. 메시지를 골라 공유 링크를 만들거나 마크다운으로 내보냅니다.',
     icon: '/images/services/selectchatgpt.svg',
     iconType: 'image',
     tags: ['Plasmo', 'React', 'Express', 'MongoDB'],
-    status: 'live',
+    status: 'retired',
     category: 'dev-tools',
     github: 'https://github.com/jiunbae/select-chat-gpt',
   },
@@ -245,7 +243,7 @@ const services: ServiceItem[] = [
     icon: 'M',
     iconType: 'letter',
     tags: ['Nginx', 'SQLite', 'Docker'],
-    status: 'live',
+    status: 'retired',
     category: 'lifestyle',
   },
   {
