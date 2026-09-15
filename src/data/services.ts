@@ -9,6 +9,16 @@ export interface ServiceItem {
   tags: string[]
   /** `retired` means the service is gone: its URL no longer answers and it is not monitored. */
   status: 'live' | 'beta' | 'internal' | 'retired'
+  /**
+   * What this entry actually is. Only `service` has an operational state worth
+   * reporting; a landing page and a published package do not, and saying
+   * otherwise on a status page is a claim we cannot support.
+   *
+   * Declared rather than inferred: guessing from the URL already mislabelled
+   * several of these, and a new entry should have to say what it is.
+   * Defaults to `service` when omitted.
+   */
+  kind?: 'service' | 'page' | 'package'
   category: 'ai' | 'dev-tools' | 'lifestyle' | 'infra'
   github?: string
   post?: string
@@ -44,6 +54,7 @@ const services: ServiceItem[] = [
     iconType: 'image',
     tags: ['Python', 'Gemini API', 'GitHub Pages', 'Gitea Actions'],
     status: 'live',
+    kind: 'page',
     category: 'ai',
     github: 'https://github.com/jiunbae/ai-horoscope',
   },
@@ -179,6 +190,7 @@ const services: ServiceItem[] = [
     iconType: 'image',
     tags: ['CLI', 'npm', 'Agents'],
     status: 'live',
+    kind: 'package',
     category: 'dev-tools',
     npm: '@open330/agt',
     github: 'https://github.com/Open330/agt',
@@ -193,6 +205,7 @@ const services: ServiceItem[] = [
     iconType: 'image',
     tags: ['Rust', 'Cross-platform', 'OTP'],
     status: 'live',
+    kind: 'page',
     category: 'dev-tools',
     github: 'https://github.com/jiunbae/otpeek',
     store: 'https://apps.apple.com/app/otpeek/id6787845951',
@@ -207,6 +220,7 @@ const services: ServiceItem[] = [
     iconType: 'image',
     tags: ['Swift', 'macOS', 'Menu Bar'],
     status: 'live',
+    kind: 'page',
     category: 'dev-tools',
     github: 'https://github.com/Open330/barshelf',
     post: '/posts/barshelf-macos-menubar-hub/',
@@ -279,6 +293,7 @@ const services: ServiceItem[] = [
     iconType: 'letter',
     tags: ['Swift', 'macOS', 'Menu Bar'],
     status: 'live',
+    kind: 'page',
     category: 'lifestyle',
     github: 'https://github.com/jiunbae/file-stack',
   },
@@ -316,6 +331,7 @@ const services: ServiceItem[] = [
     iconType: 'image',
     tags: ['Dashboard', 'Discord', 'SQLite'],
     status: 'beta',
+    kind: 'package',
     category: 'infra',
     github: 'https://github.com/jiunbae/aily',
     post: '/posts/aily-ai-session-bridge/',

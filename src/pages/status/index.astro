@@ -56,13 +56,16 @@ function linkFor(s: { slug?: string; github?: string; npm?: string; post?: strin
 }
 
 /**
- * A status page lists things that can be up or down. An npm package and a bare
- * repository cannot, so they have no place here — they stay on /projects/,
- * which is a catalogue rather than a health report. Something that used to
- * serve does belong: its state is that it ended.
+ * A status page lists things that can be up or down. Packages and landing pages
+ * cannot — a package has no host, and a landing page is static HTML served from
+ * the same GitHub Pages this status page is on, so it is up exactly when the
+ * reader can see the question. Both stay on /projects/, which is a catalogue
+ * rather than a health report.
+ *
+ * Read from the declared `kind` rather than guessed from the URL: guessing is
+ * what put a landing page and a package on this page claiming Operational.
  */
-const isService = (s: { slug?: string; status: string }) =>
-  s.status === 'retired' || Boolean(s.slug) || Boolean(STATUS_NAMESPACE_BY_TITLE[(s as { title: string }).title]);
+const isService = (s: { kind?: string }) => (s.kind ?? 'service') === 'service';
 
 const serviceStatuses = services.filter(isService).map(s => ({
   ...s,
