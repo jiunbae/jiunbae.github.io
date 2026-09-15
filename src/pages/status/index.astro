@@ -354,6 +354,7 @@ function formatTime(d: Date) {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
     border-radius: var(--radius-lg);
     background: var(--article-background);
@@ -367,6 +368,7 @@ function formatTime(d: Date) {
   }
 
   .service-info {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -402,11 +404,18 @@ function formatTime(d: Date) {
     gap: var(--space-3);
     padding: var(--space-4) var(--space-6);
     border-radius: var(--radius-lg);
-    margin: calc(var(--space-10) * -1) 0 var(--space-10);
+    margin-bottom: var(--space-10);
     border: 1px solid color-mix(in srgb, var(--state-error) 20%, transparent);
     background: color-mix(in srgb, var(--state-error) 8%, transparent);
     color: var(--state-error);
     @include body-sm;
+  }
+
+  /* display:flex above outranks the browser's own [hidden] { display: none },
+     so without this the empty banner renders on every load — a red bar holding
+     space and pushing the page around before the fetch has said anything. */
+  .live-banner[hidden] {
+    display: none;
   }
 
   .live-banner .banner-dot {
@@ -423,10 +432,16 @@ function formatTime(d: Date) {
     color: var(--state-warning);
   }
 
+  /* Stacked, not side by side: the cards are 240px and the status label and the
+     uptime figure were competing for the same row, which is what pushed the
+     text around. Right-aligned so both read off the card's edge. */
   .service-meta {
     display: flex;
-    align-items: baseline;
-    gap: var(--space-3);
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-1);
+    text-align: right;
+    flex-shrink: 0;
   }
 
   /* A real muted colour rather than opacity: fading the text also fades it
