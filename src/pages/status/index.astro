@@ -55,7 +55,16 @@ function linkFor(s: { slug?: string; github?: string; npm?: string; post?: strin
   return null;
 }
 
-const serviceStatuses = services.map(s => ({
+/**
+ * A status page lists things that can be up or down. An npm package and a bare
+ * repository cannot, so they have no place here — they stay on /projects/,
+ * which is a catalogue rather than a health report. Something that used to
+ * serve does belong: its state is that it ended.
+ */
+const isService = (s: { slug?: string; status: string }) =>
+  s.status === 'retired' || Boolean(s.slug) || Boolean(STATUS_NAMESPACE_BY_TITLE[(s as { title: string }).title]);
+
+const serviceStatuses = services.filter(isService).map(s => ({
   ...s,
   opStatus: getServiceStatus(s.title),
   link: linkFor(s),
@@ -66,6 +75,9 @@ const serviceStatuses = services.map(s => ({
   // so the live layer must not overwrite it.
   incidentActive: activeIncidents.some(i => i.data.affectedServices.includes(s.title)),
 }));
+
+const liveServices = serviceStatuses.filter(s => s.status !== 'retired');
+const retiredServices = serviceStatuses.filter(s => s.status === 'retired');
 
 const buildTime = new Date();
 
@@ -141,10 +153,10 @@ function formatTime(d: Date) {
     <section class="services-section">
       <div class="section-header">
         <h2>Services</h2>
-        <span class="service-count">{services.length}</span>
+        <span class="service-count">{liveServices.length}</span>
       </div>
       <div class="services-grid">
-        {serviceStatuses.map(s => {
+        {liveServices.map(s => {
           // Whole card is the target where there is one. Services with no URL
           // stay a plain div rather than becoming a link that goes nowhere.
           const Tag = s.link ? 'a' : 'div';
@@ -182,6 +194,29 @@ function formatTime(d: Date) {
         })}
       </div>
     </section>
+
+    {retiredServices.length > 0 && (
+      <section class="retired-section">
+        <div class="section-header">
+          <h2>Retired</h2>
+          <span class="service-count">{retiredServices.length}</span>
+        </div>
+        <p class="retired-note">No longer running. Kept here so a link to them still leads somewhere.</p>
+        <div class="retired-list">
+          {retiredServices.map(s => (
+            s.link ? (
+              <a
+                class="retired-item"
+                href={s.link.href}
+                {...(s.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >{s.title}</a>
+            ) : (
+              <span class="retired-item retired-item-plain">{s.title}</span>
+            )
+          ))}
+        </div>
+      </section>
+    )}
 
     <section class="incidents-section">
       <div class="section-header">
@@ -526,18 +561,43 @@ function formatTime(d: Date) {
     .service-dot { background: var(--state-success); }
     .service-status { color: var(--state-success); }
   }
-  /* Muted on purpose: a retired service should not draw the eye the way a
-     degraded one does. It is not a problem, it is a thing that ended.
-     Done with colour rather than opacity — fading the whole card takes its
-     text contrast down with it, which axe caught here as four serious
-     violations, one per retired card. */
-  .status-retired {
-    background: transparent;
-    border-style: dashed;
+  /* Retired entries are a list of names, not status cards: there is no state to
+     report, so giving them a card with a status column only invites the reader
+     to look for one. Muted with colour rather than opacity — fading an element
+     takes its text contrast down with it, which axe caught here once already. */
+  .retired-section {
+    margin-bottom: var(--space-10);
+  }
 
-    .service-dot { background: var(--text-disabled); }
-    .service-name { color: var(--text-secondary); }
-    .service-status { color: var(--text-muted); }
+  .retired-note {
+    color: var(--text-muted);
+    margin: 0 0 var(--space-4);
+    @include caption;
+  }
+
+  .retired-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .retired-item {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-subtle);
+    color: var(--text-secondary);
+    text-decoration: none;
+    @include body-sm;
+  }
+
+  a.retired-item:hover,
+  a.retired-item:focus-visible {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+  }
+
+  .retired-item-plain {
+    color: var(--text-muted);
   }
 
   .status-maintenance {
