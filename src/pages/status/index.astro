@@ -127,24 +127,38 @@ function formatTime(d: Date) {
         <span class="service-count">{services.length}</span>
       </div>
       <div class="services-grid">
-        {serviceStatuses.map(s => (
-          <div
-            class:list={['service-card', `status-${s.opStatus}`]}
-            data-service-ns={s.namespace}
-            data-incident-active={s.incidentActive ? 'true' : 'false'}
-          >
-            <div class="service-info">
-              <span class="service-dot-wrap">
-                <span class="service-dot" aria-hidden="true"></span>
+        {serviceStatuses.map(s => {
+          // Whole card is the target where there is one. Services with no URL
+          // stay a plain div rather than becoming a link that goes nowhere.
+          const Tag = s.slug ? 'a' : 'div';
+          const linkProps = s.slug
+            ? { href: s.slug, target: '_blank', rel: 'noopener noreferrer' }
+            : {};
+          return (
+            <Tag
+              class:list={['service-card', `status-${s.opStatus}`, s.slug && 'service-card-link']}
+              data-service-ns={s.namespace}
+              data-incident-active={s.incidentActive ? 'true' : 'false'}
+              {...linkProps}
+            >
+              <div class="service-info">
+                <span class="service-dot-wrap">
+                  <span class="service-dot" aria-hidden="true"></span>
+                </span>
+                <span class="service-name">{s.title}</span>
+                {s.slug && (
+                  <svg class="service-link-icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17 17 7"/><path d="M8 7h9v9"/>
+                  </svg>
+                )}
+              </div>
+              <span class="service-meta">
+                <span class="service-uptime" data-service-uptime hidden></span>
+                <span class="service-status">{statusLabels[s.opStatus]}</span>
               </span>
-              <span class="service-name">{s.title}</span>
-            </div>
-            <span class="service-meta">
-              <span class="service-uptime" data-service-uptime hidden></span>
-              <span class="service-status">{statusLabels[s.opStatus]}</span>
-            </span>
-          </div>
-        ))}
+            </Tag>
+          );
+        })}
       </div>
     </section>
 
@@ -365,6 +379,33 @@ function formatTime(d: Date) {
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
     }
+  }
+
+  /* The card already lifts on hover; as a link it just needs to stop looking
+     like body text and to show the arrow only when it is being pointed at. */
+  .service-card-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .service-link-icon {
+    flex-shrink: 0;
+    opacity: 0;
+    color: var(--text-muted);
+    transition: opacity var(--duration-base) var(--easing-standard);
+  }
+
+  .service-card-link:hover .service-link-icon,
+  .service-card-link:focus-visible .service-link-icon {
+    opacity: 1;
+  }
+
+  /* Keyboard users get the same affordance as the hover state, which the card
+     otherwise only expresses through transform. */
+  .service-card-link:focus-visible {
+    outline: 2px solid var(--text-link);
+    outline-offset: 2px;
   }
 
   .service-info {
