@@ -76,7 +76,18 @@ const serviceStatuses = services.filter(isService).map(s => ({
   incidentActive: activeIncidents.some(i => i.data.affectedServices.includes(s.title)),
 }));
 
-const liveServices = serviceStatuses.filter(s => s.status !== 'retired');
+/**
+ * Three groups, because only one of them has a status worth reporting.
+ *
+ * `monitored` are the services we run and measure — a namespace in the cluster
+ * and in the API's allowlist, so the live layer can speak for them.
+ *
+ * `reachable` are ours and online but nothing watches them: pages on this site,
+ * a site on someone else's host, a subdomain outside the cluster. Saying
+ * "Operational" about those would be a guess, so they get a link and no claim.
+ */
+const monitoredServices = serviceStatuses.filter(s => s.status !== 'retired' && s.namespace);
+const reachableServices = serviceStatuses.filter(s => s.status !== 'retired' && !s.namespace);
 const retiredServices = serviceStatuses.filter(s => s.status === 'retired');
 
 const buildTime = new Date();
@@ -153,10 +164,10 @@ function formatTime(d: Date) {
     <section class="services-section">
       <div class="section-header">
         <h2>Services</h2>
-        <span class="service-count">{liveServices.length}</span>
+        <span class="service-count">{monitoredServices.length}</span>
       </div>
       <div class="services-grid">
-        {liveServices.map(s => {
+        {monitoredServices.map(s => {
           // Whole card is the target where there is one. Services with no URL
           // stay a plain div rather than becoming a link that goes nowhere.
           const Tag = s.link ? 'a' : 'div';
@@ -194,6 +205,29 @@ function formatTime(d: Date) {
         })}
       </div>
     </section>
+
+    {reachableServices.length > 0 && (
+      <section class="retired-section">
+        <div class="section-header">
+          <h2>Also online</h2>
+          <span class="service-count">{reachableServices.length}</span>
+        </div>
+        <p class="retired-note">Ours and reachable, but not monitored from here — so this page makes no claim about them.</p>
+        <div class="retired-list">
+          {reachableServices.map(s => (
+            s.link ? (
+              <a
+                class="retired-item retired-item-online"
+                href={s.link.href}
+                {...(s.link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >{s.title}</a>
+            ) : (
+              <span class="retired-item retired-item-plain">{s.title}</span>
+            )
+          ))}
+        </div>
+      </section>
+    )}
 
     {retiredServices.length > 0 && (
       <section class="retired-section">
@@ -594,6 +628,12 @@ function formatTime(d: Date) {
   a.retired-item:focus-visible {
     color: var(--text-primary);
     border-color: var(--text-muted);
+  }
+
+  /* Solid rather than dashed: these are online, unlike the retired list that
+     shares this styling. The difference has to be visible without the heading. */
+  .retired-item-online {
+    border-style: solid;
   }
 
   .retired-item-plain {

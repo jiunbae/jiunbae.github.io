@@ -13,12 +13,12 @@
  */
 export const STATUS_NAMESPACE_BY_TITLE: Record<string, string> = {
   Bubbles: 'bubbles',
+  '도믿맨: 퇴근길 생존기': 'domidman',
   Chartlog: 'chartlog',
   Finchi: 'finchi',
   Flatten: 'flatten',
   IssueBoard: 'issueboard',
   Kongbu: 'kongbu',
-  Mstoon: 'mstoon',
   Nolbul: 'nolbul',
   'Nova Pouch': 'nova-pouch',
   'Oh My Prompt': 'oh-my-prompt',
