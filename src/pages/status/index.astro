@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 import services from '@/data/services';
 import Badge from '@/components/Badge.astro';
+import { STATUS_NAMESPACE_BY_TITLE } from '@/data/status-namespaces';
+import statusSnapshot from '@/data/status-snapshot.json';
 
 type IncidentSeverity = 'critical' | 'major' | 'minor' | 'maintenance';
 type IncidentStatus = 'investigating' | 'identified' | 'monitoring' | 'resolved' | 'scheduled';
@@ -42,7 +44,13 @@ function getServiceStatus(serviceName: string): ServiceStatus {
 const serviceStatuses = services.map(s => ({
   ...s,
   opStatus: getServiceStatus(s.title),
+  namespace: STATUS_NAMESPACE_BY_TITLE[s.title],
+  // An open incident is a human saying something a replica count cannot see,
+  // so the live layer must not overwrite it.
+  incidentActive: activeIncidents.some(i => i.data.affectedServices.includes(s.title)),
 }));
+
+const buildTime = new Date();
 
 const hasIssues = serviceStatuses.some(s => s.opStatus !== 'operational');
 
@@ -105,8 +113,10 @@ function formatTime(d: Date) {
     <div class:list={['banner', hasIssues ? 'banner-warning' : 'banner-ok']} role="status" aria-live="polite">
       <span class="banner-dot" aria-hidden="true"></span>
       <span class="banner-text">{hasIssues ? 'Some systems are experiencing issues' : 'All Systems Operational'}</span>
-      <span class="banner-time">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+      <span class="banner-time" data-status-stamp>built {buildTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
     </div>
+
+    <div class="live-banner" data-status-banner hidden role="status" aria-live="polite"></div>
 
     <section class="services-section">
       <div class="section-header">
@@ -115,14 +125,21 @@ function formatTime(d: Date) {
       </div>
       <div class="services-grid">
         {serviceStatuses.map(s => (
-          <div class:list={['service-card', `status-${s.opStatus}`]}>
+          <div
+            class:list={['service-card', `status-${s.opStatus}`]}
+            data-service-ns={s.namespace}
+            data-incident-active={s.incidentActive ? 'true' : 'false'}
+          >
             <div class="service-info">
               <span class="service-dot-wrap">
                 <span class="service-dot" aria-hidden="true"></span>
               </span>
               <span class="service-name">{s.title}</span>
             </div>
-            <span class="service-status">{statusLabels[s.opStatus]}</span>
+            <span class="service-meta">
+              <span class="service-uptime" data-service-uptime hidden></span>
+              <span class="service-status">{statusLabels[s.opStatus]}</span>
+            </span>
           </div>
         ))}
       </div>
@@ -176,6 +193,10 @@ function formatTime(d: Date) {
       )}
     </section>
   </div>
+  <script id="status-snapshot" type="application/json" set:html={JSON.stringify(statusSnapshot)} is:inline></script>
+  <script>
+    import '@/scripts/status-live';
+  </script>
 </Layout>
 
 <style lang="scss">
@@ -367,6 +388,36 @@ function formatTime(d: Date) {
     font-weight: 500;
     @include body-sm;
     color: var(--text-primary);
+  }
+
+  .live-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.7rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    border: 1px solid var(--state-error, #c0392b);
+    color: var(--state-error, #c0392b);
+    background: color-mix(in srgb, var(--state-error, #c0392b) 8%, transparent);
+  }
+  .live-banner[data-tone='warn'] {
+    border-color: var(--state-warning, #d68910);
+    color: var(--state-warning, #d68910);
+    background: color-mix(in srgb, var(--state-warning, #d68910) 8%, transparent);
+  }
+
+  .service-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+  }
+  .service-uptime {
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.6;
   }
 
   .service-status {

@@ -1,0 +1,73 @@
+name: Fetch Status Snapshot
+
+# The page reads live status from the API in the browser. This snapshot is only
+# the fallback for when that fetch fails — which is exactly when the homelab is
+# down, so it must be committed here rather than fetched from there.
+#
+# A late run is therefore harmless: the page is live when the API answers, and
+# this is the last-known state when it does not.
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: status-snapshot
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Fetch public status
+        id: fetch
+        run: |
+          set -uo pipefail
+          # No credential: /public/status is deliberately open and carries only
+          # availability. Nothing here needs a secret, so nothing here can leak one.
+          code=$(curl -fsS --max-time 20 -o fetched.json -w '%{http_code}' \
+            https://api.jiun.dev/public/status) || code=000
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          if [ "$code" != "200" ]; then
+            echo "API unreachable (HTTP $code); keeping the existing snapshot."
+            exit 0
+          fi
+          # A response that reports no data must not overwrite a good snapshot —
+          # that would turn a transient blip into a permanent loss of the fallback.
+          source=$(jq -r '.source' fetched.json)
+          count=$(jq -r '.services | length' fetched.json)
+          if [ "$source" != "prometheus" ] || [ "$count" -eq 0 ]; then
+            echo "API answered with source=$source count=$count; keeping the existing snapshot."
+            exit 0
+          fi
+          jq -S . fetched.json > src/data/status-snapshot.json
+          rm -f fetched.json
+          echo "wrote snapshot with $count services"
+
+      - name: Commit when the state changed
+        run: |
+          set -euo pipefail
+          # generatedAt changes every run, so committing on any diff would push
+          # every 30 minutes forever. Only a real change in service state is worth
+          # a commit.
+          if git diff --quiet -- src/data/status-snapshot.json; then
+            echo "no change"; exit 0
+          fi
+          before=$(git show HEAD:src/data/status-snapshot.json | jq -Sc '[.services[] | {name, state}]' 2>/dev/null || echo '[]')
+          after=$(jq -Sc '[.services[] | {name, state}]' src/data/status-snapshot.json)
+          if [ "$before" = "$after" ]; then
+            echo "only the timestamp moved; not committing"
+            git checkout -- src/data/status-snapshot.json
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/status-snapshot.json
+          git commit -m "chore(status): refresh availability snapshot"
+          git push

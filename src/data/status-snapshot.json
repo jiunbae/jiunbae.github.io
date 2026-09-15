@@ -1,0 +1,67 @@
+{
+  "generatedAt": "2026-09-15T09:59:05.332Z",
+  "services": [
+    {
+      "name": "bubbles",
+      "state": "degraded",
+      "uptime7d": 0.9502
+    },
+    {
+      "name": "chartlog",
+      "state": "operational",
+      "uptime7d": 0.9965
+    },
+    {
+      "name": "finchi",
+      "state": "operational",
+      "uptime7d": 0.9988
+    },
+    {
+      "name": "flatten",
+      "state": "operational",
+      "uptime7d": 0.9975
+    },
+    {
+      "name": "issueboard",
+      "state": "operational",
+      "uptime7d": 0.9943
+    },
+    {
+      "name": "kongbu",
+      "state": "operational",
+      "uptime7d": 0.9944
+    },
+    {
+      "name": "mstoon",
+      "state": "operational",
+      "uptime7d": 0.9945
+    },
+    {
+      "name": "nolbul",
+      "state": "operational",
+      "uptime7d": 0.998
+    },
+    {
+      "name": "nova-pouch",
+      "state": "operational",
+      "uptime7d": 0.9965
+    },
+    {
+      "name": "oh-my-prompt",
+      "state": "operational",
+      "uptime7d": 0.9973
+    },
+    {
+      "name": "ssudam",
+      "state": "operational",
+      "uptime7d": 0.9944
+    },
+    {
+      "name": "tokka",
+      "state": "operational",
+      "uptime7d": 0.9972
+    }
+  ],
+  "source": "prometheus",
+  "window": "7d"
+}
