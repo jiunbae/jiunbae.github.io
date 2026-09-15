@@ -61,7 +61,9 @@ function relativeAge(ms: number): string {
 function setBanner(text: string, tone: 'warn' | 'error') {
   const banner = document.querySelector<HTMLElement>('[data-status-banner]');
   if (!banner) return;
-  banner.textContent = text;
+  // Write into the text span so the leading dot survives.
+  const target = banner.querySelector<HTMLElement>('[data-status-banner-text]') ?? banner;
+  target.textContent = text;
   banner.dataset.tone = tone;
   banner.hidden = false;
 }

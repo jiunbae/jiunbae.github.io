@@ -116,7 +116,10 @@ function formatTime(d: Date) {
       <span class="banner-time" data-status-stamp>built {buildTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
     </div>
 
-    <div class="live-banner" data-status-banner hidden role="status" aria-live="polite"></div>
+    <div class="live-banner" data-status-banner hidden role="status" aria-live="polite">
+      <span class="banner-dot" aria-hidden="true"></span>
+      <span data-status-banner-text></span>
+    </div>
 
     <section class="services-section">
       <div class="section-header">
@@ -390,34 +393,48 @@ function formatTime(d: Date) {
     color: var(--text-primary);
   }
 
+  /* Same shape as .banner above it — a second banner in its own visual
+     language reads as a different kind of thing, which it is not. The tints
+     match the 8%/20% pair the status banners already use. */
   .live-banner {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    padding: 0.7rem 0.9rem;
-    border-radius: 8px;
-    font-size: 0.86rem;
-    line-height: 1.45;
-    border: 1px solid var(--state-error, #c0392b);
-    color: var(--state-error, #c0392b);
-    background: color-mix(in srgb, var(--state-error, #c0392b) 8%, transparent);
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-lg);
+    margin: calc(var(--space-10) * -1) 0 var(--space-10);
+    border: 1px solid color-mix(in srgb, var(--state-error) 20%, transparent);
+    background: color-mix(in srgb, var(--state-error) 8%, transparent);
+    color: var(--state-error);
+    @include body-sm;
   }
+
+  .live-banner .banner-dot {
+    background: var(--state-error);
+  }
+
+  .live-banner[data-tone='warn'] .banner-dot {
+    background: var(--state-warning);
+  }
+
   .live-banner[data-tone='warn'] {
-    border-color: var(--state-warning, #d68910);
-    color: var(--state-warning, #d68910);
-    background: color-mix(in srgb, var(--state-warning, #d68910) 8%, transparent);
+    border-color: color-mix(in srgb, var(--state-warning) 20%, transparent);
+    background: color-mix(in srgb, var(--state-warning) 8%, transparent);
+    color: var(--state-warning);
   }
 
   .service-meta {
     display: flex;
     align-items: baseline;
-    gap: 0.55rem;
+    gap: var(--space-3);
   }
+
+  /* A real muted colour rather than opacity: fading the text also fades it
+     against whatever tint the card is carrying, and the contrast goes with it. */
   .service-uptime {
-    font-size: 0.76rem;
+    color: var(--text-muted);
     font-variant-numeric: tabular-nums;
-    opacity: 0.6;
+    @include caption;
   }
 
   .service-status {
