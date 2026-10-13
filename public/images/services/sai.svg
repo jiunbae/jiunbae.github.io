@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="사이">
+  <!-- 작은 크기에서는 두 원이 뭉갠다. 그래서 겹친 자리만, 큰 마크와 같은 비율로 키워 남긴다. -->
+  <defs>
+    <linearGradient id="f-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7a66d6"/><stop offset="1" stop-color="#453a6b"/>
+    </linearGradient>
+    <mask id="f-m">
+      <rect width="64" height="64" fill="black"/>
+      <path d="M14 6h36a8 8 0 0 1 8 8v28a8 8 0 0 1-8 8H24L8 58V14a8 8 0 0 1 6-8z" fill="white"/>
+      <path d="M32 14a17.9 17.9 0 0 0 0 30 17.9 17.9 0 0 0 0-30z" fill="black"/>
+    </mask>
+  </defs>
+  <rect width="64" height="64" fill="url(#f-g)" mask="url(#f-m)"/>
+</svg>
