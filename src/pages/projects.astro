@@ -14,7 +14,7 @@ const tabs: { key: Tab; label: string; count: number }[] = [
 
 // 최근 활동순 정렬: updated 내림차순(최근 활동한 프로젝트가 위로) → 동일 날짜는 title
 const sortedServices = [...services].sort((a, b) =>
-  b.updated.localeCompare(a.updated) ||
+  (b.updated ?? '').localeCompare(a.updated ?? '') ||
   a.title.localeCompare(b.title, 'en')
 );
 
@@ -56,6 +56,10 @@ const playgroundSections = [
 
     <!-- Services Panel -->
     <div class="tab-panel active" id="panel-services" role="tabpanel" aria-labelledby="tab-services" tabindex="0">
+      <div class="services-intro">
+        <p>Explore all services here. Manage your connected services, login accounts and profile in My Services.</p>
+        <a class="manage-services" href="https://api.jiun.dev/account" lang="en" aria-label="My Services: manage connected services, login accounts and your profile">My Services <span aria-hidden="true">↗</span></a>
+      </div>
       <div class="category-filters" role="group" aria-label="Filter services by category">
         <button class="filter-btn active" data-filter="all" type="button" aria-pressed="true">All</button>
         {Object.entries(categories).map(([key, cat]) => (
@@ -72,6 +76,7 @@ const playgroundSections = [
             <div
               class="service-card"
               data-category={item.category}
+              data-service-id={item.id}
             >
               <div class="service-header">
                 <div class="icon-badge" style={`--badge-color: ${cat.color}`}>
@@ -83,7 +88,7 @@ const playgroundSections = [
                 </div>
                 <div class="service-meta">
                   <span class="category-label" style={`--cat-color: ${cat.color}`}>{cat.label}</span>
-                  <span class:list={['status-dot', item.status]}>{item.status}</span>
+                  <span class:list={['status-dot', !hasLinks && item.status !== 'retired' ? 'registered' : item.status]}>{!hasLinks && item.status !== 'retired' ? 'Registered' : item.status}</span>
                 </div>
               </div>
               <div class="card-body">
@@ -366,6 +371,39 @@ const playgroundSections = [
     &.active {
       display: block;
     }
+  }
+
+  .status-dot.registered {
+    color: var(--text-muted);
+    background: var(--surface-active);
+  }
+
+  .services-intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+
+    p { color: var(--text-secondary); @include body-sm; flex: 1 1 240px; }
+  }
+
+  .manage-services {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    background: var(--surface-raised);
+    text-decoration: none;
+    @include body-sm;
+    font-weight: 600;
+    white-space: nowrap;
+
+    &:hover { background: var(--surface-hover); }
   }
 
   /* Category filters */
