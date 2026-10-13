@@ -209,24 +209,6 @@ const isActivePath = (target: string) => {
     </button>
 
     <script>
-      // The blog navigation defaults to English. Localize this shared-service
-      // entry using the browser's first supported language; no saved locale exists.
-      const serviceLabels = {
-        ko: { label: '서비스 관리', description: '전체 서비스와 연결 계정·프로필 관리' },
-        en: { label: 'Services', description: 'Browse all services and manage connected accounts and your profile' },
-      };
-      const serviceLanguage = navigator.languages
-        .map(language => language.toLowerCase().split('-')[0])
-        .find((language): language is keyof typeof serviceLabels => language === 'ko' || language === 'en') ?? 'en';
-      const serviceText = serviceLabels[serviceLanguage];
-      document.querySelectorAll<HTMLAnchorElement>('[data-service-management]').forEach(link => {
-        const label = link.querySelector('[data-service-label]');
-        if (label) label.textContent = serviceText.label;
-        link.lang = serviceLanguage;
-        link.title = serviceText.description;
-        link.setAttribute('aria-label', `${serviceText.label}: ${serviceText.description}`);
-      });
-
       // Theme toggle helper
       function doToggleTheme() {
         const currentTheme = document.documentElement.dataset.theme;
