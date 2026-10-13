@@ -73,7 +73,7 @@ const isActivePath = (target: string) => {
                 {link.label}
               </a>
             ))}
-            <a href={accountUrl} class="link desktop-only" title="공통 프로필과 연결 계정 관리">계정</a>
+            <a href={accountUrl} class="link desktop-only" data-service-management lang="en" title="Browse all services and manage connected accounts and your profile" aria-label="Services: browse all services and manage connected accounts and your profile"><span data-service-label>Services</span></a>
             <span class="nav-divider desktop-only" aria-hidden="true"></span>
             <a href="/about/" class:list={['icon-link desktop-only', { 'active-icon': pathname.startsWith('/about') }]} aria-label="About page">
               <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -161,9 +161,9 @@ const isActivePath = (target: string) => {
         </div>
         <hr class="drawer-divider" />
         <div class="drawer-actions">
-          <a href={accountUrl} class="drawer-action">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a7 7 0 0 0-14 0v2"/><circle cx="13" cy="7" r="4"/></svg>
-            <span>계정 관리</span>
+          <a href={accountUrl} class="drawer-action" data-service-management lang="en" title="Browse all services and manage connected accounts and your profile" aria-label="Services: browse all services and manage connected accounts and your profile">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span data-service-label>Services</span>
           </a>
           <a href="/about/" class="drawer-action">
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
@@ -198,7 +198,7 @@ const isActivePath = (target: string) => {
       <span class="footer-sep" aria-hidden="true">·</span>
       <a class="footer-link" href="/privacy/">Privacy</a>
       <span class="footer-sep" aria-hidden="true">·</span>
-      <a class="footer-link" href={accountUrl}>계정 관리</a>
+      <a class="footer-link" href={accountUrl} data-service-management lang="en" title="Browse all services and manage connected accounts and your profile" aria-label="Services: browse all services and manage connected accounts and your profile"><span data-service-label>Services</span></a>
     </footer>
 
     <!-- Scroll to top button -->
@@ -209,6 +209,24 @@ const isActivePath = (target: string) => {
     </button>
 
     <script>
+      // The blog navigation defaults to English. Localize this shared-service
+      // entry using the browser's first supported language; no saved locale exists.
+      const serviceLabels = {
+        ko: { label: '서비스 관리', description: '전체 서비스와 연결 계정·프로필 관리' },
+        en: { label: 'Services', description: 'Browse all services and manage connected accounts and your profile' },
+      };
+      const serviceLanguage = navigator.languages
+        .map(language => language.toLowerCase().split('-')[0])
+        .find((language): language is keyof typeof serviceLabels => language === 'ko' || language === 'en') ?? 'en';
+      const serviceText = serviceLabels[serviceLanguage];
+      document.querySelectorAll<HTMLAnchorElement>('[data-service-management]').forEach(link => {
+        const label = link.querySelector('[data-service-label]');
+        if (label) label.textContent = serviceText.label;
+        link.lang = serviceLanguage;
+        link.title = serviceText.description;
+        link.setAttribute('aria-label', `${serviceText.label}: ${serviceText.description}`);
+      });
+
       // Theme toggle helper
       function doToggleTheme() {
         const currentTheme = document.documentElement.dataset.theme;
