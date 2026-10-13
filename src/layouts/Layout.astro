@@ -13,7 +13,6 @@ interface Props {
 
 const { title, description, image, ogType, publishedTime, tags } = Astro.props;
 const pathname = Astro.url.pathname;
-const accountUrl = 'https://api.jiun.dev/account';
 
 const baseNavLinks = [
   { to: '/', label: 'Posts' },
@@ -73,7 +72,6 @@ const isActivePath = (target: string) => {
                 {link.label}
               </a>
             ))}
-            <a href={accountUrl} class="link desktop-only" data-service-management lang="en" title="Browse all services and manage connected accounts and your profile" aria-label="Services: browse all services and manage connected accounts and your profile"><span data-service-label>Services</span></a>
             <span class="nav-divider desktop-only" aria-hidden="true"></span>
             <a href="/about/" class:list={['icon-link desktop-only', { 'active-icon': pathname.startsWith('/about') }]} aria-label="About page">
               <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -161,10 +159,6 @@ const isActivePath = (target: string) => {
         </div>
         <hr class="drawer-divider" />
         <div class="drawer-actions">
-          <a href={accountUrl} class="drawer-action" data-service-management lang="en" title="Browse all services and manage connected accounts and your profile" aria-label="Services: browse all services and manage connected accounts and your profile">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-            <span data-service-label>Services</span>
-          </a>
           <a href="/about/" class="drawer-action">
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
             <span>About</span>
@@ -197,8 +191,6 @@ const isActivePath = (target: string) => {
       <a class="footer-link" href="/design">Design</a>
       <span class="footer-sep" aria-hidden="true">·</span>
       <a class="footer-link" href="/privacy/">Privacy</a>
-      <span class="footer-sep" aria-hidden="true">·</span>
-      <a class="footer-link" href={accountUrl} data-service-management lang="en" title="Browse all services and manage connected accounts and your profile" aria-label="Services: browse all services and manage connected accounts and your profile"><span data-service-label>Services</span></a>
     </footer>
 
     <!-- Scroll to top button -->
