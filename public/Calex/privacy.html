@@ -28,7 +28,7 @@
     <a href="ko/privacy.html" style="font-size:15px">한국어</a>
   </div>
   <h1>Privacy Policy</h1>
-  <p class="date">Effective: July 8, 2026</p>
+  <p class="date">Effective: October 22, 2026</p>
 
   <div class="summary">
     <strong>Short version:</strong> Calex is local-first, does not run ads, does not track you across apps or websites, and does not sell personal data. Audio, transcripts, summaries, todos, and settings stay on your device unless you choose features that send content to a speech-to-text or AI provider.
@@ -62,10 +62,16 @@
   <h2>7. Security</h2>
   <p>Calex uses platform security features available on Apple devices, including app sandboxing and system permission prompts. You should review the privacy and retention settings of any external speech or AI provider you connect to Calex.</p>
 
-  <h2>8. Changes</h2>
+  <h2>8. Calex for Windows</h2>
+  <p>Calex for Windows records audio from your microphone and, if you enable it, your PC's system audio only while Always Listen is on. Speech is transcribed and summarized on your PC by on-device models; audio and transcripts are stored locally in your Windows user profile and are not uploaded. Calex for Windows does not sync with iCloud or any Calex server.</p>
+  <p>If you choose a cloud AI provider (for example OpenAI, Anthropic, Google Gemini, or Azure OpenAI) and give explicit consent, the transcript text needed for a summary is sent to that provider under its terms. Webhooks you configure send the events you select to the destinations you enter. Provider API keys and webhook secrets are stored in Windows Credential Manager.</p>
+  <p>If you enroll a voice for speaker identification, the voiceprint is stored only on that PC, encrypted with Windows data protection, and deleted when you withdraw consent. On first use Calex downloads speech and language models (several GB) from GitHub and Hugging Face; these are model data, not program code.</p>
+  <p>Uninstalling the app keeps your local data so a reinstall can continue. You can remove it at any time in Settings &rarr; System &rarr; Delete all local data, optionally including downloaded models.</p>
+
+  <h2>9. Changes</h2>
   <p>This policy may be updated as Calex evolves. Material changes will be reflected on this page with a new effective date.</p>
 
-  <h2>9. Contact</h2>
+  <h2>10. Contact</h2>
   <p>For privacy questions, contact <a href="mailto:jiunbae.dev@gmail.com">jiunbae.dev@gmail.com</a>.</p>
   <p class="muted">Developer: Jiun Bae</p>
 </main>
