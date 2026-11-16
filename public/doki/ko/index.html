@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doki 도키</title>
+<style>
+  :root { --bg:#F6F7F2; --fg:#282D27; --muted:#596252; --accent:#4C6738; --panel:#E9EDE3; --border:rgba(40,45,39,.12); }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1C211C; --fg:#F6F7F2; --muted:#aab3a2; --accent:#C5DEA4; --panel:#262c25; --border:rgba(255,255,255,.14); } }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo",sans-serif; line-height:1.7; }
+  .wrap { max-width:780px; margin:0 auto; padding:56px 24px 84px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .top { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; font-size:15px; }
+  h1 { font-size:38px; letter-spacing:-.02em; margin-bottom:6px; }
+  .date, .muted { color:var(--muted); font-size:14px; }
+  .date { margin-bottom:34px; }
+  .summary { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:18px 20px; margin-bottom:34px; }
+  h2 { font-size:22px; margin:34px 0 10px; }
+  p, li { font-size:16px; margin-bottom:10px; }
+  ul { padding-left:22px; }
+  .lead { font-size:20px; color:var(--muted); margin:10px 0 28px; }
+  .links a { display:inline-block; margin-right:18px; font-weight:600; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a href="/">&lt; jiun.dev</a><a href="../">English</a></div>
+  <h1>doki</h1>
+  <p class="lead">내 기기에 깃든 누군가.</p>
+  <p>Doki(도키)는 iPhone과 Mac에서 함께 지내는 캐릭터입니다. 자기만의 성격과 취향이 있고, 나눈 대화를 기억하는 캐릭터와 이야기할 수 있습니다. 답변은 기본적으로 기기 안에서 만들어집니다.</p>
+  <p>지금은 초기 테스트 단계입니다(iPhone은 TestFlight, Mac은 직접 배포 빌드).</p>
+  <p class="links" style="margin-top:24px"><a href="privacy.html">개인정보 처리방침</a><a href="support.html">지원</a></p>
+  <p class="muted" style="margin-top:40px">개발자: Jiun Bae</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개인정보 처리방침 - Doki</title>
+<style>
+  :root { --bg:#F6F7F2; --fg:#282D27; --muted:#596252; --accent:#4C6738; --panel:#E9EDE3; --border:rgba(40,45,39,.12); }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1C211C; --fg:#F6F7F2; --muted:#aab3a2; --accent:#C5DEA4; --panel:#262c25; --border:rgba(255,255,255,.14); } }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo",sans-serif; line-height:1.7; }
+  .wrap { max-width:780px; margin:0 auto; padding:56px 24px 84px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .top { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; font-size:15px; }
+  h1 { font-size:38px; letter-spacing:-.02em; margin-bottom:6px; }
+  .date, .muted { color:var(--muted); font-size:14px; }
+  .date { margin-bottom:34px; }
+  .summary { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:18px 20px; margin-bottom:34px; }
+  h2 { font-size:22px; margin:34px 0 10px; }
+  p, li { font-size:16px; margin-bottom:10px; }
+  ul { padding-left:22px; }
+  .lead { font-size:20px; color:var(--muted); margin:10px 0 28px; }
+  .links a { display:inline-block; margin-right:18px; font-weight:600; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a href="index.html">&lt; Doki</a><a href="../privacy.html">English</a></div>
+  <h1>개인정보 처리방침</h1>
+  <p class="date">시행일: 2026년 11월 16일</p>
+
+  <div class="summary">
+    <strong>요약:</strong> Doki에는 계정도, 광고도, 분석·추적 SDK도 없습니다. 대화와 기억은 기기에 저장됩니다. 답변은 기기 안에서 만들어지며, 사용자가 직접 클라우드 모델이나 에이전트 서비스를 고른 경우에만 답변에 필요한 내용이 그 제공업체로 바로 전송됩니다. 개발자는 사용자의 대화를 받지 않습니다.
+  </div>
+
+  <h2>1. 기기에 저장되는 것</h2>
+  <p>대화, 캐릭터가 대화에서 간직하는 장기 기억, 캐릭터, 앱 설정, 내려받은 모델 파일이 기기에 저장됩니다. iPhone에서는 기억 저장소가 기기 백업에서 제외됩니다.</p>
+
+  <h2>2. 기기 내 모델</h2>
+  <p>Apple Intelligence나 내려받는 Gemma 모델을 쓰면 답변과 기억이 기기 안에서 만들어집니다. Gemma 모델을 내려받을 때는 공개 모델 저장소에서 모델 파일만 받아 오며, 대화 내용은 전송되지 않습니다.</p>
+
+  <h2>3. 직접 고른 클라우드 모델 (iPhone)</h2>
+  <p>iPhone에서는 클라우드 모델 제공업체(예: Anthropic, OpenAI, OpenRouter, 직접 운영하는 서버)의 API 키를 직접 등록하거나, 기기 내 모델이 실패했을 때 클라우드로 다시 시도하도록 허용할 수 있습니다. 이때 메시지, 최근 대화, 캐릭터 설정, 관련 기억이 사용자의 키로 기기에서 해당 제공업체로 바로 전송되며, 그 업체의 약관이 적용됩니다. API 키는 iOS 키체인에 저장됩니다. 사용자가 허용하지 않으면 클라우드 모델로 아무것도 전송되지 않습니다.</p>
+
+  <h2>4. 직접 고른 에이전트 서비스 (Mac)</h2>
+  <p>Mac에서는 설치해 둔 Claude Code나 Codex를 통해 캐릭터가 답하게 할 수 있습니다. 이때 요청, 캐릭터 설정, 해당 에이전트와의 대화가 사용자 본인 계정으로 그 서비스에 전송됩니다. 기기 내 모델과 나눈 대화와 장기 기억은 전송되지 않습니다.</p>
+
+  <h2>5. 화면·활동 인식 (Mac, 선택 사항)</h2>
+  <p>화면 인식을 켜고 시스템 권한을 허용하면, 캐릭터가 반응할 수 있도록 Doki가 Mac의 맨 앞 창을 읽습니다. 기기 내 모델을 쓸 때는 Mac 안에서만 처리되고 저장되지 않으며 장기 기억에도 남지 않습니다. 에이전트 서비스에 창을 보여 주도록 허용하면 창의 텍스트와 이미지가 그 서비스로 전송됩니다.</p>
+  <p>조용히 있어야 할 때를 고르기 위해 Doki는 Mac 안에서 대략적인 신호만 봅니다. 입력이 멈춘 시간, 사용 중인 앱의 종류, 앱 전환입니다. 이를 위해 입력 내용, 창 제목, 문서를 읽지 않으며 보안 입력 중에는 멈춥니다.</p>
+
+  <h2>6. 마이크와 음성</h2>
+  <p>마이크는 권한을 허용하고 말하기를 시작한 뒤에만 사용합니다. 음성은 기기 안에서 글로 바뀌며 서버로 전송되지 않습니다.</p>
+
+  <h2>7. 분석, 광고, 추적</h2>
+  <ul>
+    <li>광고 SDK와 분석 SDK가 없습니다.</li>
+    <li>다른 회사의 앱이나 웹사이트에 걸쳐 사용자를 추적하지 않습니다.</li>
+    <li>개인정보를 판매하지 않습니다.</li>
+    <li>계정이 필요 없습니다.</li>
+  </ul>
+  <p>TestFlight로 테스트 빌드를 설치하면 Apple의 TestFlight 약관에 따라 Apple이 충돌·사용 정보를 수집해 개발자와 공유할 수 있습니다. TestFlight로 보낸 피드백은 개발자에게 전달됩니다.</p>
+
+  <h2>8. 데이터 삭제</h2>
+  <p>앱에서 대화를 지울 수 있습니다. iPhone에서 앱을 삭제하면 앱의 데이터도 삭제됩니다. Mac에서는 데이터가 사용자 계정 안의 앱 전용 컨테이너 폴더에 보관되며, 앱 데이터를 지우면 함께 삭제됩니다.</p>
+
+  <h2>9. 어린이</h2>
+  <p>Doki는 만 13세 미만 어린이를 대상으로 하지 않습니다.</p>
+
+  <h2>10. 변경</h2>
+  <p>Doki가 바뀌면 이 방침도 바뀔 수 있습니다. 중요한 변경은 새 시행일과 함께 이 페이지에 반영됩니다.</p>
+
+  <h2>11. 문의</h2>
+  <p>개인정보 관련 문의: <a href="mailto:jiunbae.dev@gmail.com">jiunbae.dev@gmail.com</a></p>
+  <p class="muted">개발자: Jiun Bae</p>
+</main>
+</body>
+</html>

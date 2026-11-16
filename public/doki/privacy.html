@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy - Doki</title>
+<style>
+  :root { --bg:#F6F7F2; --fg:#282D27; --muted:#596252; --accent:#4C6738; --panel:#E9EDE3; --border:rgba(40,45,39,.12); }
+  @media (prefers-color-scheme: dark) { :root { --bg:#1C211C; --fg:#F6F7F2; --muted:#aab3a2; --accent:#C5DEA4; --panel:#262c25; --border:rgba(255,255,255,.14); } }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo",sans-serif; line-height:1.7; }
+  .wrap { max-width:780px; margin:0 auto; padding:56px 24px 84px; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .top { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; font-size:15px; }
+  h1 { font-size:38px; letter-spacing:-.02em; margin-bottom:6px; }
+  .date, .muted { color:var(--muted); font-size:14px; }
+  .date { margin-bottom:34px; }
+  .summary { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:18px 20px; margin-bottom:34px; }
+  h2 { font-size:22px; margin:34px 0 10px; }
+  p, li { font-size:16px; margin-bottom:10px; }
+  ul { padding-left:22px; }
+  .lead { font-size:20px; color:var(--muted); margin:10px 0 28px; }
+  .links a { display:inline-block; margin-right:18px; font-weight:600; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top"><a href="index.html">&lt; Doki</a><a href="ko/privacy.html">한국어</a></div>
+  <h1>Privacy Policy</h1>
+  <p class="date">Effective: November 16, 2026</p>
+
+  <div class="summary">
+    <strong>Short version:</strong> Doki has no account, no ads and no analytics or tracking SDK. Conversations and memories are stored on your device. Replies are generated on your device unless you choose a cloud model or an agent service yourself; in that case the content needed for the reply goes directly to the provider you chose. The developer does not receive your conversations.
+  </div>
+
+  <h2>1. What Doki stores on your device</h2>
+  <p>Doki stores your conversations, the long-term memories the character keeps about them, your characters, app settings and downloaded model files on your device. On iPhone the memory store is excluded from device backups.</p>
+
+  <h2>2. On-device models</h2>
+  <p>With Apple Intelligence or the downloadable Gemma model, replies and memory are produced on your device. Downloading the Gemma model fetches model files from a public model host; no conversation content is sent for that.</p>
+
+  <h2>3. Cloud models you choose (iPhone)</h2>
+  <p>On iPhone you can add your own API key for a cloud model provider (for example Anthropic, OpenAI, OpenRouter or a server you run), or allow a cloud retry when the on-device model fails. When that is used, your message, the recent conversation, the character's profile and related memories are sent directly from your device to that provider under your own key and the provider's terms. API keys are stored in the iOS Keychain. Without your opt-in, nothing is sent to a cloud model.</p>
+
+  <h2>4. Agent services you choose (Mac)</h2>
+  <p>On Mac you can let the character answer through Claude Code or Codex installed on your Mac. Your request, the character's settings and that agent's conversation are then sent to that service under your own account. Conversations held with on-device models and the long-term memory are not sent to those services.</p>
+
+  <h2>5. Screen and activity awareness (Mac, optional)</h2>
+  <p>If you turn on screen awareness and grant the system permission, Doki reads the frontmost window on your Mac so the character can react to it. With on-device models this is processed on your Mac, is not saved and is kept out of long-term memory. If you let an agent service look at a window, the window text and image are sent to that service.</p>
+  <p>To choose when to stay quiet, Doki looks at coarse signals on your Mac only: how long input has been idle, the category of the active app, and app switches. It does not read what you type, window titles or documents for this, and it pauses during secure input.</p>
+
+  <h2>6. Microphone and speech</h2>
+  <p>Doki uses the microphone only after you grant permission and start talking. Speech is transcribed on your device; audio is not sent to a server.</p>
+
+  <h2>7. Analytics, advertising and tracking</h2>
+  <ul>
+    <li>Doki has no advertising SDK and no analytics SDK.</li>
+    <li>Doki does not track you across other companies' apps or websites.</li>
+    <li>Doki does not sell personal data.</li>
+    <li>Doki does not require an account.</li>
+  </ul>
+  <p>If you install a test build through TestFlight, Apple may collect crash and usage information and share it with the developer, as described in Apple's TestFlight terms. Feedback you send through TestFlight reaches the developer.</p>
+
+  <h2>8. Deleting your data</h2>
+  <p>You can clear conversations in the app. Deleting the app from your iPhone removes its data. On Mac, the data is kept in the app's own container folder in your user account and can be removed with the app's data.</p>
+
+  <h2>9. Children</h2>
+  <p>Doki is not directed to children under 13.</p>
+
+  <h2>10. Changes</h2>
+  <p>This policy may be updated as Doki changes. Material changes will appear on this page with a new effective date.</p>
+
+  <h2>11. Contact</h2>
+  <p>For privacy questions, contact <a href="mailto:jiunbae.dev@gmail.com">jiunbae.dev@gmail.com</a>.</p>
+  <p class="muted">Developer: Jiun Bae</p>
+</main>
+</body>
+</html>
