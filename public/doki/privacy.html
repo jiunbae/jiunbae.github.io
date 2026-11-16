@@ -28,7 +28,7 @@
 <main class="wrap">
   <div class="top"><a href="index.html">&lt; Doki</a><a href="ko/privacy.html">한국어</a></div>
   <h1>Privacy Policy</h1>
-  <p class="date">Effective: November 16, 2026</p>
+  <p class="date">Effective: November 16, 2026 (updated the same day)</p>
 
   <div class="summary">
     <strong>Short version:</strong> Doki has no account, no ads and no analytics or tracking SDK. Conversations and memories are stored on your device. Replies are generated on your device unless you choose a cloud model or an agent service yourself; in that case the content needed for the reply goes directly to the provider you chose. The developer does not receive your conversations.
@@ -44,11 +44,12 @@
   <p>On iPhone you can add your own API key for a cloud model provider (for example Anthropic, OpenAI, OpenRouter or a server you run), or allow a cloud retry when the on-device model fails. When that is used, your message, the recent conversation, the character's profile and related memories are sent directly from your device to that provider under your own key and the provider's terms. API keys are stored in the iOS Keychain. Without your opt-in, nothing is sent to a cloud model.</p>
 
   <h2>4. Agent services you choose (Mac)</h2>
-  <p>On Mac you can let the character answer through Claude Code or Codex installed on your Mac. Your request, the character's settings and that agent's conversation are then sent to that service under your own account. Conversations held with on-device models and the long-term memory are not sent to those services.</p>
+  <p>On Mac you can let the character answer through Claude Code or Codex installed on your Mac. Your request, the character's settings and that agent's conversation are then sent to that service under your own account. The agent runs in the work folder you choose, or in a local container or remote machine you set up, and can read files there (and change them if you allow editing); what it reads may be sent to that service. Conversations held with on-device models and the long-term memory are not sent to those services.</p>
 
   <h2>5. Screen and activity awareness (Mac, optional)</h2>
-  <p>If you turn on screen awareness and grant the system permission, Doki reads the frontmost window on your Mac so the character can react to it. With on-device models this is processed on your Mac, is not saved and is kept out of long-term memory. If you let an agent service look at a window, the window text and image are sent to that service.</p>
-  <p>To choose when to stay quiet, Doki looks at coarse signals on your Mac only: how long input has been idle, the category of the active app, and app switches. It does not read what you type, window titles or documents for this, and it pauses during secure input.</p>
+  <p>If you turn on Read Work Screen and grant the permissions, Doki reads the frontmost app window on your Mac about every 15 seconds using text recognition and accessibility information, so Apple Intelligence and Gemma conversations can use your recent work context. This stays on your Mac; captures are not saved as files, and conversation turns that use it are kept out of long-term memory.</p>
+  <p>With Claude Code or Codex, when you ask about the screen the agent can use a tool that reads the current app window's text and image, and that content is sent to the selected service. This tool is on by default, works even when Read Work Screen is off, needs Accessibility and Screen Recording permission, and can be turned off in Settings. It never clicks or types on your screen.</p>
+  <p>Only if you turn on the work-context setting, Doki uses these signals on your Mac to choose when to stay quiet: how long there has been no input, whether keys are being pressed (timing only, not which keys), the kind of app in front and how long it has been in front, and app switches and exits. It does not read typed text, app or window titles, documents or screen contents for this, the signals are not sent off your Mac, and observation pauses during secure input. Separately, Doki always uses the basic idle time (a number only) for resting, dozing and check-ins.</p>
 
   <h2>6. Microphone and speech</h2>
   <p>Doki uses the microphone only after you grant permission and start talking. Speech is transcribed on your device; audio is not sent to a server.</p>
@@ -63,7 +64,7 @@
   <p>If you install a test build through TestFlight, Apple may collect crash and usage information and share it with the developer, as described in Apple's TestFlight terms. Feedback you send through TestFlight reaches the developer.</p>
 
   <h2>8. Deleting your data</h2>
-  <p>You can clear conversations in the app. Deleting the app from your iPhone removes its data. On Mac, the data is kept in the app's own container folder in your user account and can be removed with the app's data.</p>
+  <p>You can clear a conversation in the app; long-term memory is kept when you do. Deleting the app from your iPhone removes its data. On Mac, Doki keeps its data in <code>~/Library/Application Support/Doki</code> in your user account; delete that folder to remove conversations and memories.</p>
 
   <h2>9. Children</h2>
   <p>Doki is not directed to children under 13.</p>
