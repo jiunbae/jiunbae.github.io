@@ -263,3 +263,5 @@ Claude Code의 Hook 시스템은 단순한 자동화를 넘어, 개발 워크플
 ---
 
 Hook을 포함한 전체 스킬 시스템에 대해서는 [Claude Code 스킬 시스템 소개와 개인화 경험](/posts/claude-code-agent-skills) 글도 함께 참고해주세요.
+
+프롬프트 기록도 hook으로 하고 있습니다. Claude Code·Codex에 보낸 프롬프트를 셸 훅으로 모아 대시보드로 보는 도구는 [Oh My Prompt](https://github.com/jiunbae/oh-my-prompt)로 공개해 두었습니다.
