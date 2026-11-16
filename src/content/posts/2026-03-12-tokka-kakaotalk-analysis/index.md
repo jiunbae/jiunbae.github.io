@@ -1,6 +1,6 @@
 ---
 title: "카카오톡 대화 분석 서비스를 하루 만에 배포한 이야기"
-description: "ㅋ 패턴으로 성격을 분석해주는 Tokka를 3월 11일 하루 만에 만들어 배포했습니다. 그런데 만들고 보니, AI 제품에서 진짜 어려운 건 AI가 아니었습니다."
+description: "카카오톡 대화 내보내기 파일로 대화 패턴과 성격, 관계를 분석해 주는 톡까(Tokka)를 하루 만에 만들어 배포했습니다. 만들고 보니 AI 제품에서 진짜 어려운 건 AI가 아니었습니다."
 date: 2026-03-12
 permalink: /tokka-kakaotalk-analysis
 tags: [AI, Python, FastAPI, React, Gemini, K8s, SideProject]
@@ -10,6 +10,8 @@ published: true
 # 카카오톡 대화 분석 서비스를 하루 만에 배포한 이야기
 
 > "ㅋ 몇 개 치는지가 성격이라는 거, 알고 계셨나요?"
+
+카톡 대화를 바로 분석해 보고 싶다면 [톡까](https://tokka.jiun.dev/?utm_source=jiun.dev&utm_medium=blog&utm_campaign=selfpr-20261116)에 대화 내보내기 파일을 넣어 보세요. 아래는 그 서비스를 만든 이야기입니다.
 
 카카오톡의 "대화 내보내기" 파일을 넣으면 AI가 참여자의 성격과 관계를 분석해주는 서비스, [Tokka](https://tokka.jiun.dev)(톡까)를 만들었습니다. 3월 11일 오전에 시작해서 14시 43분에 첫 커밋, 그날 저녁에는 실서비스가 돌아가고 있었습니다. 첫날 커밋만 40개입니다.
 
